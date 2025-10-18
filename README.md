@@ -2,18 +2,45 @@
 # Opis projekta
 Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 
-Aplikacija za vizualizaciju i planiranje planinarskih ruta pomoću 2D i 3D karata. Korisnici mogu odabrati područje na dvodimenzionalnoj karti, zatim definirati i prikazati planiranu rutu u trodimenzionalnom prikazu koji realno prikazuje reljef terena.
+Planinarko je aplikacija za vizualizaciju i planiranje planinarskih ruta pomoću 2D i 3D karata. Cilj platforme je omogućiti jednostavno dijeljenje i pronalaženje planinarskih ruta. Trodimenzionalnom kartom i statističkim podacima dobiva se uvid u oblik i zahtjevnost staze, što omogućava odgovarajuću pripremu planinara. Sustavom ocjenjivanja zvjezdicama korisnici dijele svoje pozitivno iskustvo pronađenom rutom te potiču druge na iskušavanje iste rute.
 
 # Funkcijski zahtjevi
-> Navedite ključne zahtjeve Vašeg projekta.
+1. **Odabir područja na 2D karti**  
+   - Korisnik može odabrati područje na dvodimenzionalnoj karti za planiranje rute.
 
+2. **Prikaz odabranog područja u 3D**  
+   - Sustav generira trodimenzionalni prikaz reljefa odabranog područja koristeći vanjsku uslugu za podatke o površini Zemlje.
+
+3. **Kreiranje planinarske rute**  
+   - Korisnik postavlja točke na 3D karti koje definiraju putanju rute.  
+   - Sustav prikazuje rutu na reljefu s realnom visinskom razlikom terena.
+
+4. **Pregled i vizualizacija ruta drugih korisnika**  
+   - Svi korisnici mogu pregledavati javno dostupne rute bez prijave.  
+   - Vizualizacija ruta dostupna je u 3D prikazu.
+
+5. **Autentifikacija i autorizacija korisnika**  
+   - Registracija i prijava putem OAuth 2.0 protokola.  
+   - Samo prijavljeni korisnici mogu spremati, dijeliti i ocjenjivati rute.
+
+6. **Sustav dijeljenja i privatnosti ruta**  
+   - Mogućnost postavljanja ruta kao javnih ili privatnih.  
+   - Privatne rute mogu biti dostupne samo odabranim korisnicima.
 
 # Tehnologije
-
-#Instalcija
+- Frontend: Koristimo WebGL za 3D prikaz karata i upotrebu grafičkog procesora (GPU) za renderiranje. Upotrebljavati će se jezik GLSL za pisanje shader programa. Primjenjujemo React.js za izradu korisničkog sučelja.
+- Backend: Upotrebljavamo Spring Boot framework za razvoj RESTful API-ja. Za Bazu podataka koristimo PostgreSQL.
+- Autentikacija: Implementiramo OAuth 2.0 protokol za sigurno upravljanje korisničkim računima.
+- Vanjske usluge: Integriramo Nextzen API za dohvat visinskih podataka i karata.
+- Deployment: Aplikacija će biti deployana na cloud platformi Render.com
 # Članovi tima 
-> Popis članova tima/linkovi/ glavni doprinos
->
+ - Vito Čuić: Voditelj tima, fullstack, dokumentacija
+ - Martin Golub: Frontend razvoj
+ - Antonio Zulim: Backend razvoj
+ - Tin Karalić: Backend razvoj
+ - Marko Dorčić: Baza podataka, backend razvoj
+ - Vinko Grančić: Fullstack razvoj
+ - Matheo Kesar: Frontend razvoj
 
 # Kontribucije
 >Pravila ovise o organizaciji tima i su često izdvojena u CONTRIBUTING.md
