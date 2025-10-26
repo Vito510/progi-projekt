@@ -1,0 +1,34 @@
+
+@font-face {
+    font-family: test;
+    src: url(../assets/fonts/barlow-condensed/BarlowCondensed-Regular.ttf);
+    font-weight: normal;
+}
+
+:root {
+    font-family: test;
+    font-size: 12px;
+    --roundness: 0.5rem;
+    --spacing: 2rem;
+    --thickness: 0.5rem;
+    --packing: 0.5rem;
+
+    --background: light-dark(#d1bfb0, #392b35);
+
+    --accent-default: #486b7f;
+    --accent-highlight: #7a9c96;
+    --accent-muted: #444760;
+
+    --invalid-highlight: #bb474f;
+    --invalid-default: #713f52;
+    --invalid-muted: #423952;
+
+    --section: #423952;
+    --shadow: #272225;
+    --border: black;
+
+    --text-default: light-dark(black, white);
+    --text-muted: light-dark(black, white);
+
+    color-scheme: dark;
+}
