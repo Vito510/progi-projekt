@@ -1,14 +1,11 @@
 
-body>* {
-    background-color: var(--section);
-    /* padding: 1rem; */
-}
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
-body>nav, body>main {
-    margin-left: var(--spacing);
-    margin-right: var(--spacing);
-    border-radius: var(--roundness);
-    box-shadow: 1rem 1rem 0rem var(--shadow);
+    padding: var(--spacing);
+    gap: var(--spacing);
 }
 
 /* ------------------------------------------------------- */
@@ -16,19 +13,17 @@ body>nav, body>main {
 body {
     width: 100dvw;
     height: 100dvh;
+    overflow: hidden;
 
     display: grid;
-    grid-template-areas: 'h h' 'n m' 'f f';
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 0fr 1fr 0fr;
-
-    gap: var(--spacing);
+    grid-template-areas: 'h' 'm';
+    grid-template-columns: 1fr;
+    grid-template-rows: 0fr 1fr;
 }
 
 header {grid-area: h;}
 footer {grid-area: f;}
 main {grid-area: m;}
-nav {grid-area: n;}
 
 /* ------------------------------------------------------- */
 

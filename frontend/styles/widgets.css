@@ -18,6 +18,8 @@ a:empty {
     z-index: 10;
 }
 
+/* ------------------------------------------------------- */
+
 .column {
     position: relative;
     display: flex;
@@ -34,6 +36,19 @@ a:empty {
     gap: var(--packing);
 }
 
+.centered {
+    justify-content: center;
+    align-items: center;
+}
+
+.left {
+    align-items: start;
+}
+
+.right {
+    align-items: end;
+}
+
 /* ------------------------------------------------------- */
 
 .button {
@@ -42,10 +57,12 @@ a:empty {
     width: fit-content;
 
     padding: 0.5rem 1rem 0.5rem 1rem;
+    /* border-radius: 2rem; */
     border-radius: var(--roundness);
 
     background-color: var(--accent-default);
     box-shadow: 0.25rem 0.25rem 0rem var(--accent-muted);
+    border: 1px solid var(--accent-highlight);
 }
 
 .button:hover {
@@ -63,8 +80,48 @@ a:empty {
 /* ------------------------------------------------------- */
 
 .route {
+    transition: background-color 0.25s;
 
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: var(--spacing);
+
+    padding: 1rem 2rem 1rem 2rem;
+    background-color: var(--section);
+    border-radius: var(--roundness);
+    box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
+    border: 1px solid var(--border);
+    background-color: var(--section);
 }
+
+.route:hover {
+    transition: background-color 0.25s;
+    background-color: var(--accent-default);
+}
+
+.banner {
+    width: 75%;
+    height: 10vw;
+
+    border-radius: 2rem;
+    /* background-color: var(--shadow); */
+    background-image: url(../assets/images/banner.png);
+    background-size: 120%;
+    background-position: 50% 40%;
+    border-bottom: var(--thickness) solid var(--section);
+}
+
+@media screen and (max-width: 768px) {
+    .banner {
+        width: 100%;
+        height: 20%;
+        background-size: 200%;
+    }
+}
+
 
 /* ------------------------------------------------------- */
 
