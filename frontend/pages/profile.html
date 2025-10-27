@@ -4,8 +4,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planinarko - Profile</title>
+    <link rel="stylesheet" href="../styles/general.css">
+    <link rel="stylesheet" href="../styles/widgets.css">
+    <link rel="stylesheet" href="../styles/sections.css">
+    <link rel="stylesheet" href="../styles/profile.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    
+    <header>
+        <div class="row">
+            <img src="../assets/images/logo.png" alt="logo">
+            <h1>Planinarko</h1>
+            <a href="./frontpage.html"></a>
+        </div>
+        <div class="button">
+            <p>Sign out</p>
+            <i class="fa fa-sign-out fa-2x"></i>
+            <a href="./profile.html"></a>
+        </div>
+    </header>
+    <aside>
+        <h2>Naziv profila</h2>
+        <p>email.adresa@email.com</p>
+        <hr>
+        <ul>
+            <li>
+                <p><i class="fa fa-star"></i> Zvjezdice</p> 
+                <p class="value">550</p> 
+            </li>
+            <li>
+                <p><i class="fa fa-map"></i> Broj ruta</p> 
+                <p class="value">5</p> 
+            </li>
+            <li>
+                <p><i class="fa fa-eye-slash"></i> Privatne rute</p>
+                <p class="value">2</p> 
+            </li>
+        </ul>
+    </aside>
+    <menu>
+        <h1>Korisničke rute</h1>
+
+        <li class="route">
+            <h2>Naziv rute</h2>
+            <div class="column">
+                <!-- <p>Lokacija:</p> -->
+                <i class="fa fa-map-marker"></i>
+                <p>45.79 15.96</p>
+            </div>
+            <div class="column">
+                <!-- <p>Duljina:</p> -->
+                <i class="fa fa-arrows-h"></i>
+                <p>11km</p>
+            </div>
+            <div class="column">
+                <i class="fa fa-star"></i>
+                <p>103</p>
+            </div>
+            <div>
+                <i class="fa fa-eye-slash fa-2x"></i>
+            </div>
+            <a href="./frontpage.html"></a>
+        </li>
+
+    </menu>
+    <footer>
+        <i class="fa fa-chevron-up"></i>
+        <div class="row centered">
+            <div class="column left">
+                <h2>Članovi tima</h2>
+                <p><i class="fa fa-chevron-right"></i>Vito Čuić</p>
+                <p><i class="fa fa-chevron-right"></i>Martin Golub</p>
+                <p><i class="fa fa-chevron-right"></i>Antonio Zulim</p>
+                <p><i class="fa fa-chevron-right"></i>Matheo Kesar</p>
+                <p><i class="fa fa-chevron-right"></i>Marko Dorčić</p>
+                <p><i class="fa fa-chevron-right"></i>Tin Karalić</p>
+                <p><i class="fa fa-chevron-right"></i>Vinko Grančić</p>
+            </div>
+            <img src="../assets/images/FER.png" alt="fer">
+        </div>
+    </footer>
 </body>
 </html>

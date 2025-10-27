@@ -1,16 +1,14 @@
 
 :root {
-    font-size: 12px;
-    --roundness: 0.5rem;
-    --spacing: 2rem;
-    --thickness: 0.5rem;
-    --packing: 0.5rem;
-
     --text-default: light-dark(black, white);
     --text-muted: light-dark(black, white);
 
-    --accent-default: #486b7f;
+    --block-highlight: #5e4c78;
+    --block-default: #373141;
+    --block-muted: #2d2933;
+
     --accent-highlight: #7a9c96;
+    --accent-default: #486b7f;
     --accent-muted: #444760;
 
     --invalid-highlight: #bb474f;
@@ -18,9 +16,22 @@
     --invalid-muted: #423952;
 
     --background: light-dark(#d1bfb0, #423952);
-    --section: #373141;
     --shadow: #272225;
     --border: #486b7f;
+}
 
+:root {
+    font-size: 16px;
+    --roundness: 0.5rem;
+    --spacing: 2rem;
+    --thickness: 0.5rem;
+    --packing: 0.5rem;
     color-scheme: dark;
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        font-size: 12px;
+        --spacing: 1rem;
+    }
 }

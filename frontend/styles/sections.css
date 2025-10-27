@@ -3,24 +3,35 @@ body {
     background-color: var(--background);
 }
 
+/* ------------------------------------------------------- */
+
 header {
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    
-    background-color: var(--section);
-    padding: 0.5rem 1rem 0.5rem 1rem;
     gap: var(--packing);
-    /* box-shadow: 0rem 0rem 1rem var(--shadow); */
+    
+    background-color: var(--block-default);
+    padding: 0.5rem 1rem 0.5rem 1rem;
     outline: var(--thickness) solid var(--shadow);
     border-bottom: 1px solid var(--accent-default);
 }
 
+header img {
+    object-fit: cover;
+    height: 4rem;
+    aspect-ratio: 1;
+}
+
+/* ------------------------------------------------------- */
+
 footer {
+    transition: top 1s;
+
     width: 100dvw;
     position: absolute;
-    bottom: 0rem;
+    top: calc(100% - 2rem);
     left: 0rem;
 
     display: flex;
@@ -28,24 +39,16 @@ footer {
     align-items: center;
     justify-content: center;
 
-    background-color: var(--section);
-    padding: 0.5rem 1rem 0.5rem 1rem;
     gap: var(--packing);
-    /* box-shadow: 0rem 0rem 1rem var(--shadow); */
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    background-color: var(--block-default);
     outline: var(--thickness) solid var(--shadow);
     border-top: 1px solid var(--accent-default);
 }
 
-footer>div {
-    transition: height 1s, opacity 0.25s;
-    opacity: 0%;
-    height: 0rem;
-}
-
-footer:hover>div {
-    transition: height 1s, opacity 1s;
-    opacity: 100%;
-    height: 20rem;
+footer:hover {
+    transition: top 1s;
+    top: calc(100% - 17rem);
 }
 
 footer img {
@@ -54,10 +57,4 @@ footer img {
 }
 
 /* ------------------------------------------------------- */
-
-header img {
-    object-fit: cover;
-    height: 4rem;
-    aspect-ratio: 1;
-}
 
