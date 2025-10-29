@@ -1,11 +1,8 @@
 
 :root {
-    --text-default: light-dark(black, white);
-    --text-muted: light-dark(black, white);
-
-    --block-highlight: #5e4c78;
+    --block-highlight: #423952;
     --block-default: #373141;
-    --block-muted: #2d2933;
+    --block-muted: #272225;
 
     --accent-highlight: #7a9c96;
     --accent-default: #486b7f;
@@ -15,9 +12,24 @@
     --invalid-default: #713f52;
     --invalid-muted: #423952;
 
-    --background: light-dark(#d1bfb0, #423952);
-    --shadow: #272225;
-    --border: #486b7f;
+    --background: var(--block-highlight);
+    --shadow: var(--block-muted);
+    --border: var(--accent-default);
+
+    /* --block-default: #2f3140;
+    --background: #182029;
+    --block-muted: black; */
+
+    /* --block-default: #1b1f1f;
+    --background: #313738;
+    --block-muted: #0f1314;
+
+    --accent-highlight: #b6c77e;
+    --accent-default: #878b5a;
+    --accent-muted: #6a6d46; */
+
+    --text-default: light-dark(black, white);
+    --text-muted: light-dark(black, white);
 }
 
 :root {
@@ -31,7 +43,6 @@
 
 @media screen and (max-width: 768px) {
     :root {
-        font-size: 12px;
         --spacing: 1rem;
     }
 }

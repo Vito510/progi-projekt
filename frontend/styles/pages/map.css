@@ -1,0 +1,29 @@
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: var(--spacing);
+    gap: var(--spacing);
+}
+
+
+main nav {
+    position: relative;
+    width: fit-content;
+    height: auto;
+
+    background-color: var(--block-default);
+    border-radius: var(--roundness);
+    box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
+    border: 1px solid var(--border);
+}
+
+main nav>img {
+    width: 100%;
+    object-fit: cover;
+}
+
+/* ------------------------------------------------------- */
+

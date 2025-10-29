@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planinarko - View</title>
+    <link rel="stylesheet" href="../styles/general.css">
+    <link rel="stylesheet" href="../styles/widgets.css">
+    <link rel="stylesheet" href="../styles/groups/body.css">
+    <link rel="stylesheet" href="../styles/groups/footer.css">
+    <link rel="stylesheet" href="../styles/groups/header.css">
+    <link rel="stylesheet" href="../styles/pages/map.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+    <header>
+        <section class="row">
+            <img src="../assets/images/logo.png" alt="logo">
+            <h1>Planinarko</h1>
+            <a href="./frontpage.html"></a>
+        </section>
+        <section class="row wide">
+            <div class="button">
+                <p>Profile</p>
+                <i class="fa fa-user fa-2x"></i>
+                <a href="./profile.html"></a>
+            </div>
+        </section>
+    </header>
+
+    <main>
+        <h1>Izaberite područje</h1>
+        <nav>
+            <img src="../assets/svg/earth.svg" alt="svg" id="map-image">
+        </nav>
+    </main>
+    
+    <footer>
+        <i class="fa fa-chevron-up"></i>
+        <div class="row centered">
+            <div class="column left">
+                <h2>Članovi tima</h2>
+                <p><i class="fa fa-chevron-right"></i> Vito Čuić</p>
+                <p><i class="fa fa-chevron-right"></i> Martin Golub</p>
+                <p><i class="fa fa-chevron-right"></i> Antonio Zulim</p>
+                <p><i class="fa fa-chevron-right"></i> Matheo Kesar</p>
+                <p><i class="fa fa-chevron-right"></i> Marko Dorčić</p>
+                <p><i class="fa fa-chevron-right"></i> Tin Karalić</p>
+                <p><i class="fa fa-chevron-right"></i> Vinko Grančić</p>
+            </div>
+            <img src="../assets/images/FER.png" alt="fer">
+        </div>
+    </footer>
+    <script>
+        document.querySelectorAll('menu>li').forEach((element, index) => {
+            const offset = 0.0;
+            const increment = 0.1;
+            element.style["animation-delay"] = (offset + increment * index) + 's';
+        });
+    </script>
+</body>
+</html>

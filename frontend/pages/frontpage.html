@@ -6,37 +6,39 @@
     <title>Planinarko</title>
     <link rel="stylesheet" href="../styles/general.css">
     <link rel="stylesheet" href="../styles/widgets.css">
-    <link rel="stylesheet" href="../styles/sections.css">
-    <link rel="stylesheet" href="../styles/frontpage.css">
+    <link rel="stylesheet" href="../styles/groups/body.css">
+    <link rel="stylesheet" href="../styles/groups/footer.css">
+    <link rel="stylesheet" href="../styles/groups/header.css">
+    <link rel="stylesheet" href="../styles/pages/frontpage.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
     <header>
-        <div class="row">
+        <section class="row">
             <img src="../assets/images/logo.png" alt="logo">
             <h1>Planinarko</h1>
             <a href="./frontpage.html"></a>
-        </div>
-        <div class="button">
-            <p>Log in</p>
-            <i class="fa fa-user fa-2x"></i>
-            <a href="./login.html"></a>
-        </div>
+        </section>
+        <section class="row wide">
+            <button type="button">
+                <p>Sign in</p>
+                <i class="fa fa-sign-in fa-lg"></i>
+                <a href="./login.html"></a>
+            </button>
+        </section>
     </header>
     <main>
         <div class="banner"></div>
         <h1>Top rute</h1>
 
         <menu>
-            <div class="route">
+            <li class="route">
                 <h2>Naziv rute</h2>
                 <div class="column">
-                    <!-- <p>Lokacija:</p> -->
                     <i class="fa fa-map-marker"></i>
                     <p>45.79 15.96</p>
                 </div>
                 <div class="column">
-                    <!-- <p>Duljina:</p> -->
                     <i class="fa fa-arrows-h"></i>
                     <p>11km</p>
                 </div>
@@ -44,46 +46,11 @@
                     <i class="fa fa-star"></i>
                     <p>103</p>
                 </div>
-                <a href="."></a>
-            </div>
-
-            <div class="route">
-                <h2>Naziv rute</h2>
-                <div class="column">
-                    <!-- <p>Lokacija:</p> -->
-                    <i class="fa fa-map-marker"></i>
-                    <p>45.79 15.96</p>
+                <div>
+                    <i class="fa fa-eye-slash fa-2x"></i>
                 </div>
-                <div class="column">
-                    <!-- <p>Duljina:</p> -->
-                    <i class="fa fa-arrows-h"></i>
-                    <p>11km</p>
-                </div>
-                <div class="column">
-                    <i class="fa fa-star"></i>
-                    <p>103</p>
-                </div>
-                <a href="."></a>
-            </div>
-
-            <div class="route">
-                <h2>Naziv rute</h2>
-                <div class="column">
-                    <!-- <p>Lokacija:</p> -->
-                    <i class="fa fa-map-marker"></i>
-                    <p>45.79 15.96</p>
-                </div>
-                <div class="column">
-                    <!-- <p>Duljina:</p> -->
-                    <i class="fa fa-arrows-h"></i>
-                    <p>11km</p>
-                </div>
-                <div class="column">
-                    <i class="fa fa-star"></i>
-                    <p>103</p>
-                </div>
-                <a href="."></a>
-            </div>
+                <a href="./map.html"></a>
+            </li>
         </menu>
 
     </main>
@@ -103,5 +70,12 @@
             <img src="../assets/images/FER.png" alt="fer">
         </div>
     </footer>
+    <script>
+        document.querySelectorAll('menu>li').forEach((element, index) => {
+            const offset = 0.0;
+            const increment = 0.1;
+            element.style["animation-delay"] = (offset + increment * index) + 's';
+        });
+    </script>
 </body>
 </html>

@@ -1,0 +1,31 @@
+
+footer {
+    transition: top 1s;
+
+    width: 100dvw;
+    position: absolute;
+    top: calc(100% - 2rem);
+    left: 0rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: var(--packing);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    background-color: var(--block-default);
+    outline: var(--thickness) solid var(--shadow);
+    border-top: 1px solid var(--border);
+}
+
+footer:hover {
+    transition: top 1s;
+    top: calc(100% - 17rem);
+}
+
+footer img {
+    height: 15rem;
+    aspect-ratio: 1;
+}
+

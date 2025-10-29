@@ -1,0 +1,17 @@
+
+body {
+    background-color: var(--background);
+    width: 100dvw;
+    height: 100dvh;
+    
+    display: grid;
+    grid-template-areas: 'h' 'm';
+    grid-template-columns: 1fr;
+    grid-template-rows: 0fr 1fr;
+    
+    overflow: hidden;
+    padding-bottom: calc(2rem + var(--thickness));
+}
+
+header {grid-area: h;}
+main {grid-area: m;}

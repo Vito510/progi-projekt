@@ -25,6 +25,12 @@ ul {
     gap: var(--packing);
 }
 
+hr {
+    width: 100%;
+    border-radius: 1px;
+    border-color: var(--border);
+}
+
 /* ------------------------------------------------------- */
 
 .column {
@@ -88,7 +94,7 @@ ul {
 /* ------------------------------------------------------- */
 
 .value {
-    padding: 0.5rem 1rem 0.5rem 1rem;
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
     border-radius: var(--roundness);
     background-color: var(--block-muted);
     border: 1px solid var(--block-highlight);
@@ -96,7 +102,7 @@ ul {
 
 /* ------------------------------------------------------- */
 
-.button {
+button {
     transition: background-color 0.25s;
     user-select: none;
     position: relative;
@@ -113,23 +119,23 @@ ul {
     border: 1px solid var(--accent-highlight);
 }
 
-.button:hover {
+button:hover {
     transition: background-color 0.25s;
     cursor: pointer;
     background-color: var(--accent-default);
 }
 
-.button:active {
+button:active {
     transition: background-color 0.1s;
     background-color: var(--accent-highlight);
 }
 
-.square {
+button .square {
     padding: 0.5rem;
     aspect-ratio: 1;
 }
 
-.round {
+button .round {
     border-radius: 50%;
     padding: 0.5rem;
     aspect-ratio: 1;
@@ -171,11 +177,19 @@ ul {
     height: 10vw;
 
     border-radius: 2rem;
-    /* background-color: var(--shadow); */
+    /* border-radius: var(--roundness); */
+    background-color: var(--shadow);
+    /* border-bottom: var(--thickness) solid var(--block-default); */
+    box-shadow: 0rem var(--thickness) 0rem var(--block-default);
+
     background-image: url(../assets/images/banner.png);
     background-size: 120%;
     background-position: 50% 40%;
-    border-bottom: var(--thickness) solid var(--block-default);
+
+    background-image: url(../assets/images/banner.webp);
+    background-size: 100%;
+    background-position: 50% 40%;
+    height: 20%;
 }
 
 @media screen and (max-width: 768px) {

@@ -1,0 +1,43 @@
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: var(--spacing);
+    gap: var(--spacing);
+}
+
+/* ------------------------------------------------------- */
+
+menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 100%;
+    gap: var(--spacing);
+
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: var(--spacing);
+    scrollbar-color: var(--text-default) #00000000;
+}
+
+menu .route {
+    transform: translate(200%, 0%);
+    animation-name: slide-left;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+/* ------------------------------------------------------- */
+
+@keyframes slide-left {
+    0% {
+        transform: translate(200%, 0%);
+    }
+    100% {
+        transform: translate(0%, 0%);
+    }
+}
