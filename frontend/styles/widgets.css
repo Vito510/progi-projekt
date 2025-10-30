@@ -1,3 +1,4 @@
+@import url('./general.css');
 
 * {
     box-sizing: border-box;
@@ -155,7 +156,7 @@ button .round {
 
     gap: var(--spacing);
     min-width: fit-content;
-    width: 50%;
+    width: fit-content;
     padding: 1rem 2rem 1rem 2rem;
 
     background-color: var(--accent-muted);
@@ -168,36 +169,6 @@ button .round {
     transition: background-color 0.25s;
     background-color: var(--accent-default);
     border-color: var(--accent-highlight);
-}
-
-/* ------------------------------------------------------- */
-
-.banner {
-    width: 75%;
-    height: 10vw;
-
-    border-radius: 2rem;
-    /* border-radius: var(--roundness); */
-    background-color: var(--shadow);
-    /* border-bottom: var(--thickness) solid var(--block-default); */
-    box-shadow: 0rem var(--thickness) 0rem var(--block-default);
-
-    background-image: url(../assets/images/banner.png);
-    background-size: 120%;
-    background-position: 50% 40%;
-
-    background-image: url(../assets/images/banner.webp);
-    background-size: 100%;
-    background-position: 50% 40%;
-    height: 20%;
-}
-
-@media screen and (max-width: 768px) {
-    .banner {
-        width: 100%;
-        height: 20%;
-        background-size: 200%;
-    }
 }
 
 /* ------------------------------------------------------- */

@@ -1,9 +1,13 @@
+@import url('../general.css');
 
-body {
-    background-color: var(--background);
+body>header {grid-area: h;}
+body>main {grid-area: m;}
+
+:root>body {
+    background: linear-gradient(0deg, var(--block-muted) 0%, var(--block-highlight) 50%);
     width: 100dvw;
     height: 100dvh;
-    
+
     display: grid;
     grid-template-areas: 'h' 'm';
     grid-template-columns: 1fr;
@@ -13,5 +17,3 @@ body {
     padding-bottom: calc(2rem + var(--thickness));
 }
 
-header {grid-area: h;}
-main {grid-area: m;}

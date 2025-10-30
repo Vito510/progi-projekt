@@ -1,37 +1,42 @@
+@import url('../general.css');
 
-header {
+body>header {
+    width: 100%;
+    background-color: var(--block-default);
+    outline: var(--thickness) solid var(--shadow);
+    border-bottom: 1px solid var(--border);
+
     display: flex;
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
-    
+
     gap: var(--packing);
     padding: 0.5rem 1rem 0.5rem 1rem;
     margin-bottom: var(--thickness);
-
-    background-color: var(--block-default);
-    outline: var(--thickness) solid var(--shadow);
-    border-bottom: 1px solid var(--border);
 }
 
-header img {
+body>header img {
     object-fit: cover;
-    height: 4rem;
+    height: 3rem;
     aspect-ratio: 1;
     /* border-radius: var(--roundness); */
     border-radius: 50%;
     background-color: var(--block-muted);
 }
 
+/* ------------------------------------------------------- */
+
 @media screen and (max-width: 768px) {
-    header .button>p {
+    body>header button>p {
         display: none;
     }
 
-    header .button {
+    body>header button {
         padding: 0rem;
         background: none;
         border: none;
     }
 }
+

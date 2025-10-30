@@ -1,11 +1,59 @@
+@import url('../general.css');
+@import url('../widgets.css');
+@import url('../groups/body.css');
+@import url('../groups/header.css');
+@import url('../groups/footer.css');
 
 main {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+main>div {
+    width: 75%;
+    height: 100%;
+    background-color: #00000020;
+    /* box-shadow: 0rem 0rem var(--thickness) var(--shadow); */
+    box-shadow: var(--thickness) 0rem 0rem var(--shadow);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 
     padding: var(--spacing);
+    padding-top: 0rem;
     gap: var(--spacing);
+}
+@media screen and (max-width: 768px) {
+    main>div {
+        width: 100%;
+        background-color: none;
+    }
+}
+
+/* ------------------------------------------------------- */
+
+main .banner {
+    background-color: var(--shadow);
+    border-bottom-left-radius: 2rem;
+    border-bottom-right-radius: 2rem;
+    box-shadow: 0rem var(--thickness) 0rem var(--block-default);
+
+    background-image: url(../../assets/images/banner.webp);
+    background-size: 100%;
+    background-position: 50% 40%;
+
+    width: 100%;
+    max-width: 75rem;
+    aspect-ratio: 4;
+}
+
+@media screen and (max-width: 768px) {
+    main .banner {
+        aspect-ratio: 3;
+        background-size: 150%;
+    }
 }
 
 /* ------------------------------------------------------- */
@@ -14,9 +62,12 @@ menu {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex-wrap: nowrap;
 
-    width: 100%;
+    height: max-content;
     gap: var(--spacing);
+    padding-left: var(--thickness);
+    padding-right: var(--thickness);
 
     overflow-y: auto;
     overflow-x: hidden;

@@ -1,9 +1,10 @@
+@import url('../general.css');
 
-footer {
+body>footer {
     transition: top 1s;
 
-    width: 100dvw;
-    position: absolute;
+    width: 100%;
+    position: fixed;
     top: calc(100% - 2rem);
     left: 0rem;
 
@@ -13,19 +14,28 @@ footer {
     justify-content: center;
 
     gap: var(--packing);
-    padding: 0.5rem 1rem 0.5rem 1rem;
+    /* padding: 0.5rem 1rem 0.5rem 1rem; */
+    padding: var(--spacing);
+    padding-top: 0.5rem;
     background-color: var(--block-default);
     outline: var(--thickness) solid var(--shadow);
     border-top: 1px solid var(--border);
 }
 
-footer:hover {
+body>footer:hover {
     transition: top 1s;
-    top: calc(100% - 17rem);
+    top: calc(100% - 19rem);
 }
 
-footer img {
+body>footer img {
     height: 15rem;
     aspect-ratio: 1;
 }
 
+/* ------------------------------------------------------- */
+
+@media screen and (max-width: 768px) {
+    body>footer img {
+        height: 5rem;
+    }
+}
