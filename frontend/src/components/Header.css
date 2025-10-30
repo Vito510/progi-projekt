@@ -1,7 +1,7 @@
-@import url('../general.css');
 
-body>header {
+#root>header {
     width: 100%;
+    height: fit-content;
     background-color: var(--block-default);
     outline: var(--thickness) solid var(--shadow);
     border-bottom: 1px solid var(--border);
@@ -17,7 +17,7 @@ body>header {
     margin-bottom: var(--thickness);
 }
 
-body>header img {
+#root>header img {
     object-fit: cover;
     height: 3rem;
     aspect-ratio: 1;
@@ -29,11 +29,11 @@ body>header img {
 /* ------------------------------------------------------- */
 
 @media screen and (max-width: 768px) {
-    body>header button>p {
+    #root>header button>p {
         display: none;
     }
 
-    body>header button {
+    #root>header button {
         padding: 0rem;
         background: none;
         border: none;

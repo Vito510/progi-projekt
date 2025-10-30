@@ -1,0 +1,13 @@
+
+#root {
+    background: linear-gradient(0deg, var(--block-muted) 0%, var(--block-highlight) 50%);
+    width: 100dvw;
+    height: 100dvh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    align-items: center;
+    
+    padding-bottom: calc((2rem + var(--thickness)));
+}

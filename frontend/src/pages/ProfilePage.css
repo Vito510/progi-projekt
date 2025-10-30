@@ -1,6 +1,4 @@
 
-/* ------------------------------------------------------- */
-
 aside {
     display: flex;
     flex-direction: column;
@@ -32,44 +30,25 @@ aside li {
 /* ------------------------------------------------------- */
 
 menu {
+    min-height: 0rem;
+
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: var(--spacing);
-}
-
-menu ul {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    gap: var(--spacing);
-    padding-left: var(--thickness);
-    padding-right: var(--thickness);
-    
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding-bottom: var(--spacing);
-    scrollbar-color: var(--text-default) #00000000;
-}
-
-menu .route {
-    transform: translate(200%, 0%);
-    animation-name: slide-left;
-    animation-duration: 0.5s;
-    animation-delay: 0.5s;
-    animation-fill-mode: forwards;
 }
 
 /* ------------------------------------------------------- */
 
 main {
+    height: 100%;
+    min-height: 0rem;
+    
     display: grid;
     grid-template-areas: 'a m';
     grid-template-columns: 0fr 1fr;
     grid-template-rows: 1fr;
     
-    height: 100%;
     gap: var(--spacing);
     padding: var(--spacing);
 }
@@ -82,7 +61,7 @@ aside {grid-area: a;}
         display: grid;
         grid-template-areas: 'a' 'm';
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr;
+        grid-template-rows: 0fr 1fr;
     }
     aside {
         width: auto;

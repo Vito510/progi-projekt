@@ -4,7 +4,7 @@
     box-sizing: border-box;
     margin: 0rem;
     padding: 0rem;
-    font-family: sans-serif;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
 a {

@@ -1,0 +1,139 @@
+
+:root {
+    --block-highlight: #423952;
+    --block-default: #373141;
+    --block-muted: #272225;
+
+    --accent-highlight: #7a9c96;
+    --accent-default: #486b7f;
+    --accent-muted: #444760;
+
+    --invalid-highlight: #bb474f;
+    --invalid-default: #713f52;
+    --invalid-muted: #423952;
+
+    --background: var(--block-highlight);
+    --shadow: var(--block-muted);
+    --border: var(--accent-default);
+
+    /* --block-default: #2f3140;
+    --background: #182029;
+    --block-muted: black; */
+
+    /* --block-default: #1b1f1f;
+    --background: #313738;
+    --block-muted: #0f1314;
+
+    --accent-highlight: #b6c77e;
+    --accent-default: #878b5a;
+    --accent-muted: #6a6d46; */
+
+    --text-default: white;
+    --text-muted: white;
+}
+
+/* @media (prefers-color-scheme: light) {
+
+} */
+
+:root {
+    font-size: 16px;
+    --roundness: 0.5rem;
+    --spacing: 2rem;
+    --thickness: 0.5rem;
+    --packing: 0.5rem;
+    color-scheme: dark;
+}
+
+@media screen and (max-width: 768px) {
+    :root {
+        --spacing: 1rem;
+        --thickness: 0.25rem;
+        font-size: 14px;
+    }
+}
+
+/* ------------------------------------------------------- */
+
+* {
+    box-sizing: border-box;
+    margin: 0rem;
+    padding: 0rem;
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    position: relative;
+}
+
+a {
+    text-decoration: none;
+}
+
+a:empty {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0%;
+    left: 0%;
+    z-index: 10;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--packing);
+}
+
+hr {
+    width: 100%;
+    border-radius: 1px;
+    border-color: var(--border);
+}
+
+/* ------------------------------------------------------- */
+
+.column {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--packing);
+}
+
+.row {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: var(--packing);
+}
+
+.centered {
+    justify-content: center;
+    align-items: center;
+}
+
+.left {
+    align-items: start;
+}
+
+.right {
+    align-items: end;
+}
+
+.wide {
+    align-items: stretch;
+}
+
+/* ------------------------------------------------------- */
+
+
+.value {
+    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
+    border-radius: var(--roundness);
+    background-color: var(--block-muted);
+    border: 1px solid var(--block-highlight);
+}
+
+/* ------------------------------------------------------- */
+

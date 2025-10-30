@@ -1,3 +1,8 @@
+@import url('../general.css');
+@import url('../widgets.css');
+@import url('../groups/body.css');
+@import url('../groups/header.css');
+@import url('../groups/footer.css');
 
 main {
     display: flex;

@@ -28,9 +28,13 @@
     --accent-default: #878b5a;
     --accent-muted: #6a6d46; */
 
-    --text-default: light-dark(black, white);
-    --text-muted: light-dark(black, white);
+    --text-default: white;
+    --text-muted: white;
 }
+
+/* @media (prefers-color-scheme: light) {
+
+} */
 
 :root {
     font-size: 16px;
