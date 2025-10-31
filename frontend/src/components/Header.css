@@ -1,5 +1,5 @@
 
-#root>header {
+.header {
     width: 100%;
     height: fit-content;
     background-color: var(--block-default);
@@ -17,7 +17,7 @@
     margin-bottom: var(--thickness);
 }
 
-#root>header img {
+.header img {
     object-fit: cover;
     height: 3rem;
     aspect-ratio: 1;
@@ -29,14 +29,14 @@
 /* ------------------------------------------------------- */
 
 @media screen and (max-width: 768px) {
-    #root>header button>p {
-        display: none;
-    }
-
-    #root>header button {
+    .header button {
         padding: 0rem;
         background: none;
         border: none;
+    }
+
+    .header button>p {
+        display: none;
     }
 }
 

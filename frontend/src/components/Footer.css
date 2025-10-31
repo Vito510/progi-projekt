@@ -1,4 +1,4 @@
-#root>footer {
+.footer {
     transition: top 1s;
 
     width: 100%;
@@ -19,12 +19,12 @@
     padding: 0.5rem var(--spacing) var(--spacing) var(--spacing);
 }
 
-#root>footer:hover {
+.footer:hover {
     transition: top 1s;
     top: calc(100% - 19rem);
 }
 
-#root>footer img {
+.footer img {
     height: 15rem;
     aspect-ratio: 1;
 }
@@ -32,7 +32,7 @@
 /* ------------------------------------------------------- */
 
 @media screen and (max-width: 768px) {
-    #root>footer img {
+    .footer img {
         height: 5rem;
     }
 }

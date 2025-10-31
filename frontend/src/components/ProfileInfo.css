@@ -1,0 +1,12 @@
+.profile-info {
+    width: 100%;
+    padding: var(--spacing);
+    /* background-color: var(--block-highlight); */
+}
+
+.profile-info>li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

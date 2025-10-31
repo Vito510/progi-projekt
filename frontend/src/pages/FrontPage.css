@@ -1,7 +1,7 @@
 
-main {
+.front-page {
     min-width: fit-content;
-    width: 60%;
+    width: 50%;
     height: 100%;
     min-height: 0rem;
 
@@ -19,7 +19,7 @@ main {
 }
 
 @media screen and (max-width: 768px) {
-    main {
+    .front-page {
         width: 100%;
         background-color: none;
     }
@@ -27,7 +27,7 @@ main {
 
 /* ------------------------------------------------------- */
 
-main .banner {
+.front-page>.banner {
     background-color: var(--shadow);
     border-bottom-left-radius: 2rem;
     border-bottom-right-radius: 2rem;
@@ -43,7 +43,7 @@ main .banner {
 }
 
 @media screen and (max-width: 768px) {
-    main .banner {
+    .front-page>.banner {
         aspect-ratio: 3;
         background-size: 150%;
     }

@@ -1,9 +1,25 @@
-import type RouteDescriptor from '../interfaces/RouteDescriptor';
-import './Route.css';
+import { useEffect, useRef } from 'react';
+import './RouteCard.css';
 
-export default function Route({name, longitude, latitude, length, stars, visibility} : RouteDescriptor) {
+interface Props {
+    index?: number,
+    name: string,
+    longitude: number,
+    latitude: number,
+    length: number,
+    stars: number,
+    visibility: string,
+}
+
+export default function RouteCard({index = 0, name, longitude, latitude, length, stars, visibility} : Props) {
+    const ref = useRef<HTMLLIElement>(null);
+    useEffect(() => {
+        if (ref.current)
+            ref.current.style.animationDelay = `${index * 0.1}s`;
+    }, [index]);
+
     return (
-        <li className="route">
+        <li className="route-card" ref={ref}>
             <h2>{name}</h2>
             <div className="column">
                 <i className="fa fa-map-marker"></i>

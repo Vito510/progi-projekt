@@ -1,5 +1,5 @@
 
-aside {
+.profile-page>aside {
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -15,12 +15,12 @@ aside {
     animation-duration: 0.5s;
 }
 
-aside ul {
+.profile-page>aside>ul {
     width: 100%;
     padding: var(--spacing);
 }
 
-aside li {
+.profile-page>aside>ul>li {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -29,7 +29,7 @@ aside li {
 
 /* ------------------------------------------------------- */
 
-menu {
+.profile-page>menu {
     min-height: 0rem;
 
     display: flex;
@@ -40,30 +40,36 @@ menu {
 
 /* ------------------------------------------------------- */
 
-main {
+.profile-page {
+    min-width: fit-content;
+    width: 50%;
     height: 100%;
     min-height: 0rem;
-    
+
+    background-color: #00000020;
+    border-right: var(--thickness) solid var(--shadow);
+    box-shadow: 0rem 0rem var(--spacing) var(--shadow);
+
     display: grid;
-    grid-template-areas: 'a m';
+    grid-template-areas: 'a m' '. m';
     grid-template-columns: 0fr 1fr;
-    grid-template-rows: 1fr;
+    grid-template-rows: 0fr 1fr;
     
     gap: var(--spacing);
     padding: var(--spacing);
 }
 
-menu {grid-area: m;}
-aside {grid-area: a;}
+.profile-page>menu {grid-area: m;}
+.profile-page>aside {grid-area: a;}
 
 @media screen and (max-width: 768px) {
-    main {
+    .profile-page {
         display: grid;
         grid-template-areas: 'a' 'm';
         grid-template-columns: 1fr;
         grid-template-rows: 0fr 1fr;
     }
-    aside {
+    .profile-page>aside {
         width: auto;
         height: fit-content;
     }
@@ -74,15 +80,6 @@ aside {grid-area: a;}
 @keyframes slide-up {
     0% {
         transform: translate(0%, 100%);
-    }
-    100% {
-        transform: translate(0%, 0%);
-    }
-}
-
-@keyframes slide-left {
-    0% {
-        transform: translate(200%, 0%);
     }
     100% {
         transform: translate(0%, 0%);

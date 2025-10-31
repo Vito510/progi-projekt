@@ -2,7 +2,7 @@ import './Footer.css';
 
 export default function Footer() {
     return (
-        <footer>
+        <footer className='footer'>
             <i className="fa fa-chevron-up"></i>
             <div className="row centered">
                 <ul className='fa-ul'>

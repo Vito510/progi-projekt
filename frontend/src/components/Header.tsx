@@ -1,18 +1,22 @@
+import { Link } from 'react-router-dom';
 import './Header.css';
-import Button from './Button';
+import type { ReactNode } from 'react';
 
-export default function Header() {
+interface Props {
+    children?: ReactNode,
+}
+
+export default function Header({children}: Props) {
     return (
-        <header>
-            <section className="row">
-                <img src="/images/logo.png" alt="logo"/>
-                <h1>Planinarko</h1>
-            </section>
+        <header className='header'>
+            <Link to={"/"}>
+                <section className="row">
+                    <img src="/images/logo.png" alt="logo"/>
+                    <h1>Planinarko</h1>
+                </section>
+            </Link>
             <section className="row wide">
-                <Button>
-                    <p>Sign in</p>
-                    <i className="fa fa-sign-in fa-lg"></i>
-                </Button>
+                {children}
             </section>
         </header>
     );

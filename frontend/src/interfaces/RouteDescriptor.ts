@@ -6,5 +6,5 @@ export default interface RouteDescriptor {
     length: number,
     stars: number,
     visibility: 'Private' | 'Public',
-};
+}
 

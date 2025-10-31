@@ -65,6 +65,7 @@
 
 a {
     text-decoration: none;
+    color: var(--text-default);
 }
 
 a:empty {
@@ -91,7 +92,6 @@ hr {
 /* ------------------------------------------------------- */
 
 .column {
-    position: relative;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
@@ -100,7 +100,6 @@ hr {
 }
 
 .row {
-    position: relative;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;

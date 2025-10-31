@@ -1,17 +1,16 @@
 import './App.css';
-import Header from './components/Header';
-import Footer from './components/Footer';
-// import FrontPage from './pages/FrontPage';
+import {BrowserRouter, Routes, Route} from "react-router-dom";
+import FrontPage from './pages/FrontPage';
 import ProfilePage from './pages/ProfilePage';
 
 export default function App() {
   return (
-    <>
-      <Header></Header>
-      {/* <FrontPage/> */}
-      <ProfilePage></ProfilePage>
-      <Footer></Footer>
-    </>
+    <BrowserRouter>
+        <Routes>
+            <Route path="/" element={<FrontPage/>}/>
+            <Route path="/profile" element={<ProfilePage/>}/>
+        </Routes>
+    </BrowserRouter>
   );
 };
 

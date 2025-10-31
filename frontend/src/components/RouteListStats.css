@@ -1,0 +1,11 @@
+.route-list-stats {
+    width: 100%;
+    padding: var(--spacing);
+}
+
+.route-list-stats>li {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}

@@ -1,6 +1,9 @@
-import './FrontPage.css'
-import RouteList from '../components/RouteList';
+import './FrontPage.css';
 import type RouteDescriptor from '../interfaces/RouteDescriptor';
+import RouteList from '../components/RouteList';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
+import ButtonProfile from '../components/ButtonProfile';
 
 export default function FrontPage() {
     let route: RouteDescriptor = {
@@ -16,10 +19,16 @@ export default function FrontPage() {
         routes.push(route);
 
     return (
-        <main>
-            <div className="banner"></div>
-            <h1>Najbolje rute</h1>
-            <RouteList routes={routes}/>
-        </main>
+        <>
+            <Header>
+                <ButtonProfile></ButtonProfile>
+            </Header>
+            <main className='front-page'>
+                <div className="banner"></div>
+                <h1>Najbolje rute</h1>
+                <RouteList routes={routes}/>
+            </main>
+            <Footer></Footer>
+        </>
     );
 };
