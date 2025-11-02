@@ -1,49 +1,75 @@
 
 :root {
+    /* main colors */
     --block-highlight: #423952;
-    --block-default: #373141;
+    --block-default: #373141;         
     --block-muted: #272225;
 
+    /* highlight color */
     --accent-highlight: #7a9c96;
-    --accent-default: #486b7f;
+    --accent-default: #486b7f;        
     --accent-muted: #444760;
 
+    /* alternative highlight color, for errors/warnings */
     --invalid-highlight: #bb474f;
-    --invalid-default: #713f52;
+    --invalid-default: #713f52;       
     --invalid-muted: #423952;
 
-    --background: var(--block-highlight);
-    --shadow: var(--block-muted);
-    --border: var(--accent-default);
+    /* regular text */
+    --text-default: white;            
+    /* text in interactable elements that are disabled */
+    --text-muted: rgb(193, 193, 193);
 
-    /* --block-default: #2f3140;
-    --background: #182029;
-    --block-muted: black; */
+    /* shadows for large elements */
+    --shadow: var(--block-muted);     
+    /* 1px border around large elements */  
+    --border: var(--accent-default);    
 
-    /* --block-default: #1b1f1f;
-    --background: #313738;
+    /* --block-highlight: #313738;
+    --block-default: #1b1f1f;
     --block-muted: #0f1314;
 
-    --accent-highlight: #b6c77e;
-    --accent-default: #878b5a;
-    --accent-muted: #6a6d46; */
+    --accent-highlight: #91b95b;
+    --accent-default: #2f6b4e;
+    --accent-muted: #2b3d42; */
 
-    --text-default: white;
-    --text-muted: white;
+    /* --block-highlight: #515764;
+    --block-default: #3c3f46;
+    --block-muted: #26292d;
+
+    --accent-highlight: #a7dfe9;
+    --accent-default: #446077;
+    --accent-muted: #2e3850; */
 }
-
-/* @media (prefers-color-scheme: light) {
-
-} */
 
 :root {
-    font-size: 16px;
-    --roundness: 0.5rem;
-    --spacing: 2rem;
-    --thickness: 0.5rem;
-    --packing: 0.5rem;
-    color-scheme: dark;
+    font-size: 16px;        /* global page sizing, everything should use "rem" unit */
+    --roundness: 0.5rem;    /* global border radius */
+    --thickness: 0.5rem;    /* width of borders/shadows */
+    --spacing: 2rem;        /* distance between large elements (page layout)*/
+    --packing: 0.5rem;      /* distance between small elements (lists) */
 }
+
+/* WIP - light mode */
+/* @media (prefers-color-scheme: light) {
+    :root {
+        --block-highlight: #f1f6f0;
+        --block-default: #d5d6db;         
+        --block-muted: #303843;
+
+        --accent-muted: #91b95b;
+        --accent-default: #2f6b4e;
+        --accent-highlight: #2b3d42;
+
+        --text-default: black;            
+        --text-muted: rgb(69, 69, 69);
+
+        --shadow: var(--block-muted);     
+        --border: var(--accent-default);   
+    } 
+} */
+
+/* ------------------------------------------------------- */
 
 @media screen and (max-width: 768px) {
     :root {
@@ -61,6 +87,7 @@
     padding: 0rem;
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     position: relative;
+    color: var(--text-default);
 }
 
 a {
@@ -110,6 +137,7 @@ hr {
 .centered {
     justify-content: center;
     align-items: center;
+    text-align: center;
 }
 
 .left {
@@ -123,9 +151,6 @@ hr {
 .wide {
     align-items: stretch;
 }
-
-/* ------------------------------------------------------- */
-
 
 .value {
     padding: 0.25rem 0.5rem 0.25rem 0.5rem;

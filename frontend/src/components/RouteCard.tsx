@@ -21,15 +21,15 @@ export default function RouteCard({index = 0, name, longitude, latitude, length,
     return (
         <li className="route-card" ref={ref}>
             <h2>{name}</h2>
-            <div className="column">
+            <div className="column centered">
                 <i className="fa fa-map-marker"></i>
                 <p>{latitude} {longitude}</p>
             </div>
-            <div className="column">
+            <div className="column centered">
                 <i className="fa fa-arrows-h"></i>
                 <p>{length}km</p>
             </div>
-            <div className="column">
+            <div className="column centered">
                 <i className="fa fa-star"></i>
                 <p>{stars}</p>
             </div>
