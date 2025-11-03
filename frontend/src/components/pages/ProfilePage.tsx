@@ -1,11 +1,11 @@
 import './ProfilePage.css';
-import type RouteDescriptor from '../interfaces/RouteDescriptor';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import RouteList from '../components/RouteList';
-import ButtonSignOut from '../components/ButtonSignOut';
-import RouteListStats from '../components/RouteListStats';
-import ProfileInfo from '../components/ProfileInfo';
+import type RouteDescriptor from '../../interfaces/RouteDescriptor';
+import Header from '../general/Header';
+import Footer from '../general/Footer';
+import RouteList from '../route/RouteList';
+import ButtonSignOut from '../profile/ButtonSignOut';
+import RouteListStats from '../route/RouteListStats';
+import ProfileInfo from '../profile/ProfileInfo';
 
 export default function ProfilePage() {
         let route: RouteDescriptor = {

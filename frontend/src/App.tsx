@@ -1,7 +1,8 @@
 import './App.css';
 import {BrowserRouter, Routes, Route} from "react-router-dom";
-import FrontPage from './pages/FrontPage';
-import ProfilePage from './pages/ProfilePage';
+import FrontPage from './components/pages/FrontPage';
+import ProfilePage from './components/pages/ProfilePage';
+import ViewPage from './components/pages/ViewPage';
 
 export default function App() {
   return (
@@ -9,6 +10,7 @@ export default function App() {
         <Routes>
             <Route path="/" element={<FrontPage/>}/>
             <Route path="/profile" element={<ProfilePage/>}/>
+            <Route path="/view" element={<ViewPage/>}/>
         </Routes>
     </BrowserRouter>
   );

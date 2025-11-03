@@ -1,14 +1,14 @@
 
 :root {
     /* main colors */
-    --block-highlight: #423952;
-    --block-default: #373141;         
-    --block-muted: #272225;
+    --block-highlight: #313738;
+    --block-default: #1b1f1f;
+    --block-muted: #0f1314;
 
-    /* highlight color */
-    --accent-highlight: #7a9c96;
-    --accent-default: #486b7f;        
-    --accent-muted: #444760;
+    /* highlight color */  
+    --accent-highlight: #91b95b;
+    --accent-default: #2f6b4e;
+    --accent-muted: #2b3d42;
 
     /* alternative highlight color, for errors/warnings */
     --invalid-highlight: #bb474f;
@@ -23,15 +23,15 @@
     /* shadows for large elements */
     --shadow: var(--block-muted);     
     /* 1px border around large elements */  
-    --border: var(--accent-default);    
+    --border: var(--accent-default);  
 
-    /* --block-highlight: #313738;
-    --block-default: #1b1f1f;
-    --block-muted: #0f1314;
+    /* --block-highlight: #423952;
+    --block-default: #373141;         
+    --block-muted: #272225;
 
-    --accent-highlight: #91b95b;
-    --accent-default: #2f6b4e;
-    --accent-muted: #2b3d42; */
+    --accent-highlight: #7a9c96;
+    --accent-default: #486b7f;        
+    --accent-muted: #444760; */
 
     /* --block-highlight: #515764;
     --block-default: #3c3f46;

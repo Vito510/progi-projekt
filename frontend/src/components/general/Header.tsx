@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import './Header.css';
 import type { ReactNode } from 'react';
+import './Header.css';
 
 interface Props {
     children?: ReactNode,

@@ -1,4 +1,4 @@
-import type RouteListDescriptor from "../interfaces/RouteListDescriptor";
+import type RouteListDescriptor from "../../interfaces/RouteListDescriptor";
 import RouteCard from "./RouteCard";
 import "./RouteList.css";
 

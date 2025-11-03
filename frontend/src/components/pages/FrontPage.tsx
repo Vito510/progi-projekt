@@ -1,9 +1,9 @@
 import './FrontPage.css';
-import type RouteDescriptor from '../interfaces/RouteDescriptor';
-import RouteList from '../components/RouteList';
-import Footer from '../components/Footer';
-import Header from '../components/Header';
-import ButtonProfile from '../components/ButtonProfile';
+import type RouteDescriptor from '../../interfaces/RouteDescriptor';
+import RouteList from '../route/RouteList';
+import Footer from '../general/Footer';
+import Header from '../general/Header';
+import ButtonProfile from '../profile/ButtonProfile';
 
 export default function FrontPage() {
     let route: RouteDescriptor = {
