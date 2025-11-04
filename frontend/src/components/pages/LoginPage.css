@@ -1,0 +1,50 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #6B73FF, #000DFF);
+    height: 100%;
+}
+
+.login-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 350px;
+    text-align: center;
+}
+
+.login-card h1 {
+    margin-bottom: 0.5rem;
+    color: #333;
+}
+
+.login-subtitle {
+    margin-bottom: 2rem;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.oauth-btn {
+    width: 100%;
+    padding: 12px;
+    background: #DB4437;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.oauth-btn:hover {
+    background: #a33225;
+}
