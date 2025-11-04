@@ -6,7 +6,7 @@ import * as Loader from "./utility/loader.js";
 export default class WebGLManager {
     static async initialize(canvas) {
         const fragment_shader_code = await (await fetch('../scripts/mapper/shader/fragment.glsl')).text();
-        const height_texture = await WebGL.Texture.load('../assets/images/height.jpg');
+        const height_texture = await WebGL.Texture.load('/public/images/temp.png'); // height.jpg
         return new WebGLManager(canvas, fragment_shader_code, height_texture);
     }
 
@@ -95,6 +95,13 @@ export default class WebGLManager {
         this.height_texture.setup(this.gl, "height_texture", this.program, 0, "LINEAR", "CLAMP_TO_EDGE");
 
         this.synchronize();
+    }
+
+    destroy() {
+        this.gl.deleteBuffer(this.vertex_buffer);
+        this.gl.deleteBuffer(this.uniform_buffer);
+        this.gl.deleteProgram(this.program);
+        this.height_texture.destroy(this.gl);
     }
 
     render() {

@@ -1,9 +1,9 @@
-import Button from "./Button";
+import Button from "../general/Button";
 
 export default function ButtonSignOut() {
     return (
         <Button>
-            <p>Sign out</p>
+            <p>Odjava</p>
             <i className="fa fa-sign-out fa-lg"></i>
         </Button>
     );

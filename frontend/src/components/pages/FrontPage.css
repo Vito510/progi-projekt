@@ -21,7 +21,7 @@
 @media screen and (max-width: 768px) {
     .front-page {
         width: 100%;
-        background-color: none;
+        background: none;
     }
 }
 

@@ -1,4 +1,4 @@
-import type RouteListDescriptor from "../interfaces/RouteListDescriptor";
+import type RouteListDescriptor from '../../interfaces/RouteListDescriptor';
 import './RouteListStats.css';
 
 export default function RouteListStats({routes}: RouteListDescriptor) {
