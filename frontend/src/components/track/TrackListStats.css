@@ -1,9 +1,9 @@
-.route-list-stats {
+.track-list-stats {
     width: 100%;
     padding: var(--spacing);
 }
 
-.route-list-stats>li {
+.track-list-stats>li {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

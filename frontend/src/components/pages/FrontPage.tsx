@@ -1,32 +1,34 @@
 import './FrontPage.css';
-import type RouteDescriptor from '../../interfaces/RouteDescriptor';
-import RouteList from '../route/RouteList';
+import type TrackDescriptor from '../../interfaces/TrackDescriptor';
+import TrackList from '../track/TrackList';
 import Footer from '../general/Footer';
 import Header from '../general/Header';
 import ButtonProfile from '../profile/ButtonProfile';
+import ButtonSignIn from '../profile/ButtonSignIn';
 
 export default function FrontPage() {
-    let route: RouteDescriptor = {
-        name: "Naziv rute",
+    let route: TrackDescriptor = {
+        name: "Naziv staze",
         longitude: 45.79,
         latitude: 15.96,
         length: 13,
         stars: 101,
         visibility: 'Private'
     }
-    let routes: [RouteDescriptor] = [route];
+    let tracks: [TrackDescriptor] = [route];
     for (let i=0; i<10; i++)
-        routes.push(route);
+        tracks.push(route);
 
     return (
         <>
             <Header>
                 <ButtonProfile></ButtonProfile>
+                <ButtonSignIn></ButtonSignIn>
             </Header>
             <main className='front-page'>
                 <div className="banner"></div>
-                <h1>Najbolje rute</h1>
-                <RouteList routes={routes}/>
+                <h1>Najbolje staze</h1>
+                <TrackList tracks={tracks}/>
             </main>
             <Footer></Footer>
         </>

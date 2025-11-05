@@ -1,5 +1,5 @@
 
-export default interface RouteDescriptor {
+export default interface TrackDescriptor {
     name: string,
     longitude: number,
     latitude: number,

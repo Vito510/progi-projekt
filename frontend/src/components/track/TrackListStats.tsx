@@ -1,13 +1,13 @@
-import type RouteListDescriptor from '../../interfaces/RouteListDescriptor';
-import './RouteListStats.css';
+import type TrackListDescriptor from '../../interfaces/TrackListDescriptor';
+import './TrackListStats.css';
 
-export default function RouteListStats({routes}: RouteListDescriptor) {
-    const sum_stars = routes.map((el) => el.stars).reduce((acc, curr) => acc + curr);
-    const n_rutes = routes.length;
-    const n_private = routes.map((el) => Number(el.visibility === 'Private')).reduce((acc, curr) => acc + curr);
+export default function TrackListStats({tracks}: TrackListDescriptor) {
+    const sum_stars = tracks.map((el) => el.stars).reduce((acc, curr) => acc + curr);
+    const n_rutes = tracks.length;
+    const n_private = tracks.map((el) => Number(el.visibility === 'Private')).reduce((acc, curr) => acc + curr);
 
     return (
-        <ul className="route-list-stats">
+        <ul className="track-list-stats">
             <li>
                 <p><i className="fa fa-star fa-fw"></i> Zvjezdice</p> 
                 <p className="value">{sum_stars}</p> 

@@ -152,11 +152,20 @@ hr {
     align-items: stretch;
 }
 
+/* ------------------------------------------------------- */
+
 .value {
     padding: 0.25rem 0.5rem 0.25rem 0.5rem;
     border-radius: var(--roundness);
     background-color: var(--block-muted);
     border: 1px solid var(--block-highlight);
+}
+
+.card {
+    background-color: var(--block-default);
+    border-radius: var(--roundness);
+    box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
+    border: 1px solid var(--border);
 }
 
 /* ------------------------------------------------------- */

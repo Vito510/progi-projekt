@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import './RouteCard.css';
+import './TrackCard.css';
 import { Link } from 'react-router-dom';
 
 interface Props {
@@ -12,7 +12,7 @@ interface Props {
     visibility: string,
 }
 
-export default function RouteCard({index = 0, name, longitude, latitude, length, stars, visibility} : Props) {
+export default function TrackCard({index = 0, name, longitude, latitude, length, stars, visibility} : Props) {
     const ref = useRef<HTMLLIElement>(null);
     useEffect(() => {
         if (ref.current)
@@ -20,8 +20,8 @@ export default function RouteCard({index = 0, name, longitude, latitude, length,
     }, [index]);
 
     return (
-        <Link to={"/view"}>
-            <li className="route-card" ref={ref}>
+        <Link to={"/map"}>
+            <li className="track-card" ref={ref}>
                 <h2>{name}</h2>
                 <div className="column centered">
                     <i className="fa fa-map-marker"></i>

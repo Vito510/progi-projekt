@@ -1,10 +1,12 @@
 // import { useEffect } from "react";
+import type MapSelectionDescriptor from "../../interfaces/MapSelectionDescriptor";
 import Footer from "../general/Footer";
 import Header from "../general/Header";
+import Map2D from "../map2d/Map2D";
 import ButtonSignOut from "../profile/ButtonProfile";
-import "./ViewPage.css"
+import "./MapPage.css"
 
-export default function ViewPage() {
+export default function MapPage() {
     // useEffect(() => {
     //     const script = document.createElement("script");
     //     script.src = "/public/scripts/mapper/engine.js";
@@ -18,9 +20,8 @@ export default function ViewPage() {
             <Header>
                 <ButtonSignOut></ButtonSignOut>
             </Header>
-            <main className="view-page">
-                <canvas id="canvas"></canvas>
-                <menu></menu>
+            <main className="map-page">
+                <Map2D onInput={(selection: MapSelectionDescriptor) => {console.log(selection);}}/>
             </main>
             <Footer/>
         </>

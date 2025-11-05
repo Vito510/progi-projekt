@@ -1,0 +1,17 @@
+
+.map3d {
+    display: flex;
+    flex-direction: column;
+}
+
+.map3d>canvas {
+    height: 100%;
+    width: 75%;
+    border-radius: var(--roundness);
+    border: 1px solid red;
+}
+
+.map3d>menu {
+    padding: var(--spacing);
+    border-top: 1px solid var(--border);
+}

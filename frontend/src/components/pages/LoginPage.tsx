@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./LoginPage.css";
 import type User from "../../interfaces/User";
+import Header from "../general/Header";
 
 export default function LoginPage() {
     const [user, setUser] = useState<User | null>(null);
@@ -26,14 +27,17 @@ export default function LoginPage() {
     }
 
     return (
-        <main className="login-page">
-            <div className="login-card">
-                <h1>Welcome</h1>
-                <p className="login-subtitle">Login with your Google account</p>
-                <button onClick={handleOAuthLogin} className="oauth-btn">
-                    Login with Google
-                </button>
-            </div>
-        </main>
+        <>
+            <Header></Header>
+            <main className="login-page">
+                <div className="login-card">
+                    <h1>Welcome</h1>
+                    <p className="login-subtitle">Login with your Google account</p>
+                    <button onClick={handleOAuthLogin} className="oauth-btn">
+                        Login with Google
+                    </button>
+                </div>
+            </main>
+        </>
     );
 }

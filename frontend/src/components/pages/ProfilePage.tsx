@@ -1,24 +1,24 @@
 import './ProfilePage.css';
-import type RouteDescriptor from '../../interfaces/RouteDescriptor';
+import type TrackDescriptor from '../../interfaces/TrackDescriptor';
 import Header from '../general/Header';
 import Footer from '../general/Footer';
-import RouteList from '../route/RouteList';
+import TrackList from '../track/TrackList';
 import ButtonSignOut from '../profile/ButtonSignOut';
-import RouteListStats from '../route/RouteListStats';
+import TrackListStats from '../track/TrackListStats';
 import ProfileInfo from '../profile/ProfileInfo';
 
 export default function ProfilePage() {
-        let route: RouteDescriptor = {
-            name: "Naziv rute",
+        let track: TrackDescriptor = {
+            name: "Naziv staze",
             longitude: 45.79,
             latitude: 15.96,
             length: 13,
             stars: 101,
             visibility: 'Private'
         }
-        let routes: RouteDescriptor[] = [];
+        let tracks: TrackDescriptor[] = [];
         for (let i=0; i<10; i++)
-            routes.push(route);
+            tracks.push(track);
 
     return (
         <>
@@ -29,11 +29,11 @@ export default function ProfilePage() {
                 <aside>
                     <ProfileInfo></ProfileInfo>
                     <hr/>
-                    <RouteListStats routes={routes}></RouteListStats>
+                    <TrackListStats tracks={tracks}></TrackListStats>
                 </aside>
                 <menu>
-                    <h1>Korisničke rute</h1>
-                    <RouteList routes={routes}/>
+                    <h1>Korisničke staze</h1>
+                    <TrackList tracks={tracks}/>
                 </menu>
             </main>
             <Footer/>

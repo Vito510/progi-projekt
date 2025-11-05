@@ -1,5 +1,5 @@
 
-.route-card {
+.track-card {
     transition: background-color 0.25s;
 
     display: flex;
@@ -22,7 +22,7 @@
     animation-fill-mode: forwards;
 }
 
-.route-card:hover {
+.track-card:hover {
     transition: background-color 0.25s;
     background-color: var(--accent-default);
     border-color: var(--accent-highlight);
