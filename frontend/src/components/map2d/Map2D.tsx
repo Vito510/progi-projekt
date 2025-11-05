@@ -13,7 +13,7 @@ export default function Map2D({onInput}: Props) {
 
     return (
         <div className="map-2d card" onClick={() => {onInput(temp)}}>
-            <img src="/public/vectors/earth.svg" alt="" />
+            <img src="/vectors/earth.svg" alt="" />
         </div>
     );
 
