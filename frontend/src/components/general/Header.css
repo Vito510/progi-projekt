@@ -5,6 +5,7 @@
     background-color: var(--block-default);
     outline: var(--thickness) solid var(--shadow);
     border-bottom: 1px solid var(--border);
+    z-index: 2;
 
     display: flex;
     flex-direction: row;

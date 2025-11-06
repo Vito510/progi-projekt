@@ -1,12 +1,12 @@
-import * as Matrix from "./utility/matrix.js";
-import * as Vector from "./utility/vector.js";
-import * as WebGL from "./utility/webgl.js";
-import * as Loader from "./utility/loader.js";
+import * as Matrix from "../utility/matrix.js";
+import * as Vector from "../utility/vector.js";
+import * as WebGL from "../utility/webgl.js";
+import * as Image from "../utility/image.js";
 
 export default class WebGLManager {
     static async initialize(canvas) {
-        const fragment_shader_code = await (await fetch('../scripts/mapper/shader/fragment.glsl')).text();
-        const height_texture = await WebGL.Texture.load('/public/images/temp.png'); // height.jpg
+        const fragment_shader_code = await (await fetch('../shaders/fragment.glsl')).text();
+        const height_texture = await WebGL.Texture.load('/images/temp.png'); // height.jpg
         return new WebGLManager(canvas, fragment_shader_code, height_texture);
     }
 
@@ -166,7 +166,7 @@ export default class WebGLManager {
 
         const image = WebGL.textureToImage(this.gl, color_buffer, render_width, render_height);
         this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        Loader.saveImage(file_name, image);
+        Image.save(file_name, image);
     }
 }
 

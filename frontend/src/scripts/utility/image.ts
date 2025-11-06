@@ -41,7 +41,7 @@ export function iterate(image: ImageData, setter: (value: Pixel, x: number, y: n
 //     return context.getImageData(0, 0, width, height);
 // }
 
-export function resize(image: ImageData, width: number, height: number, interpolation: 'nearest' | 'linear' = 'linear'): ImageData {
+export function resize(image: ImageData, width: number, height: number, interpolation: 'nearest' | 'linear' = 'nearest'): ImageData {
     context.imageSmoothingEnabled = interpolation === 'linear';
     context.imageSmoothingQuality = 'high';
     

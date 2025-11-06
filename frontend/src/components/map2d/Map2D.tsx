@@ -99,7 +99,7 @@ export default function Map2D({ onInput, initialLat = 45.97663277713765, initial
   }, [isLoaded, cssLoaded, initialLat, initialLng, initialZoom, onInput]);
 
   return (
-    <div className="map-container" style={{ position: "relative", width: "100%", height: "100%" }}>
+    <div className="map-container card" style={{ position: "relative", width: "100%", height: "100%" }}>
       <div
         ref={mapRef}
         style={{

@@ -1,4 +1,4 @@
-import type MapSelectionDescriptor from '../interfaces/MapSelectionDescriptor.js';
+import type MapSelectionDescriptor from '../../interfaces/MapSelectionDescriptor.js';
 import * as Image from './image.js';
 import pako from 'pako';
 

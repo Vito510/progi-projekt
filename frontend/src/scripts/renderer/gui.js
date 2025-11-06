@@ -1,4 +1,4 @@
-import * as Tile from './tile.js';
+// import * as Tile from './tile.js';
 
 export default class GUIManager {
     constructor(canvas, gpu, camera) {

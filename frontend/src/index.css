@@ -11,14 +11,14 @@
     --accent-muted: #2b3d42;
 
     /* alternative highlight color, for errors/warnings */
-    --invalid-highlight: #bb474f;
-    --invalid-default: #713f52;       
-    --invalid-muted: #423952;
+    --invalid-highlight: #cf573c;
+    --invalid-default: #752438;       
+    --invalid-muted: #241527;
 
     /* regular text */
     --text-default: white;            
     /* text in interactable elements that are disabled */
-    --text-muted: rgb(193, 193, 193);
+    --text-muted: rgb(114, 114, 114);
 
     /* shadows for large elements */
     --shadow: var(--block-muted);     
@@ -159,6 +159,7 @@ hr {
     border-radius: var(--roundness);
     background-color: var(--block-muted);
     border: 1px solid var(--block-highlight);
+    font-family: monospace;
 }
 
 .card {
