@@ -1,5 +1,7 @@
 
 export default interface MapSelectionDescriptor {
-    latitude: number,
-    longitude: number,
+    min_latitude: number,
+    min_longitude: number,
+    max_latitude: number,
+    max_longitude: number,
 }

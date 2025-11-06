@@ -1,9 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-
-interface MapSelectionDescriptor {
-  latitude: number;
-  longitude: number;
-}
+import type MapSelectionDescriptor from "../../interfaces/MapSelectionDescriptor";
 
 interface Props {
   onInput: (selection: MapSelectionDescriptor) => void;
@@ -72,8 +68,10 @@ export default function Map2D({ onInput, initialLat = 45.97663277713765, initial
       marker.on("dragend", () => {
         const pos = marker.getLatLng();
         onInput({
-          latitude: pos.lat,
-          longitude: pos.lng,
+          min_latitude: pos.lat,
+          min_longitude: pos.lng,
+          max_latitude: pos.lat,
+          max_longitude: pos.lng,
         });
       });
 
@@ -81,8 +79,10 @@ export default function Map2D({ onInput, initialLat = 45.97663277713765, initial
       map.on("click", (e: any) => {
         marker.setLatLng(e.latlng);
         onInput({
-          latitude: e.latlng.lat,
-          longitude: e.latlng.lng,
+          min_latitude: e.latlng.lat,
+          min_longitude: e.latlng.lng,
+          max_latitude: e.latlng.lat,
+          max_longitude: e.latlng.lng,
         });
       });
 
