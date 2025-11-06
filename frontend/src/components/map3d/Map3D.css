@@ -2,12 +2,14 @@
 .map3d {
     width: 100%;
     height: 100%;
+
     display: flex;
     flex-direction: column;
     overflow: hidden;
 }
 
 .map3d>canvas {
+    min-height: 0;
     height: 100%;
     width: 100%;
 }
@@ -16,4 +18,8 @@
     width: 100%;
     padding: var(--spacing);
     border-top: 1px solid var(--border);
+
+    display: flex;
+    flex-direction: row;
+    gap: var(--packing);
 }

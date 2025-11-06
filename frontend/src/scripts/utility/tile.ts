@@ -1,4 +1,5 @@
-import type MapSelectionDescriptor from '../../interfaces/MapSelectionDescriptor.js';
+import type MapSelectionDescriptor from '../../interfaces/MapSelection.js';
+import type TerrainParameter from '../../interfaces/TerrainParameter.js';
 import * as Image from './image.js';
 import pako from 'pako';
 
@@ -110,6 +111,24 @@ function cropToSelection(image: ImageData, selection: MapSelectionDescriptor): I
     return cropped;
 }
 
+export function getParams(image: ImageData, scale : number = 1.0): TerrainParameter {
+    let min = Infinity;
+    let max = -Infinity;
+    Image.iterate(image, (value) => {
+        const height = decodeHeight(value);
+        min = Math.min(min, height);
+        max = Math.max(max, height);
+        return undefined;
+    });
+
+    return {
+        heightmap: image,
+        range: (max - min) / (pixel_size * scale),
+        multiplier: 1.0 / (pixel_size * scale),
+        offset: -min,
+    }
+}
+
 export async function getData(selection: MapSelectionDescriptor) {
     if (selection.max_longitude < selection.min_longitude)
         [selection.min_longitude, selection.max_longitude] = [selection.max_longitude, selection.min_longitude];
@@ -123,24 +142,6 @@ export async function getData(selection: MapSelectionDescriptor) {
     const resized = Image.resize(combined, display_resolution, display_resolution);
     const image = resized;
 
-    let min = Infinity;
-    let max = -Infinity;
-    Image.iterate(image, (value) => {
-        const height = decodeHeight(value);
-        min = Math.min(min, height);
-        max = Math.max(max, height);
-        return undefined;
-    });
-
-    const size_factor = pixel_size * (combined.width / resized.width);
-
-    return {
-        image: image,
-        min: min,
-        max: max,
-        range: (max - min) / size_factor,
-        multiplier: 1.0 / size_factor,
-        offset: -min,
-    }
+    return getParams(image, (combined.width / resized.width));
 }
 

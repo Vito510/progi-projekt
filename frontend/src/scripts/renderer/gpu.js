@@ -4,20 +4,20 @@ import * as WebGL from "../utility/webgl.js";
 import * as Image from "../utility/image.js";
 
 export default class WebGLManager {
-    static async initialize(canvas) {
+    static async initialize(canvas, params = {heightmap: undefined, range: 256, offset: -32768, multiplier: 0.03}) {
         const fragment_shader_code = await (await fetch('../shaders/fragment.glsl')).text();
-        const height_texture = await WebGL.Texture.load('/images/temp.png'); // height.jpg
-        return new WebGLManager(canvas, fragment_shader_code, height_texture);
+        // const height_texture = await WebGL.Texture.load('/images/temp.png'); // height.jpg
+        return new WebGLManager(canvas, fragment_shader_code, params);
     }
 
-    constructor(canvas, fragment_shader_code, height_texture) {
+    constructor(canvas, fragment_shader_code, params) {
         this.canvas = canvas;
         this.vertex_buffer;
         this.vertex_location;
         this.uniform_buffer;
         this.program;
         this.base_render_size = {x: 2560, y: 1440};
-        this.height_texture = height_texture;
+        this.height_texture = new WebGL.Texture(params.heightmap.data, params.heightmap.width, params.heightmap.height);
 
         this.gl = this.canvas.getContext("webgl2");
         if (!this.gl)
@@ -26,31 +26,33 @@ export default class WebGLManager {
         window.addEventListener("resize", () => {this.synchronize();});
         this.canvas.addEventListener("resize", () => {this.synchronize();});
 
+        const temp_multiplier = 3;
+
         this.uniforms = {
             canvas_size: Vector.vec(this.base_render_size.x, this.base_render_size.y),
             buffer_size: Vector.vec(this.base_render_size.x, this.base_render_size.y),
 
-            grid_size: Vector.vec(this.height_texture.width, this.height_texture.height, 256),
-            render_scale: 1,
+            grid_size: Vector.vec(this.height_texture.width, this.height_texture.height, params.range * temp_multiplier),
+            render_scale: 2,
             
             camera_rotation: Matrix.mat(1.0),
             camera_position: Vector.vec(0.0, -3.0, 0.0),
             fov: 1.0,
 
             grid_scale: 1.0,
-            shading_mode: 0.0,
+            shading_mode: 1.0,
             padding_a: 0.0,
             padding_b: 0.0,
             
-            height_offset: 0.0,
-            height_multiplier: 0.25,
+            height_offset: params.offset,
+            height_multiplier: params.multiplier * temp_multiplier,
             height_gamma: 1.0,
             height_invert: 0.0,
 
-            fade_blend: 1.0,
+            fade_blend: 0.0,
             voxel_blend: 0.0,
             grayscale_blend: 0.0,
-            normals_epsilon: 2.0,
+            normals_epsilon: 1.0,
         };
 
         const vertices = new Float32Array([

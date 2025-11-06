@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import type MapSelectionDescriptor from "../../interfaces/MapSelectionDescriptor";
+import type MapSelection from "../../interfaces/MapSelection";
 
 interface Props {
-  onInput: (selection: MapSelectionDescriptor) => void;
+  onInput: (selection: MapSelection) => void;
   initialLat?: number;
   initialLng?: number;
   initialZoom?: number;

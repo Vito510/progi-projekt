@@ -2,8 +2,13 @@ import './Map3D.css';
 import Renderer from '../../scripts/renderer/renderer.js';
 import { useEffect, useRef } from 'react';
 import Placeholder from '../general/Placeholder.js';
+import type TerrainParameter from '../../interfaces/TerrainParameter.js';
 
-export default function Map3D() {
+interface Props {
+    params: TerrainParameter
+}
+
+export default function Map3D({params}: Props) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const rendererRef = useRef<Renderer | null>(null);
     const animationRef = useRef<number | null>(null);
@@ -19,7 +24,7 @@ export default function Map3D() {
             animationRef.current = requestAnimationFrame(animate);
         }
 
-        Renderer.initialize(canvas)
+        Renderer.initialize(canvas, params)
             .then((value: Renderer) => {
                 // console.log("Initialized", rendererRef.current);
                 rendererRef.current = value;
