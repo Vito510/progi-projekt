@@ -1,4 +1,8 @@
 # Planinarko
+
+| ![logo](frontend/public/images/favicon.ico) | ![banner](frontend/public/images/banner.webp) |
+| - | - |
+
 # Opis projekta
 Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 
