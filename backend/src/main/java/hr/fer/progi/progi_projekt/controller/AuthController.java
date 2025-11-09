@@ -19,7 +19,7 @@ public class AuthController {
         return Map.of(
                 "authenticated", true,
                 "name", user.getAttribute("name"),
-                "email", user.getAttribute("email"),
+                "email", user.getAttribute("email")
         );
     }
 
