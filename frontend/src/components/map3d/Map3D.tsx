@@ -26,13 +26,11 @@ export default function Map3D({params}: Props) {
 
         Renderer.initialize(canvas, params)
             .then((value: Renderer) => {
-                // console.log("Initialized", rendererRef.current);
                 rendererRef.current = value;
                 animationRef.current = requestAnimationFrame(animate);
             })
 
         return () => {
-            // console.log("Destroying", rendererRef.current);
             cancelAnimationFrame(animationRef.current!);
             animationRef.current = null;
             rendererRef.current?.destroy();
