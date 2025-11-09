@@ -1,129 +1,89 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import type MapSelection from "../../interfaces/MapSelection";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
+import "./Map2D.css";
 
 interface Props {
-  onInput: (selection: MapSelection) => void;
-  initialLat?: number;
-  initialLng?: number;
-  initialZoom?: number;
+	onInput: (selection: MapSelection) => void | Promise<void>;
 }
 
-export default function Map2D({ onInput, initialLat = 45.97663277713765, initialLng = 15.581762194633486, initialZoom = 10 }: Props) {
-  const mapRef = useRef<HTMLDivElement>(null);
-  const mapInstanceRef = useRef<any>(null);
-  const markerRef = useRef<any>(null);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [cssLoaded, setCssLoaded] = useState(false);
+export default function Map2D({ onInput }: Props) {
+	useEffect(() => {
+		// Initialize map
+		const map = L.map("map", {
+			center: [45, 16],
+			zoom: 6,
+		});
 
-  useEffect(() => {
-    // Load Leaflet CSS
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css";
-    link.onload = () => setCssLoaded(true);
-    document.head.appendChild(link);
+		const baseMaps = {
+			OpenStreetMap: L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+				maxZoom: 19,
+				attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+			}),
 
-    // Load Leaflet JS
-    const script = document.createElement("script");
-    script.src = "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js";
-    script.onload = () => setIsLoaded(true);
-    document.body.appendChild(script);
+			Satelite: L.tileLayer("https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png", {
+				maxZoom: 19,
+				attribution: "&copy; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
+			}),
 
-    return () => {
-      if (document.head.contains(link)) {
-        document.head.removeChild(link);
-      }
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-      if (mapInstanceRef.current) {
-        mapInstanceRef.current.remove();
-        mapInstanceRef.current = null;
-      }
-    };
-  }, []);
+			"National Geographic": L.tileLayer("https://server.arcgisonline.com/arcgis/rest/services/NatGeo_World_Map/MapServer/tile/{z}/{y}/{x}", {
+				maxZoom: 12,
+				attribution: "&copy;  National Geographic, Esri, Garmin, HERE, UNEP-WCMC, USGS, NASA, ESA, METI, NRCAN, GEBCO, NOAA, increment P Corp.",
+			}),
+		};
 
-  useEffect(() => {
-    if (!isLoaded || !cssLoaded || !mapRef.current || mapInstanceRef.current) return;
+		const layerControl = L.control.layers(baseMaps).addTo(map);
+		baseMaps["OpenStreetMap"].addTo(map);
 
-    // Small delay to ensure CSS is fully applied
-    const timer = setTimeout(() => {
-      const L = (window as any).L;
+		// dodavanje watercolor layera
+		const watercolor = L.tileLayer("https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg", {
+			maxZoom: 16,
+			attribution:
+				'&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
+		});
+		layerControl.addBaseLayer(watercolor, "<span style='color: red'>Watercolor</span>");
 
-      // Initialize map
-      const map = L.map(mapRef.current).setView([initialLat, initialLng], initialZoom);
+		const coordButton = L.Control.extend({
+			options: { position: "topright" }, // position of the button
+			onAdd: function (map: any) {
+				const container = L.DomUtil.create("button", "coord-button");
+				container.textContent = "Pre široko područje";
+				container.disabled = true;
 
-      // Add OpenStreetMap tiles
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        attribution: "© OpenStreetMap contributors",
-        maxZoom: 19,
-      }).addTo(map);
+				// Prevent map dragging when clicking the button
+				L.DomEvent.disableClickPropagation(container);
 
-      // Add initial marker
-      const marker = L.marker([initialLat, initialLng], {
-        draggable: true,
-      }).addTo(map);
+				// Update button enabled/disabled on zoom
+				const updateButtonState = () => {
+					const zoomedIn = map.getZoom() >= 11;
+					container.disabled = !zoomedIn;
+					container.textContent = zoomedIn ? "Označi područje" : "Pre široko područje";
+				};
 
-      // Handle marker drag
-      marker.on("dragend", () => {
-        const pos = marker.getLatLng();
-        onInput({
-          min_latitude: pos.lat,
-          min_longitude: pos.lng,
-          max_latitude: pos.lat,
-          max_longitude: pos.lng,
-        });
-      });
+				map.on("zoom", updateButtonState);
 
-      // Handle map click to move marker
-      map.on("click", (e: any) => {
-        marker.setLatLng(e.latlng);
-        onInput({
-          min_latitude: e.latlng.lat,
-          min_longitude: e.latlng.lng,
-          max_latitude: e.latlng.lat,
-          max_longitude: e.latlng.lng,
-        });
-      });
+				container.onclick = () => {
+					const bounds = map.getBounds();
+					const selection: MapSelection = {
+						min_latitude: bounds.getSouth(),
+						min_longitude: bounds.getWest(),
+						max_latitude: bounds.getNorth(),
+						max_longitude: bounds.getEast(),
+					};
+					onInput(selection); // Trigger the prop callback
+				};
 
-      mapInstanceRef.current = map;
-      markerRef.current = marker;
+				return container;
+			},
+		});
 
-      // Force map to recalculate size
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 100);
-    }, 100);
+		map.addControl(new coordButton());
 
-    return () => clearTimeout(timer);
-  }, [isLoaded, cssLoaded, initialLat, initialLng, initialZoom, onInput]);
+		return () => {
+			map.remove();
+		};
+	}, [onInput]);
 
-  return (
-    <div className="map-container card" style={{ position: "relative", width: "100%", height: "100%" }}>
-      <div
-        ref={mapRef}
-        style={{
-          width: "100%",
-          height: "100%",
-          borderRadius: "8px",
-          border: "1px solid #e2e8f0",
-          zIndex: 1,
-        }}
-      />
-      {(!isLoaded || !cssLoaded) && (
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            color: "#64748b",
-            zIndex: 2,
-          }}
-        >
-          Loading map...
-        </div>
-      )}
-    </div>
-  );
+	return <div id="map" className="map-2d" />;
 }
