@@ -34,13 +34,6 @@ export function iterate(image: ImageData, setter: (value: Pixel, x: number, y: n
     }
 }
 
-// export function resize(image: ImageData, width: number, height: number): ImageData {
-//     canvas.width = width;
-//     canvas.height = height;
-//     context.putImageData(image, 0, 0);
-//     return context.getImageData(0, 0, width, height);
-// }
-
 export function resize(image: ImageData, width: number, height: number, interpolation: 'nearest' | 'linear' = 'nearest'): ImageData {
     context.imageSmoothingEnabled = interpolation === 'linear';
     context.imageSmoothingQuality = 'high';
@@ -53,10 +46,9 @@ export function resize(image: ImageData, width: number, height: number, interpol
     return context.getImageData(0, 0, width, height);
 }
 
-
 export function crop(image: ImageData, x: number, y: number, width: number, height: number): ImageData {
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width = image.width;
+    canvas.height = image.height;
     context.putImageData(image, 0, 0);
     return context.getImageData(x, y, width, height);
 }
@@ -129,60 +121,3 @@ export async function save(image: ImageData, filename: string = 'image.png'): Pr
     
     URL.revokeObjectURL(url);
 }
-
-// export async function loadImage(url: string): Promise<ImageData | undefined> {
-//     const promise = new Promise((resolve: (image: ImageData | undefined) => void, reject: () => void) => {
-//         const image = new Image();
-//         image.crossOrigin = 'Anonymous';
-
-//         image.onload = function() {
-//             // const canvas: OffscreenCanvas = new OffscreenCanvas(image.width, image.height);
-//             // const canvas: HTMLCanvasElement = document.createElement('canvas');
-//             canvas.width = image.width;
-//             canvas.height = image.height;
-
-//             // const context: OffscreenCanvasRenderingContext2D | null = canvas.getContext('2d');
-//             // if (typeof context === null)
-//             //     throw new TypeError("Couldn't get CanvasRenderingContext2D!");
-//             context?.drawImage(image, 0, 0);
-            
-//             const image_data = context?.getImageData(0, 0, canvas.width, canvas.height);
-//             resolve(image_data);
-//         };
-        
-//         image.onerror = function() {
-//             reject();
-//         };
-        
-//         image.src = url;
-//     });
-
-//     const image: ImageData | undefined = await promise
-//         .then(image => image)
-//         .catch(() => {throw new Error(`Failed to load image ${url}`);});
-//     return image;
-// }
-
-// export async function saveImage(file_name: string, image: ImageData) {
-//     const image_bitmap = await createImageBitmap(image);
-    
-//     // const canvas: OffscreenCanvas = new OffscreenCanvas(image.width, image.height);
-//     // const canvas = document.createElement('canvas');
-//     canvas.width = image.width;
-//     canvas.height = image.height;
-
-//     // const context: OffscreenCanvasRenderingContext2D | null = canvas.getContext('2d');
-//     // if (typeof context === null)
-//     //     throw new TypeError("Couldn't get CanvasRenderingContext2D!");
-//     context?.scale(1, -1);
-//     context?.drawImage(image_bitmap, 0, -image.height);
-    
-//     canvas?.toBlob((blob) => {
-//         const url = URL.createObjectURL(blob);
-//         const a = document.createElement('a');
-//         a.href = url;
-//         a.download = file_name;
-//         a.click();
-//         URL.revokeObjectURL(url);
-//     }, 'image/png');
-// }

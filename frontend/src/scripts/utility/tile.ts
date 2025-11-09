@@ -10,7 +10,7 @@ const display_resolution = 512;
 const pixel_size = 30.91;
 const max_tiles = 4;
 
-export function isValidSelection({min_latitude, min_longitude, max_latitude, max_longitude}: MapSelectionDescriptor) {
+export function isValidSelection({min_latitude, min_longitude, max_latitude, max_longitude}: MapSelectionDescriptor): boolean {
     if (Math.abs(min_longitude) > 180 || Math.abs(min_latitude) > 90 || Math.abs(max_longitude) > 180 || Math.abs(max_latitude) > 90)
         return false;
     if (max_longitude < min_longitude)
@@ -35,7 +35,7 @@ function decodeHeight(color: Image.Pixel): number {
     return color.r * 256.0 + color.g;
 }
 
-function getUrl(latitude: number, longitude: number) {
+function getUrl(latitude: number, longitude: number): string {
     const lat_hemisphere = (latitude >= 0) ? 'N' : 'S';
     const lon_hemisphere = (longitude >= 0) ? 'E' : 'W';
     
@@ -46,7 +46,7 @@ function getUrl(latitude: number, longitude: number) {
     return url;
 }
 
-export async function fetchTile(longitude: number, latitude: number) {
+export async function fetchTile(longitude: number, latitude: number): Promise<ImageData> {
     console.log("Fetching: ", latitude, longitude);
     const url = getUrl(latitude, longitude);
     const compressed_data = await (await fetch(url)).arrayBuffer();
@@ -80,15 +80,15 @@ async function getTileSet(selection: MapSelectionDescriptor): Promise<ImageData[
             if (counter > max_tiles)
                 throw new Error("Maximum ammount of tiles exceeded!");
             const tile = await fetchTile(x, y);
-            console.log("Pushing tile: ", tile);
+            // console.log("Pushing tile: ", tile);
             tile_row.push(tile);
             counter += 1;
         }
-        console.log("Pushing row: ", tile_row);
-        tiles.push(tile_row);
+        // console.log("Pushing row: ", tile_row);
+        tiles.unshift(tile_row);
     }
 
-    console.log("Tiles: ", tiles);
+    // console.log("Tiles: ", tiles);
     return tiles;
 }
 
@@ -99,15 +99,12 @@ function combineTiles(tiles: ImageData[][]): ImageData {
 }
 
 function cropToSelection(image: ImageData, selection: MapSelectionDescriptor): ImageData {
-    console.log(selection);
-    console.log(image.width, image.height);
-    
     const x = (selection.min_longitude - Math.floor(selection.min_longitude)) * tile_resolution;
     const y = (selection.min_latitude - Math.floor(selection.min_latitude)) * tile_resolution;
     const width = (selection.max_longitude - Math.floor(selection.min_longitude)) * tile_resolution - x;
     const height = (selection.max_latitude - Math.floor(selection.min_latitude)) * tile_resolution - y;
-    console.log(x, y, width, height);
-    const cropped = Image.crop(image, x, y, width, height);
+    const cropped = Image.crop(image, x, (image.height - y) - height, width, height);
+    // console.log("Cropping parameters:", image.width, image.height, x, y, width, height)
     return cropped;
 }
 
@@ -116,6 +113,8 @@ export function getParams(image: ImageData, scale : number = 1.0): TerrainParame
     let max = -Infinity;
     Image.iterate(image, (value) => {
         const height = decodeHeight(value);
+        if (Number.isNaN(height))
+            return undefined;
         min = Math.min(min, height);
         max = Math.max(max, height);
         return undefined;
@@ -123,13 +122,13 @@ export function getParams(image: ImageData, scale : number = 1.0): TerrainParame
 
     return {
         heightmap: image,
-        range: (max - min) / (pixel_size * scale),
+        range: (max - min) / (pixel_size * scale) * 2.0,
         multiplier: 1.0 / (pixel_size * scale),
         offset: -min,
     }
 }
 
-export async function getData(selection: MapSelectionDescriptor) {
+export async function getData(selection: MapSelectionDescriptor): Promise<TerrainParameter> {
     if (selection.max_longitude < selection.min_longitude)
         [selection.min_longitude, selection.max_longitude] = [selection.max_longitude, selection.min_longitude];
     if (selection.max_latitude < selection.min_latitude)
@@ -137,11 +136,12 @@ export async function getData(selection: MapSelectionDescriptor) {
 
     const tiles = await getTileSet(selection);
     let combined = combineTiles(tiles);
+    let cropped = combined;
     if (selection.min_latitude != selection.max_latitude && selection.min_longitude != selection.max_longitude)
-        combined = cropToSelection(combined, selection);
-    const resized = Image.resize(combined, display_resolution, display_resolution);
-    const image = resized;
-
-    return getParams(image, (combined.width / resized.width));
+        cropped = cropToSelection(combined, selection);
+    const resize_factor = Math.min(cropped.width, cropped.height) / display_resolution;
+    const resized = Image.resize(cropped, cropped.width / resize_factor * 0.8, cropped.height / resize_factor);
+    
+    return getParams(resized, resize_factor * 2.0);
 }
 

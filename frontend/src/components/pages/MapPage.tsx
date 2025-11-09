@@ -14,7 +14,7 @@ export default function MapPage() {
 	let [element, setElement] = useState<ReactNode>(<Map2D onInput={handler} />);
 
 	async function handler(selection: MapSelection) {
-		console.info("Selection:", selection);
+		// console.info("Selection:", selection);
 
 		// korištenje temp.png
 		// console.info("Fetching disabled, using temp.png");
@@ -23,6 +23,7 @@ export default function MapPage() {
 
 		// korištenje pravih podataka iz odabrane točke
 		const params = await Tile.getData(selection);
+		// Image.save(params.heightmap, "test");
 
 		setElement(<Map3D params={params}></Map3D>);
 	}

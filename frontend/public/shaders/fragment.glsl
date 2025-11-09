@@ -101,7 +101,8 @@ vec4 traverse(Ray ray) {
     vec3 limit = floor(uniforms.grid_size * uniforms.grid_scale);
     vec3 t = (planes - ray.origin) * ray.inverse;
 
-    while (true) {
+    const int max_steps = 2000;
+    for (int i = 0; i < max_steps; i++) {
         if (position.z <= getHeight(position)) {
             return vec4(normal, length(ray.origin - position));
         }
