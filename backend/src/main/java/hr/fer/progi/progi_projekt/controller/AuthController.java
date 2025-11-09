@@ -1,5 +1,6 @@
 package hr.fer.progi.progi_projekt.controller;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,9 @@ import java.util.Map;
 
 @RestController
 public class AuthController {
+
+    @Value("app.hostname")
+    private String hostname;
 
     @GetMapping("/me")
     public Map<String, Object> getCurrentUser(@AuthenticationPrincipal OAuth2User user) {
@@ -31,6 +35,6 @@ public class AuthController {
 
     @GetMapping("/logout-google")
     public void logoutGoogle(HttpServletResponse response) throws IOException {
-        response.sendRedirect("https://accounts.google.com/Logout?continue=https://localhost:5173/");
+        response.sendRedirect("https://accounts.google.com/Logout?continue=https://"+hostname);
     }
 }
