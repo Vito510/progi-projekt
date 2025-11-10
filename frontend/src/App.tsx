@@ -4,6 +4,7 @@ import FrontPage from './components/pages/FrontPage';
 import ProfilePage from './components/pages/ProfilePage';
 import MapPage from './components/pages/MapPage';
 import LoginPage from './components/pages/LoginPage';
+import LoginSuccessPage from './components/pages/LoginSuccesPage';
 export default function App() {
   return (
     <BrowserRouter>
@@ -12,6 +13,7 @@ export default function App() {
             <Route path="/profile" element={<ProfilePage/>}/>
             <Route path="/map" element={<MapPage/>}/>
             <Route path="/login" element={<LoginPage/>}/>
+            <Route path="/login-success" element={<LoginSuccessPage />} />
         </Routes>
     </BrowserRouter>
   );
