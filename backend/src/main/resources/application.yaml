@@ -1,5 +1,11 @@
 app:
   hostname: ${HOSTNAME}
+server:
+  servlet:
+    session:
+      cookie:
+        same-site: none
+        secure: true
 spring:
   application:
     name: progi-projekt
