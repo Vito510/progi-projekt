@@ -5,13 +5,16 @@ import Footer from "../general/Footer";
 import Header from "../general/Header";
 import Map2D from "../map2d/Map2D";
 import Map3D from "../map3d/Map3D";
-import ButtonSignOut from "../profile/ButtonProfile";
 import "./MapPage.css";
 // import * as Image from '../../scripts/utility/image';
 import * as Tile from "../../scripts/utility/tile";
+import { useAuth } from "../../context/AuthContext";
+import ButtonProfile from "../profile/ButtonProfile";
+import ButtonSignIn from "../profile/ButtonSignIn";
 
 export default function MapPage() {
 	let [element, setElement] = useState<ReactNode>(<Map2D onInput={handler} />);
+	const auth = useAuth();
 
 	async function handler(selection: MapSelection) {
 		// console.info("Selection:", selection);
@@ -31,7 +34,7 @@ export default function MapPage() {
 	return (
 		<>
 			<Header>
-				<ButtonSignOut></ButtonSignOut>
+				{auth.user ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
 			</Header>
 			<main className="map-page">{element}</main>
 			<Footer />

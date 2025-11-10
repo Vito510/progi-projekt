@@ -14,10 +14,19 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     fetchCurrentUser()
-      .then(data => setUser(data.authenticated ? data : null))
+      .then(data => {
+        if (data.authenticated) {
+          setUser(data);
+          if (window.location.pathname !== "/login-success") {
+            window.location.href = "/login-success"; 
+          }
+        } else {
+          setUser(null);
+        }
+      })
       .finally(() => setLoading(false));
   }, []);
 
