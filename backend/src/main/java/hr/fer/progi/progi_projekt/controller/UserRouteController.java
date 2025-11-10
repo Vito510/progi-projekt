@@ -1,15 +1,11 @@
 package hr.fer.progi.progi_projekt.controller;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import hr.fer.progi.progi_projekt.model.UserRoute;
 import hr.fer.progi.progi_projekt.service.UserRouteService;
 
+@CrossOrigin(origins = "https://planinarko.onrender.com")
 @RestController
 public class UserRouteController {
     UserRouteService userRouteService;
