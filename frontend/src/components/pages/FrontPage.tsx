@@ -6,6 +6,7 @@ import Header from '../general/Header';
 import ButtonProfile from '../profile/ButtonProfile';
 import ButtonSignIn from '../profile/ButtonSignIn';
 import { useAuth } from '../../context/AuthContext';
+import ButtonNewTrack from '../track/ButtonNewTrack';
 
 export default function FrontPage() {
     const auth = useAuth();
@@ -25,6 +26,7 @@ export default function FrontPage() {
     return (
         <>
             <Header>
+                <ButtonNewTrack></ButtonNewTrack>
                 {auth.user ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
             </Header>
             <main className='front-page'>

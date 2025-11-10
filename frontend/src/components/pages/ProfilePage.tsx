@@ -6,6 +6,7 @@ import TrackList from '../track/TrackList';
 import ButtonSignOut from '../profile/ButtonSignOut';
 import TrackListStats from '../track/TrackListStats';
 import ProfileInfo from '../profile/ProfileInfo';
+import ButtonNewTrack from '../track/ButtonNewTrack';
 
 export default function ProfilePage() {
         let track: TrackDescriptor = {
@@ -23,6 +24,7 @@ export default function ProfilePage() {
     return (
         <>
             <Header>
+                <ButtonNewTrack></ButtonNewTrack>
                 <ButtonSignOut></ButtonSignOut>
             </Header>
             <main className='profile-page'>
