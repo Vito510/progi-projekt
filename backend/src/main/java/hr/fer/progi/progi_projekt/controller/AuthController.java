@@ -3,7 +3,6 @@ package hr.fer.progi.progi_projekt.controller;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,7 +30,7 @@ public class AuthController {
 
     @GetMapping("/auth/google")
     public void redirectToGoogle(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/oauth2/authorization/google");
+        response.sendRedirect("/login/oauth2/code/google");
     }
 
     @GetMapping("/logout-google")
