@@ -30,7 +30,7 @@ public class AuthController {
 
     @GetMapping("/auth/google")
     public void redirectToGoogle(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/login/oauth2/code/google");
+        response.sendRedirect("/oauth2/authorization/google");
     }
 
     @GetMapping("/logout-google")
