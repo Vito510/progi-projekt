@@ -11,20 +11,17 @@
     background: var(--block-default);
     box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
     border-radius: calc(2 * var(--roundness));
+    overflow: hidden;
 }
 
 .login-page .login-text {
     background-color: #ffffff08;
 
     padding: var(--spacing);
-    padding-left: calc(2 * var(--spacing));
-    padding-right: calc(2 * var(--spacing));
 }
 
 .login-page .login-button {
     padding: var(--spacing);
-    padding-left: calc(2 * var(--spacing));
-    padding-right: calc(2 * var(--spacing));
 }
 
 .login-page .login-subtitle {
