@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import hr.fer.progi.progi_projekt.model.UserRoute;
 import hr.fer.progi.progi_projekt.service.UserRouteService;
 
-@CrossOrigin(origins = "https://planinarko.onrender.com")
 @RestController
 public class UserRouteController {
     UserRouteService userRouteService;

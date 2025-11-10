@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 
-@CrossOrigin(origins = "https://planinarko.onrender.com")
 @RestController
 public class AuthController {
 

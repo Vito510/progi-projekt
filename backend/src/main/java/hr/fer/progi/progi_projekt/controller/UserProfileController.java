@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.service.UserProfileService;
 
-@CrossOrigin(origins = "https://planinarko.onrender.com")
 @RestController
 public class UserProfileController {
     UserProfileService userProfileService;
