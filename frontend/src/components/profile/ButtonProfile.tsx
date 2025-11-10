@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import Button from "../general/Button";
 import { useAuth } from "../../context/AuthContext";
 
-export default function ButtonSignOut() {
+export default function ButtonProfile() {
     const auth = useAuth();
 
     return (

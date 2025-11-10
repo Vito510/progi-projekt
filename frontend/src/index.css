@@ -18,7 +18,7 @@
     /* regular text */
     --text-default: white;            
     /* text in interactable elements that are disabled */
-    --text-muted: rgb(114, 114, 114);
+    --text-muted: rgb(151, 151, 151);
 
     /* shadows for large elements */
     --shadow: var(--block-muted);     

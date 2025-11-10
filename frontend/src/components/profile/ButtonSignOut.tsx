@@ -1,13 +1,13 @@
-import { Link } from "react-router-dom";
 import Button from "../general/Button";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ButtonSignOut() {
+    const auth = useAuth();
+
     return (
-        <Link to={"/"}>
-            <Button>
-                <p>Odjava</p>
-                <i className="fa fa-sign-out fa-lg"></i>
-            </Button>
-        </Link>
+        <Button onClick={auth?.logout}>
+            <p>Odjava</p>
+            <i className="fa fa-sign-out fa-lg"></i>
+        </Button>
     );
 }

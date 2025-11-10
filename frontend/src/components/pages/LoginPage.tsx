@@ -20,11 +20,15 @@ export default function LoginPage() {
             </>
           ) : (
             <>
-              <h1>Welcome</h1>
-              <p className="login-subtitle">Login with your Google account</p>
-              <button onClick={login} className="oauth-btn">
-                Login with Google
-              </button>
+              <div className="login-text">
+                <h1>Welcome</h1>
+                <p className="login-subtitle">Login with your Google account</p>
+              </div>
+              <div className="login-button">
+                <button onClick={login} className="oauth-btn">
+                  Login with Google
+                </button>
+              </div>
             </>
           )}
         </div>
