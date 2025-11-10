@@ -15,14 +15,16 @@ public class SecurityConfig {
                         .requestMatchers("/me").authenticated()
                         .anyRequest().permitAll()
                 )
-                .oauth2Login()
-                .and()
+                .oauth2Login(oauth2 -> oauth2
+                        // Nakon uspješnog Google login-a redirectaj na FE
+                        .defaultSuccessUrl("http://localhost:5173", true)
+                )
                 .logout(logout -> logout
-                        .logoutUrl("/logout")               // endpoint za logout
-                        .logoutSuccessUrl("/")              // redirect na FE home
-                        .invalidateHttpSession(true)        // uništi sesiju
-                        .clearAuthentication(true)          // očisti auth
-                        .deleteCookies("JSESSIONID")        // izbriši cookie
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("http://localhost:5173")  // nakon logouta natrag na FE
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
                 );
 
         return http.build();
