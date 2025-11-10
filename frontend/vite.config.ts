@@ -5,9 +5,9 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/me': 'http://localhost:8080',
-      '/auth': 'http://localhost:8080',
-      '/logout': 'http://localhost:8080'
+      '/me': 'https://progi-projekt.onrender.com',
+      '/auth': 'https://progi-projekt.onrender.com',
+      '/logout': 'https://progi-projekt.onrender.com'
     }
   }
 })
