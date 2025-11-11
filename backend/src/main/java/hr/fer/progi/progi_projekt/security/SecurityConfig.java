@@ -21,7 +21,10 @@ public class SecurityConfig {
                     .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                    .defaultSuccessUrl("https://planinarko.onrender.com", true))
+                                .successHandler((request, response, authentication) -> {
+                                    response.sendRedirect("/login-success");
+                                })
+                        )
                 .logout(logout -> logout
                     .logoutUrl("/logout")               // endpoint za logout
                     .logoutSuccessUrl("https://planinarko.onrender.com")              // redirect na FE home
