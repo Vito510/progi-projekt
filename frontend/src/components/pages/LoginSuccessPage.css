@@ -9,6 +9,8 @@
     align-items: center;
 }
 
+/* ------------------------------------------------------- */
+
 .login-success-page>.card {
     display: flex;
     flex-direction: column;
@@ -17,7 +19,9 @@
     border: none;
 }
 
-.login-success-page>.card>.text {
+/* ------------------------------------------------------- */
+
+.login-success-page>.card header {
     padding: var(--spacing);
     background-color: #ffffff08;
     border: none;
@@ -27,7 +31,15 @@
     gap: var(--packing);
 }
 
-.login-success-page>.card>.buttons {
+.login-success-page .card>header>p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* ------------------------------------------------------- */
+
+
+.login-success-page>.card section {
     padding: var(--spacing);
 
     display: flex;
@@ -35,12 +47,14 @@
     gap: var(--packing);
 }
 
-.login-success-page button {
+.login-success-page>.card button {
     border: none;
 }
 
+/* ------------------------------------------------------- */
+
 @media screen and (max-width: 768px) {
-    .login-success-page>.card>.buttons {
+    .login-success-page>.card> section {
         display: flex;
         flex-direction: column;
         align-items: start;
