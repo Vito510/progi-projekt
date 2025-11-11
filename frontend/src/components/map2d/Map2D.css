@@ -1,8 +1,4 @@
 .map-2d {
-    /* width: max-content;
-    height: fit-content;
-    padding: 0rem;
-    overflow: hidden; */
   width: 100%;
   height: 100%;
   
@@ -12,12 +8,6 @@
   border: 1px solid var(--border);
 }
 
-/* .map-2d>img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-} */
-
 .map-container {
   position: absolute;
   top: 0;
@@ -26,10 +16,28 @@
   height: 100%;
 }
 
-.map-error {
-  padding: 20px;
-  color: red;
+
+
+/* Overrideam global style i nekako radi */
+.map-2d .leaflet-control-zoom a span{
+  color: #333;
+  line-height: 26px; 
 }
+
+.map-2d .leaflet-control-layers-toggle {
+  background-color: #fff;
+  position: relative;
+}
+
+.leaflet-control-layers-base label span span {
+  color: #333;
+}
+/* ----override done---- */
+
+
+
+
+
 
 .coord-button {
   padding: 6px 10px;
@@ -38,6 +46,7 @@
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
+  color: #333;
 }
 
 .coord-button:hover {
