@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { fetchCurrentUser, loginWithGoogle, type UserResponse } from "../api/AuthSerrvice";
+import { fetchCurrentUser } from "../api/AuthSerrvice";
 import type { ReactNode } from "react";
 
 interface AuthContextType {
-  user: UserResponse | null;
+  user: any;
   loading: boolean;
   login: () => void;
   logout: () => void;
@@ -12,9 +12,9 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<UserResponse | null>(null);
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     fetchCurrentUser()
       .then(data => {
@@ -26,15 +26,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       })
       .finally(() => setLoading(false));
   }, []);
-  
 
-  const login = () => loginWithGoogle();
-
-  const doLogout = () => {
-    window.location.href = "/logout";
+  const login = () => {
+    // Pokreće OAuth login flow
+    window.location.href = "https://progi-projekt.onrender.com/auth/google";
   };
+
+  const logout = () => {
+    window.location.href = "https://progi-projekt.onrender.com/logout";
+  };
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout: doLogout }}>
+    <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

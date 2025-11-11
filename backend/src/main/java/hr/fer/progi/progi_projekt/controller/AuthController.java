@@ -1,21 +1,16 @@
 package hr.fer.progi.progi_projekt.controller;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Map;
 
 @RestController
 public class AuthController {
 
-    @Value("app.hostname")
-    private String hostname;
-
+    // API za FE da dohvatimo trenutno prijavljenog korisnika
     @GetMapping("/me")
     public Map<String, Object> getCurrentUser(@AuthenticationPrincipal OAuth2User user) {
         if (user == null) {
@@ -28,13 +23,9 @@ public class AuthController {
         );
     }
 
+    // Endpoint za početak Google login-a
     @GetMapping("/auth/google")
-    public void redirectToGoogle(HttpServletResponse response) throws IOException {
+    public void redirectToGoogle(javax.servlet.http.HttpServletResponse response) throws java.io.IOException {
         response.sendRedirect("/oauth2/authorization/google");
-    }
-
-    @GetMapping("/logout-google")
-    public void logoutGoogle(HttpServletResponse response) throws IOException {
-        response.sendRedirect("https://accounts.google.com/Logout?continue=https://"+hostname);
     }
 }
