@@ -5,7 +5,7 @@ export interface UserResponse {
   }
   
   export async function fetchCurrentUser(): Promise<UserResponse> {
-    const res = await fetch("https://progi-projekt.onrender.com/me", { credentials: "include" });
+    const res = await fetch("/me", { credentials: "include" });
     if (!res.ok) {
       return { authenticated: false };
     }
@@ -13,9 +13,9 @@ export interface UserResponse {
   }
   
   export function loginWithGoogle() {
-    window.location.href = "https://progi-projekt.onrender.com/auth/google";
+    window.location.href = "/auth/google";
   }
   
   export function logout() {
-    window.location.href = "https://progi-projekt.onrender.com/logout";
+    window.location.href = "/logout";
   }
