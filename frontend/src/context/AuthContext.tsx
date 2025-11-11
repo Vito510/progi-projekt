@@ -20,15 +20,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       .then(data => {
         if (data.authenticated) {
           setUser(data);
-          if (window.location.pathname !== "/login-success") {
-            window.location.href = "/login-success"; 
-          }
         } else {
           setUser(null);
         }
       })
       .finally(() => setLoading(false));
   }, []);
+  
 
   const login = () => loginWithGoogle();
 
