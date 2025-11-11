@@ -19,9 +19,11 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("https://planinarko.onrender.com/login-success", true))
-                .logout(logout -> logout
+                        .oauth2Login(oauth2 -> oauth2
+                                .successHandler((request, response, authentication) -> {
+                                    response.sendRedirect("https://planinarko.onrender.com/login-success");
+                                })
+                        )                .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("https://planinarko.onrender.com")
                         .invalidateHttpSession(true)
