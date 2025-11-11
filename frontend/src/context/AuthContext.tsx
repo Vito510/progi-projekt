@@ -1,9 +1,8 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { fetchCurrentUser } from "../api/AuthSerrvice";
-import type { ReactNode } from "react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { fetchCurrentUser, loginWithGoogle, type UserResponse } from "../api/AuthSerrvice";
 
 interface AuthContextType {
-  user: any;
+  user: UserResponse | null;
   loading: boolean;
   login: () => void;
   logout: () => void;
@@ -12,28 +11,28 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<UserResponse | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchCurrentUser()
-      .then(data => {
-        if (data.authenticated) {
-          setUser(data);
-        } else {
-          setUser(null);
-        }
+      .then((data) => {
+        setUser(data);
       })
-      .finally(() => setLoading(false));
+      .catch(() => {
+        setUser(null);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, []);
 
   const login = () => {
-    // Pokreće OAuth login flow
-    window.location.href = "https://progi-projekt.onrender.com/auth/google";
+    loginWithGoogle();
   };
 
   const logout = () => {
-    window.location.href = "https://progi-projekt.onrender.com/logout";
+    window.location.href = "/logout";
   };
 
   return (
@@ -43,8 +42,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export function useAuth() {
+export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within AuthProvider");
+  if (!context) {
+    throw new Error("useAuth mora biti korišten unutar AuthProvidera");
+  }
   return context;
-}
+};
