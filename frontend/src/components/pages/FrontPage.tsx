@@ -7,6 +7,7 @@ import ButtonProfile from '../profile/ButtonProfile';
 import ButtonSignIn from '../profile/ButtonSignIn';
 import { useAuth } from '../../context/AuthContext';
 import ButtonNewTrack from '../track/ButtonNewTrack';
+import Placeholder from '../general/Placeholder';
 
 export default function FrontPage() {
     const auth = useAuth();
@@ -32,6 +33,7 @@ export default function FrontPage() {
             <main className='front-page'>
                 <div className="banner"></div>
                 <h1>Najbolje staze</h1>
+                <Placeholder>[Nedovršeno]</Placeholder>
                 <TrackList tracks={tracks}/>
             </main>
             <AppFooter></AppFooter>
