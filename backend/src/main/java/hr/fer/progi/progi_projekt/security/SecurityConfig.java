@@ -25,12 +25,12 @@ public class SecurityConfig {
                         .oauth2Login(oauth2 -> oauth2
                                 .successHandler((request, response, authentication) -> {
 
-                                    String userEmail = authentication.getName();
+                                    String userEmail = authentication.getPrincipal().toString();
                                     System.out.println(userEmail);
-                                    Cookie cookie = createCookie(userEmail);
-                                    response.addCookie(cookie);
+                                    JwtUtil jwtUtil = new JwtUtil();
+                                    String token = jwtUtil.generateToken(userEmail);
 
-                                    response.sendRedirect("https://planinarko.onrender.com/login-success");
+                                    response.sendRedirect("https://planinarko.onrender.com/login-success?token=" + token);
                                 })
                         )                .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -43,18 +43,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    private static Cookie createCookie(String userEmail) {
-        JwtUtil jwtUtil = new JwtUtil();
-        String token = jwtUtil.generateToken(userEmail);
-
-        Cookie cookie = new Cookie("jwt", token);
-//        cookie.setHttpOnly(true);
-//        cookie.setSecure(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(60 * 60 * 10);
-        cookie.setAttribute("SameSite", "None");
-        return cookie;
-    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
