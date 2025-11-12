@@ -16,7 +16,7 @@
 
 .map3d>menu {
     width: 100%;
-    padding: var(--spacing);
+    padding: 1rem;
     border-top: 1px solid var(--border);
 
     display: flex;

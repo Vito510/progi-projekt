@@ -1,5 +1,5 @@
 import { useAuth } from "../../context/AuthContext";
-import Header from "../general/Header";
+import AppHeader from "../general/AppHeader";
 import "./LoginPage.css";
 
 export default function LoginPage() {
@@ -9,7 +9,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <Header />
+      <AppHeader />
       <main className="login-page">
         <div className="login-card">
           {user ? (

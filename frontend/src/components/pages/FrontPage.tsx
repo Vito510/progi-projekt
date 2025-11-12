@@ -1,8 +1,8 @@
 import './FrontPage.css';
 import type TrackDescriptor from '../../interfaces/TrackDescriptor';
 import TrackList from '../track/TrackList';
-import Footer from '../general/Footer';
-import Header from '../general/Header';
+import AppFooter from '../general/AppFooter';
+import AppHeader from '../general/AppHeader';
 import ButtonProfile from '../profile/ButtonProfile';
 import ButtonSignIn from '../profile/ButtonSignIn';
 import { useAuth } from '../../context/AuthContext';
@@ -25,16 +25,16 @@ export default function FrontPage() {
 
     return (
         <>
-            <Header>
+            <AppHeader>
                 <ButtonNewTrack></ButtonNewTrack>
                 {auth.user ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
-            </Header>
+            </AppHeader>
             <main className='front-page'>
                 <div className="banner"></div>
                 <h1>Najbolje staze</h1>
                 <TrackList tracks={tracks}/>
             </main>
-            <Footer></Footer>
+            <AppFooter></AppFooter>
         </>
     );
 };

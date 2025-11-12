@@ -2,6 +2,7 @@ import './Map3D.css';
 import Renderer from '../../scripts/renderer/renderer.js';
 import { useEffect, useRef } from 'react';
 import type TerrainParameter from '../../interfaces/TerrainParameter.js';
+import Placeholder from '../general/Placeholder.js';
 
 interface Props {
     params: TerrainParameter
@@ -40,6 +41,9 @@ export default function Map3D({params}: Props) {
         <div className='map3d card'>
             <canvas ref={canvasRef}></canvas>
             <menu>
+                <Placeholder>
+                    Kontrole: LMB + Drag, LMB + Scroll
+                </Placeholder>
             </menu>
         </div>
     );

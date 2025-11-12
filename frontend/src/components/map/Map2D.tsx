@@ -3,6 +3,7 @@ import type MapSelection from "../../interfaces/MapSelection";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map2D.css";
+import * as Tile from "../../scripts/utility/tile";
 
 interface Props {
 	onInput: (selection: MapSelection) => void | Promise<void>;
@@ -54,16 +55,8 @@ export default function Map2D({ onInput }: Props) {
 				// Prevent map dragging when clicking the button
 				L.DomEvent.disableClickPropagation(container);
 
-				// Update button enabled/disabled on zoom
-				const updateButtonState = () => {
-					const zoomedIn = map.getZoom() >= 11;
-					container.disabled = !zoomedIn;
-					container.textContent = zoomedIn ? "Označi područje" : "Pre široko područje";
-				};
-
-				map.on("zoom", updateButtonState);
-
-				container.onclick = () => {
+				// get selection from current view
+				const getSelection = () => {
 					const bounds = map.getBounds();
 					const selection: MapSelection = {
 						min_latitude: bounds.getSouth(),
@@ -71,6 +64,22 @@ export default function Map2D({ onInput }: Props) {
 						max_latitude: bounds.getNorth(),
 						max_longitude: bounds.getEast(),
 					};
+					return selection;
+				}
+
+				// Update button enabled/disabled on zoom
+				const updateButtonState = () => {
+					// const valid = map.getZoom() >= 11;
+					const valid = Tile.isValidSelection(getSelection());
+					container.disabled = !valid;
+					container.textContent = valid ? "Označi područje" : "Pre široko područje";
+				};
+
+				map.on("zoom", updateButtonState);
+				map.on("drag", updateButtonState);
+
+				container.onclick = () => {
+					const selection = getSelection();
 					onInput(selection); // Trigger the prop callback
 				};
 

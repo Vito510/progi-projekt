@@ -1,8 +1,8 @@
-import './Footer.css';
+import './AppFooter.css';
 
-export default function Footer() {
+export default function AppFooter() {
     return (
-        <footer className='footer'>
+        <footer className='app-footer'>
             <i className="fa fa-chevron-up"></i>
             <div className="row centered">
                 <ul className='fa-ul'>

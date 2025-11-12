@@ -1,5 +1,5 @@
 
-.header {
+.app-header {
     width: 100%;
     height: fit-content;
     background-color: var(--block-default);
@@ -18,7 +18,7 @@
     margin-bottom: var(--thickness);
 }
 
-.header img {
+.app-header img {
     object-fit: cover;
     height: 3rem;
     aspect-ratio: 1;
@@ -30,13 +30,13 @@
 /* ------------------------------------------------------- */
 
 @media screen and (max-width: 768px) {
-    .header button {
+    .app-header button {
         padding: 0rem;
         background: none;
         border: none;
     }
 
-    .header button>p {
+    .app-header button>p {
         display: none;
     }
 }

@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Button from "../general/Button";
-import Header from "../general/Header";
+import AppHeader from "../general/AppHeader";
 import ButtonProfile from "../profile/ButtonProfile";
 import ButtonSignOut from "../profile/ButtonSignOut";
 import './LoginSuccessPage.css';
@@ -12,7 +12,7 @@ export default function LoginSuccessPage() {
 
   return (
     <>
-      <Header/>
+      <AppHeader/>
       <main className="login-success-page">
         <div className="card">
           <div className="text">

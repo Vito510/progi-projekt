@@ -4,7 +4,8 @@ import FrontPage from './components/pages/FrontPage';
 import ProfilePage from './components/pages/ProfilePage';
 import MapPage from './components/pages/MapPage';
 import LoginPage from './components/pages/LoginPage';
-import LoginSuccessPage from './components/pages/LoginSuccesPage';
+import LoginSuccessPage from './components/pages/LoginSuccessPage';
+
 export default function App() {
   return (
     <BrowserRouter>

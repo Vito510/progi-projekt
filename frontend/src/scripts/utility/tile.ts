@@ -23,6 +23,12 @@ export function isValidSelection({min_latitude, min_longitude, max_latitude, max
     return (width_tiles * height_tiles) <= max_tiles;
 }
 
+export function getTileCount(selection: MapSelectionDescriptor): number {
+    const width_tiles = Math.ceil(selection.max_longitude) - Math.floor(selection.min_longitude);
+    const height_tiles = Math.ceil(selection.max_latitude) - Math.floor(selection.min_latitude);
+    return width_tiles * height_tiles;
+}
+
 function encodeHeight(height: number): Image.Pixel {
     const r = (height >> 8) & 0xFF;
     const g = height & 0xFF;

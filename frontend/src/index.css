@@ -1,28 +1,21 @@
 
 :root {
-    /* main colors */
     --block-highlight: #313738;
     --block-default: #1b1f1f;
     --block-muted: #0f1314;
 
-    /* highlight color */  
     --accent-highlight: #91b95b;
     --accent-default: #2f6b4e;
     --accent-muted: #2b3d42;
 
-    /* alternative highlight color, for errors/warnings */
     --invalid-highlight: #cf573c;
     --invalid-default: #752438;       
     --invalid-muted: #241527;
 
-    /* regular text */
-    --text-default: white;            
-    /* text in interactable elements that are disabled */
-    --text-muted: rgb(151, 151, 151);
+    --text-default: #ffffff;            
+    --text-muted: #979797;
 
-    /* shadows for large elements */
     --shadow: var(--block-muted);     
-    /* 1px border around large elements */  
     --border: var(--accent-default);  
 
     /* --block-highlight: #423952;
@@ -43,11 +36,11 @@
 }
 
 :root {
-    font-size: 16px;        /* global page sizing, everything should use "rem" unit */
-    --roundness: 0.5rem;    /* global border radius */
-    --thickness: 0.5rem;    /* width of borders/shadows */
-    --spacing: 2rem;        /* distance between large elements (page layout)*/
-    --packing: 0.5rem;      /* distance between small elements (lists) */
+    font-size: 16px;
+    --roundness: 0.5rem;
+    --thickness: 0.5rem;
+    --spacing: 2rem;
+    --packing: 0.5rem;
 }
 
 /* WIP - light mode */
@@ -86,28 +79,12 @@
     margin: 0rem;
     padding: 0rem;
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-    position: relative;
     color: var(--text-default);
 }
 
 a {
     text-decoration: none;
     color: var(--text-default);
-}
-
-a:empty {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    top: 0%;
-    left: 0%;
-    z-index: 10;
-}
-
-ul {
-    display: flex;
-    flex-direction: column;
-    gap: var(--packing);
 }
 
 hr {
@@ -153,14 +130,6 @@ hr {
 }
 
 /* ------------------------------------------------------- */
-
-.value {
-    padding: 0.25rem 0.5rem 0.25rem 0.5rem;
-    border-radius: var(--roundness);
-    background-color: var(--block-muted);
-    border: 1px solid var(--block-highlight);
-    font-family: monospace;
-}
 
 .card {
     background-color: var(--block-default);

@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
-import './Header.css';
+import './AppHeader.css';
 
 interface Props {
     children?: ReactNode,
 }
 
-export default function Header({children}: Props) {
+export default function AppHeader({children}: Props) {
     return (
-        <header className='header'>
+        <header className='app-header'>
             <Link to={"/"}>
                 <section className="row">
                     <img src="/images/logo.png" alt="logo"/>

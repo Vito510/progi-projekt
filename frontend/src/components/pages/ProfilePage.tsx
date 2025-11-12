@@ -1,7 +1,7 @@
 import './ProfilePage.css';
 import type TrackDescriptor from '../../interfaces/TrackDescriptor';
-import Header from '../general/Header';
-import Footer from '../general/Footer';
+import AppHeader from '../general/AppHeader';
+import AppFooter from '../general/AppFooter';
 import TrackList from '../track/TrackList';
 import ButtonSignOut from '../profile/ButtonSignOut';
 import TrackListStats from '../track/TrackListStats';
@@ -23,10 +23,10 @@ export default function ProfilePage() {
 
     return (
         <>
-            <Header>
+            <AppHeader>
                 <ButtonNewTrack></ButtonNewTrack>
                 <ButtonSignOut></ButtonSignOut>
-            </Header>
+            </AppHeader>
             <main className='profile-page'>
                 <aside>
                     <ProfileInfo></ProfileInfo>
@@ -38,7 +38,7 @@ export default function ProfilePage() {
                     <TrackList tracks={tracks}/>
                 </menu>
             </main>
-            <Footer/>
+            <AppFooter/>
         </>
     );
 }
