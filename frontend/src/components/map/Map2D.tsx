@@ -4,9 +4,11 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map2D.css";
 import * as Tile from "../../scripts/utility/tile";
+import html2canvas from "html2canvas";
 
 interface Props {
-	onInput: (selection: MapSelection) => void | Promise<void>;
+	// onInput: (selection: MapSelection) => void | Promise<void>;
+	onInput: (selection: MapSelection, mapImage?: ImageData) => void | Promise<void>;
 }
 
 export default function Map2D({ onInput }: Props) {
@@ -65,7 +67,7 @@ export default function Map2D({ onInput }: Props) {
 						max_longitude: bounds.getEast(),
 					};
 					return selection;
-				}
+				};
 
 				// Update button enabled/disabled on zoom
 				const updateButtonState = () => {
@@ -78,9 +80,39 @@ export default function Map2D({ onInput }: Props) {
 				map.on("zoom", updateButtonState);
 				map.on("drag", updateButtonState);
 
-				container.onclick = () => {
+				container.onclick = async () => {
 					const selection = getSelection();
-					onInput(selection); // Trigger the prop callback
+					// onInput(selection); // Trigger the prop callback
+
+					// ovdje uzima sliku cijelog prozora
+					try {
+						// Capture the map element
+						const mapElement = document.getElementById("map");
+						if (!mapElement) {
+							console.error("Map element not found");
+							onInput(selection);
+							return;
+						}
+
+						const canvas = await html2canvas(mapElement, {
+							useCORS: true,
+							allowTaint: true,
+							logging: false,
+						});
+
+						// Extract ImageData from canvas
+						const ctx = canvas.getContext("2d");
+						if (ctx) {
+							const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+							onInput(selection, imageData);
+						} else {
+							console.error("Could not get canvas context");
+							onInput(selection);
+						}
+					} catch (err) {
+						console.error("Error capturing map:", err);
+						onInput(selection);
+					}
 				};
 
 				return container;
