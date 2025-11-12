@@ -27,7 +27,7 @@ export default function FrontPage() {
         <>
             <AppHeader>
                 <ButtonNewTrack></ButtonNewTrack>
-                {auth.user ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
+                {auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
             </AppHeader>
             <main className='front-page'>
                 <div className="banner"></div>

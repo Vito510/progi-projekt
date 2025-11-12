@@ -9,17 +9,17 @@ import './LoginSuccessPage.css';
 export default function LoginSuccessPage() {
   const { user } = useAuth();
 
-
   return (
     <>
       <AppHeader/>
       <main className="login-success-page">
         <div className="card">
-          <div className="text">
+          <header>
             <h1>Pozdrav, {user?.name}!</h1>
             <p>Uspješno ste se prijavili u aplikaciju.</p>
-          </div>
-          <div className="buttons">
+          </header>
+
+          <section>
             <Link to={"/"}>
               <Button>
                 <p>Glavna stranica</p>
@@ -28,7 +28,7 @@ export default function LoginSuccessPage() {
             </Link>
             <ButtonProfile></ButtonProfile>
             <ButtonSignOut></ButtonSignOut>
-          </div>
+          </section>
         </div>
       </main>
     </>
