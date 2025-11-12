@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,8 +26,9 @@ public class SecurityConfig {
                         .oauth2Login(oauth2 -> oauth2
                                 .successHandler((request, response, authentication) -> {
 
-                                    String userEmail = authentication.getPrincipal().toString();
-                                    System.out.println(userEmail);
+                                    OAuth2User user = (OAuth2User) authentication.getPrincipal();
+                                    String userEmail = user.getAttribute("email");
+                                    System.out.println(userEmail+" logged in");
                                     JwtUtil jwtUtil = new JwtUtil();
                                     String token = jwtUtil.generateToken(userEmail);
 

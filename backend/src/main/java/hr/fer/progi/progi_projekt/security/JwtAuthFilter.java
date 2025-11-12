@@ -35,13 +35,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String jwt = null;
         String email = null;
 
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
-                if ("jwt".equals(cookie.getName())) {
-                    jwt = cookie.getValue();
-                    break;
-                }
-            }
+        if (request.getHeader("Authorization") != null) {
+            jwt = request.getHeader("Authorization").substring(7);
+            System.out.println("JWT: " + jwt);
         }
 
         if (jwt != null) {
@@ -49,7 +45,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            if (jwtUtil.isTokenValid(jwt, email)) {
+            if (isValidUser(email)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
                                 new User(email, "", Collections.emptyList()),
@@ -62,5 +58,19 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         filterChain.doFilter(request, response);
+    }
+
+    private Boolean isValidUser(String email) {
+
+//        tu trebamo sad u bazi vidjeti jel postoji email, ali cu za sada hardcodat
+        if (email.equals("gamingthrowawaywowcoolpastname@gmail.com")) {
+            System.out.println("Dobro nam dosao Vito");
+            return true;
+        } else {
+            System.out.println("Invalid email: "+email);
+        }
+
+
+        return false;
     }
 }
