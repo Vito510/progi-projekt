@@ -1,7 +1,28 @@
-# Planinarko
 
-| ![logo](frontend/public/images/favicon.ico) | ![banner](frontend/public/images/banner.webp) |
-| - | - |
+<table>
+<tr>
+   <td colspan=2>
+
+   # Planinarko
+   </td>
+</tr>
+<tr>
+   <td>
+   
+   ![logo](frontend/public/images/favicon.ico)
+   </td>
+   <td>
+
+   ![banner](frontend/public/images/banner.webp)
+   </td>
+</tr>
+<tr>
+   <td colspan=2>
+
+   Aplikacija dostupna ovdje: [https://planinarko.onrender.com/](https://planinarko.onrender.com/)
+   </td>
+</tr>
+</table>
 
 # Opis projekta
 Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
