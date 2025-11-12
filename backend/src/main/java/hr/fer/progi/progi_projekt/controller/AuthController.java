@@ -1,5 +1,7 @@
 package hr.fer.progi.progi_projekt.controller;
 
+import hr.fer.progi.progi_projekt.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +15,29 @@ public class AuthController {
 
     // API za FE da dohvatimo trenutno prijavljenog korisnika
     @GetMapping("/me")
-    public Map<String, Object> getCurrentUser(@AuthenticationPrincipal OAuth2User user) {
-        if (user == null) {
+    public Map<String, Object> getCurrentUser(HttpServletRequest request) {
+
+        String jwt = null;
+        String email = null;
+        JwtUtil jwtUtil = new JwtUtil();
+        if (request.getHeader("Authorization") != null) {
+            jwt = request.getHeader("Authorization").substring(7);
+            System.out.println("/me JWT: " + jwt);
+        }
+
+        if (jwt != null) {
+            email = jwtUtil.extractUsername(jwt);
+        }
+
+//        TODO: provjera email-a u bazi + dobivanje username (trenutno hardcoded)
+
+        if (email == null || !email.equals("gamingthrowawaywowcoolpastname@gmail.com")) {
             return Map.of("authenticated", false);
         }
         return Map.of(
                 "authenticated", true,
-                "name", user.getAttribute("name"),
-                "email", user.getAttribute("email")
+                "name", "bito",
+                "email", email
         );
     }
 
