@@ -13,6 +13,7 @@
 
     background-color: #00000080;
     z-index: 500;
+    padding: var(--spacing);
 }
 
 .popup>.popup-card {
@@ -41,10 +42,20 @@
 
 .popup>.popup-card>header>i, .popup>.popup-card>header>span {
     font-size: 2rem;
-    color: var(--invalid-highlight);
+    color: var(--invalid-default);
 }
 
 .popup>.popup-card>section {
     padding: 1rem;
     font-family: monospace;
+
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: space-between;
+    gap: var(--packing);
+}
+
+.popup button {
+    border: none;
 }

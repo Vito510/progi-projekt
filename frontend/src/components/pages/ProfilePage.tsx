@@ -7,6 +7,7 @@ import ButtonSignOut from '../profile/ButtonSignOut';
 import TrackListStats from '../track/TrackListStats';
 import ProfileInfo from '../profile/ProfileInfo';
 import ButtonNewTrack from '../track/ButtonNewTrack';
+import Placeholder from '../general/Placeholder';
 
 export default function ProfilePage() {
         let track: TrackDescriptor = {
@@ -35,7 +36,10 @@ export default function ProfilePage() {
                 </aside>
                 <menu>
                     <h1>Korisničke staze</h1>
-                    <TrackList tracks={tracks}/>
+                    <Placeholder>
+                        [Nedovršeno]
+                        <TrackList tracks={tracks}/>
+                    </Placeholder>
                 </menu>
             </main>
             <AppFooter/>

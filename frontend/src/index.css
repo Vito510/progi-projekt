@@ -8,15 +8,19 @@
     --accent-default: #2f6b4e;
     --accent-muted: #2b3d42;
 
-    --invalid-highlight: #cf573c;
-    --invalid-default: #752438;       
-    --invalid-muted: #241527;
+    --invalid-highlight: #c5707e;
+    --invalid-default: #cf3173;       
+    --invalid-muted: #3b1826;
 
     --text-default: #ffffff;            
     --text-muted: #979797;
 
     --shadow: var(--block-muted);     
     --border: var(--accent-default);  
+
+    /* --invalid-highlight: #cf573c;
+    --invalid-default: #752438;       
+    --invalid-muted: #241527; */
 
     /* --block-highlight: #423952;
     --block-default: #373141;         

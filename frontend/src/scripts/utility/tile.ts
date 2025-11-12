@@ -52,8 +52,8 @@ function getUrl(latitude: number, longitude: number): string {
     return url;
 }
 
-export async function fetchTile(longitude: number, latitude: number): Promise<ImageData> {
-    console.log("Fetching: ", latitude, longitude);
+async function fetchTile(longitude: number, latitude: number): Promise<ImageData> {
+    // console.log("Fetching: ", latitude, longitude);
     const url = getUrl(latitude, longitude);
     const compressed_data = await (await fetch(url)).arrayBuffer();
     const decompressed_data = pako.inflate(new Uint8Array(compressed_data));

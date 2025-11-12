@@ -51,7 +51,7 @@ export default function Map2D({ onInput }: Props) {
 			options: { position: "topright" }, // position of the button
 			onAdd: function (map: any) {
 				const container = L.DomUtil.create("button", "coord-button");
-				container.textContent = "Pre široko područje";
+				container.textContent = "Pre veliko područje (zumirajte)";
 				container.disabled = true;
 
 				// Prevent map dragging when clicking the button
@@ -74,7 +74,7 @@ export default function Map2D({ onInput }: Props) {
 					// const valid = map.getZoom() >= 11;
 					const valid = Tile.isValidSelection(getSelection());
 					container.disabled = !valid;
-					container.textContent = valid ? "Označi područje" : "Pre široko područje";
+					container.textContent = valid ? "Odaberi područje" : "Pre veliko područje (zumirajte)";
 				};
 
 				map.on("zoom", updateButtonState);

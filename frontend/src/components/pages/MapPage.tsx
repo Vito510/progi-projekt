@@ -14,7 +14,7 @@ import ButtonProfile from "../profile/ButtonProfile";
 import ButtonSignIn from "../profile/ButtonSignIn";
 
 export default function MapPage() {
-	let [element, setElement] = useState<ReactNode>(<Map2D onInput={handler} />);
+	let [element, setElement] = useState<ReactNode>(<Map2D onInput={handler}/>);
 	// const [element, setElement] = useState<ReactNode>(<MapLoading>{`Fetching 5 tiles...`}</MapLoading>);
 	const auth = useAuth();
 
