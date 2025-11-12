@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Button from "../general/Button";
@@ -8,6 +9,18 @@ import './LoginSuccessPage.css';
 
 export default function LoginSuccessPage() {
   const { user } = useAuth();
+  
+  useEffect(
+    () => {
+        const queryParams = new URLSearchParams(window.location.search);
+        const token = queryParams.get("token");
+
+        if (token) {
+          console.log("Found user token:", token)
+          sessionStorage.setItem("authToken", token);
+        }
+    }
+  )
 
   return (
     <>

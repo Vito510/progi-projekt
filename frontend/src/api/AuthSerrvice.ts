@@ -5,7 +5,10 @@ export interface UserResponse {
   }
   
   export async function fetchCurrentUser(): Promise<UserResponse> {
-    const res = await fetch("/me", { credentials: "include" });
+    const res = await fetch("/me", { 
+      credentials: "include", 
+      headers: { Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}` } 
+    }); 
     if (!res.ok) {
       return { authenticated: false };
     }
