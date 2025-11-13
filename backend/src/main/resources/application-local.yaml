@@ -1,6 +1,6 @@
 app:
   hostname: ${HOSTNAME}
-  frontend-url: "https://planinarko.onrender.com"
+  frontend-url: "http://localhost:5173"
 server:
   servlet:
     session:
