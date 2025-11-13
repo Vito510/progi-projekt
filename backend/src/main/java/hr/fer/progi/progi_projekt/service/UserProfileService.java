@@ -16,8 +16,8 @@ public class UserProfileService {
     private final UserRepository userRepo;
     // DEBUG (umjesto ovoga podaci trebaju biti u bazi podataka)
     List<UserProfile> profileList = new ArrayList<UserProfile>(Arrays.asList(
-        new UserProfile(1101, "vladimir", "vladi.mir@gmail.com", Role.ADMIN),
-        new UserProfile(1234, "bananaman", "danko.bananko@gmail.com", Role.USER)
+        new UserProfile("vladimir", "vladi.mir@gmail.com", Role.ADMIN),
+        new UserProfile("bananaman", "danko.bananko@gmail.com", Role.USER)
     ));
 
     public UserProfileService(UserRepository userRepo) {
@@ -30,6 +30,14 @@ public class UserProfileService {
 
     public boolean userExistsByEmail(String email) {
         return userRepo.existsByEmail(email);
+    }
+
+    public boolean userExistsByUsername(String username) {
+        return userRepo.existsByUsername(username);
+    }
+
+    public void saveUserProfile(UserProfile userProfile) {
+        userRepo.save(userProfile);
     }
 
     public UserProfile getUserProfileByEmail(String email) {

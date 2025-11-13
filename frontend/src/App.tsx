@@ -5,6 +5,7 @@ import ProfilePage from './components/pages/ProfilePage';
 import MapPage from './components/pages/MapPage';
 import LoginPage from './components/pages/LoginPage';
 import LoginSuccessPage from './components/pages/LoginSuccessPage';
+import RegisterPage from './components/pages/RegisterPage';
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
             <Route path="/map" element={<MapPage/>}/>
             <Route path="/login" element={<LoginPage/>}/>
             <Route path="/login-success" element={<LoginSuccessPage />} />
+            <Route path="/register" element={<RegisterPage/>}/>
         </Routes>
     </BrowserRouter>
   );

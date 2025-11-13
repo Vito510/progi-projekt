@@ -10,7 +10,9 @@ export default defineConfig({
     proxy: {
       '/me': backend,
       '/auth': backend,
-      '/logout': backend
+      '/logout': backend,
+      '/check-username': backend,
+      '/create-user': backend
     }
   }
 })

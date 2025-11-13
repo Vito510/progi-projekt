@@ -13,6 +13,7 @@ import hr.fer.progi.progi_projekt.model.enums.Role;
 @Component
 public class UserProfile {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment
     @Column(name = "userid")
     private int id;
 
@@ -29,8 +30,7 @@ public class UserProfile {
 
     }
     
-    public UserProfile(int id, String username, String email, Role role) {
-        this.id = id;
+    public UserProfile(String username, String email, Role role) {
         this.username = username;
         this.email = email;
         this.role = role;
@@ -38,9 +38,8 @@ public class UserProfile {
         this.starredRoutes = new ArrayList<>();
     }
 
-    public UserProfile(int id, String username, String email, Role role, List<UserRoute> userRoutes,
+    public UserProfile(String username, String email, Role role, List<UserRoute> userRoutes,
             List<UserRoute> starredRoutes) {
-        this.id = id;
         this.username = username;
         this.email = email;
         this.role = role;

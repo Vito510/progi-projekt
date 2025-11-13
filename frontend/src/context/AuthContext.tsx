@@ -32,7 +32,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const logout = () => {
-    window.location.href = "/logout";
+    sessionStorage.removeItem("authToken")
+    window.location.href = "/";
   };
 
   return (
