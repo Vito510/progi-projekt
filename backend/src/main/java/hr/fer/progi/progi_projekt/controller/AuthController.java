@@ -4,6 +4,7 @@ import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.service.UserProfileService;
 import hr.fer.progi.progi_projekt.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,8 @@ import java.util.Optional;
 @RestController
 public class AuthController {
 
-    UserProfileController userProfileController;
+    @Autowired
+    private UserProfileService userProfileService;
 
     // API za FE da dohvatimo trenutno prijavljenog korisnika
     @GetMapping("/me")
@@ -36,7 +38,7 @@ public class AuthController {
         }
 
         if (email != null) {
-            user = userProfileController.getProfileByEmail(email);
+            user = userProfileService.getUserProfileByEmail(email);
         }
 
         if (user != null) {

@@ -32,8 +32,8 @@ public class UserProfileService {
         return userRepo.existsByEmail(email);
     }
 
-    public Optional<UserProfile> getUserProfileByEmail(String email) {
-        return userRepo.findByEmail(email);
+    public UserProfile getUserProfileByEmail(String email) {
+        return userRepo.findByEmail(email).orElse(null);
     }
 
     public UserProfile register(UserProfile profile) {

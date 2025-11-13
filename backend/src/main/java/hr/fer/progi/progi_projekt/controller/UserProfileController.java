@@ -21,7 +21,7 @@ public class UserProfileController {
     }
 
     public UserProfile getProfileByEmail(String email) {
-        return userProfileService.getUserProfileByEmail(email).orElse(null);
+        return userProfileService.getUserProfileByEmail(email);
     }
     @GetMapping("/test")
     public void Test() {
