@@ -59,7 +59,7 @@ export default function Map3D({params}: Props) {
     }
 
     return (
-        <div className='map3d card'>
+        <div className='map3d'>
             <canvas ref={canvasRef}></canvas>
             <menu>
                 <Placeholder>

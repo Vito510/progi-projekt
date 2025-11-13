@@ -18,13 +18,20 @@
     margin-bottom: var(--thickness);
 }
 
+/* ------------------------------------------------------- */
+
 .app-header img {
     object-fit: cover;
     height: 3rem;
     aspect-ratio: 1;
-    /* border-radius: var(--roundness); */
     border-radius: 50%;
     background-color: var(--block-muted);
+}
+
+.app-header section {
+    display: flex;
+    flex-direction: row;
+    gap: var(--packing);
 }
 
 /* ------------------------------------------------------- */

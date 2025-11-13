@@ -10,12 +10,12 @@ export default function AppHeader({children}: Props) {
     return (
         <header className='app-header'>
             <Link to={"/"}>
-                <section className="row">
+                <section>
                     <img src="/images/logo.png" alt="logo"/>
                     <h1>Planinarko</h1>
                 </section>
             </Link>
-            <section className="row wide">
+            <section>
                 {children}
             </section>
         </header>

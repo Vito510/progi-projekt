@@ -6,6 +6,11 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    
+    background-color: var(--block-default);
+    border-radius: var(--roundness);
+    box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
+    border: 1px solid var(--border);
 }
 
 .map3d>canvas {

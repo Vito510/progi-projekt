@@ -4,9 +4,9 @@ export default function AppFooter() {
     return (
         <footer className='app-footer'>
             <i className="fa fa-chevron-up"></i>
-            <div className="row centered">
+            <section>
                 <ul className='fa-ul'>
-                    <h2>Članovi tima</h2>
+                    <li><h3>Članovi tima</h3></li>
                     <li><i className="fa-li fa fa-chevron-right"></i> Vito Čuić</li>
                     <li><i className="fa-li fa fa-chevron-right"></i> Martin Golub</li>
                     <li><i className="fa-li fa fa-chevron-right"></i> Antonio Zulim</li>
@@ -18,7 +18,7 @@ export default function AppFooter() {
                 <a href="https://www.fer.unizg.hr/">
                     <img src="/images/FER.png" alt="fer"/>
                 </a>
-            </div>
+            </section>
         </footer>
     );
 }
