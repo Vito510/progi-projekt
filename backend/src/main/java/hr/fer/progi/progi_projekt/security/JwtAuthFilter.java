@@ -38,7 +38,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String jwt = null;
         String email = null;
 
-        if (request.getHeader("Authorization") != null) {
+        if (request.getHeader("Authorization") != null && request.getHeader("Authorization").length() > 7) {
             jwt = request.getHeader("Authorization").substring(7);
             System.out.println("JWT: " + jwt);
         }

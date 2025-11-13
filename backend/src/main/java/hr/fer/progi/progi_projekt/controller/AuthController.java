@@ -26,7 +26,7 @@ public class AuthController {
         String email = null;
         UserProfile user = null;
         JwtUtil jwtUtil = new JwtUtil();
-        if (request.getHeader("Authorization") != null) {
+        if (request.getHeader("Authorization") != null && request.getHeader("Authorization").startsWith("Bearer ")) {
             jwt = request.getHeader("Authorization").substring(7);
             System.out.println("/me JWT: " + jwt);
         }
