@@ -20,5 +20,6 @@ export interface UserResponse {
   }
   
   export function logout() {
-    window.location.href = "/logout";
+    sessionStorage.removeItem("authToken")
+    window.location.href = "/";
   }
