@@ -3,7 +3,9 @@ package hr.fer.progi.progi_projekt.service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import hr.fer.progi.progi_projekt.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import hr.fer.progi.progi_projekt.model.UserProfile;
@@ -11,11 +13,28 @@ import hr.fer.progi.progi_projekt.model.enums.*;
 
 @Service
 public class UserProfileService {
+    private final UserRepository userRepo;
     // DEBUG (umjesto ovoga podaci trebaju biti u bazi podataka)
     List<UserProfile> profileList = new ArrayList<UserProfile>(Arrays.asList(
         new UserProfile(1101, "vladimir", "vladi.mir@gmail.com", Role.ADMIN),
         new UserProfile(1234, "bananaman", "danko.bananko@gmail.com", Role.USER)
     ));
+
+    public UserProfileService(UserRepository userRepo) {
+        this.userRepo = userRepo;
+    }
+
+    public List<UserProfile> getAllUserProfiles() {
+        return userRepo.findAll();
+    }
+
+    public boolean userExistsByEmail(String email) {
+        return userRepo.existsByEmail(email);
+    }
+
+    public Optional<UserProfile> getUserProfileByEmail(String email) {
+        return userRepo.findByEmail(email);
+    }
 
     public UserProfile register(UserProfile profile) {
         // TODO autorizirati

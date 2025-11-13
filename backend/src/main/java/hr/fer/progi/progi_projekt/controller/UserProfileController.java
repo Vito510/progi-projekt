@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.service.UserProfileService;
 
+import java.util.Optional;
+
 @RestController
 public class UserProfileController {
     UserProfileService userProfileService;
@@ -16,6 +18,15 @@ public class UserProfileController {
     @GetMapping("/profile/{id}")
     public UserProfile getProfile(@PathVariable int id) {
         return userProfileService.getProfile(id);
+    }
+
+    public UserProfile getProfileByEmail(String email) {
+        return userProfileService.getUserProfileByEmail(email).orElse(null);
+    }
+    @GetMapping("/test")
+    public void Test() {
+        System.out.println(userProfileService.getUserProfileByEmail("test@gmail.com"));
+        System.out.println(userProfileService.getAllUserProfiles());
     }
 
     @PostMapping("/profile")

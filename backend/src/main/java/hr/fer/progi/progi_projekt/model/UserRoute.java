@@ -1,11 +1,15 @@
 package hr.fer.progi.progi_projekt.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import org.springframework.stereotype.Component;
 
 import hr.fer.progi.progi_projekt.model.enums.RouteAvailability;
 
+@Entity
 @Component
 public class UserRoute {
+    @Id
     private int id;
     private int ownerId;
     private RouteAvailability availability;

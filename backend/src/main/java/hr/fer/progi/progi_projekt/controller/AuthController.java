@@ -1,5 +1,7 @@
 package hr.fer.progi.progi_projekt.controller;
 
+import hr.fer.progi.progi_projekt.model.UserProfile;
+import hr.fer.progi.progi_projekt.service.UserProfileService;
 import hr.fer.progi.progi_projekt.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -9,9 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 public class AuthController {
+
+    UserProfileController userProfileController;
 
     // API za FE da dohvatimo trenutno prijavljenog korisnika
     @GetMapping("/me")
@@ -19,6 +24,7 @@ public class AuthController {
 
         String jwt = null;
         String email = null;
+        UserProfile user = null;
         JwtUtil jwtUtil = new JwtUtil();
         if (request.getHeader("Authorization") != null) {
             jwt = request.getHeader("Authorization").substring(7);
@@ -29,16 +35,20 @@ public class AuthController {
             email = jwtUtil.extractUsername(jwt);
         }
 
-//        TODO: provjera email-a u bazi + dobivanje username (trenutno hardcoded)
-
-        if (email == null || !email.equals("gamingthrowawaywowcoolpastname@gmail.com")) {
-            return Map.of("authenticated", false);
+        if (email != null) {
+            user = userProfileController.getProfileByEmail(email);
         }
-        return Map.of(
-                "authenticated", true,
-                "name", "bito",
-                "email", email
-        );
+
+        if (user != null) {
+            return Map.of(
+                    "authenticated", true,
+                    "name", user.getUsername(),
+                    "email", email);
+        }
+
+
+        return Map.of("authenticated", false);
+
     }
 
     // Endpoint za početak Google login-a
