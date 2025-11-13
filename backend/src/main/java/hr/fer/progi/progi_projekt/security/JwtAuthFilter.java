@@ -1,6 +1,7 @@
 package hr.fer.progi.progi_projekt.security;
 
 
+import hr.fer.progi.progi_projekt.service.UserProfileService;
 import hr.fer.progi.progi_projekt.util.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,6 +22,7 @@ import java.util.Collections;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
+    UserProfileService userProfileService;
 
     public JwtAuthFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
@@ -61,16 +63,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     }
 
     private Boolean isValidUser(String email) {
-
-//        tu trebamo sad u bazi vidjeti jel postoji email, ali cu za sada hardcodat
-        if (email.equals("gamingthrowawaywowcoolpastname@gmail.com")) {
-            System.out.println("Dobro nam dosao Vito");
-            return true;
-        } else {
-            System.out.println("Invalid email: "+email);
-        }
-
-
-        return false;
+        return userProfileService.userExistsByEmail(email);
     }
 }
