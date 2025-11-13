@@ -14,7 +14,9 @@ export default defineConfig({
         secure: false
       },
       '/auth': backend,
-      '/logout': backend
+      '/logout': backend,
+      '/check-username': backend,
+      '/create-user': backend
     }
   }
 })

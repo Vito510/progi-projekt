@@ -1,7 +1,9 @@
 package hr.fer.progi.progi_projekt.security;
 
+import hr.fer.progi.progi_projekt.service.UserProfileService;
 import hr.fer.progi.progi_projekt.util.JwtUtil;
 import jakarta.servlet.http.Cookie;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,9 @@ public class SecurityConfig {
     @Value("${app.frontend-url}")
     private String frontendUrl;
 
+    @Autowired
+    private UserProfileService userProfileService;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
         http
@@ -36,7 +41,16 @@ public class SecurityConfig {
                                     JwtUtil jwtUtil = new JwtUtil();
                                     String token = jwtUtil.generateToken(userEmail);
 
-                                    response.sendRedirect(frontendUrl+"/login-success?token=" + token);
+
+                                    if (userProfileService.userExistsByEmail(userEmail)) {
+                                        // korisnik vec postoji
+                                        response.sendRedirect(frontendUrl+"/login-success?token=" + token);
+                                    } else {
+                                        // daj da kreira username i dodaj u bazu
+                                        response.sendRedirect(frontendUrl+"/register?token=" + token);
+                                    }
+
+
                                 })
                         )                .logout(logout -> logout
                         .logoutUrl("/logout")
