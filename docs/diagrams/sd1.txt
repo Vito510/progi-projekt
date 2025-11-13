@@ -1,0 +1,34 @@
+```mermaid
+zenuml
+    title Ulogiranje i registracija
+    @Actor K as "Korisnik"
+    @VirtualMachine A as "Aplikacija"
+    @CloudStorage P as "Poslužitelj"
+    @CloudSQL B as "Baza podataka"
+    @GoogleSecurity O as "OAuth2.0"
+
+    K->A."prijava" {
+        P."prosljeđivanje podataka za prijavu" {
+            P->O."autentifikacija"
+            B."postoji li profil"
+            if ("profil postoji")   {
+                return "završena prijava"
+                A->A."izgradnja stranice profila"
+                A->K: prikaz stranice profila
+            } else {
+                return "profil ne postoji"
+                A->A: preusmjeravanjae na registraciju
+                A->K: prikaz stranice za registraciju
+            }
+        }
+    }
+
+    K->A."registracija" {
+        P."prosljeđivanje podataka o registraciji" {
+            B."stvaranje profila"
+            return "završena prijava"
+        }
+        "izgradnja stranice profila"
+        return "prikaz stranice profila"
+    }
+```
