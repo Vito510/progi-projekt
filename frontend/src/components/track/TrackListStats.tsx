@@ -7,7 +7,7 @@ export default function TrackListStats({tracks}: TrackListDescriptor) {
     const n_private = tracks.map((el) => Number(el.visibility === 'Private')).reduce((acc, curr) => acc + curr);
 
     return (
-        <ul className="track-list-stats">
+        <ul className="-track-list-stats">
             <li>
                 <p><i className="fa fa-star fa-fw"></i> Zvjezdice</p> 
                 <p className="value">{sum_stars}</p> 

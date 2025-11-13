@@ -1,5 +1,5 @@
 
-.profile-page>aside {
+.-profile-page>aside {
     display: flex;
     flex-direction: column;
     align-items: start;
@@ -15,12 +15,12 @@
     animation-duration: 0.5s;
 }
 
-.profile-page>aside>ul {
+.-profile-page>aside>ul {
     width: 100%;
     padding: var(--spacing);
 }
 
-.profile-page>aside>ul>li {
+.-profile-page>aside>ul>li {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -29,7 +29,7 @@
 
 /* ------------------------------------------------------- */
 
-.profile-page>menu {
+.-profile-page>menu {
     min-height: 0rem;
 
     display: flex;
@@ -40,7 +40,7 @@
 
 /* ------------------------------------------------------- */
 
-.profile-page {
+.-profile-page {
     min-width: fit-content;
     width: 50%;
     height: 100%;
@@ -59,8 +59,8 @@
     padding: var(--spacing);
 }
 
-.profile-page>menu {grid-area: m;}
-.profile-page>aside {grid-area: a;}
+.-profile-page>menu {grid-area: m;}
+.-profile-page>aside {grid-area: a;}
 
 @media screen and (max-width: 768px) {
     .profile-page {

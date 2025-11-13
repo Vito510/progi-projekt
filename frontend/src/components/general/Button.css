@@ -1,5 +1,5 @@
 
-button {
+.-button button {
     transition: background-color 0.25s;
     user-select: none;
     position: relative;
@@ -16,23 +16,23 @@ button {
     border: 1px solid var(--accent-highlight);
 }
 
-button:hover {
+.-button button:hover {
     transition: background-color 0.25s;
     cursor: pointer;
     background-color: var(--accent-default);
 }
 
-button:active {
+.-button button:active {
     transition: background-color 0.1s;
     background-color: var(--accent-highlight);
 }
 
-button.square {
+.-button button.square {
     padding: 0.5rem;
     aspect-ratio: 1;
 }
 
-button.round {
+.-button button.round {
     border-radius: 50%;
     padding: 0.5rem;
     aspect-ratio: 1;

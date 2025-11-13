@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import AppHeader from "../general/AppHeader";
 import Button from "../general/Button";
 import ButtonProfile from "../profile/ButtonProfile";
 import ButtonSignOut from "../profile/ButtonSignOut";
 import "./LoginPage.css";
+import ButtonHome from "../profile/ButtonHome";
 
 export default function LoginPage() {
   const { user, login } = useAuth();
@@ -12,7 +12,7 @@ export default function LoginPage() {
   return (
     <>
       <AppHeader />
-      <main className="login-page">
+      <main className="-login-page">
           {user?.authenticated ? (
             <div className="login-card">
               <div className="login-header">
@@ -20,12 +20,7 @@ export default function LoginPage() {
                 <p className="login-subtitle">Uspješno ste se prijavili u aplikaciju.</p>
               </div>
               <div className="login-body">
-                <Link to={"/"}>
-                  <Button>
-                    <p>Glavna stranica</p>
-                    <i className="fa fa-home fa-lg"></i>
-                  </Button>
-                </Link>
+                <ButtonHome></ButtonHome>
                 <ButtonProfile></ButtonProfile>
                 <ButtonSignOut></ButtonSignOut>
               </div>
@@ -37,7 +32,9 @@ export default function LoginPage() {
                 <p className="login-subtitle">Prijavite se u svoji profil</p>
               </div>
               <div className="login-body">
-                <button type="button" onClick={login} className="login-button">Login with Google</button>
+                <Button onClick={login}>
+                  Login with Google
+                </Button>
               </div>
             </div>
           )}

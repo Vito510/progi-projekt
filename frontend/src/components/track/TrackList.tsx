@@ -4,7 +4,7 @@ import "./TrackList.css";
 
 export default function TrackList({ tracks }: TrackListDescriptor) {
   return (
-    <ul className="track-list">
+    <ul className="-track-list">
       {tracks.map((track, index) => (
         <TrackCard
           key={index}

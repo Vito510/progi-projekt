@@ -1,11 +1,11 @@
-.profile-info {
+.-profile-info {
     width: 100%;
     padding: var(--spacing);
     /* background-color: var(--block-highlight); */
     /* background-color: #ffffff08; */
 }
 
-.profile-info>li {
+.-profile-info>li {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

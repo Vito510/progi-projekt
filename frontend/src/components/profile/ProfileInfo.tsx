@@ -5,7 +5,7 @@ export default function ProfileInfo() {
     const auth = useAuth();
     
     return (
-        <ul className="profile-info">
+        <ul className="-profile-info">
             <li>
                 <h2>{auth.user ? auth.user.name : "Naziv profila"}</h2>
             </li>

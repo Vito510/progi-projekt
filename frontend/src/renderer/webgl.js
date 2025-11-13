@@ -1,4 +1,4 @@
-import * as Image from "./image.js";
+import * as Image from "../utility/image.js";
 
 const formats = {
     R8: {channels: "RED", type: "UNSIGNED_BYTE", filterable: true},

@@ -28,7 +28,7 @@ export default function ProfilePage() {
                 <ButtonNewTrack></ButtonNewTrack>
                 <ButtonSignOut></ButtonSignOut>
             </AppHeader>
-            <main className='profile-page'>
+            <main className='-profile-page'>
                 <aside>
                     <ProfileInfo></ProfileInfo>
                     <hr/>

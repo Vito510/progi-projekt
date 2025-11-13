@@ -1,4 +1,4 @@
-.app-footer {
+.-app-footer {
     transition: transform 1s;
     width: 100%;
     position: fixed;
@@ -20,19 +20,19 @@
     padding: 0.5rem var(--spacing) var(--spacing) var(--spacing);
 }
 
-.app-footer:hover {
+.-app-footer:hover {
     transition: transform 1s;
     transform: translate(0%, 0%);
 }
 
 /* ------------------------------------------------------- */
 
-.app-footer img {
+.-app-footer img {
     height: 15rem;
     aspect-ratio: 1;
 }
 
-.app-footer section {
+.-app-footer section {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -42,7 +42,7 @@
 /* ------------------------------------------------------- */
 
 @media screen and (max-width: 768px) {
-    .app-footer img {
+    .-app-footer img {
         height: 10rem;
     }
 }

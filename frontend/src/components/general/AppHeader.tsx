@@ -8,7 +8,7 @@ interface Props {
 
 export default function AppHeader({children}: Props) {
     return (
-        <header className='app-header'>
+        <header className='-app-header'>
             <Link to={"/"}>
                 <section>
                     <img src="/images/logo.png" alt="logo"/>

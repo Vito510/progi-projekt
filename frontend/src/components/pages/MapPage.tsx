@@ -2,7 +2,7 @@
 import { useState, type ReactNode } from "react";
 import { useAuth } from "../../context/AuthContext";
 // import * as Image from '../../scripts/utility/image';
-import * as Tile from "../../scripts/utility/tile";
+import * as Tile from "../../utility/tile";
 import type MapSelection from "../../interfaces/MapSelection";
 import AppFooter from "../general/AppFooter";
 import AppHeader from "../general/AppHeader";
@@ -41,7 +41,7 @@ export default function MapPage() {
 	return (
 		<>
 			<AppHeader>{auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}</AppHeader>
-			<main className="map-page">
+			<main className="-map-page">
 				{element}
 			</main>
 			<AppFooter />

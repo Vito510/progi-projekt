@@ -1,4 +1,4 @@
-.map-2d {
+.-map-2d {
   width: 100%;
   height: 100%;
   
@@ -8,7 +8,7 @@
   border: 1px solid var(--border);
 }
 
-.map-container {
+.-map-2d .map-container {
   position: absolute;
   top: 0;
   left: 0;
@@ -16,30 +16,24 @@
   height: 100%;
 }
 
+/* ------------------------------------------------------- */
 
-
-/* Overrideam global style i nekako radi */
-.map-2d .leaflet-control-zoom a span{
+.-map-2d .leaflet-control-zoom a span{
   color: #333;
   line-height: 26px; 
 }
 
-.map-2d .leaflet-control-layers-toggle {
+.-map-2d .leaflet-control-layers-toggle {
   background-color: #fff;
-  position: relative;
 }
 
-.leaflet-control-layers-base label span span {
+.-map-2d .leaflet-control-layers-base label span span {
   color: #333;
 }
-/* ----override done---- */
 
+/* ------------------------------------------------------- */
 
-
-
-
-
-.coord-button {
+.-map-2d .coord-button {
   padding: 6px 10px;
   background: white;
   border: 2px solid #333;
@@ -49,17 +43,17 @@
   color: #333;
 }
 
-.coord-button:hover {
+.-map-2d .coord-button:hover {
   background-color: lightgreen;
   transition: 500ms;
 }
 
-.coord-button:disabled {
+.-map-2d .coord-button:disabled {
   opacity: 0.8;
   cursor: not-allowed;
 }
 
-.coord-button:disabled:hover {
+.-map-2d .coord-button:disabled:hover {
   background-color: red;
   color: white;
   transition: 500ms;

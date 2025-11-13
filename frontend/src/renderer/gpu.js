@@ -1,6 +1,6 @@
-import * as Matrix from "../utility/matrix.js";
-import * as Vector from "../utility/vector.js";
-import * as WebGL from "../utility/webgl.js";
+import * as Matrix from "./matrix.js";
+import * as Vector from "./vector.js";
+import * as WebGL from "./webgl.js";
 import * as Image from "../utility/image.js";
 
 export default class WebGLManager {

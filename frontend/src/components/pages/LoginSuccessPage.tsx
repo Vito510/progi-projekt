@@ -1,11 +1,10 @@
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import Button from "../general/Button";
 import AppHeader from "../general/AppHeader";
 import ButtonProfile from "../profile/ButtonProfile";
 import ButtonSignOut from "../profile/ButtonSignOut";
 import './LoginSuccessPage.css';
+import ButtonHome from "../profile/ButtonHome";
 
 export default function LoginSuccessPage() {
   const { user } = useAuth();
@@ -25,7 +24,7 @@ export default function LoginSuccessPage() {
   return (
     <>
       <AppHeader/>
-      <main className="login-success-page">
+      <main className="-login-success-page">
         <div className="card">
           <header>
             <h1>Pozdrav, {user?.name}!</h1>
@@ -33,12 +32,7 @@ export default function LoginSuccessPage() {
           </header>
 
           <section>
-            <Link to={"/"}>
-              <Button>
-                <p>Glavna stranica</p>
-                <i className="fa fa-home fa-lg"></i>
-              </Button>
-            </Link>
+            <ButtonHome></ButtonHome>
             <ButtonProfile></ButtonProfile>
             <ButtonSignOut></ButtonSignOut>
           </section>

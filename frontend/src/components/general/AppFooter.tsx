@@ -2,7 +2,7 @@ import './AppFooter.css';
 
 export default function AppFooter() {
     return (
-        <footer className='app-footer'>
+        <footer className='-app-footer'>
             <i className="fa fa-chevron-up"></i>
             <section>
                 <ul className='fa-ul'>

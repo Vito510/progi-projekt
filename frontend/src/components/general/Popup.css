@@ -1,5 +1,5 @@
 
-.popup {
+.-popup {
     position: absolute;
     top: 0rem;
     left: 0rem;
@@ -16,7 +16,7 @@
     padding: var(--spacing);
 }
 
-.popup>.popup-card {
+.-popup>.-popup-card {
     width: 50%;
     min-width: fit-content;
 
@@ -28,7 +28,7 @@
     z-index: 501;
 }   
 
-.popup>.popup-card>header {
+.-popup>.-popup-card>header {
     background-color: #ffffff10;
     padding: 1rem;
 
@@ -40,12 +40,12 @@
     color: var(--invalid-default);
 }
 
-.popup>.popup-card>header>i, .popup>.popup-card>header>span {
+.-popup>.-popup-card>header>i, .-popup>.-popup-card>header>span {
     font-size: 2rem;
     color: var(--invalid-default);
 }
 
-.popup>.popup-card>section {
+.-popup>.-popup-card>section {
     padding: 1rem;
     font-family: monospace;
 
@@ -56,6 +56,6 @@
     gap: var(--packing);
 }
 
-.popup button {
+.-popup button {
     border: none;
 }

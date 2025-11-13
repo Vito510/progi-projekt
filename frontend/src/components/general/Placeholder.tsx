@@ -8,7 +8,7 @@ interface Props {
 }
 
 export default function Placeholder({children, wide = false, tall = false}: Props) {
-    let className = "placeholder"
+    let className = "-placeholder"
     if (wide) className += " wide";
     if (tall) className += " tall";
 

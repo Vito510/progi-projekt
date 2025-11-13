@@ -1,16 +1,16 @@
-.track-list-stats {
+.-track-list-stats {
     width: 100%;
     padding: var(--spacing);
 }
 
-.track-list-stats>li {
+.-track-list-stats>li {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-.track-list-stats .value {
+.-track-list-stats .value {
     padding: 0.25rem 0.5rem 0.25rem 0.5rem;
     border-radius: var(--roundness);
     background-color: var(--block-muted);

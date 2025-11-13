@@ -30,7 +30,7 @@ export default function FrontPage() {
                 <ButtonNewTrack></ButtonNewTrack>
                 {auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
             </AppHeader>
-            <main className='front-page'>
+            <main className='-front-page'>
                 <div className="banner"></div>
                 <h1>Najbolje staze</h1>
                 <Placeholder>[Nedovršeno]</Placeholder>

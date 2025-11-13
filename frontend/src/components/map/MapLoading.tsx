@@ -7,7 +7,7 @@ interface Props {
 
 export default function MapLoading({children}: Props) {
     return (
-        <div className="map-loading">
+        <div className="-map-loading">
             <header>
                 <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
                 <span>Učitavanje reljefa</span>

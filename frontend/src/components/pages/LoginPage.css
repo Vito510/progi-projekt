@@ -1,4 +1,4 @@
-.login-page {
+.-login-page {
     height: 100%;
     width: 100%;
 
@@ -9,7 +9,7 @@
 
 /* ------------------------------------------------------- */
 
-.login-page>.login-card {
+.-login-page>.login-card {
     background: var(--block-default);
     box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
     border-radius: calc(2 * var(--roundness));
@@ -18,20 +18,20 @@
 
 /* ------------------------------------------------------- */
 
-.login-page .login-header {
+.-login-page .login-header {
     background-color: #ffffff08;
 
     padding: var(--spacing);
 }
 
-.login-page .login-subtitle {
+.-login-page .login-subtitle {
     font-size: 0.9rem;
     color: var(--text-muted);
 }
 
 /* ------------------------------------------------------- */
 
-.login-page .login-body {
+.-login-page .login-body {
     padding: var(--spacing);
     display: flex;
     flex-direction: row;
@@ -39,7 +39,7 @@
     gap: var(--packing);
 }
 
-.login-page button {
+.-login-page button {
     width: 100%;
     border: none;
     font-size: 1rem;
