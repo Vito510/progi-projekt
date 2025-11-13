@@ -1,0 +1,47 @@
+.-login-page {
+    height: 100%;
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ------------------------------------------------------- */
+
+.-login-page>.login-card {
+    background: var(--block-default);
+    box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
+    border-radius: calc(2 * var(--roundness));
+    overflow: hidden;
+}
+
+/* ------------------------------------------------------- */
+
+.-login-page .login-header {
+    background-color: #ffffff08;
+
+    padding: var(--spacing);
+}
+
+.-login-page .login-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* ------------------------------------------------------- */
+
+.-login-page .login-body {
+    padding: var(--spacing);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--packing);
+}
+
+.-login-page button {
+    width: 100%;
+    border: none;
+    font-size: 1rem;
+    width: max-content;
+}

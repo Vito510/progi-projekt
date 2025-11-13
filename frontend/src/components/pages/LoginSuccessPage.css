@@ -1,0 +1,65 @@
+
+.-login-success-page {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ------------------------------------------------------- */
+
+.-login-success-page>.card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: calc(2 * var(--roundness));
+    
+    background-color: var(--block-default);
+    border-radius: var(--roundness);
+    box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
+}
+
+/* ------------------------------------------------------- */
+
+.-login-success-page>.card header {
+    padding: var(--spacing);
+    background-color: #ffffff08;
+    border: none;
+    
+    display: flex;
+    flex-direction: column;
+    gap: var(--packing);
+}
+
+.-login-success-page .card>header>p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* ------------------------------------------------------- */
+
+
+.-login-success-page>.card section {
+    padding: var(--spacing);
+
+    display: flex;
+    flex-direction: row;
+    gap: var(--packing);
+}
+
+.-login-success-page>.card button {
+    border: none;
+}
+
+/* ------------------------------------------------------- */
+
+@media screen and (max-width: 768px) {
+    .-login-success-page>.card> section {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+}

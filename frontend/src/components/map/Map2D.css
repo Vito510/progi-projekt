@@ -1,0 +1,60 @@
+.-map-2d {
+  width: 100%;
+  height: 100%;
+  
+  background-color: var(--block-default);
+  border-radius: var(--roundness);
+  box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.-map-2d .map-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ------------------------------------------------------- */
+
+.-map-2d .leaflet-control-zoom a span{
+  color: #333;
+  line-height: 26px; 
+}
+
+.-map-2d .leaflet-control-layers-toggle {
+  background-color: #fff;
+}
+
+.-map-2d .leaflet-control-layers-base label span span {
+  color: #333;
+}
+
+/* ------------------------------------------------------- */
+
+.-map-2d .coord-button {
+  padding: 6px 10px;
+  background: white;
+  border: 2px solid #333;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #333;
+}
+
+.-map-2d .coord-button:hover {
+  background-color: lightgreen;
+  transition: 500ms;
+}
+
+.-map-2d .coord-button:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+.-map-2d .coord-button:disabled:hover {
+  background-color: red;
+  color: white;
+  transition: 500ms;
+}

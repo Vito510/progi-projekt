@@ -1,0 +1,43 @@
+
+.-map-loading {
+    display: flex;
+    flex-direction: column;
+
+    border-radius: var(--roundness);
+    overflow: hidden;
+    background-color: var(--block-default);
+
+
+    /* background: linear-gradient(0deg, black, white);
+    animation-name: identifier;
+    animation-duration: 4s; */
+    box-shadow: inset 0px 2px 0px #ffffff10, 0px 2px 5px #000000ff, 0px 2px 10px #00000040;
+}
+
+.-map-loading>header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    padding: 1rem;
+    gap: var(--packing);
+    background-color: #ffffff10;
+
+    font-size: 2rem;
+}
+
+.-map-loading section {
+    font-family: monospace;
+    color: var(--text-muted);
+
+    padding: 1rem;
+}
+
+@keyframes identifier {
+    0% {
+        background: linear-gradient(0deg, white, black);
+    }
+    100% {
+        background: linear-gradient(0deg, black, white);
+    }
+}

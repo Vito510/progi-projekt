@@ -1,0 +1,40 @@
+
+.-track-card {
+    transition: background-color 0.25s;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    gap: var(--spacing);
+    padding: calc(var(--spacing) / 2) var(--spacing) calc(var(--spacing) / 2) var(--spacing);
+
+    background-color: var(--accent-muted);
+    border-radius: var(--roundness);
+    box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
+    border: 1px solid var(--border);
+    
+    opacity: 0%;
+    transform: translate(50%, 0%);
+    animation-name: slide-left;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.-track-card:hover {
+    transition: background-color 0.25s;
+    background-color: var(--accent-default);
+    border-color: var(--accent-highlight);
+}
+
+@keyframes slide-left {
+    0% {
+        opacity: 0%;
+        transform: translate(50%, 0%);
+    }
+    100% {
+        opacity: 100%;
+        transform: translate(0%, 0%);
+    }
+}
