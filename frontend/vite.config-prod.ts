@@ -1,14 +1,16 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+let backend = "https://progi-projekt.onrender.com"
+
 export default defineConfig({
   plugins: [react()],
   server: {
     host: true,
     proxy: {
-      '/me': 'https://progi-projekt.onrender.com',
-      '/auth': 'https://progi-projekt.onrender.com',
-      '/logout': 'https://progi-projekt.onrender.com'
+      '/me': backend,
+      '/auth': backend,
+      '/logout': backend
     }
   }
 })
