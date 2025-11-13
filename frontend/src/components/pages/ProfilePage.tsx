@@ -38,8 +38,8 @@ export default function ProfilePage() {
                     <h1>Korisničke staze</h1>
                     <Placeholder>
                         [Nedovršeno]
-                        <TrackList tracks={tracks}/>
                     </Placeholder>
+                    <TrackList tracks={tracks}/>
                 </menu>
             </main>
             <AppFooter/>
