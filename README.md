@@ -24,6 +24,8 @@
 </tr>
 </table>
 
+**⚠️ Važno:** Render.com nakon nekog vremena gasi stranicu, u tom slučaju frontend će se automatski upaliti, međutim frontend ne može probuditi backend u tom slučaju otvorite _https://progi-projekt.onrender.com_ u drugom prozoru kako biste probudili backend
+
 # Opis projekta
 Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 
