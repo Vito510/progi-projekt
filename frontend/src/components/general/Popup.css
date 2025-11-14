@@ -17,45 +17,6 @@
     backdrop-filter: blur(5px);
 }
 
-.-popup>.popup-card {
-    width: 50%;
-    min-width: fit-content;
-
-    background-color: var(--theme-default);
-    border-radius: var(--roundness);
-    box-shadow: var(--shadow-sharp), var(--shadow-smooth), var(--shadow-highlight);
-    overflow: hidden;
+.-popup>* {
     z-index: 501;
 }   
-
-.-popup>.popup-card>header {
-    background-color: #ffffff10;
-    padding: 1rem;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--packing);
-    font-size: 2rem;
-    color: var(--invalid-default);
-}
-
-.-popup>.popup-card>header>i, .popup>.popup-card>header>span {
-    font-size: 2rem;
-    color: var(--invalid-default);
-}
-
-.-popup>.popup-card>section {
-    padding: 1rem;
-    font-family: monospace;
-
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-    justify-content: space-between;
-    gap: var(--packing);
-}
-
-.-popup button {
-    border: none;
-}

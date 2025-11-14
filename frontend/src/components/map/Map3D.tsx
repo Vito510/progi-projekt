@@ -4,9 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import type TerrainParameter from '../../interfaces/TerrainParameter.js';
 import Placeholder from '../general/Placeholder.js';
 import Popup from '../general/Popup.js';
-import { Link } from 'react-router-dom';
-import Button from '../general/Button.js';
 import Card from '../general/Card.js';
+import ButtonHome from '../profile/ButtonHome.js';
 
 interface Props {
     params: TerrainParameter
@@ -47,15 +46,22 @@ export default function Map3D({params}: Props) {
 
     if (error) {
         return (
-            <Popup>
-                Pokretanje 3D prikaza nije uspjelo. Pokušajte pokrenuti aplikaciju koristeći Chromium based browser.
-                <Link to={"/"}>
-                    <Button>
-                    <p>Glavna stranica</p>
-                    <i className="fa fa-home fa-lg"></i>
-                    </Button>
-                </Link>
-            </Popup>
+            <div className='-map3d-popup'>
+                <Popup>
+                    <Card>
+                        <header>
+                            <i className="fa fa-times-circle"></i>
+                            <span>Error</span>
+                        </header>
+                        <section>
+                            <span>
+                                Pokretanje 3D prikaza nije uspjelo. Pokušajte pokrenuti aplikaciju koristeći <em>Chromium based</em> browser.
+                            </span>
+                            <ButtonHome></ButtonHome>
+                        </section>
+                    </Card>
+                </Popup>
+            </div>
         );
     }
 

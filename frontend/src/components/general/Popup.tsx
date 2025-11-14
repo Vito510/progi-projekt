@@ -8,7 +8,8 @@ interface Props {
 export default function Popup(props: Props) {
     return (
         <div className="-popup">
-            <div className="popup-card">
+            {props.children}
+            {/* <div className="popup-card">
                 <header>
                     <i className="fa fa-times-circle"></i>
                     <span>Error</span>
@@ -16,7 +17,7 @@ export default function Popup(props: Props) {
                 <section>
                     {props.children}
                 </section>
-            </div>
+            </div> */}
         </div>
     );
 }

@@ -6,7 +6,11 @@
 
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
+
+/* ------------------------------------------------------- */
 
 .-map3d .-card {
     height: 100%;
@@ -29,4 +33,32 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: var(--packing);
+}
+
+/* ------------------------------------------------------- */
+
+.-map3d-popup header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: var(--packing);
+    color: var(--invalid-default);
+}
+
+.-map3d-popup header>i, .-map3d-popup header>span {
+    font-size: 2rem;
+    color: var(--invalid-default);
+    font-weight: bold;
+    text-shadow: 2px 5px 0px var(--invalid-muted);
+}
+
+.-map3d-popup section {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.-map3d-popup button {
+    border: none;
 }

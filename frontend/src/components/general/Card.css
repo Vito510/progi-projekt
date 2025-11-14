@@ -10,7 +10,7 @@
 }
 
 .-card>* {
-    padding: 2rem;
+    padding: var(--spacing);
 }
 
 .-card>hr {
@@ -20,4 +20,10 @@
 
 .-card>header, .-card>footer {
     background-color: #ffffff08;
+}
+
+@media screen and (max-width: 768px) {
+    .-card {
+        width: 100%;
+    }
 }

@@ -63,13 +63,13 @@
 .-profile-page>aside {grid-area: a;}
 
 @media screen and (max-width: 768px) {
-    .profile-page {
+    .-profile-page {
         display: grid;
         grid-template-areas: 'a' 'm';
         grid-template-columns: 1fr;
         grid-template-rows: 0fr 1fr;
     }
-    .profile-page>aside {
+    .-profile-page>aside {
         width: auto;
         height: fit-content;
     }
