@@ -1,0 +1,25 @@
+
+```mermaid
+zenuml
+    title Pregled staze
+    @Actor K as "Korisnik"
+    @VirtualMachine A as "Aplikacija"
+    @CloudStorage P as "Poslužitelj"
+    @CloudSQL B as "Baza podataka"
+    @CosmosDB N as "NextZen"
+
+    K->A."pregled staze" {
+        P."dohvat parametra staze" {
+            if ("korisnik nema prstupa pregledu staze") {
+                return "odbijen pristup"
+                A->K: odbijen pristup
+            } else {
+                " " = B."dohvat parametra staze"
+                return "parametri staze"
+                " " = A->N."dohvat podataka o reljefu"
+                A->A."pokretanje 3D prikaza"
+                A->K: prikaz staze
+            }
+        }
+    }
+```

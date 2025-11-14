@@ -1,0 +1,35 @@
+@startuml uredivanjeProfilaDijagram
+left to right direction
+
+frame "uc: Planinarko - Upravljanje profilima" {
+  skinparam packageStyle rectangle
+  actor "Opći korisnik" as A2
+  actor "Neregistrirani korisnik" as A1
+  actor "Registrirani korisnik" as A5
+  actor "Administrator" as A4
+  rectangle "Web aplikacija" as rect{
+    usecase "UC-10.1\nUređivanje vlastitog profila" as UC10.1
+    usecase "UC-10.2\nUređivanje svih profila" as UC10.2
+    usecase "UC-10.3\nBrisanje svih profila" as UC10.3
+    usecase "UC-10.4\nPregled tuđeg profila" as UC10.4
+  }
+  actor "Baza" as AB
+
+  ' nasljedivanje
+  A5 <|-- A4
+  A2 <|-- A5
+  A2 <|-- A1
+
+  A5 --> UC10.1
+  A4 --> UC10.2
+  A5 --> UC10.4
+
+  UC10.2 ..> UC10.3 : <<extends>>
+
+  UC10.1 <-- AB
+  UC10.2 <-- AB
+  UC10.3 <-- AB
+  UC10.4 <-- AB
+}
+
+@enduml

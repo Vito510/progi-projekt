@@ -1,0 +1,26 @@
+@startuml 3dPrikazDijagram
+left to right direction
+
+frame "uc: Planinarko - 3D prikaz" {
+  skinparam packageStyle rectangle
+  actor "Opći korisnik" as A2
+  rectangle "Web aplikacija" {
+    usecase "UC-09.1\n3D projekcija terena" as UC09.1
+    usecase "UC-09.2\nUcrtavanje krivulje staze" as UC09.2
+    usecase "UC-09.3\nPregled statističkih podataka" as UC09.3
+  }
+  together{
+    actor "Nextzen" as AN
+    actor "Baza" as AB
+  }
+
+  A2 --> UC09.1
+  A2 --> UC09.2
+  A2 --> UC09.3
+
+  UC09.1 <-- AN
+  UC09.1 <-- AB
+  UC09.2 <-- AB
+}
+
+@enduml
