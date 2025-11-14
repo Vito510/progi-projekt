@@ -1,0 +1,26 @@
+```mermaid
+zenuml
+    title Pregled glavne stranice
+    @Actor K as "Korisnik"
+    @VirtualMachine A as "Aplikacija"
+    @CloudStorage P as "Poslužitelj"
+    @CloudSQL B as "Baza podataka"
+
+    K->A."pregled glavne stranice" {
+        P."dohvat liste najboljih staza" {
+            B."lista najboljih staza" {
+                return
+            }
+            P."filtriranje staza" {
+                if ("korisnik ima pristup stazi") {
+                    "prikaži stazu"
+                } else {
+                    "ne prikaži stazu"
+                }
+            }
+            return "lista staza"
+        }
+        "izgradnja stranice"
+        return "prikaz glavne stranice"
+    }
+```

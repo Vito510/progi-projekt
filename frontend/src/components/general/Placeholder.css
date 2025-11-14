@@ -1,0 +1,27 @@
+.-placeholder {
+    width: fit-content;
+    height: fit-content;
+
+    background-color: var(--darken);
+    /* border: 1px solid var(--invalid-highlight); */
+    /* border-bottom-color: var(--invalid-default); */
+    /* border-left-color: var(--invalid-default); */
+    box-shadow: var(--shadow-inset), inset 0px 1px 0px var(--invalid-default);
+    border-radius: var(--roundness);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+
+    color: var(--text-muted);
+    font-family: monospace;
+}
+
+.-placeholder.wide {
+    width: 100%;
+}
+
+.-placeholder.tall {
+    height: 100%;
+}

@@ -1,0 +1,51 @@
+
+.-app-header {
+    width: 100%;
+    height: fit-content;
+    z-index: 2;
+    
+    background-color: var(--theme-default);
+    outline: var(--thickness) solid var(--theme-muted);
+    border-bottom: var(--border-accent);
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    gap: var(--packing);
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    margin-bottom: var(--thickness);
+}
+
+/* ------------------------------------------------------- */
+
+.-app-header img {
+    object-fit: cover;
+    height: 3rem;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: var(--theme-muted);
+}
+
+.-app-header section {
+    display: flex;
+    flex-direction: row;
+    gap: var(--packing);
+}
+
+/* ------------------------------------------------------- */
+
+@media screen and (max-width: 768px) {
+    .-app-header .-button button {
+        padding: 0rem;
+        background: none;
+        border: none;
+    }
+
+    .-app-header .-button p {
+        display: none;
+    }
+}
+

@@ -1,4 +1,31 @@
-# Planinarko
+
+<table>
+<tr>
+   <td colspan=2>
+
+   # Planinarko
+   </td>
+</tr>
+<tr>
+   <td>
+   
+   ![logo](frontend/public/images/favicon.ico)
+   </td>
+   <td>
+
+   ![banner](frontend/public/images/banner.webp)
+   </td>
+</tr>
+<tr>
+   <td colspan=2>
+
+   Aplikacija dostupna ovdje: [https://planinarko.onrender.com/](https://planinarko.onrender.com/)
+   </td>
+</tr>
+</table>
+
+**⚠️ Važno:** Render.com nakon nekog vremena gasi stranicu, u tom slučaju frontend će se automatski upaliti, međutim frontend ne može probuditi backend u tom slučaju otvorite _https://progi-projekt.onrender.com_ u drugom prozoru kako biste probudili backend
+
 # Opis projekta
 Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Programsko inženjerstvo](https://www.fer.unizg.hr/predmet/proinz) na Fakultetu elektrotehnike i računarstva Sveučilišta u Zagrebu. 
 

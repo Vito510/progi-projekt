@@ -1,0 +1,34 @@
+
+.-login-success-page {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing);
+}
+
+/* ------------------------------------------------------- */
+
+.-login-success-page em {
+    color: var(--text-muted);
+    font-style: normal;
+}
+
+.-login-success-page section {
+    display: flex;
+    flex-direction: row;
+    gap: var(--packing);
+}
+
+/* ------------------------------------------------------- */
+
+@media screen and (max-width: 768px) {
+    .-login-success-page section {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+}

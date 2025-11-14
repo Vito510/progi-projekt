@@ -1,0 +1,18 @@
+```mermaid
+zenuml
+    title Stvaranje nove staze
+    @Actor K as "Korisnik"
+    @VirtualMachine A as "Aplikacija"
+    @CloudStorage P as "Poslužitelj"
+    @CloudSQL B as "Baza podataka"
+
+    K->A."stvaranje nove staze" {
+        P."spremanje podataka staze" {
+            if ("korisnik nije ulogiran") {
+                P->A: preusmjeravanje na prijavu
+            } else {
+                B."spremanje podatka staze"
+            }
+        }
+    }
+```

@@ -1,0 +1,36 @@
+@startuml kreiranjeStazeDijagram
+left to right direction
+
+frame "uc: Planinarko - Kreiranje staze" {
+  skinparam packageStyle rectangle
+  actor "Opći korisnik" as A2
+  actor "Neregistrirani korisnik" as A1
+  actor "Registrirani korisnik" as A5
+  rectangle "Web aplikacija" {
+    usecase "UC-05.1\nBiranje površine na 2D karti" as UC05.1
+    usecase "UC-09\n3D Prikaz" as UC09
+    usecase "UC-05.3\nDefiniranje puta staze" as UC05.3
+    usecase "UC-05.4\nSpremanje staze" as UC05.4
+  }
+  together{
+    actor "Baza" as AB
+    actor "Nextzen" as AN
+    actor "OpenStreetMap" as AM
+  }
+
+
+  A2 <|-- A1
+  A2 <|-- A5
+
+  A2 --> UC05.1
+  A2 --> UC09
+  A2 --> UC05.3
+  A5 --> UC05.4
+
+  UC05.4 <-- AB
+
+  UC09 <-- AN
+  UC05.1 <-- AM
+}
+
+@enduml

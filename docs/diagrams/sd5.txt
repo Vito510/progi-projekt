@@ -1,0 +1,25 @@
+```mermaid
+zenuml
+    title Pregled profila
+    @Actor K as "Korisnik"
+    @VirtualMachine A as "Aplikacija"
+    @CloudStorage P as "Poslužitelj"
+    @CloudSQL B as "Baza podataka"
+
+    K->A."pregled specifičnog profila" {
+        P."dohvat podataka profila" {
+            " " = B."informacije o profilu"
+            " " = B."staze profila"
+            P."filtriranje staza" {
+                if ("korisnik ima pristup stazi") {
+                    "prikaži stazu"
+                } else {
+                    "ne prikaži stazu"
+                }
+            }
+            return "informacije profila"
+        }
+        "izgradnja stranice"
+        return "prikaz stranice profila"
+    }
+```
