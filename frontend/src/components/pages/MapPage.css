@@ -10,3 +10,8 @@
 
     padding: var(--spacing);
 }
+
+.-map-page code {
+    font-family: monospace;
+    color: var(--text-muted);
+}

@@ -7,91 +7,67 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
 
-/* ------------------------------------------------------- */
-
-.-register-page>.card {
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    border-radius: calc(2 * var(--roundness));
-    
-    background-color: var(--block-default);
-    border-radius: var(--roundness);
-    box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
-}
-
-/* ------------------------------------------------------- */
-
-.-register-page>.card header {
     padding: var(--spacing);
-    background-color: #ffffff08;
-    border: none;
-    
-    display: flex;
-    flex-direction: column;
-    gap: var(--packing);
-}
-
-.-register-page .card>header>p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
 }
 
 /* ------------------------------------------------------- */
 
-
-.-register-page>.card section {
-    padding: var(--spacing);
-
-    display: flex;
-    flex-direction: row;
-    gap: var(--packing);
+.-register-page div.row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--packing);
 }
 
-.-register-page>.card button {
-    border: none;
+.-register-page div.column {
+  display: flex;
+  flex-direction: column;
+  gap: calc(2 * var(--packing));
 }
 
-.dark-button {
-    background-color: var(--block-highlight);
-    color: #fff;
-    border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-  }
-  
-  .dark-button:hover {
-    background-color: #222;
-    transform: translateY(-1px); 
-  }
-  
-  .dark-button:active {
-    background-color: #000; 
-    transform: translateY(0); 
-  }
-  
-  .dark-button:focus {
-    outline: 2px solid #555;
-    outline-offset: 2px;
-  }
+.-register-page button {
+  height: 100%;
+  width: 100%;
+}
 
-  .error-text {
-    color: #ff5555;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-    font-weight: 500;
-  }
+/* ------------------------------------------------------- */
 
-@media screen and (max-width: 768px) {
-    .-register-page>.card> section {
-        display: flex;
-        flex-direction: column;
-        align-items: start;
-    }
+.-register-page input {
+  background-color: var(--theme-highlight);
+  border-radius: var(--roundness);
+  border: none;
+
+  color: var(--text-default);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  font-size: inherit;
+}
+  
+.-register-page input:hover {
+  background-color: var(--darken);
+}
+
+.-register-page input:active {
+  background-color: var(--highlight); 
+}
+
+.-register-page input:focus {
+  outline: 2px solid var(--highlight);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------- */
+
+.-register-page .error-text {
+  height: 100%;
+  width: 100%;
+  padding: 0.75rem 1.5rem;
+
+  color: var(--invalid-default);
+  font-weight: 500;
+
+  background-color: var(--darken);
+  border-radius: var(--roundness);
 }

@@ -6,6 +6,7 @@ import Placeholder from '../general/Placeholder.js';
 import Popup from '../general/Popup.js';
 import { Link } from 'react-router-dom';
 import Button from '../general/Button.js';
+import Card from '../general/Card.js';
 
 interface Props {
     params: TerrainParameter
@@ -60,15 +61,18 @@ export default function Map3D({params}: Props) {
 
     return (
         <div className='-map3d'>
-            <canvas ref={canvasRef}></canvas>
-            <menu>
-                <Placeholder>
-                    [DEMO]
-                </Placeholder>
-                <Placeholder>
-                    Kontrole: LMB + Drag, LMB + Scroll
-                </Placeholder>
-            </menu>
+            <Card>
+                <canvas ref={canvasRef}></canvas>
+                <hr />
+                <footer>
+                    <Placeholder>
+                        [DEMO]
+                    </Placeholder>
+                    <Placeholder>
+                        Kontrole: Lijevi gumb miša + Drag, Lijevi gumb miša + Scroll
+                    </Placeholder>
+                </footer>
+            </Card>
         </div>
     );
 }

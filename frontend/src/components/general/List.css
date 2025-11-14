@@ -1,0 +1,16 @@
+
+.-list {
+    display: flex;
+}
+
+.-list.row {
+    flex-direction: row;
+}
+
+.-list.column {
+    flex-direction: column;
+}
+
+.-list.centered {
+    align-items: center;
+}

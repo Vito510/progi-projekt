@@ -1,0 +1,23 @@
+
+.-card {
+    box-shadow: var(--shadow-sharp), var(--shadow-highlight);
+    background-color: var(--theme-default);
+    border-radius: calc(var(--roundness) * 2);
+
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.-card>* {
+    padding: 2rem;
+}
+
+.-card>hr {
+    padding: 0rem;
+    border-color: var(--highlight);
+}
+
+.-card>header, .-card>footer {
+    background-color: #ffffff08;
+}
