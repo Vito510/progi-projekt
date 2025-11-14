@@ -40,7 +40,7 @@
 @media screen and (max-width: 768px) {
     .-app-header .-button button {
         padding: 0rem;
-        background: none;
+        background: none !important;
         border: none;
     }
 
