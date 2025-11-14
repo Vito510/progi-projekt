@@ -11,24 +11,24 @@
     justify-content: center;
     align-items: center;
 
-    background-color: #00000080;
+    background-color: var(--darken);
     z-index: 500;
     padding: var(--spacing);
+    backdrop-filter: blur(5px);
 }
 
-.-popup>.-popup-card {
+.-popup>.popup-card {
     width: 50%;
     min-width: fit-content;
 
-    background-color: var(--block-default);
+    background-color: var(--theme-default);
     border-radius: var(--roundness);
-    /* box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow); */
-    box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow), inset 0px 2px 0px #ffffff20;
+    box-shadow: var(--shadow-sharp), var(--shadow-smooth), var(--shadow-highlight);
     overflow: hidden;
     z-index: 501;
 }   
 
-.-popup>.-popup-card>header {
+.-popup>.popup-card>header {
     background-color: #ffffff10;
     padding: 1rem;
 
@@ -40,12 +40,12 @@
     color: var(--invalid-default);
 }
 
-.-popup>.-popup-card>header>i, .-popup>.-popup-card>header>span {
+.-popup>.popup-card>header>i, .popup>.popup-card>header>span {
     font-size: 2rem;
     color: var(--invalid-default);
 }
 
-.-popup>.-popup-card>section {
+.-popup>.popup-card>section {
     padding: 1rem;
     font-family: monospace;
 

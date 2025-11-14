@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AppHeader from "../general/AppHeader";
 import './RegisterPage.css';
 import Button from "../general/Button";
+import Card from "../general/Card";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -63,33 +64,29 @@ export default function RegisterPage() {
 
   return (
     <>
-      <AppHeader />
+      <AppHeader/>
       <main className="-register-page">
-        <div className="card">
+        <Card>
           <header>
-            <h1>Pozdrav,</h1>
+            <h1>Registracija</h1>
           </header>
-
           <section>
-            <div className="mb-4">
-              <input
-                type="text"
-                placeholder="Odaberite korisničko ime"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                className="dark-button"
-              />
-            {error && <p className="error-text">{error}</p>}
+            <div className="column">
+              <div className="row">
+                <input
+                  type="text"
+                  placeholder="Odaberite korisničko ime"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                />
+                <Button onClick={handleConfirm}>
+                  {loading ? "Provjera..." : "Potvrdi"}
+                </Button>
+              </div>
+              {error && <p className="error-text">{error}</p>}
             </div>
-
-            <Button
-              onClick={handleConfirm}
-            >
-              {loading ? "Provjera..." : "Potvrdi"}
-            </Button>
-
           </section>
-        </div>
+        </Card>
       </main>
     </>
   );

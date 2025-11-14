@@ -5,18 +5,19 @@ import { Link } from "react-router-dom";
 interface Props {
     onClick?: () => void,
     children: ReactNode,
-    round?: boolean,
-    square?: boolean,
-    type?: 'primary' | 'secondary' | 'tertiary'
+    type?: 'primary' | 'secondary'
+    shape?: 'rectangular' |'square' | 'round'
     link?: string
 }
 
-export default function Button({children, onClick = () => {}, round = false, square = false, type = 'primary', link = ''}: Props) {
+export default function Button({children, onClick = () => {}, shape = 'rectangular', type = 'secondary', link = ''}: Props) {
+    let className = type + ' ' + shape;
+
     if (link) {
         return (
             <div className="-button">
                 <Link to={link}>
-                    <button type="button" onClick={onClick} className={(round ? 'round' : '') + ' ' + (square ? 'square' : '') + ' ' + type}>
+                    <button type="button" onClick={onClick} className={className}>
                         {children}
                     </button>
                 </Link>
@@ -25,7 +26,7 @@ export default function Button({children, onClick = () => {}, round = false, squ
     } else {
         return (
             <div className="-button">
-                <button type="button" onClick={onClick} className={(round ? 'round' : '') + ' ' + (square ? 'square' : '') + ' ' + type}>
+                <button type="button" onClick={onClick} className={className}>
                     {children}
                 </button>
             </div>

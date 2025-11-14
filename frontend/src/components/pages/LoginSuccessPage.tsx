@@ -5,6 +5,7 @@ import ButtonProfile from "../profile/ButtonProfile";
 import ButtonSignOut from "../profile/ButtonSignOut";
 import './LoginSuccessPage.css';
 import ButtonHome from "../profile/ButtonHome";
+import Card from "../general/Card";
 
 export default function LoginSuccessPage() {
   const { user } = useAuth();
@@ -21,22 +22,41 @@ export default function LoginSuccessPage() {
     }
   )
 
+  // return (
+  //   <>
+  //     <AppHeader/>
+  //     <main className="-login-success-page">
+  //       <div className="card">
+  //         <header>
+  //           <h1>Pozdrav, {user?.name}!</h1>
+  //           <p>Uspješno ste se prijavili u aplikaciju.</p>
+  //         </header>
+
+  //         <section>
+  //           <ButtonHome></ButtonHome>
+  //           <ButtonProfile></ButtonProfile>
+  //           <ButtonSignOut></ButtonSignOut>
+  //         </section>
+  //       </div>
+  //     </main>
+  //   </>
+  // );
+
   return (
     <>
       <AppHeader/>
       <main className="-login-success-page">
-        <div className="card">
+        <Card>
           <header>
             <h1>Pozdrav, {user?.name}!</h1>
-            <p>Uspješno ste se prijavili u aplikaciju.</p>
+            <em>Uspješno ste se prijavili u aplikaciju.</em>
           </header>
-
           <section>
             <ButtonHome></ButtonHome>
             <ButtonProfile></ButtonProfile>
             <ButtonSignOut></ButtonSignOut>
           </section>
-        </div>
+        </Card>
       </main>
     </>
   );

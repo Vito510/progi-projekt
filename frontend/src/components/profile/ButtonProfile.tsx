@@ -8,8 +8,8 @@ export default function ButtonProfile() {
     return (
         <Link to={"/profile"}>
             <Button>
-                <p>{auth.user?.authenticated ? auth.user.name : "Profil"}</p>
                 <i className="fa fa-user fa-lg"></i>
+                <p>{auth.user?.authenticated ? auth.user.name : "Profil"}</p>
             </Button>
         </Link>
     );

@@ -2,10 +2,11 @@
 .-app-header {
     width: 100%;
     height: fit-content;
-    background-color: var(--block-default);
-    outline: var(--thickness) solid var(--shadow);
-    border-bottom: 1px solid var(--border);
     z-index: 2;
+    
+    background-color: var(--theme-default);
+    outline: var(--thickness) solid var(--theme-muted);
+    border-bottom: var(--border-accent);
 
     display: flex;
     flex-direction: row;
@@ -25,7 +26,7 @@
     height: 3rem;
     aspect-ratio: 1;
     border-radius: 50%;
-    background-color: var(--block-muted);
+    background-color: var(--theme-muted);
 }
 
 .-app-header section {

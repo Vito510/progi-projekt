@@ -7,9 +7,9 @@
     z-index: 401;
     transform: translate(0%, calc(100% - 2rem));
     
-    background-color: var(--block-default);
-    outline: var(--thickness) solid var(--shadow);
-    border-top: 1px solid var(--border);
+    background-color: var(--theme-default);
+    outline: var(--thickness) solid var(--theme-muted);
+    border-top: var(--border-accent);
 
     display: flex;
     flex-direction: column;

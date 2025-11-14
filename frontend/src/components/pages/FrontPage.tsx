@@ -36,7 +36,7 @@ export default function FrontPage() {
                 <Placeholder>[Nedovršeno]</Placeholder>
                 <TrackList tracks={tracks}/>
             </main>
-            <AppFooter></AppFooter>
+            <AppFooter/>
         </>
     );
 };

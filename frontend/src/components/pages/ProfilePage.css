@@ -6,10 +6,10 @@
 
     width: max-content;
 
-    background-color: var(--block-default);
+    background-color: var(--theme-default);
     border-radius: var(--roundness);
-    box-shadow: var(--thickness) var(--thickness) 0rem var(--shadow);
-    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sharp);
+    border: var(--border-accent);
 
     animation-name: slide-up;
     animation-duration: 0.5s;
@@ -46,9 +46,9 @@
     height: 100%;
     min-height: 0rem;
 
-    background-color: #00000020;
-    border-right: var(--thickness) solid var(--shadow);
-    box-shadow: 0rem 0rem var(--spacing) var(--shadow);
+    background-color: var(--darken);
+    border-right: var(--thickness) solid var(--theme-muted);
+    box-shadow: 0rem 0rem var(--spacing) var(--theme-dark);
 
     display: grid;
     grid-template-areas: 'a m' '. m';

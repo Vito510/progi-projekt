@@ -4,7 +4,7 @@ import Button from "../general/Button";
 export default function ButtonNewTrack() {
     return (
         <Link to={"/map"}>
-            <Button>
+            <Button type="primary">
                 <i className="fa fa-plus fa-lg"></i>
                 <p>Nova staza</p>
             </Button>

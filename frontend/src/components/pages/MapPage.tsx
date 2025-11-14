@@ -8,15 +8,29 @@ import AppFooter from "../general/AppFooter";
 import AppHeader from "../general/AppHeader";
 import Map2D from "../map/Map2D";
 import Map3D from "../map/Map3D";
-import MapLoading from "../map/MapLoading";
 import ButtonProfile from "../profile/ButtonProfile";
 import ButtonSignIn from "../profile/ButtonSignIn";
 import "./MapPage.css";
+import Card from "../general/Card";
 
 export default function MapPage() {
-	let [element, setElement] = useState<ReactNode>(<Map2D onInput={handler}/>);
-	// const [element, setElement] = useState<ReactNode>(<MapLoading>{`Fetching 5 tiles...`}</MapLoading>);
 	const auth = useAuth();
+	let [element, setElement] = useState<ReactNode>(<Map2D onInput={handler}/>);
+
+	// loading screen test
+	// const [element, setElement] = useState<ReactNode>(
+	// 	<Card>
+	// 		<header style={{ fontSize: "1.5rem" }}>
+	// 			<i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+	// 			<span> Učitavanje reljefa</span>
+	// 		</header>
+	// 		<section>
+	// 			<code>{`Dohvaćanje 5 regija`}</code>
+	// 			<br></br>
+	// 			<code>Moglo bi potrajati...</code>
+	// 		</section>
+	// 	</Card>
+	// );
 
 	// handler koji samo sprema sliku mape s prozora
 	// async function handler(selection: MapSelection, mapImage?: ImageData) {
@@ -24,7 +38,19 @@ export default function MapPage() {
 	// }
 
 	async function handler(selection: MapSelection) {
-		setElement(<MapLoading>{`Fetching ${Tile.getTileCount(selection)} tiles...`}</MapLoading>);
+		setElement((
+			<Card>
+				<header style={{ fontSize: "1.5rem" }}>
+					<i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+					<span>Učitavanje reljefa</span>
+				</header>
+				<section>
+					<code>{`Dohvaćanje ${Tile.getTileCount(selection)} regija/e`}</code>
+					<br></br>
+					<code>Moglo bi potrajati...</code>
+				</section>
+			</Card>
+		));
 		// console.info("Selection:", selection);
 
 		// korištenje temp.png

@@ -5,9 +5,9 @@
     height: 100%;
     min-height: 0rem;
 
-    background-color: #00000020;
-    border-right: var(--thickness) solid var(--shadow);
-    box-shadow: 0rem 0rem var(--spacing) var(--shadow);
+    background-color: var(--darken);
+    border-right: var(--thickness) solid var(--theme-muted);
+    box-shadow: 0rem 0rem var(--spacing) var(--theme-dark);
 
     display: flex;
     flex-direction: column;
@@ -28,10 +28,10 @@
 /* ------------------------------------------------------- */
 
 .-front-page>.banner {
-    background-color: var(--shadow);
+    background-color: var(--theme-muted);
     border-bottom-left-radius: 2rem;
     border-bottom-right-radius: 2rem;
-    box-shadow: 0rem var(--thickness) 0rem var(--block-default);
+    box-shadow: 0rem var(--thickness) 0rem var(--theme-default);
 
     background-image: url(/images/banner.webp);
     background-size: 100%;

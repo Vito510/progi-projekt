@@ -1,6 +1,10 @@
 .-track-list-stats {
     width: 100%;
     padding: var(--spacing);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--packing);
 }
 
 .-track-list-stats>li {
@@ -13,7 +17,7 @@
 .-track-list-stats .value {
     padding: 0.25rem 0.5rem 0.25rem 0.5rem;
     border-radius: var(--roundness);
-    background-color: var(--block-muted);
-    border: 1px solid var(--block-highlight);
+    background-color: var(--theme-muted);
+    border: 1px solid var(--theme-highlight);
     font-family: monospace;
 }
