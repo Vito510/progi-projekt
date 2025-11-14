@@ -1,0 +1,179 @@
+```mermaid
+classDiagram
+    class Renderer{
+        -gpu: WebGLManager
+        -camera: Camera
+        +constructor(canvas, params)
+        +update()
+        +render()
+        +destroy()
+    }
+    class WebGLManager{
+        -canvas: HTMLCanvasElement
+        -vertex_buffer: WebGLBuffer
+        -vertex_location: number
+        -uniform_buffer: WebGLBuffer
+        -program: WebGLProgram
+        -base_render_size: Object
+        -height_texture: Texture
+        +uniforms: Object
+        +constructor(canvas, fragment_shader_code, params)
+        +destroy()
+        +render()
+        +synchronize()
+        +reloadImage(image, height)
+        +screenshot(filename)
+    }
+    class Texture {
+        -data: UInt8ClampedArray
+        -width: number
+        -height: number
+        -texture: number
+        -binding: number
+        -location: number
+        +constructor(data, width, height)
+        +load(url)
+        +destroy(gl)
+        +setup(gl, name, program, binding, filter, wrap_mode)
+        +bind(gl)
+        +store(gl, data)
+    }
+    class Camera{
+        +position: Vector3D
+        +rotation: Vector2D
+        +fov: number
+        +speed: number
+        +sensitivity: number
+        +free_mode: boolean
+        +orbit_mode: boolean
+        +orbit_anchor: Vector3D
+        +enabled: boolean
+        -key_states: Object
+        +constructor(...)
+        +getRotationMatrix()
+        +getLocalDirection()
+        +update()
+        +updatePosition(local_direction)
+        +updateRotation(dh = 0.0, dv = 0.0)
+        +updateOrbit(dh = 0.0, dv = 0.0, dz = 1.0)
+    }
+    class Matrix{
+        +data: number[][]
+        +constructor(array)
+        +array()
+        +data()
+        +test()
+        +rotationMatrix(axis, rad)
+        +static rotate(mat, rad, axis)
+        +static mul(a, b)
+        +static rot2dir(horizontal, vertical)
+    }
+    class Vector {
+        <<abstract>>
+        +copy()
+        +array()
+        +data()
+        +test()
+        +static dot(a, b)
+        +len()
+        +norm()
+        +static mix(a, b, factor)
+    }
+    class Vector2D {
+        +x: number
+        +y: number
+        +constructor(x, y)
+        +static add(...args)
+        +static sub(a, ...b)
+        +static mul(a, b)
+        +static div(a, b)
+    }
+    class Vector3D {
+        +x: number
+        +y: number
+        +z: number
+        +constructor(x, y, z)
+        +static add(...args)
+        +static sub(a, ...b)
+        +static mul(a, b)
+        +static div(a, b)
+        +static cross(a, b)
+        +xy()
+    }
+    class Vector4D {
+        +x: number
+        +y: number
+        +z: number
+        +w: number
+        +constructor(x, y, z, w)
+        +static add(...args)
+        +static sub(a, ...b)
+        +static mul(a, b)
+        +static div(a, b)
+        +xyz()
+        +xy()
+    }
+    class WebGL{
+        <<utility>>
+        +static compileShader(gl, shader_code, type)
+        +static linkProgram(gl, vertex_shader, fragment_shader)
+        +static createProgram(gl, vertex_shader_code, fragment_shader_code)
+        +static setFeedbaclVaryings(gl, program, varyings, mode = "SEPARATE_ATTRIBS")
+        +static createTexture(gl, width, height, format = "RGBA8", filter = "LINEAR", wrap_mode = "REPEAT", data = null)
+        +static textureToImage(gl, texture, width, height)
+    }
+    class TerrainProcessor{
+        <<utility>>
+        +static elevation_offset
+        +static tile_resolution
+        +static display_resolution
+        +static pixel_size
+        +static max_tiles
+        +static isValidSelection(selection)
+        +static getTileCount(selection)
+        -static encodeHeight(height)
+        -static decodeHeight(pixel)
+        -static getUrl(longitude, latitude)
+        -static fetchTile(longitude, latitude)
+        -static getTileSet(selection)
+        -static combineTiles(tiles)
+        -static cropToSelection(image, selection)
+        +static getParams(image, scale)
+        +static getData(selection)
+    }
+    class Image {
+        <<utility>>
+        +static get(image, x, y)
+        +static set(image, x, y, value)
+        +static iterate(image, setter)
+        +static resize(image, width, height, interpolation)
+        +static crop(image, x, y, width, height)
+        +static stitch(image[], axis)
+        +static load(url)
+        +static save(image, name)
+    }
+    class Pixel{
+        <<type>>
+        +r
+        +g
+        +b
+        +a
+    }
+
+    Renderer *-- WebGLManager
+    WebGLManager <.. Texture
+    Renderer <.. Camera
+    Vector <|-- Vector2D
+    Vector <|-- Vector3D
+    Vector <|-- Vector4D
+    Camera <.. Vector2D
+    Camera <.. Vector3D
+    Camera <.. Matrix
+    Matrix <.. Vector4D
+    Matrix <.. Vector3D
+    Texture <.. WebGL
+    WebGLManager <.. WebGL
+    TerrainProcessor <.. Image
+    TerrainProcessor <.. Pixel
+    Image <.. Pixel
+```

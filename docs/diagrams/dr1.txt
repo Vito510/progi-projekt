@@ -1,0 +1,103 @@
+```mermaid
+classDiagram
+    UserProfile "1" --> "0..*" UserRoute: userRoutes
+    UserProfile "1" --> "0..*" UserRoute: starredRoutes
+    UserProfile ..> Role: role
+
+    UserInfo "1" --> "0..*" UserRoute: publicRoutes
+    UserInfo "1" --> "0..*" UserRoute: sharedRoutes
+
+    UserRoute ..> RouteAvailability
+
+    UserProfileController "1" --> "1" UserProfileService: userProfileService
+    UserProfileService "1" --> "1" UserProfileRepository: userProfileRepo
+
+    class UserProfile{
+        -id: Long
+        -username: String
+        -email: String
+        <!-- -role: Role -->
+        <!-- -userRoutes: List~UserRoute~ -->
+        <!-- -starredRoutes: List~UserRoute~ -->
+
+        +getId() Long
+        +getUsername() String
+        +setUsername(String username)
+        +getEmail() String
+        +getUserRoutes() List~UserRoute~
+        +addUserRoute(Long routeId)
+        +removeUserRoute(Long routeId)
+        +getStarredRoutes() List~UserRoute~
+        +addStarredRoute(Long routeId)
+        +removeStarredRoute(Long routeId)
+    }
+    class UserInfo{
+        -id: Long
+        -username: String
+        <!-- -publicRoutes: List~UserRoute~ -->
+        <!-- -sharedRoutes: List~UserRoute~ -->
+
+        +getId() Long
+        +getUsername() String
+        +getPublicRoutes() List~UserRoute~
+        +getSharedRoutes() List~UserRoute~
+    }
+    class UserRoute{
+        -id: Long
+        -ownerId: Long
+        -routeName String
+        <!-- -availability: RouteAvailability -->
+        -path: String
+        -stars: Int
+
+        +getId()
+        +getOwnerId()
+        +getRouteName()
+        +setRouteName()
+        +getAvailability()
+        +setAvailability()
+        +getPath()
+        +setPath()
+        +getStars()
+        +increaseStars()
+        +decreaseStars()
+    }
+
+    class UserProfileController{
+        <!-- -userProfileService: UserProfileService -->
+
+        +getUserInfo(Long id) UserInfo
+        +getProfile() UserProfile
+        +createProfile(String username)
+        +editProfile(UserProfile profile)
+        +deleteProfile()
+        +checkUsername(String username) boolean
+    }
+    class UserProfileService{
+        <!-- -userProfileRepo: UserProfileRepository -->
+
+        +getUserInfo(Long id) UserInfo
+        +getProfile() UserProfile
+        +createProfile(String username)
+        +editProfile(UserProfile profile)
+        +deleteProfile()
+        +checkUsername(String username) boolean
+    }
+    class UserProfileRepository{
+        findByEmail(String email) Optional~UserProfile~
+        existsByEmail(String email) boolean
+        existsByUsername(String username) boolean
+    }
+    <<interface>> UserProfileRepository
+
+    class Role{
+        USER
+        ADMIN
+    }
+    <<enumeration>> Role
+    class RouteAvailability{
+        PRIVATE
+        PUBLIC
+    }
+    <<enumeration>> RouteAvailability
+```
