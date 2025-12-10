@@ -10,18 +10,35 @@ import hr.fer.progi.progi_projekt.model.enums.RouteAvailability;
 @Component
 public class UserRoute {
     @Id
-    private int id;
-    private int ownerId;
+    private Long id;
+    private Long ownerId;
+    private String routeName;
     private RouteAvailability availability;
-    // objekt staze/patha
+    private String path;
     private int stars;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public int getOwnerId() {
+    public Long getOwnerId() {
         return ownerId;
+    }
+
+    public String getRouteName() {
+        return routeName;
+    }
+
+    public void setRouteName(String routeName) {
+        this.routeName = routeName;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public RouteAvailability getAvailability() {
@@ -44,6 +61,5 @@ public class UserRoute {
         if(this.stars>0)
             this.stars--;
     }
-
-    
+ 
 }

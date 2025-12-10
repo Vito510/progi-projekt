@@ -1,23 +1,19 @@
 package hr.fer.progi.progi_projekt.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import hr.fer.progi.progi_projekt.repository.UserRepository;
+import hr.fer.progi.progi_projekt.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Service;
 
 import hr.fer.progi.progi_projekt.model.UserProfile;
-import hr.fer.progi.progi_projekt.model.enums.*;
+import hr.fer.progi.progi_projekt.model.enums.Role;
 
 @Service
 public class UserProfileService {
     private final UserRepository userRepo;
-    // DEBUG (umjesto ovoga podaci trebaju biti u bazi podataka)
-    List<UserProfile> profileList = new ArrayList<UserProfile>(Arrays.asList(
-        new UserProfile("vladimir", "vladi.mir@gmail.com", Role.ADMIN),
-        new UserProfile("bananaman", "danko.bananko@gmail.com", Role.USER)
-    ));
 
     public UserProfileService(UserRepository userRepo) {
         this.userRepo = userRepo;
@@ -43,43 +39,41 @@ public class UserProfileService {
         return userRepo.findByEmail(email).orElse(null);
     }
 
-    public UserProfile register(UserProfile profile) {
-        // TODO autorizirati
-        // TODO stvoriti novi profil u bazi
+    public void createProfile(String username, HttpServletRequest request) {
+        System.out.println("Trying to create user: " + username);
+        // provjeri postoji li user sa tim emailom vec
+        String jwt = null;
+        String email = null;
+        JwtUtil jwtUtil = new JwtUtil();
+        if (request.getHeader("Authorization") != null && request.getHeader("Authorization").startsWith("Bearer ")) {
+            jwt = request.getHeader("Authorization").substring(7);
+        }
 
-        // DEBUG
-        profileList.add(profile);
-        return profile;
+        if (jwt != null) {
+            email = jwtUtil.extractUsername(jwt);
+        }
+
+        if (userExistsByEmail(email)) {
+            //korisnik vec postoji, ignoraj
+            System.out.println("User already exists");
+            return;
+        }
+
+        System.out.println("Kreiram novi user: " + username);
+        UserProfile userProfile = new UserProfile(username, email, Role.USER);
+        saveUserProfile(userProfile);
     }
 
     public UserProfile getProfile(int id) {
-        // TODO autorizirati
-        // TODO dohvatiti iz baze
-
-        // DEBUG
-        UserProfile profile = profileList.stream().filter((el) -> el.getId() == id).findFirst().orElse(new UserProfile());
-        return profile;
+        return null;
     }
 
     public UserProfile editProfile(UserProfile profile) {
-        // TODO autorizirati
-        // TODO promijeniti u bazi
-
-        // DEBUG
-        List<Integer> ids = profileList.stream().map((el) -> el.getId()).toList();
-        int index = ids.indexOf(profile.getId());
-        profileList.set(index, profile);
-        return profile;
+        return null;
     }
 
     public void deleteProfile(int id) {
-        // TODO autorizirati
-        // TODO izbrisati u bazi
-
-        // DEBUG
-        List<Integer> ids = profileList.stream().map((el) -> el.getId()).toList();
-        int index = ids.indexOf(id);
-        profileList.remove(index);
+        
     }
 
 }
