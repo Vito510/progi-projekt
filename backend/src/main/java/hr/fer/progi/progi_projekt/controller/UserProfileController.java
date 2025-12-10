@@ -9,7 +9,6 @@ import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.service.UserProfileService;
 
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 public class UserProfileController {
