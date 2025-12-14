@@ -49,28 +49,6 @@
 
 /* ------------------------------------------------------- */
 
-/* LIGHT MODE (WIP) */
-
-/* @media (prefers-color-scheme: light) {
-    :root {
-        --block-highlight: #f1f6f0;
-        --block-default: #d5d6db;         
-        --block-muted: #303843;
-
-        --accent-muted: #91b95b;
-        --accent-default: #2f6b4e;
-        --accent-highlight: #2b3d42;
-
-        --text-default: black;            
-        --text-muted: rgb(69, 69, 69);
-
-        --shadow: var(--block-muted);     
-        --border: var(--accent-default);   
-    } 
-} */
-
-/* ------------------------------------------------------- */
-
 /* GLOBAL STYLING */
 
 * {
@@ -93,6 +71,10 @@ em {
 h1 {
     font-family: Audiowide;
     font-weight: normal;
+}
+
+h1, h2 {
+    text-shadow: 2px 5px 0px var(--darken), 0px 0px 2rem var(--highlight);
 }
 
 /* ------------------------------------------------------- */

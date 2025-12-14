@@ -20,7 +20,7 @@ export default function TrackCard({index = 0, name, longitude, latitude, length,
 
     return (
         <li className="-track-card" ref={ref}>
-            <h2>{name}</h2>
+            <h3>{name}</h3>
             <div className="column centered">
                 <i className="fa fa-map-marker"></i>
                 <p>{latitude} {longitude}</p>

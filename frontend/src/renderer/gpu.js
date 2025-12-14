@@ -26,13 +26,11 @@ export default class WebGLManager {
         window.addEventListener("resize", () => {this.synchronize();});
         this.canvas.addEventListener("resize", () => {this.synchronize();});
 
-        const temp_multiplier = 3;
-
         this.uniforms = {
             canvas_size: Vector.vec(this.base_render_size.x, this.base_render_size.y),
             buffer_size: Vector.vec(this.base_render_size.x, this.base_render_size.y),
 
-            grid_size: Vector.vec(this.height_texture.width, this.height_texture.height, params.range * temp_multiplier),
+            grid_size: Vector.vec(this.height_texture.width, this.height_texture.height, params.range),
             render_scale: 2,
             
             camera_rotation: Matrix.mat(1.0),
@@ -45,7 +43,7 @@ export default class WebGLManager {
             padding_b: 0.0,
             
             height_offset: params.offset,
-            height_multiplier: params.multiplier * temp_multiplier,
+            height_multiplier: params.multiplier,
             height_gamma: 1.0,
             height_invert: 0.0,
 

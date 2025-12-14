@@ -68,7 +68,8 @@ void main() {
             float height = mix(1.0, position.z / (uniforms.grid_size.z * uniforms.height_multiplier * uniforms.grid_scale), uniforms.fade_blend);
             vec3 normal = getNormal(position, uniforms.normals_epsilon);
             float diffuse = dot(normal, sun) * 0.5 + 0.5;
-            output_color = vec4(vec3(diffuse * height * voxel), 1.0);
+            float mask = float((position.x < (uniforms.grid_size.x - 3.0)) && (position.x > 3.0) && (position.y < (uniforms.grid_size.y - 3.0)) && (position.y > 3.0));
+            output_color = vec4(vec3(diffuse * height * voxel * mask), 1.0);
         } else if (uniforms.shading_mode == 2.0) {
             vec3 normal = getNormal(position, uniforms.normals_epsilon) * 0.5 + 0.5;
             output_color = vec4(normal * voxel, 1.0);
@@ -152,11 +153,7 @@ vec2 intersect(Ray ray, vec3 p_min, vec3 p_max) {
 
 float getHeight(vec3 position) {
     vec4 data = texture(height_texture, (vec2(1.0, 0.0) - position.xy / (uniforms.grid_size.xy * uniforms.grid_scale)) * vec2(1.0, -1.0));
-    // float height = 256.0 * (data.r + data.g + data.b) / 3.0; // average
-    // float height = (data.r * 256.0 + data.g + data.b / 256.0); // first
-    float height = (data.r * 256.0 + data.g) * 256.0; // second
-    if (uniforms.height_invert == 1.0)
-        height = (uniforms.grid_size.z + 2.0) * uniforms.height_invert - height;
+    float height = (data.r * 256.0 + data.g) * 256.0;
     return (height + uniforms.height_offset) * uniforms.height_multiplier * uniforms.grid_scale;
 }
 

@@ -7,10 +7,7 @@
     min-height: 0;
 
     gap: var(--spacing);
-    /* padding-left: var(--thickness);
-    padding-right: var(--thickness); */
-    padding-left: calc(var(--thickness) * 4);
-    padding-right: calc(var(--thickness) * 4);
+    padding: calc(var(--thickness) * 4);
 
     overflow-y: auto;
     overflow-x: hidden;

@@ -8,31 +8,31 @@ export interface Pixel {
     a: number,
 }
 
-export function get(image: ImageData, x: number, y: number): Pixel {
-    const r = image.data[(x * image.width + y) * 4];
-    const g = image.data[(x * image.width + y) * 4 + 1];
-    const b = image.data[(x * image.width + y) * 4 + 2];
-    const a = image.data[(x * image.width + y) * 4 + 3];
-    return {r: r, g: g, b: b, a: a};
-}
+// export function get(image: ImageData, x: number, y: number): Pixel {
+//     const r = image.data[(x * image.width + y) * 4];
+//     const g = image.data[(x * image.width + y) * 4 + 1];
+//     const b = image.data[(x * image.width + y) * 4 + 2];
+//     const a = image.data[(x * image.width + y) * 4 + 3];
+//     return {r: r, g: g, b: b, a: a};
+// }
 
-export function set(image: ImageData, x:number, y: number, value: Pixel): void {
-    image.data[(x * image.width + y) * 4] = value.r;
-    image.data[(x * image.width + y) * 4 + 1] = value.g;
-    image.data[(x * image.width + y) * 4 + 2] = value.b;
-    image.data[(x * image.width + y) * 4 + 3] = value.a;
-}
+// export function set(image: ImageData, x:number, y: number, value: Pixel): void {
+//     image.data[(x * image.width + y) * 4] = value.r;
+//     image.data[(x * image.width + y) * 4 + 1] = value.g;
+//     image.data[(x * image.width + y) * 4 + 2] = value.b;
+//     image.data[(x * image.width + y) * 4 + 3] = value.a;
+// }
 
-export function iterate(image: ImageData, setter: (value: Pixel, x: number, y: number) => Pixel | undefined): void {
-    for (let x = 0; x < image.width; x++) {
-        for (let y = 0; y < image.height; y++) {
-            const input = get(image, x, y);
-            const output = setter(input, x, y);
-            if (output !== undefined)
-                set(image, x, y, output);
-        }
-    }
-}
+// export function iterate(image: ImageData, setter: (value: Pixel, x: number, y: number) => Pixel | undefined): void {
+//     for (let x = 0; x < image.width; x++) {
+//         for (let y = 0; y < image.height; y++) {
+//             const input = get(image, x, y);
+//             const output = setter(input, x, y);
+//             if (output !== undefined)
+//                 set(image, x, y, output);
+//         }
+//     }
+// }
 
 export function resize(image: ImageData, width: number, height: number, interpolation: 'nearest' | 'linear' = 'nearest'): ImageData {
     context.imageSmoothingEnabled = interpolation === 'linear';

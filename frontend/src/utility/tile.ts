@@ -1,5 +1,5 @@
-import type MapSelectionDescriptor from '../../interfaces/MapSelection.js';
-import type TerrainParameter from '../../interfaces/TerrainParameter.js';
+import type MapSelectionDescriptor from '../interfaces/MapSelection.js';
+import type TerrainParameter from '../interfaces/TerrainParameter.js';
 import * as Image from './image.js';
 import pako from 'pako';
 
@@ -62,12 +62,15 @@ async function fetchTile(longitude: number, latitude: number): Promise<ImageData
 
     for (let y = 0; y < tile_resolution; y++) {
         for (let x = 0; x < tile_resolution; x++) {
-            const offset = (x * tile_resolution + y) * 2;
+            const offset = (x + tile_resolution * y) * 2;
             let height = data_view.getInt16(offset, false) + elevation_offset;
             if (height == 0)
                 height = elevation_offset;
             const pixel = encodeHeight(height);
-            Image.set(image, x, y, pixel)
+            image.data[(x + image.width * y) * 4] = pixel.r;
+            image.data[(x + image.width * y) * 4 + 1] = pixel.g;
+            image.data[(x + image.width * y) * 4 + 2] = pixel.b;
+            image.data[(x + image.width * y) * 4 + 3] = pixel.a;
         }
     }
     
@@ -86,15 +89,12 @@ async function getTileSet(selection: MapSelectionDescriptor): Promise<ImageData[
             if (counter > max_tiles)
                 throw new Error("Maximum ammount of tiles exceeded!");
             const tile = await fetchTile(x, y);
-            // console.log("Pushing tile: ", tile);
             tile_row.push(tile);
             counter += 1;
         }
-        // console.log("Pushing row: ", tile_row);
         tiles.unshift(tile_row);
     }
 
-    // console.log("Tiles: ", tiles);
     return tiles;
 }
 
@@ -110,25 +110,30 @@ function cropToSelection(image: ImageData, selection: MapSelectionDescriptor): I
     const width = (selection.max_longitude - Math.floor(selection.min_longitude)) * tile_resolution - x;
     const height = (selection.max_latitude - Math.floor(selection.min_latitude)) * tile_resolution - y;
     const cropped = Image.crop(image, x, (image.height - y) - height, width, height);
-    // console.log("Cropping parameters:", image.width, image.height, x, y, width, height)
     return cropped;
 }
 
 export function getParams(image: ImageData, scale : number = 1.0): TerrainParameter {
     let min = Infinity;
     let max = -Infinity;
-    Image.iterate(image, (value) => {
-        const height = decodeHeight(value);
-        if (Number.isNaN(height))
-            return undefined;
-        min = Math.min(min, height);
-        max = Math.max(max, height);
-        return undefined;
-    });
+
+    for (let x = 0; x < image.width; x++) {
+        for (let y = 0; y < image.height; y++) {
+            const r = image.data[(x + image.width * y) * 4];
+            const g = image.data[(x + image.width * y) * 4 + 1];
+            const pixel: Image.Pixel = {r, g, b: 0.0, a: 0.0};
+            const height = decodeHeight(pixel);
+            min = Math.min(min, height);
+            max = Math.max(max, height);
+        }
+    }
+
+    if (Number.isNaN(min) || Number.isNaN(max))
+        throw TypeError("Failed to parse height data.");
 
     return {
         heightmap: image,
-        range: (max - min) / (pixel_size * scale) * 2.0,
+        range: (max - min) / (pixel_size * scale) * 1.1, // FIX arbitrary 1.1
         multiplier: 1.0 / (pixel_size * scale),
         offset: -min,
     }
@@ -148,6 +153,6 @@ export async function getData(selection: MapSelectionDescriptor): Promise<Terrai
     const resize_factor = Math.min(cropped.width, cropped.height) / display_resolution;
     const resized = Image.resize(cropped, cropped.width / resize_factor * 0.8, cropped.height / resize_factor);
     
-    return getParams(resized, resize_factor * 2.0);
+    return getParams(resized, resize_factor);
 }
 

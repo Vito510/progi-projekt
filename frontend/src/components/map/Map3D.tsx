@@ -55,8 +55,11 @@ export default function Map3D({params}: Props) {
                         </header>
                         <section>
                             <span>
-                                Pokretanje 3D prikaza nije uspjelo. Pokušajte pokrenuti aplikaciju koristeći <em>Chromium based</em> browser.
+                                Pokretanje 3D prikaza nije uspjelo. Pokušajte pokrenuti aplikaciju koristeći "Chromium based" browser.
                             </span>
+                            <Placeholder>
+                                {"" + error}
+                            </Placeholder>
                             <ButtonHome></ButtonHome>
                         </section>
                     </Card>

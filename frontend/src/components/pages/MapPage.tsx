@@ -12,10 +12,16 @@ import ButtonProfile from "../profile/ButtonProfile";
 import ButtonSignIn from "../profile/ButtonSignIn";
 import "./MapPage.css";
 import Card from "../general/Card";
+import Button from "../general/Button";
 
 export default function MapPage() {
 	const auth = useAuth();
-	let [element, setElement] = useState<ReactNode>(<Map2D onInput={handler}/>);
+	let [element, setElement] = useState<ReactNode>(
+		<>
+			<Map2D onInput={handler}/>
+			<Button onClick={dev_handler}>[DEBUG] Skip map</Button>
+		</>
+	);
 
 	// loading screen test
 	// const [element, setElement] = useState<ReactNode>(
@@ -51,16 +57,15 @@ export default function MapPage() {
 				</section>
 			</Card>
 		));
-		// console.info("Selection:", selection);
 
-		// korištenje temp.png
-		console.info("Fetching disabled, using temp.png");
-		const image = await Image.load("/images/temp.png");
-		const params = Tile.getParams(image, 3601 / 512);
+		const params = await Tile.getData(selection);
+		setElement(<Map3D params={params}></Map3D>);
+	}
 
-		// korištenje pravih podataka iz odabrane točke
-		// const params = await Tile.getData(selection);
-
+	async function dev_handler() { // TEMP
+		console.info("Fetching disabled, using heightmap from file");
+		const image = await Image.load("/images/temp3.png");
+		const params = Tile.getParams(image);
 		setElement(<Map3D params={params}></Map3D>);
 	}
 
