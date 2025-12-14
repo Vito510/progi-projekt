@@ -53,3 +53,22 @@
 .-button button.primary:hover {
     background-color: var(--accent-highlight);
 }
+
+.-button button.primary:active {
+    background-color: var(--accent-muted);
+}
+
+
+/* ------------------------------------------------------- */
+
+.-button button.tertiary {
+    background-color: var(--invalid-default);
+}
+
+.-button button.tertiary:hover {
+    background-color: var(--invalid-highlight);
+}
+
+.-button button.tertiary:active {
+    background-color: var(--invalid-muted);
+}

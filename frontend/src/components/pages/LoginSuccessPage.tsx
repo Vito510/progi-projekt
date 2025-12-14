@@ -22,33 +22,13 @@ export default function LoginSuccessPage() {
     }
   )
 
-  // return (
-  //   <>
-  //     <AppHeader/>
-  //     <main className="-login-success-page">
-  //       <div className="card">
-  //         <header>
-  //           <h1>Pozdrav, {user?.name}!</h1>
-  //           <p>Uspješno ste se prijavili u aplikaciju.</p>
-  //         </header>
-
-  //         <section>
-  //           <ButtonHome></ButtonHome>
-  //           <ButtonProfile></ButtonProfile>
-  //           <ButtonSignOut></ButtonSignOut>
-  //         </section>
-  //       </div>
-  //     </main>
-  //   </>
-  // );
-
   return (
     <>
       <AppHeader/>
       <main className="-login-success-page">
         <Card>
           <header>
-            <h1>Pozdrav, {user?.name}!</h1>
+            <h2>Pozdrav, {user?.name}!</h2>
             <em>Uspješno ste se prijavili u aplikaciju.</em>
           </header>
           <section>

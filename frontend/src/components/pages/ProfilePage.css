@@ -5,26 +5,14 @@
     align-items: start;
 
     width: max-content;
+    height: 100%;
+}
 
-    background-color: var(--theme-default);
-    border-radius: var(--roundness);
-    box-shadow: var(--shadow-sharp);
-    border: var(--border-accent);
-
+.-profile-page>aside>.-card {
     animation-name: slide-up;
     animation-duration: 0.5s;
-}
 
-.-profile-page>aside>ul {
-    width: 100%;
-    padding: var(--spacing);
-}
-
-.-profile-page>aside>ul>li {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+    box-shadow: var(--shadow-smooth), var(--shadow-sharp), var(--shadow-highlight);
 }
 
 /* ------------------------------------------------------- */

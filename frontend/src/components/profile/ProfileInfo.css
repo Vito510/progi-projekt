@@ -1,13 +1,43 @@
 .-profile-info {
     width: 100%;
-    padding: var(--spacing);
-    /* background-color: var(--block-highlight); */
-    /* background-color: #ffffff08; */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--packing);
 }
 
-.-profile-info>li {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+/* ------------------------------------------------------- */
+
+.-profile-info input {
+  background-color: var(--theme-highlight);
+  border-radius: var(--roundness);
+  border: none;
+
+  color: var(--text-default);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: inherit;
 }
+  
+.-profile-info input:hover {
+  background-color: var(--darken);
+}
+
+.-profile-info input:active {
+  background-color: var(--highlight); 
+}
+
+.-profile-info input:focus {
+  outline: 2px solid var(--highlight);
+  outline-offset: 2px;
+}
+
+/* ------------------------------------------------------- */
+
+.-profile-info .error {
+    color: var(--invalid-default);
+    font-family: monospace;
+}
+
+/* ------------------------------------------------------- */

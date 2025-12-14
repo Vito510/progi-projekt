@@ -1,4 +1,4 @@
-import type TrackListDescriptor from "../../interfaces/TrackListDescriptor";
+import type TrackListDescriptor from "../../interfaces/TrackList";
 import TrackCard from "./TrackCard";
 import "./TrackList.css";
 

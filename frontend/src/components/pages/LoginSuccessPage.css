@@ -12,11 +12,6 @@
 
 /* ------------------------------------------------------- */
 
-.-login-success-page em {
-    color: var(--text-muted);
-    font-style: normal;
-}
-
 .-login-success-page section {
     display: flex;
     flex-direction: row;

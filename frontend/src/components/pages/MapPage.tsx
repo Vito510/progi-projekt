@@ -1,7 +1,7 @@
 // import { useEffect } from "react";
 import { useState, type ReactNode } from "react";
 import { useAuth } from "../../context/AuthContext";
-// import * as Image from '../../scripts/utility/image';
+import * as Image from '../../utility/image';
 import * as Tile from "../../utility/tile";
 import type MapSelection from "../../interfaces/MapSelection";
 import AppFooter from "../general/AppFooter";
@@ -54,12 +54,12 @@ export default function MapPage() {
 		// console.info("Selection:", selection);
 
 		// korištenje temp.png
-		// console.info("Fetching disabled, using temp.png");
-		// const image = await Image.load("/images/temp.png");
-		// const params = Tile.getParams(image, 3601 / 512);
+		console.info("Fetching disabled, using temp.png");
+		const image = await Image.load("/images/temp.png");
+		const params = Tile.getParams(image, 3601 / 512);
 
 		// korištenje pravih podataka iz odabrane točke
-		const params = await Tile.getData(selection);
+		// const params = await Tile.getData(selection);
 
 		setElement(<Map3D params={params}></Map3D>);
 	}

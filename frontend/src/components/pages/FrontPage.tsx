@@ -1,5 +1,5 @@
 import './FrontPage.css';
-import type TrackDescriptor from '../../interfaces/TrackDescriptor';
+import type TrackDescriptor from '../../interfaces/Track';
 import TrackList from '../track/TrackList';
 import AppFooter from '../general/AppFooter';
 import AppHeader from '../general/AppHeader';
@@ -7,7 +7,6 @@ import ButtonProfile from '../profile/ButtonProfile';
 import ButtonSignIn from '../profile/ButtonSignIn';
 import { useAuth } from '../../context/AuthContext';
 import ButtonNewTrack from '../track/ButtonNewTrack';
-import Placeholder from '../general/Placeholder';
 
 export default function FrontPage() {
     const auth = useAuth();
@@ -32,8 +31,7 @@ export default function FrontPage() {
             </AppHeader>
             <main className='-front-page'>
                 <div className="banner"></div>
-                <h1>Najbolje staze</h1>
-                <Placeholder>[Nedovršeno]</Placeholder>
+                <h2>Najbolje staze</h2>
                 <TrackList tracks={tracks}/>
             </main>
             <AppFooter/>

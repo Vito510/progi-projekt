@@ -11,6 +11,50 @@
     flex-direction: column;
 }
 
-.-list.centered {
+.-list.wrap {
+    flex-wrap: wrap;
+}
+
+/* ------------------------------------------------------- */
+
+.-list.small {
+    gap: var(--packing);
+}
+
+.-list.medium {
+    gap: calc(var(--spacing) * 0.5);
+}
+
+.-list.large {
+    gap: var(--spacing);
+}
+
+/* ------------------------------------------------------- */
+
+.-list.justify-start {
+    justify-content: start;
+}
+
+.-list.justify-end {
+    justify-content: end;
+}
+
+.-list.justify-center {
+    justify-content: center;
+}
+
+/* ------------------------------------------------------- */
+
+.-list.align-start {
+    align-items: start;
+}
+
+.-list.align-end {
+    align-items: end;
+}
+
+.-list.align-center {
     align-items: center;
 }
+
+/* ------------------------------------------------------- */

@@ -13,11 +13,11 @@ export default function LoginPage() {
       <main className="-login-page">
         <Card>
           <header>
-            <h1>Prijava</h1>
+            <h2>Prijava</h2>
             <em>Prijavite se u svoji profil</em>
           </header>
           <section>
-            <Button onClick={login}>
+            <Button onClick={login} type="primary">
               Login with Google
             </Button>
           </section>

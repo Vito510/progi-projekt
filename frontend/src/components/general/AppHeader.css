@@ -6,7 +6,7 @@
     
     background-color: var(--theme-default);
     outline: var(--thickness) solid var(--theme-muted);
-    border-bottom: var(--border-accent);
+    border-bottom: var(--border-highlight);
 
     display: flex;
     flex-direction: row;
@@ -32,6 +32,7 @@
 .-app-header section {
     display: flex;
     flex-direction: row;
+    align-items: center;
     gap: var(--packing);
 }
 

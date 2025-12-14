@@ -1,21 +1,26 @@
 import type { ReactNode } from "react";
+import "./List.css";
 
 interface Props {
     children?: ReactNode,
-    row?: boolean,
-    column?: boolean,
-    centered?: boolean
+    type?: "row" | "column",
+    align?: "start" | "end" | "center",
+    justify?: "start" | "end" | "center",
+    wrap?: boolean,
+    gap?: "nogap" | "small" | "medium" | "large",
 }
 
-export default function List({children, row = false, column = true, centered = false}: Props) {
+export default function List({children, type = "row", align = "start", justify = "start", wrap = false, gap = "nogap"}: Props) {
     let className = "-list";
-    if (column) className += " column";
-    if (row) className += " row";
-    if (centered) className += " centered";
+    if (wrap) className += " wrap";
+    className += " " + gap
+    className += " align-" + align
+    className += " " + type
+    className += " justify-" + justify
 
     return (
-        <ul className={className}>
+        <div className={className}>
             {children}
-        </ul>
+        </div>
     );
 }

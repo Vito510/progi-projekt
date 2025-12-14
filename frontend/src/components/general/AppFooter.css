@@ -9,7 +9,7 @@
     
     background-color: var(--theme-default);
     outline: var(--thickness) solid var(--theme-muted);
-    border-top: var(--border-accent);
+    border-top: var(--border-highlight);
 
     display: flex;
     flex-direction: column;

@@ -68,7 +68,7 @@ export default function RegisterPage() {
       <main className="-register-page">
         <Card>
           <header>
-            <h1>Registracija</h1>
+            <h2>Registracija</h2>
           </header>
           <section>
             <div className="column">

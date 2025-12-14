@@ -22,6 +22,8 @@
     .-front-page {
         width: 100%;
         background: none;
+        box-shadow: none;
+        border: none;
     }
 }
 
