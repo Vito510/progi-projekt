@@ -77,7 +77,7 @@
     box-sizing: border-box;
     margin: 0rem;
     padding: 0rem;
-    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    font-family: TASA_Orbiter;
     color: var(--text-default);
 }
 
@@ -88,6 +88,11 @@ a {
 em {
     color: var(--text-muted);
     font-style: normal;
+}
+
+h1 {
+    font-family: Audiowide;
+    font-weight: normal;
 }
 
 /* ------------------------------------------------------- */
@@ -110,3 +115,17 @@ em {
 
 /* ------------------------------------------------------- */
 
+/* FONT IMPORTS */
+
+@font-face {
+    font-family: TASA_Orbiter;
+    src: url(/fonts/TASA_Orbiter/TASAOrbiter-VariableFont_wght.ttf);
+}
+
+@font-face {
+    font-family: Audiowide;
+    src: url(/fonts/Audiowide/Audiowide-Regular.ttf);
+}
+
+
+/* ------------------------------------------------------- */
