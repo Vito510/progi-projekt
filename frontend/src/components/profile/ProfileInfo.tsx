@@ -9,11 +9,15 @@ import Card from '../general/Card';
 export default function ProfileInfo() {
     const auth = useAuth();
     const [popup, setPopup] = useState<ReactNode | null>(null);
-    const same_profile: boolean = true // dodati provjeru jel trenutni profil koji se ucita naš profil ili tuđi
+    const [show_buttons, setShowButtons] = useState<boolean>(true) // dodati provjeru jel trenutni profil koji se ucita naš profil ili tuđi
     const [error_message, setErrorMessage] = useState<string | null>(null);
 
-    const input_handler = () => { // provjeri jel unesen dobar username
+    const save_handler = () => { // provjeri jel unesen dobar username
         setErrorMessage("Neispravno ime, pokušajte ponovno.");
+    }
+
+    const delete_handler = () => {
+
     }
 
     const close_popup = () => {
@@ -32,7 +36,7 @@ export default function ProfileInfo() {
                         <List type='row' gap='large' align='center' wrap>
                             <input type="text" placeholder="Unesite korisničko ime"/>
                             <List type='row' gap='small' align='center'>
-                                <Button type='primary' onClick={input_handler}>
+                                <Button type='primary' onClick={save_handler}>
                                     <i className='fa fa-check'></i>
                                     Spremi
                                 </Button>
@@ -60,7 +64,7 @@ export default function ProfileInfo() {
                     <List type='row' gap='large' align='center' wrap>
                         <p>Jeste li sigurni da želite obrisati svoji profil?</p>
                         <List type='row' gap='small' align='center'>
-                            <Button type='tertiary'>
+                            <Button type='tertiary' onClick={delete_handler}>
                                 <i className='fa fa-trash'></i>
                                 Obriši
                             </Button>
@@ -75,24 +79,24 @@ export default function ProfileInfo() {
         );
     }
 
-    const profile_buttons = <>
-        <List type='row' gap='small' wrap>
-            <Button onClick={popup_edit_profile}>
-                <i className='fa fa-cog'></i>
-                Uredi profil
-            </Button>
-            <Button onClick={popup_delete_profile}>
-                <i className='fa fa-trash'></i>
-                Izbriši profil
-            </Button>
-        </List>
-    </>
-
     return (
         <div className="-profile-info">
             <h2>{auth.user?.name ? auth.user.name : "Naziv profila"}</h2>
             <p>{auth.user?.email ? auth.user.email : "email.adresa@email.com"}</p>
-            {same_profile && profile_buttons}
+            {show_buttons && 
+                <>
+                    <List type='row' gap='small' wrap>
+                        <Button onClick={popup_edit_profile}>
+                            <i className='fa fa-cog'></i>
+                            Uredi profil
+                        </Button>
+                        <Button onClick={popup_delete_profile}>
+                            <i className='fa fa-trash'></i>
+                            Izbriši profil
+                        </Button>
+                    </List>
+                </>
+            }
             {popup}
         </div>
     );
