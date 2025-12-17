@@ -13,7 +13,6 @@
     border-radius: var(--roundness);
     background-color: var(--accent-muted);
     box-shadow: var(--shadow-highlight);
-    /* border: 1px solid var(--accent-highlight); */
     border: none;
 
     font-size: inherit;
@@ -58,7 +57,6 @@
     background-color: var(--accent-muted);
 }
 
-
 /* ------------------------------------------------------- */
 
 .-button button.tertiary {
@@ -72,3 +70,27 @@
 .-button button.tertiary:active {
     background-color: var(--invalid-muted);
 }
+
+/* ------------------------------------------------------- */
+
+.-button button.disabled {
+    background-color: var(--theme-highlight);
+    box-shadow: none;
+}
+
+.-button button.disabled * {
+    color: var(--text-muted);
+}
+
+.-button button.disabled:hover {
+    background-color: var(--theme-highlight);
+    box-shadow: none;
+    cursor: default;
+}
+
+.-button button.disabled:active {
+    background-color: var(--theme-highlight);
+    box-shadow: none;
+}
+
+/* ------------------------------------------------------- */
