@@ -133,7 +133,7 @@ export function getParams(image: ImageData, scale : number = 1.0): TerrainParame
 
     return {
         heightmap: image,
-        range: (max - min) / (pixel_size * scale) * 1.1, // FIX arbitrary 1.1
+        range: (max - min) / (pixel_size * scale) * 1.1, // ARBITRARY
         multiplier: 1.0 / (pixel_size * scale),
         offset: -min,
     }

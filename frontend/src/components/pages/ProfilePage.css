@@ -52,6 +52,10 @@
 
 @media screen and (max-width: 768px) {
     .-profile-page {
+        box-shadow: none;
+        border: none;
+        width: 100%;
+
         display: grid;
         grid-template-areas: 'a' 'm';
         grid-template-columns: 1fr;

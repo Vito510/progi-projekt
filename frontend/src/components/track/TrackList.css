@@ -5,6 +5,7 @@
     align-items: center;
     height: 100%;
     min-height: 0;
+    width: fit-content;
 
     gap: var(--spacing);
     padding: calc(var(--thickness) * 4);
@@ -13,4 +14,11 @@
     overflow-x: hidden;
     padding-bottom: var(--spacing);
     scrollbar-color: var(--text-default) #00000000;
+}
+
+
+@media screen and (max-width: 768px) {
+    .-track-list {
+        width: 100%;
+    }
 }

@@ -10,11 +10,12 @@ export default function TrackList({ tracks }: TrackListDescriptor) {
           key={index}
           index={index}
           name={track.name}
-          latitude={track.latitude}
-          longitude={track.longitude}
           length={track.length}
           stars={track.stars}
           visibility={track.visibility}
+          id={index}
+          owner="Naziv vlasnika"
+          date={new Date(2022, 11, 24, 10, 33, 30, 0)}
         />
       ))}
     </ul>

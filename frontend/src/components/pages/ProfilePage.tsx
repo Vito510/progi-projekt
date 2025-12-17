@@ -43,7 +43,7 @@ export default function ProfilePage() {
                     </Card>
                 </aside>
                 <menu>
-                    <h2>Korisničke staze</h2>
+                    <h1>Korisničke staze</h1>
                     <TrackList tracks={tracks}/>
                 </menu>
             </main>

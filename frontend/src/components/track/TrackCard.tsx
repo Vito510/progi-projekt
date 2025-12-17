@@ -1,17 +1,20 @@
 import { useEffect, useRef } from 'react';
 import './TrackCard.css';
+import List from '../general/List';
+import Button from '../general/Button';
 
 interface Props {
     index?: number,
     name: string,
-    longitude: number,
-    latitude: number,
     length: number,
     stars: number,
     visibility: string,
+    id: number,
+    owner: string
+    date: Date
 }
 
-export default function TrackCard({index = 0, name, longitude, latitude, length, stars, visibility} : Props) {
+export default function TrackCard({index = 0, id, name, owner, date, length, stars, visibility} : Props) {
     const ref = useRef<HTMLLIElement>(null);
     useEffect(() => {
         if (ref.current)
@@ -20,28 +23,52 @@ export default function TrackCard({index = 0, name, longitude, latitude, length,
 
     return (
         <li className="-track-card" ref={ref}>
-            <h3>{name}</h3>
-            <div className="column centered">
-                <i className="fa fa-map-marker"></i>
-                <p>{latitude} {longitude}</p>
-            </div>
-            <div className="column centered">
-                <i className="fa fa-arrows-h"></i>
-                <p>{length}km</p>
-            </div>
-            <div className="column centered">
-                <i className="fa fa-star"></i>
-                <p>{stars}</p>
-            </div>
-            <div>
-                {
-                    visibility === 'Public'
-                    ?
-                    <i className="fa fa-eye fa-2x"></i>
-                    :
-                    <i className="fa fa-eye-slash fa-2x"></i>
-                }
-            </div>
+            <header>
+                <section>
+                    <List type='column' align='start' justify='center'>
+                        <h3>{name}</h3>
+                        <small className='collapsed'><em>#{id}</em></small>
+                    </List>
+                    <List type='column' align='end' justify='center'>
+                        <p>{owner}</p>
+                        <small className='collapsed'><em>{date.toDateString()}</em></small>
+                    </List>
+                </section>
+            </header>
+            <footer>
+                <section>
+                    <span>
+                        <i className="fa fa-arrows-h"></i>
+                        <p className='collapsed'>Duljina</p>
+                        <samp>{length}km</samp>
+                    </span>
+                    <span>
+                        <i className="fa fa-star"></i>
+                        <p className='collapsed'>Broj zvjezdica</p>
+                        <samp>{stars}</samp>
+                    </span>
+                    <span>
+                        <i className={"fa fa-2x " + (visibility === 'Public' ? 'fa-eye' : 'fa-eye-slash') + " open"}></i>
+                        <i className="fa fa-eye collapsed"></i>
+                        <p className='collapsed'>Vidljivost</p>
+                        <samp className='collapsed'>{visibility === 'Public' ? 'javno' : 'privatno'}</samp>
+                    </span>
+                </section>
+                <section>
+                    <Button type='primary'>
+                        <i className='fa fa-external-link'></i>
+                        Otvori
+                    </Button>
+                    <Button type='secondary'>
+                        <i className='fa fa-star'></i>
+                        Ocjeni
+                    </Button>
+                    <Button type='secondary'>
+                        <i className='fa fa-clone'></i>
+                        Podijeli
+                    </Button>
+                </section>
+            </footer>
         </li>
     );
 };

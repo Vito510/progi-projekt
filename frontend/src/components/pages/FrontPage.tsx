@@ -31,7 +31,7 @@ export default function FrontPage() {
             </AppHeader>
             <main className='-front-page'>
                 <div className="banner"></div>
-                <h2>Najbolje staze</h2>
+                <h1>Najbolje staze</h1>
                 <TrackList tracks={tracks}/>
             </main>
             <AppFooter/>

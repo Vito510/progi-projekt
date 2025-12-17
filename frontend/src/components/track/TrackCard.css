@@ -2,18 +2,17 @@
 .-track-card {
     transition: background-color 0.25s;
 
+    min-height: fit-content;
+    overflow: hidden;
+
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 
-    gap: var(--spacing);
-    padding: calc(var(--spacing) / 2) var(--spacing) calc(var(--spacing) / 2) var(--spacing);
-
     background-color: var(--accent-muted);
     border-radius: var(--roundness);
     box-shadow: var(--shadow-highlight), var(--shadow-smooth), var(--shadow-sharp);
-    /* border: var(--border-accent); */
     
     opacity: 0%;
     transform: translate(50%, 0%);
@@ -25,8 +24,155 @@
 .-track-card:hover {
     transition: background-color 0.25s;
     background-color: var(--accent-default);
-    border-color: var(--accent-highlight);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
+
+/* ------------------------------------------------------- */
+
+.-track-card .collapsed {
+    display: none;
+}
+
+.-track-card:hover .collapsed {
+    display: block;
+}
+
+.-track-card .open {
+    display: block;
+}
+
+.-track-card:hover .open {
+    display: none;
+}
+
+.-track-card samp {
+    background-color: var(--darken);
+    border-radius: var(--roundness);
+    /* border: var(--border-highlight); */
+    /* box-shadow: var(--shadow-inset); */
+    padding: 0.25rem 0.5rem;
+    font-family: monospace;
+}
+
+/* ------------------------------------------------------- */
+
+.-track-card>* {
+    padding: calc(var(--spacing) / 2) calc(var(--spacing) * 2);
+    height: 100%;
+    width: auto;
+}
+
+.-track-card:hover>* {
+    height: auto;
+    width: 100%;
+}
+
+/* ------------------------------------------------------- */
+
+.-track-card>footer {
+    background-color: var(--darken);
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: var(--spacing);
+}
+
+.-track-card>footer>* {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--spacing);
+}
+
+.-track-card:hover>footer>* {
+    flex-direction: column;
+    gap: var(--packing);
+
+    animation-name: slide-down;
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+.-track-card:hover>footer>*:first-child {
+    align-items: start;
+}
+
+.-track-card>footer>*:last-child {
+    display: none;
+}
+
+.-track-card:hover>footer>*:last-child {
+    display: flex;
+    align-items: end;
+}
+
+.-track-card>footer span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(var(--packing) * 0.5);
+}
+
+.-track-card:hover>footer span {
+    flex-direction: row;
+    gap: var(--packing);
+}
+
+/* ------------------------------------------------------- */
+
+.-track-card>header section {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+
+.-track-card:hover>header section {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.-track-card:hover>header {
+    box-shadow: var(--shadow-smooth);
+    background: linear-gradient(116deg,#00000000 30%, var(--highlight) 50%, #00000000 70%);
+    animation: background-glint 1s ease;
+    background-size: 400% 400%;
+}
+
+/* ------------------------------------------------------- */
+
+@media screen and (max-width: 768px) {
+    .-track-card>footer {
+        flex-direction: column;
+    }
+
+    .-track-card:hover>footer>*:first-child {
+        align-items: center;
+    }
+
+    .-track-card:hover>footer>*:last-child {
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .-track-card>* {
+        padding: calc(var(--spacing) / 2) var(--spacing);
+    }
+    
+    .-track-card {
+        width: 100%;
+    }
+}
+
+/* ------------------------------------------------------- */
 
 @keyframes slide-left {
     0% {
@@ -38,3 +184,25 @@
         transform: translate(0%, 0%);
     }
 }
+
+@keyframes slide-down {
+    0% {
+        opacity: 0%;
+        transform: translate(0%, -10%);
+    }
+    100% {
+        opacity: 100%;
+        transform: translate(0%, 0%);
+    }
+}
+
+@keyframes background-glint {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+/* ------------------------------------------------------- */
