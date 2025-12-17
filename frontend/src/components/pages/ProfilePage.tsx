@@ -1,5 +1,5 @@
 import './ProfilePage.css';
-import type TrackDescriptor from '../../interfaces/Track';
+import type Track from '../../interfaces/Track';
 import AppHeader from '../general/AppHeader';
 import AppFooter from '../general/AppFooter';
 import TrackList from '../track/TrackList';
@@ -11,17 +11,24 @@ import Card from '../general/Card';
 
 export default function ProfilePage() {
 
-    let track: TrackDescriptor = {
+
+    // TEMP stvaranje rute za debug
+    let route: Track = {
         name: "Naziv staze",
-        longitude: 45.79,
-        latitude: 15.96,
-        length: 13,
         stars: 101,
-        visibility: 'Private'
+        visibility: 'Private',
+        owner: "Naziv vlasnika",
+        date_created: new Date(2018, 11, 24, 10, 33, 30, 0),
+        id: 0,
+        max_lat: 0,
+        max_lon: 0,
+        min_lat: 0,
+        min_lon: 0,
+        points: [],
     }
-    let tracks: TrackDescriptor[] = [];
+    let tracks: [Track] = [route];
     for (let i=0; i<10; i++)
-        tracks.push(track);
+        tracks.push(route);
 
 
     return (

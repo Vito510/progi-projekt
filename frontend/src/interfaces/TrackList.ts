@@ -1,5 +1,5 @@
-import type TrackDescriptor from "./Track";
+import type Track from "./Track";
 
 export default interface TrackListDescriptor {
-    tracks: TrackDescriptor[],
+    tracks: Track[],
 }

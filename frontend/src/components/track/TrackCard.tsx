@@ -27,11 +27,11 @@ export default function TrackCard({index = 0, id, name, owner, date, length, sta
                 <section>
                     <List type='column' align='start' justify='center'>
                         <h3>{name}</h3>
-                        <small className='collapsed'><em>#{id}</em></small>
+                        <em className='collapsed'>#{id}</em>
                     </List>
                     <List type='column' align='end' justify='center'>
                         <p>{owner}</p>
-                        <small className='collapsed'><em>{date.toDateString()}</em></small>
+                        <em className='collapsed'>{date.toDateString()}</em>
                     </List>
                 </section>
             </header>

@@ -1,5 +1,5 @@
 import './FrontPage.css';
-import type TrackDescriptor from '../../interfaces/Track';
+import type Track from '../../interfaces/Track';
 import TrackList from '../track/TrackList';
 import AppFooter from '../general/AppFooter';
 import AppHeader from '../general/AppHeader';
@@ -11,17 +11,25 @@ import ButtonNewTrack from '../track/ButtonNewTrack';
 export default function FrontPage() {
     const auth = useAuth();
 
-    let route: TrackDescriptor = {
+
+    // TEMP stvaranje rute za debug
+    let route: Track = {
         name: "Naziv staze",
-        longitude: 45.79,
-        latitude: 15.96,
-        length: 13,
         stars: 101,
-        visibility: 'Private'
+        visibility: 'Private',
+        owner: "Naziv vlasnika",
+        date_created: new Date(2018, 11, 24, 10, 33, 30, 0),
+        id: 0,
+        max_lat: 0,
+        max_lon: 0,
+        min_lat: 0,
+        min_lon: 0,
+        points: [],
     }
-    let tracks: [TrackDescriptor] = [route];
+    let tracks: [Track] = [route];
     for (let i=0; i<10; i++)
         tracks.push(route);
+
 
     return (
         <>
