@@ -1,8 +1,12 @@
-import type TrackListDescriptor from "../../interfaces/TrackList";
+import type Track from "../../interfaces/Track";
 import TrackCard from "./TrackCard";
 import "./TrackList.css";
 
-export default function TrackList({ tracks }: TrackListDescriptor) {
+interface Props {
+  tracks: Track[],
+}
+
+export default function TrackList({tracks}: Props) {
   return (
     <ul className="-track-list">
       {tracks.map((track, index) => (

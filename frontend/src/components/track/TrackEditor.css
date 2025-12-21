@@ -1,0 +1,70 @@
+
+/* ------------------------------------------------------- */
+
+*.-track-editor-loading {
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ------------------------------------------------------- */
+
+.-track-editor>header {
+    grid-area: h;
+    padding: 1rem;
+    border-bottom: var(--border-highlight);
+    box-shadow: var(--shadow-smooth);
+}
+
+.-track-editor>section {
+    grid-area: c;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    background-color: var(--darken);
+}
+
+.-track-editor>aside {
+    grid-area: a;
+    padding: var(--spacing);
+    border-left: var(--border-highlight);
+}
+
+/* ------------------------------------------------------- */
+
+.-track-editor {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+
+    display: grid;
+    grid-template-areas: 'h h' 'c a';
+    grid-template-columns: 1fr 0fr;
+    grid-template-rows: 0fr 1fr;
+
+    background-color: var(--theme-default);
+    border-radius: var(--roundness);
+    box-shadow: var(--shadow-sharp), var(--shadow-highlight);
+
+    overflow: hidden;
+}
+
+@media screen and (max-width: 768px) {
+    .-track-editor {
+        grid-template-areas: 'h' 'c' 'a';
+        grid-template-columns: 1fr;
+        grid-template-rows: 0fr 3fr 1fr;
+    }
+    .-track-editor>aside {
+        border-left: none;
+        border-top: var(--border-highlight);
+
+        overflow-y: scroll;
+    }
+}
+
+/* ------------------------------------------------------- */
+

@@ -46,7 +46,7 @@ export default function Map3D({params}: Props) {
 
     if (error) {
         return (
-            <div className='-map3d-popup'>
+            <div className='-map3d'>
                 <Popup>
                     <Card>
                         <header>
@@ -69,20 +69,7 @@ export default function Map3D({params}: Props) {
     }
 
     return (
-        <div className='-map3d'>
-            <Card>
-                <canvas ref={canvasRef}></canvas>
-                <hr />
-                <footer>
-                    <Placeholder>
-                        [DEMO]
-                    </Placeholder>
-                    <Placeholder>
-                        Kontrole: Lijevi gumb miša + Drag, Lijevi gumb miša + Scroll
-                    </Placeholder>
-                </footer>
-            </Card>
-        </div>
+        <canvas ref={canvasRef} className='-map3d'></canvas>
     );
 }
 

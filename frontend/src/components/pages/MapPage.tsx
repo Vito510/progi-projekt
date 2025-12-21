@@ -1,4 +1,4 @@
-// import { useEffect } from "react";
+import "./MapPage.css";
 import { useState, type ReactNode } from "react";
 import { useAuth } from "../../context/AuthContext";
 import * as Image from '../../utility/image';
@@ -7,12 +7,12 @@ import type MapSelection from "../../interfaces/MapSelection";
 import AppFooter from "../general/AppFooter";
 import AppHeader from "../general/AppHeader";
 import Map2D from "../map/Map2D";
-import Map3D from "../map/Map3D";
 import ButtonProfile from "../profile/ButtonProfile";
 import ButtonSignIn from "../profile/ButtonSignIn";
-import "./MapPage.css";
 import Card from "../general/Card";
 import Button from "../general/Button";
+import type Track from "../../interfaces/Track";
+import TrackEditor from "../track/TrackEditor";
 
 export default function MapPage() {
 	const auth = useAuth();
@@ -22,21 +22,6 @@ export default function MapPage() {
 			<Button onClick={dev_handler}>[DEBUG] Skip map</Button>
 		</>
 	);
-
-	// loading screen test
-	// const [element, setElement] = useState<ReactNode>(
-	// 	<Card>
-	// 		<header style={{ fontSize: "1.5rem" }}>
-	// 			<i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
-	// 			<span> Učitavanje reljefa</span>
-	// 		</header>
-	// 		<section>
-	// 			<code>{`Dohvaćanje 5 regija`}</code>
-	// 			<br></br>
-	// 			<code>Moglo bi potrajati...</code>
-	// 		</section>
-	// 	</Card>
-	// );
 
 	// handler koji samo sprema sliku mape s prozora
 	// async function handler(selection: MapSelection, mapImage?: ImageData) {
@@ -59,14 +44,41 @@ export default function MapPage() {
 		));
 
 		const params = await Tile.getData(selection);
-		setElement(<Map3D params={params}></Map3D>);
+		const track: Track = {
+			name: "Naziv staze",
+			stars: 101,
+			visibility: 'Private',
+			owner: "Naziv vlasnika",
+			date_created: new Date(2018, 11, 24, 10, 33, 30, 0),
+			id: 0,
+			max_lat: 0,
+			max_lon: 0,
+			min_lat: 0,
+			min_lon: 0,
+			points: [],
+			override: params,
+		}
+		setElement(<TrackEditor track={track}></TrackEditor>);
 	}
 
 	async function dev_handler() { // TEMP
-		console.info("Fetching disabled, using heightmap from file");
 		const image = await Image.load("/images/temp3.png");
 		const params = Tile.getParams(image);
-		setElement(<Map3D params={params}></Map3D>);
+		const track: Track = {
+			name: "Naziv staze",
+			stars: 101,
+			visibility: 'Private',
+			owner: "Naziv vlasnika",
+			date_created: new Date(2018, 11, 24, 10, 33, 30, 0),
+			id: 0,
+			max_lat: 0,
+			max_lon: 0,
+			min_lat: 0,
+			min_lon: 0,
+			points: [],
+			override: params,
+		}
+		setElement(<TrackEditor track={track}></TrackEditor>);
 	}
 
 	return (

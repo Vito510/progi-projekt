@@ -25,7 +25,7 @@ export default class Camera {
         this.free_mode = free_mode;
         this.orbit_mode = orbit_mode;
         this.orbit_anchor = orbit_anchor;
-        this.enabled = false;
+        this.enabled = true;
         this.#key_states = {};
 
         document.addEventListener('keydown', (event) => {
@@ -38,8 +38,15 @@ export default class Camera {
                 this.#key_states[event.key] = false;
         });
 
-        canvas.addEventListener('mousedown', () => {
+        canvas.addEventListener('mouseenter', () => {
             this.enabled = true;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            this.enabled = false;
+        });
+
+        canvas.addEventListener('mousedown', () => {
             const move_handler = (event) => {
                 if (this.orbit_mode)
                     this.updateOrbit(event.movementX, event.movementY);
@@ -48,7 +55,6 @@ export default class Camera {
             };
 
             const exit_handler = () => {
-                this.enabled = false;
                 document.removeEventListener("mousemove", move_handler);
                 document.removeEventListener("mouseup", exit_handler);
             };

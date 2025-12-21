@@ -26,7 +26,7 @@ export default function ProfilePage() {
         min_lon: 0,
         points: [],
     }
-    let tracks: [Track] = [route];
+    let tracks: Track[] = [];
     for (let i=0; i<10; i++)
         tracks.push(route);
 
