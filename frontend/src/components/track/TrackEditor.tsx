@@ -9,6 +9,8 @@ import Card from '../general/Card.js';
 import Map3D from '../map/Map3D.js';
 import type { ReactNode } from 'react';
 import { useEffect, useState } from 'react';
+import TrackPointEditor from './TrackPointEditor.js';
+import type TrackPoint from '../../interfaces/TrackPoint.js';
 
 interface Props {
     track: Track
@@ -37,31 +39,38 @@ export default function TrackEditor({track}: Props) {
             </Card>
         </div>
     );
+
+    function handler(points: TrackPoint[]) {
+        console.log(points);
+        track.points = points
+    } 
     
     function setMap(params: TerrainParameter) {
         setElement(
             <div className='-track-editor'>
                 <header>
                     <List type='row' gap='medium' wrap justify='center' align='center'>
+                        {/* <h2>{track.name}</h2> */}
+                        <input type="text" placeholder="Unesite naziv staze" value={track.name}/>
                         {/* zamiijeniti sa gumbom za spremanje */}
                         <Button type='primary'>
                             <i className='fa fa-save'></i>
-                            Spremi
+                            <p>Spremi</p>
                         </Button>
                         {/* zamiijeniti sa gumbom za ocjenjivanje */}
                         <Button type='secondary'>
                             <i className='fa fa-star'></i>
-                            Ocjeni
+                            <p>Ocjeni</p>
                         </Button>
                         {/* zamiijeniti sa gumbom za dijeljenje */}
                         <Button type='secondary'>
                             <i className='fa fa-clone'></i>
-                            Podijeli
+                            <p>Podijeli</p>
                         </Button>
                         {/* zamiijeniti sa gumbom za brisanje */}
                         <Button type='tertiary'>
                             <i className='fa fa-trash'></i>
-                            Izbriši
+                            <p>Izbriši</p>
                         </Button>
                     </List>
                 </header>
@@ -69,7 +78,7 @@ export default function TrackEditor({track}: Props) {
                     <Map3D params={params}></Map3D>
                 </section>
                 <aside>
-                    test
+                    <TrackPointEditor points={track.points} onInput={handler}></TrackPointEditor>
                 </aside>
             </div>
         );
@@ -86,7 +95,7 @@ export default function TrackEditor({track}: Props) {
             params = track.override;
             setMap(params); 
         }
-    }, []);
+    }, [track.points]);
 
     return (
         <div className='-track-editor-loading'>

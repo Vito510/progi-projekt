@@ -25,7 +25,7 @@
     --shadow-highlight: inset 0px 1px 0px var(--highlight);
     --shadow-accent: inset 0px 1px 0px var(--accent-default);
     --shadow-smooth: 0px 0px 5px #00000080, 0px 0px calc(var(--thickness) * 4) #00000040;
-    --shadow-inset: inset var(--shadow-smooth), inset 0px -1px 0px var(--highlight);
+    --shadow-inset: inset 0px 0px 5px #00000080, inset 0px 0px calc(var(--thickness) * 4) #00000040, inset 0px -1px 0px var(--highlight);
     --shadow-sharp: var(--thickness) var(--thickness) 0px var(--theme-muted);
 
     --border-highlight: 1px solid var(--highlight);

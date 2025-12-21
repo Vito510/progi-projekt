@@ -13,6 +13,7 @@ import Card from "../general/Card";
 import Button from "../general/Button";
 import type Track from "../../interfaces/Track";
 import TrackEditor from "../track/TrackEditor";
+import type TrackPoint from "../../interfaces/TrackPoint";
 
 export default function MapPage() {
 	const auth = useAuth();
@@ -64,6 +65,14 @@ export default function MapPage() {
 	async function dev_handler() { // TEMP
 		const image = await Image.load("/images/temp3.png");
 		const params = Tile.getParams(image);
+		const points: TrackPoint[] = [];
+		for (let i=0; i<20; i++) {
+			points.push({
+				x: Math.random() * 100,
+				y: Math.random() * 100,
+				z: Math.random() * 100,
+			});
+		}
 		const track: Track = {
 			name: "Naziv staze",
 			stars: 101,
@@ -75,7 +84,7 @@ export default function MapPage() {
 			max_lon: 0,
 			min_lat: 0,
 			min_lon: 0,
-			points: [],
+			points: points,
 			override: params,
 		}
 		setElement(<TrackEditor track={track}></TrackEditor>);
