@@ -34,10 +34,10 @@ export default function TrackPointEditor({points, onInput = () => {}}: Props) {
                 {pointList.map((value, index) => 
                     <li key={index}>
                         <samp>({Math.round(value.x)},{Math.round(value.y)},{Math.round(value.z)})</samp>
-                        <Button shape="round" type="secondary" onClick={() => swap(pointList, index, 1)}>
+                        <Button shape="round" type="primary" onClick={() => swap(pointList, index, 1)}>
                             <i className="fa fa-chevron-up"></i>
                         </Button>
-                        <Button shape="round" type="secondary" onClick={() => swap(pointList, index, -1)}>
+                        <Button shape="round" type="primary" onClick={() => swap(pointList, index, -1)}>
                             <i className="fa fa-chevron-down"></i>
                         </Button>
                         <Button shape="square" type="tertiary" onClick={() => remove(pointList, index)}>
