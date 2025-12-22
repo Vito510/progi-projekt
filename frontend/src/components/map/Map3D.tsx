@@ -16,6 +16,7 @@ export default function Map3D({params}: Props) {
     const rendererRef = useRef<Renderer | null>(null);
     const animationRef = useRef<number | null>(null);
     const [error, setError] = useState<Error | null>(null);
+    const [quality, setQuality] = useState<boolean>(false);
 
     useEffect(() => {
         const canvas = canvasRef.current!;
@@ -44,6 +45,10 @@ export default function Map3D({params}: Props) {
         }
     }, []);
 
+    function quality_handler() {
+        setQuality(!quality);
+    }
+
     if (error) {
         return (
             <div className='-map3d'>
@@ -69,7 +74,16 @@ export default function Map3D({params}: Props) {
     }
 
     return (
-        <canvas ref={canvasRef} className='-map3d'></canvas>
+        <div className='-map3d'>
+            <canvas ref={canvasRef}></canvas>
+            <div>
+                <p>Visoka kvaliteta</p>
+                <div className={quality ? "" : "active"} onClick={quality_handler}>
+                    <div></div>
+                </div>
+                <p>Niska kvaliteta</p>
+            </div>
+        </div>
     );
 }
 
