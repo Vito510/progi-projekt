@@ -5,4 +5,5 @@ export default class Renderer {
     destroy(): void;
     update(): void;
     render(): void;
+    setQuality(quality: boolean): void;
 }

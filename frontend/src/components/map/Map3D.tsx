@@ -32,6 +32,7 @@ export default function Map3D({params}: Props) {
         Renderer.initialize(canvas, params)
             .then((value: Renderer) => {
                 rendererRef.current = value;
+                rendererRef.current?.setQuality(false);
                 animationRef.current = requestAnimationFrame(animate);
             })
             .catch((error) => {
@@ -46,6 +47,7 @@ export default function Map3D({params}: Props) {
     }, []);
 
     function quality_handler() {
+        rendererRef.current?.setQuality(!quality);
         setQuality(!quality);
     }
 
@@ -77,11 +79,11 @@ export default function Map3D({params}: Props) {
         <div className='-map3d'>
             <canvas ref={canvasRef}></canvas>
             <div>
-                <p>Visoka kvaliteta</p>
-                <div className={quality ? "" : "active"} onClick={quality_handler}>
+                <p>Niska kvaliteta</p>
+                <div className={quality ? "active" : ""} onClick={quality_handler}>
                     <div></div>
                 </div>
-                <p>Niska kvaliteta</p>
+                <p>Visoka kvaliteta</p>
             </div>
         </div>
     );

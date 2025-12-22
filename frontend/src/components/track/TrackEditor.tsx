@@ -41,7 +41,6 @@ export default function TrackEditor({track}: Props) {
     );
 
     function handler(points: TrackPoint[]) {
-        console.log(points);
         track.points = points
     } 
     
@@ -51,7 +50,7 @@ export default function TrackEditor({track}: Props) {
                 <header>
                     <List type='row' gap='medium' wrap justify='center' align='center'>
                         {/* <h2>{track.name}</h2> */}
-                        <input type="text" placeholder="Unesite naziv staze" value={track.name}/>
+                        <input type="text" placeholder="Unesite naziv staze" defaultValue={track.name}/>
                         {/* zamiijeniti sa gumbom za spremanje */}
                         <Button type='primary'>
                             <i className='fa fa-save'></i>

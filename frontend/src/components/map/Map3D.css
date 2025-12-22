@@ -18,7 +18,7 @@
 
 .-map3d>div {
     position: absolute;
-    bottom: var(--spacing);
+    top: var(--spacing);
     left: var(--spacing);
 
     display: flex;
@@ -35,7 +35,8 @@
     height: fit-content;
     width: 3rem;
     background-color: var(--theme-highlight);
-    border-radius: var(--roundness);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-inset);
 }
 
 .-map3d>div>div:hover {
@@ -46,8 +47,9 @@
     background-color: var(--highlight);
     width: 1.5rem;
     height: 1.5rem;
-    border-radius: var(--roundness);
+    border-radius: 1.5rem;
     transform: translate(0%, 0%);
+    box-shadow: var(--shadow-highlight);
     transition: transform 0.3s;
 }
 

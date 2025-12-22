@@ -37,4 +37,16 @@ export default class Renderer {
     destroy() {
         this.gpu.destroy();
     }
+
+    setQuality(quality) {
+        if (quality) {
+            this.gpu.uniforms.render_scale = 1.0;
+            this.gpu.uniforms.grid_scale = 1.0;
+            this.gpu.synchronize();
+        } else {
+            this.gpu.uniforms.render_scale = 2.0;
+            this.gpu.uniforms.grid_scale = 0.5;
+            this.gpu.synchronize();
+        }
+    }
 }

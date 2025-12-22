@@ -1,10 +1,9 @@
 
 .-track-point-editor {
     width: 100%;
-    min-height: 0;
     height: 100%;
+    min-height: 0;
     padding: 0rem 1rem;
-    margin: 1rem 0rem;
     
     overflow-y: scroll;
     scrollbar-color: var(--text-muted) #00000000;
