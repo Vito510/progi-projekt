@@ -7,6 +7,7 @@ import ButtonProfile from '../profile/ButtonProfile';
 import ButtonSignIn from '../profile/ButtonSignIn';
 import { useAuth } from '../../context/AuthContext';
 import ButtonNewTrack from '../track/ButtonNewTrack';
+// import Particles from '../general/Particles';
 
 export default function FrontPage() {
     const auth = useAuth();
@@ -33,6 +34,7 @@ export default function FrontPage() {
 
     return (
         <>
+            {/* <Particles></Particles> */}
             <AppHeader>
                 <ButtonNewTrack></ButtonNewTrack>
                 {auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
