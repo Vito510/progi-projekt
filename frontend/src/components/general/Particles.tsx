@@ -1,17 +1,17 @@
 import { useEffect, useRef } from "react";
-import Particles from '../../utility/particles.js'
+import Renderer from '../../renderer/particles.js'
 import './Particles.css';
 
-export default function AnimatedBackground() {
+export default function Particles() {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const particlesRef = useRef<Particles | null>(null);
+    const particlesRef = useRef<Renderer | null>(null);
 
     useEffect(() => {
-        particlesRef.current = new Particles();
+        particlesRef.current = new Renderer();
         particlesRef.current.load(canvasRef?.current);
-        return () => {
-            particlesRef.current?.unload()
-        }
+        // return () => {
+        //     particlesRef.current?.unload() // NOT WORKING
+        // }
     });
 
     return (
