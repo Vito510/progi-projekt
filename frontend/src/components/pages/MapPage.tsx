@@ -14,6 +14,7 @@ import Button from "../general/Button";
 import type Track from "../../interfaces/Track";
 import TrackEditor from "../track/TrackEditor";
 import type TrackPoint from "../../interfaces/TrackPoint";
+import AppBody from "../general/AppBody";
 
 export default function MapPage() {
 	const auth = useAuth();
@@ -93,9 +94,11 @@ export default function MapPage() {
 	return (
 		<>
 			<AppHeader>{auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}</AppHeader>
-			<main className="-map-page">
-				{element}
-			</main>
+			<AppBody>
+				<div className="-map-page">
+					{element}
+				</div>
+			</AppBody>
 			<AppFooter />
 		</>
 	);

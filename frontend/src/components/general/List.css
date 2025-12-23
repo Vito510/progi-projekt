@@ -22,7 +22,7 @@
 }
 
 .-list.medium {
-    gap: calc(var(--spacing) * 0.5);
+    gap: calc(var(--packing) * 2);
 }
 
 .-list.large {

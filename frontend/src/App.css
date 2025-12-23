@@ -86,17 +86,14 @@ strong {
 /* ROOT ELEMENT STYLING */
 
 #root {
-    background: linear-gradient(0deg, var(--theme-muted) 0%, var(--theme-highlight) 50%);
     width: 100dvw;
     height: 100dvh;
 
     display: flex;
     flex-direction: column;
-    justify-content: stretch;
-    align-items: center;
     
     overflow-y: hidden;
-    padding-bottom: calc((2rem + var(--thickness)));
+    background: linear-gradient(0deg, var(--theme-muted) 0%, var(--theme-highlight) 100%);
 }
 
 /* ------------------------------------------------------- */

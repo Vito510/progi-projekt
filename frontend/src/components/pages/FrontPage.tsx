@@ -7,13 +7,14 @@ import ButtonProfile from '../profile/ButtonProfile';
 import ButtonSignIn from '../profile/ButtonSignIn';
 import { useAuth } from '../../context/AuthContext';
 import ButtonNewTrack from '../track/ButtonNewTrack';
+import AppBody from '../general/AppBody';
 // import Particles from '../general/Particles';
 
 export default function FrontPage() {
     const auth = useAuth();
 
 
-    // TEMP stvaranje rute za debug
+    // TEMP stvaranje staze za debug
     let route: Track = {
         name: "Naziv staze",
         stars: 101,
@@ -39,11 +40,13 @@ export default function FrontPage() {
                 <ButtonNewTrack></ButtonNewTrack>
                 {auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
             </AppHeader>
-            <main className='-front-page'>
-                <div className="banner"></div>
-                <h1>Najbolje staze</h1>
-                <TrackList tracks={tracks}/>
-            </main>
+            <AppBody width='thin'>
+                <div className='-front-page'>
+                    <div className="banner"></div>
+                    <h1>Najbolje staze</h1>
+                    <TrackList tracks={tracks}/>
+                </div>
+            </AppBody>
             <AppFooter/>
         </>
     );

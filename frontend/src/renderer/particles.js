@@ -262,9 +262,9 @@ export default class Particles {
         
         const render = () => {
             this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-            // drawLines(10.0, 110 / 255.0, 176 / 255.0, 165 / 255.0);
-            // drawPoints(10.0, 110 / 255.0, 176 / 255.0, 165 / 255.0);
-            drawPoints(10.0, 1.0, 1.0, 1.0);
+            // drawPoints(25.0, 110 / 255.0, 176 / 255.0, 165 / 255.0);
+            // drawLines(110 / 255.0, 176 / 255.0, 165 / 255.0);
+            drawPoints(25.0, 1.0, 1.0, 1.0);
             drawLines(1.0, 1.0, 1.0);
             requestAnimationFrame(render);
         }
