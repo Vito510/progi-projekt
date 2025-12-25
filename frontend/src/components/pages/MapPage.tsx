@@ -94,7 +94,7 @@ export default function MapPage() {
 	return (
 		<>
 			<AppHeader>{auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}</AppHeader>
-			<AppBody>
+			<AppBody width="wide">
 				<div className="-map-page">
 					{element}
 				</div>

@@ -17,11 +17,8 @@
 .-app-body>div {
     height: 100%;
     min-height: 0;
-    
-}
-
-.-app-body.wide>div {
     width: 100%;
+    
 }
 
 .-app-body.thin>div {

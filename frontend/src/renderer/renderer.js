@@ -1,5 +1,4 @@
 import WebGLManager from './gpu.js'
-import GUIManager from './gui.js'
 import Camera from './camera.js';
 import * as Vector from './vector.js';
 
@@ -8,19 +7,22 @@ export default class Renderer {
         const gpu = await WebGLManager.initialize(canvas, params);
         return new Renderer(gpu, canvas);
     }
-    
 
     constructor(gpu, canvas) {
         this.gpu = gpu;
         this.camera = new Camera(canvas, Vector.vec(this.gpu.height_texture.width * 0.75), Vector.vec(180.0, 90.0), 0.5, 5.0, 0.5, false, true);
         this.camera.updateOrbit();
-        this.gui = new GUIManager(canvas, this.gpu, this.camera);
         this.animation_id;
         this.gpu.synchronize();
 
         window.addEventListener("beforeunload", () => {
             this.destroy();
         })
+        
+        document.addEventListener("keypress", (event) => {
+            if (event.key == " ")
+                this.camera.orbit_mode = !this.camera.orbit_mode;
+        });
     }
 
     update() {
@@ -49,4 +51,17 @@ export default class Renderer {
             this.gpu.synchronize();
         }
     }
+
+    rayCast(coorinates) {
+        // this.gpi.uniforms.
+        // return {
+            // x: 0,
+            // y: 0,
+            // z: 0,
+        // }
+    }
+
+    setPoints(points) {
+        // this.gpu.path_texture = ...
+    } 
 }
