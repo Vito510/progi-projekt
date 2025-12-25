@@ -1,4 +1,4 @@
-import * as Image from "../utility/image.js";
+import ImageUtils from "../utility/image_utils.js";
 
 const formats = {
     R8: {channels: "RED", type: "UNSIGNED_BYTE", filterable: true},
@@ -119,7 +119,7 @@ export function textureToImage(gl, texture, width, height) {
 
 export class Texture {
     static async load(url) {
-        const image = await Image.load(url);
+        const image = await ImageUtils.load(url);
         return new Texture(image.data, image.width, image.height);
     }
 

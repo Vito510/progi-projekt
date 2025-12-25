@@ -1,8 +1,8 @@
 import "./MapPage.css";
 import { useState, type ReactNode } from "react";
 import { useAuth } from "../../context/AuthContext";
-import * as Image from '../../utility/image';
-import TileUtils from "../../utility/tile";
+import ImageUtils from '../../utility/image_utils';
+import TileUtils from "../../utility/tile_utils";
 import type MapSelection from "../../interfaces/MapSelection";
 import AppFooter from "../general/AppFooter";
 import AppHeader from "../general/AppHeader";
@@ -64,7 +64,7 @@ export default function MapPage() {
 	}
 
 	async function dev_handler() { // TEMP
-		const image = await Image.load("/images/temp3.png");
+		const image = await ImageUtils.load("/images/temp3.png");
 		const params = TileUtils.getParams(image);
 		const points: TrackPoint[] = [];
 		for (let i=0; i<20; i++) {

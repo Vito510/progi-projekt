@@ -2,7 +2,7 @@ import './TrackEditor.css';
 import type Track from '../../interfaces/Track.js';
 import type MapSelection from '../../interfaces/MapSelection.js';
 import type TerrainParameter from '../../interfaces/TerrainParameter.js';
-import TileUtils from "../../utility/tile";
+import TileUtils from "../../utility/tile_utils.js";
 import List from '../general/List.js';
 import Button from '../general/Button.js';
 import Card from '../general/Card.js';

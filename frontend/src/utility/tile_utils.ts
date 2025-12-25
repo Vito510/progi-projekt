@@ -1,6 +1,6 @@
 import type Selection from '../interfaces/MapSelection.js';
 import type TerrainParameter from '../interfaces/TerrainParameter.js';
-import * as Image from './image.js';
+import ImageUtil from './image_utils.js';
 import pako from 'pako';
 
 const elevation_offset = 32768;
@@ -9,7 +9,14 @@ const display_resolution = 512;
 const pixel_size = 30.91;
 const max_tiles = 4;
 
-export default class TileUtils{
+export interface Pixel {
+    r: number, 
+    g: number,
+    b: number,
+    a: number,
+}
+
+export default class TileUtils {
 
     static isValidSelection({min_latitude, min_longitude, max_latitude, max_longitude}: Selection): boolean {
         if (Math.abs(min_longitude) > 180 || Math.abs(min_latitude) > 90 || Math.abs(max_longitude) > 180 || Math.abs(max_latitude) > 90)
@@ -30,7 +37,7 @@ export default class TileUtils{
         return width_tiles * height_tiles;
     }
 
-    static #encodeHeight(height: number): Image.Pixel {
+    static #encodeHeight(height: number): Pixel {
         const r = (height >> 8) & 0xFF;
         const g = height & 0xFF;
         const b = 0;
@@ -38,7 +45,7 @@ export default class TileUtils{
         return {r: r, g: g, b: b, a: a};
     }
 
-    static #decodeHeight(color: Image.Pixel): number {
+    static #decodeHeight(color: Pixel): number {
         return color.r * 256.0 + color.g;
     }
 
@@ -100,8 +107,8 @@ export default class TileUtils{
     }
 
     static #combineTiles(tiles: ImageData[][]): ImageData {
-        const horizontal: ImageData[] = tiles.map((images) => Image.stitch(images, "horizontal"));
-        const vertical: ImageData = Image.stitch(horizontal, "vertical");
+        const horizontal: ImageData[] = tiles.map((images) => ImageUtil.stitch(images, "horizontal"));
+        const vertical: ImageData = ImageUtil.stitch(horizontal, "vertical");
         return vertical;
     }
 
@@ -110,7 +117,7 @@ export default class TileUtils{
         const y = (selection.min_latitude - Math.floor(selection.min_latitude)) * tile_resolution;
         const width = (selection.max_longitude - Math.floor(selection.min_longitude)) * tile_resolution - x;
         const height = (selection.max_latitude - Math.floor(selection.min_latitude)) * tile_resolution - y;
-        const cropped = Image.crop(image, x, (image.height - y) - height, width, height);
+        const cropped = ImageUtil.crop(image, x, (image.height - y) - height, width, height);
         return cropped;
     }
 
@@ -122,7 +129,7 @@ export default class TileUtils{
             for (let y = 0; y < image.height; y++) {
                 const r = image.data[(x + image.width * y) * 4];
                 const g = image.data[(x + image.width * y) * 4 + 1];
-                const pixel: Image.Pixel = {r, g, b: 0.0, a: 0.0};
+                const pixel: Pixel = {r, g, b: 0.0, a: 0.0};
                 const height = TileUtils.#decodeHeight(pixel);
                 min = Math.min(min, height);
                 max = Math.max(max, height);
@@ -152,7 +159,7 @@ export default class TileUtils{
         if (selection.min_latitude != selection.max_latitude && selection.min_longitude != selection.max_longitude)
             cropped = TileUtils.#cropToSelection(combined, selection);
         const resize_factor = Math.min(cropped.width, cropped.height) / display_resolution;
-        const resized = Image.resize(cropped, cropped.width / resize_factor * 0.8, cropped.height / resize_factor); // ARBITRARY
+        const resized = ImageUtil.resize(cropped, cropped.width / resize_factor * 0.8, cropped.height / resize_factor); // ARBITRARY
         
         return TileUtils.getParams(resized, resize_factor);
     }
