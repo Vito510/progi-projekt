@@ -2,7 +2,7 @@ import './TrackEditor.css';
 import type Track from '../../interfaces/Track.js';
 import type MapSelection from '../../interfaces/MapSelection.js';
 import type TerrainParameter from '../../interfaces/TerrainParameter.js';
-import * as Tile from "../../utility/tile";
+import TileUtils from "../../utility/tile";
 import List from '../general/List.js';
 import Button from '../general/Button.js';
 import Card from '../general/Card.js';
@@ -32,7 +32,7 @@ export default function TrackEditor({track}: Props) {
                     <span>Učitavanje reljefa</span>
                 </header>
                 <section>
-                    <code>{`Dohvaćanje ${Tile.getTileCount(selection)} regija/e`}</code>
+                    <code>{`Dohvaćanje ${TileUtils.getTileCount(selection)} regija/e`}</code>
                     <br></br>
                     <code>Moglo bi potrajati...</code>
                 </section>
@@ -85,7 +85,7 @@ export default function TrackEditor({track}: Props) {
 
     useEffect(() => {
         if (!track.override) {
-            Tile.getData(selection)
+            TileUtils.getData(selection)
                 .then((params) => {
                     setMap(params);
                 });

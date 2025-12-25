@@ -2,7 +2,7 @@ import "./MapPage.css";
 import { useState, type ReactNode } from "react";
 import { useAuth } from "../../context/AuthContext";
 import * as Image from '../../utility/image';
-import * as Tile from "../../utility/tile";
+import TileUtils from "../../utility/tile";
 import type MapSelection from "../../interfaces/MapSelection";
 import AppFooter from "../general/AppFooter";
 import AppHeader from "../general/AppHeader";
@@ -38,14 +38,14 @@ export default function MapPage() {
 					<span>Učitavanje reljefa</span>
 				</header>
 				<section>
-					<code>{`Dohvaćanje ${Tile.getTileCount(selection)} regija/e`}</code>
+					<code>{`Dohvaćanje ${TileUtils.getTileCount(selection)} regija/e`}</code>
 					<br></br>
 					<code>Moglo bi potrajati...</code>
 				</section>
 			</Card>
 		));
 
-		const params = await Tile.getData(selection);
+		const params = await TileUtils.getData(selection);
 		const track: Track = {
 			name: "Naziv staze",
 			stars: 101,
@@ -65,7 +65,7 @@ export default function MapPage() {
 
 	async function dev_handler() { // TEMP
 		const image = await Image.load("/images/temp3.png");
-		const params = Tile.getParams(image);
+		const params = TileUtils.getParams(image);
 		const points: TrackPoint[] = [];
 		for (let i=0; i<20; i++) {
 			points.push({

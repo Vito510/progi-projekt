@@ -3,7 +3,7 @@ import type MapSelection from "../../interfaces/MapSelection";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import "./Map2D.css";
-import * as Tile from "../../utility/tile";
+import TileUtils from "../../utility/tile";
 import html2canvas from "html2canvas";
 import Card from "../general/Card";
 
@@ -73,7 +73,7 @@ export default function Map2D({ onInput }: Props) {
 				// Update button enabled/disabled on zoom
 				const updateButtonState = () => {
 					// const valid = map.getZoom() >= 11;
-					const valid = Tile.isValidSelection(getSelection());
+					const valid = TileUtils.isValidSelection(getSelection());
 					container.disabled = !valid;
 					container.textContent = valid ? "Odaberi područje" : "Pre veliko područje (zumirajte)";
 				};
