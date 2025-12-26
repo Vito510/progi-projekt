@@ -1,4 +1,4 @@
-import * as WebGL from './webgl.js'
+import WebGL from './webgl_utils.js'
 
 export default class Particles {
     constructor() {

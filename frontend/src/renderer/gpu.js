@@ -1,9 +1,10 @@
 import Matrix from "./matrix.js";
-import * as WebGL from "./webgl.js";
+import WebGL from "./webgl_utils.js";
 import ImageUtils from "../utility/image_utils.js";
 import Vector3D from "./vector3d.js";
 import Vector2D from "./vector2d.js";
 import Vector from "./vector.js";
+import Texture from "./webgl_texture.js";
 
 export default class WebGLManager {
     static async initialize(canvas, params = {heightmap: undefined, range: 256, offset: -32768, multiplier: 0.03}) {
@@ -18,7 +19,7 @@ export default class WebGLManager {
         this.uniform_buffer;
         this.program;
         this.base_render_size = {x: 2560, y: 1440};
-        this.height_texture = new WebGL.Texture(params.heightmap.data, params.heightmap.width, params.heightmap.height);
+        this.height_texture = new Texture(params.heightmap.data, params.heightmap.width, params.heightmap.height);
 
         this.gl = this.canvas.getContext("webgl2");
         if (!this.gl)
@@ -130,7 +131,7 @@ export default class WebGLManager {
 
     reloadImage(image, height = 256) {
         this.height_texture.destroy(this.gl);
-        this.height_texture = new WebGL.Texture(image.data, image.width, image.height);
+        this.height_texture = new Texture(image.data, image.width, image.height);
         this.height_texture.setup(this.gl, "height_texture", this.program, 0, "LINEAR", "CLAMP_TO_EDGE");
         this.uniforms.grid_size.x = this.height_texture.width;
         this.uniforms.grid_size.y = this.height_texture.height;
