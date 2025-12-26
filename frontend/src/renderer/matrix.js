@@ -1,4 +1,5 @@
-import * as Vector from './vector.js';
+import Vector3D from "./vector3d";
+import Vector4D from "./vector4d";
 
 export default class Matrix {
 
@@ -36,13 +37,12 @@ export default class Matrix {
         return Matrix.mul(Matrix.rotationMatrix(axis, rad), mat);
     }
 
-
     static rotationMatrix(axis, rad) {
         const c = Math.cos(rad);
         const s = Math.sin(rad);
         const t = 1.0 - c;
 
-        axis = Vector.norm(axis);
+        axis = axis.norm();
         const x = axis.x;
         const y = axis.y;
         const z = axis.z;
@@ -56,8 +56,8 @@ export default class Matrix {
     }
 
     static mul(a, b) {
-        if (Vector.test(b))
-            return Vector.vec(
+        if (b instanceof Vector4D)
+            return new Vector4D(
                 a[0][0] * b.x + a[0][1] * b.y + a[0][2] * b.z + a[0][3] * b.w,
                 a[1][0] * b.x + a[1][1] * b.y + a[1][2] * b.z + a[1][3] * b.w,
                 a[2][0] * b.x + a[2][1] * b.y + a[2][2] * b.z + a[2][3] * b.w,
@@ -85,6 +85,9 @@ export default class Matrix {
                 a[3][0]*b[0][2] + a[3][1]*b[1][2] + a[3][2]*b[2][2] + a[3][3]*b[3][2],
                 a[3][0]*b[0][3] + a[3][1]*b[1][3] + a[3][2]*b[2][3] + a[3][3]*b[3][3]]
             ];
+        else {
+            throw new TypeError(`Invalid parameter type: ${typeof b}`);
+        }
     }   
 
     static deg2rad(deg) {
@@ -98,8 +101,8 @@ export default class Matrix {
     }
 
     static rot2dir(horizontal, vertical) {
-        let temp = Matrix.rotationMatrix(Vector.vec(1.0, 0.0, 0.0), Matrix.deg2rad(vertical));
-        temp = Matrix.rotate(temp, Matrix.deg2rad(-horizontal), Vector.vec(0.0, 0.0, 1.0));
-        return Vector.xyz(Matrix.mul(temp, Vector.vec(0.0, 1.0, 0.0, 0.0)));
+        let temp = Matrix.rotationMatrix(new Vector3D(1.0, 0.0, 0.0), Matrix.deg2rad(vertical));
+        temp = Matrix.rotate(temp, Matrix.deg2rad(-horizontal), new Vector3D(0.0, 0.0, 1.0));
+        return (Matrix.mul(temp, new Vector4D(0.0, 1.0, 0.0, 0.0))).xyz();
     }
 }

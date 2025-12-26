@@ -1,20 +1,22 @@
-import * as Vector from './vector.js';
 import Matrix from './matrix.js';
+import Vector3D from './vector3d.js';
+import Vector2D from './vector2d.js';
 import * as TouchListener from './touch.js';
+import Vector4D from './vector4d.js';
 
 export default class Camera {
     #key_states;
 
     constructor(
         canvas,
-        position = Vector.vec(0.0), 
-        rotation = Vector.vec(0.0, 0.0), 
+        position = new Vector3D(0.0), 
+        rotation = new Vector2D(0.0, 0.0), 
         fov = 0.5, 
         speed = 0.05, 
         sensitivity = 0.2,
         free_mode = false,
         orbit_mode = false,
-        orbit_anchor = Vector.vec(0.0, 0.0, 0.0)
+        orbit_anchor = new Vector3D(0.0, 0.0, 0.0)
     ) {
         this.position = position;
         this.rotation = rotation;
@@ -70,7 +72,7 @@ export default class Camera {
                 this.updateRotation(-event.drag_x, -event.drag_y);
 
             if (event.zoom != 0)
-                this.position = Vector.add(this.position, Vector.mul(Matrix.rot2dir(this.rotation.x, -this.rotation.y), this.speed * event.zoom));
+                this.position = Vector3D.add(this.position, Vector3D.mul(Matrix.rot2dir(this.rotation.x, -this.rotation.y), this.speed * event.zoom));
         });
 
         document.addEventListener('wheel', (event) => {
@@ -89,25 +91,25 @@ export default class Camera {
     }
 
     getRotationMatrix() {
-        let temp = Matrix.rotationMatrix(Vector.vec(0.0, 0.0, 1.0), Matrix.deg2rad(this.rotation.x));
-        temp = Matrix.rotate(temp, Matrix.deg2rad(this.rotation.y), Vector.vec(1.0, 0.0, 0.0));
+        let temp = Matrix.rotationMatrix(new Vector3D(0.0, 0.0, 1.0), Matrix.deg2rad(this.rotation.x));
+        temp = Matrix.rotate(temp, Matrix.deg2rad(this.rotation.y), new Vector3D(1.0, 0.0, 0.0));
         return temp;
     }
 
     getLocalDirection() {
-        let local_direction = Vector.vec(0.0);
+        let local_direction = new Vector3D(0.0);
         if (!!this.#key_states.w)
-            local_direction = Vector.add(local_direction, Vector.vec(0.0, 1.0, 0.0));
+            local_direction = Vector3D.add(local_direction, new Vector3D(0.0, 1.0, 0.0));
         if (!!this.#key_states.s)
-            local_direction = Vector.add(local_direction, Vector.vec(0.0, -1.0, 0.0));
+            local_direction = Vector3D.add(local_direction, new Vector3D(0.0, -1.0, 0.0));
         if (!!this.#key_states.a)
-            local_direction = Vector.add(local_direction, Vector.vec(-1.0, 0.0, 0.0));
+            local_direction = Vector3D.add(local_direction, new Vector3D(-1.0, 0.0, 0.0));
         if (!!this.#key_states.d)
-            local_direction = Vector.add(local_direction, Vector.vec(1.0, 0.0, 0.0));
+            local_direction = Vector3D.add(local_direction, new Vector3D(1.0, 0.0, 0.0));
         if (!!this.#key_states.q)
-            local_direction = Vector.add(local_direction, Vector.vec(0.0, 0.0, -1.0));
+            local_direction = Vector3D.add(local_direction, new Vector3D(0.0, 0.0, -1.0));
         if (!!this.#key_states.e)
-            local_direction = Vector.add(local_direction, Vector.vec(0.0, 0.0, 1.0));
+            local_direction = Vector3D.add(local_direction, new Vector3D(0.0, 0.0, 1.0));
 
         return local_direction;
     }
@@ -118,28 +120,28 @@ export default class Camera {
     }
 
     updatePosition(local_direction) {
-        if (Vector.len(local_direction) == 0.0)
+        if (local_direction.len() == 0.0)
             return;
 
         if (!this.orbit_mode) {
             let forward, up, right;
 
             if (!this.free_mode) {
-                const temp = Matrix.rotate(Matrix.mat(1.0), Matrix.deg2rad(this.rotation.x), Vector.vec(0.0, 0.0, -1.0));
-                forward = Vector.xyz(Matrix.mul(temp, Vector.vec(0.0, 1.0, 0.0, 0.0)));
-                up = Vector.vec(0.0, 0.0, 1.0);
-                right = Vector.cross(forward, up);
+                const temp = Matrix.rotate(Matrix.mat(1.0), Matrix.deg2rad(this.rotation.x), new Vector3D(0.0, 0.0, -1.0));
+                forward = (Matrix.mul(temp, new Vector4D(0.0, 1.0, 0.0, 0.0))).xyz();
+                up = new Vector3D(0.0, 0.0, 1.0);
+                right = Vector3D.cross(forward, up);
             } else {
                 forward = Matrix.rot2dir(this.rotation.x, -this.rotation.y);
                 up = Matrix.rot2dir(this.rotation.x, -this.rotation.y + 90);
-                right = Vector.cross(forward, up);
+                right = Vector3D.cross(forward, up);
             }
 
-            this.position = Vector.add(
+            this.position = Vector3D.add(
                 this.position, 
-                Vector.mul(forward, local_direction.y * this.speed), 
-                Vector.mul(right, local_direction.x * this.speed), 
-                Vector.mul(up, local_direction.z * this.speed)
+                Vector3D.mul(forward, local_direction.y * this.speed), 
+                Vector3D.mul(right, local_direction.x * this.speed), 
+                Vector3D.mul(up, local_direction.z * this.speed)
             );
         } else {
             this.updateOrbit(-local_direction.x * this.speed, local_direction.z * this.speed, 1.0 + -0.003 * this.speed * local_direction.y);
@@ -154,8 +156,8 @@ export default class Camera {
     }
 
     updateOrbit(dh = 0.0, dv = 0.0, dz = 1.0) {
-        const radius = Vector.len(Vector.sub(this.position, this.orbit_anchor)) * dz;
+        const radius = (Vector3D.sub(this.position, this.orbit_anchor)).len() * dz;
         this.updateRotation(dh / this.sensitivity, dv / this.sensitivity);
-        this.position = Vector.add(Vector.mul(Matrix.rot2dir(this.rotation.x, -this.rotation.y), -radius), this.orbit_anchor);
+        this.position = Vector3D.add(Vector3D.mul(Matrix.rot2dir(this.rotation.x, -this.rotation.y), -radius), this.orbit_anchor);
     }
 }
