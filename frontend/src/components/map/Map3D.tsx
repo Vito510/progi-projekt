@@ -78,7 +78,7 @@ export default function Map3D({params}: Props) {
     return (
         <div className='-map3d'>
             <canvas ref={canvasRef}></canvas>
-            <div>
+            <div className='toggle'>
                 <p>Niska kvaliteta</p>
                 <div className={quality ? "active" : ""} onClick={quality_handler}>
                     <div></div>

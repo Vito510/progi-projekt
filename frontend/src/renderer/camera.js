@@ -1,5 +1,5 @@
 import * as Vector from './vector.js';
-import * as Matrix from './matrix.js';
+import Matrix from './matrix.js';
 import * as TouchListener from './touch.js';
 
 export default class Camera {

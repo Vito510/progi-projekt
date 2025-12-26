@@ -1,4 +1,4 @@
-import * as Matrix from "./matrix.js";
+import Matrix from "./matrix.js";
 import * as Vector from "./vector.js";
 import * as WebGL from "./webgl.js";
 import ImageUtils from "../utility/image_utils.js";
@@ -6,7 +6,6 @@ import ImageUtils from "../utility/image_utils.js";
 export default class WebGLManager {
     static async initialize(canvas, params = {heightmap: undefined, range: 256, offset: -32768, multiplier: 0.03}) {
         const fragment_shader_code = await (await fetch('../shaders/fragment.glsl')).text();
-        // const height_texture = await WebGL.Texture.load('/images/temp.png'); // height.jpg
         return new WebGLManager(canvas, fragment_shader_code, params);
     }
 
@@ -33,7 +32,7 @@ export default class WebGLManager {
             grid_size: Vector.vec(this.height_texture.width, this.height_texture.height, params.range),
             render_scale: 2,
             
-            camera_rotation: Matrix.mat(1.0),
+            camera_rotation: Matrix.mat(),
             camera_position: Vector.vec(0.0, -3.0, 0.0),
             fov: 1.0,
 

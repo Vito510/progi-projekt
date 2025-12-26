@@ -97,9 +97,9 @@ export default function TrackEditor({track}: Props) {
     }, [track.points]);
 
     return (
-        <div className='-track-editor-loading'>
+        <>
             {element}
-        </div>
+        </>
     );
 }
 
