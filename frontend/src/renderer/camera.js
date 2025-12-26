@@ -127,7 +127,7 @@ export default class Camera {
             let forward, up, right;
 
             if (!this.free_mode) {
-                const temp = Matrix.rotate(Matrix.mat(1.0), Matrix.deg2rad(this.rotation.x), new Vector3D(0.0, 0.0, -1.0));
+                const temp = Matrix.rotate(new Matrix(1.0), Matrix.deg2rad(this.rotation.x), new Vector3D(0.0, 0.0, -1.0));
                 forward = (Matrix.mul(temp, new Vector4D(0.0, 1.0, 0.0, 0.0))).xyz();
                 up = new Vector3D(0.0, 0.0, 1.0);
                 right = Vector3D.cross(forward, up);

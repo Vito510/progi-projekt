@@ -34,7 +34,7 @@ export default class WebGLManager {
             grid_size: new Vector3D(this.height_texture.width, this.height_texture.height, params.range),
             render_scale: 2,
             
-            camera_rotation: Matrix.mat(),
+            camera_rotation: new Matrix(),
             camera_position: new Vector3D(0.0, -1000.0, 0.0),
             fov: 1.0,
 
@@ -174,12 +174,13 @@ export default class WebGLManager {
 function packUniforms(data) {
     let array = [];
     for (const el in data) {
-        if (data[el] instanceof Vector)
-            array.push(data[el].array());
-        else if (Matrix.test(data[el]))
-            array.push(Matrix.array(data[el]));
+        const value = data[el]
+        if (value instanceof Vector)
+            array.push(value.array());
+        else if (value instanceof Matrix)
+            array.push(value.array());
         else
-            array.push(data[el]);
+            array.push(value);
     }
     return array.flat();
 }

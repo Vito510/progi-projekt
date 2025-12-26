@@ -2,35 +2,26 @@ import Vector3D from "./vector3d";
 import Vector4D from "./vector4d";
 
 export default class Matrix {
+    value;
 
-    static mat(s = 1.0) {
-        return [
-            [s, 0, 0, 0],
-            [0, s, 0, 0],
-            [0, 0, s, 0],
-            [0, 0, 0, s]
-        ]
+    constructor(s = 1.0) {
+        if (typeof s === "number")
+            this.value = [
+                [s, 0, 0, 0],
+                [0, s, 0, 0],
+                [0, 0, s, 0],
+                [0, 0, 0, s]
+            ]
+        else if (Array.isArray(s))
+            this.value = s;
     }
 
-    static array(mat) {
-        return mat.flat();
+    array() {
+        return this.value.flat();
     }
 
-    static data(mat) {
-        return Float32Array(array(mat));
-    }
-
-    static test(mat) {
-        let test = (Array.isArray(mat) && mat.length == 4);
-        if (!test)
-            return test;
-        for (const row of mat) {
-            if (row.length != 4) {
-                test = false;
-                break;
-            }
-        }
-        return test;
+    data() {
+        return Float32Array(this.array());
     }
 
     static rotate(mat, rad, axis) {
@@ -47,24 +38,29 @@ export default class Matrix {
         const y = axis.y;
         const z = axis.z;
         
-        return [
+        return new Matrix([
             [t*x*x + c,   t*x*y - s*z, t*x*z + s*y, 0.0],
             [t*x*y + s*z, t*y*y + c,   t*y*z - s*x, 0.0],
             [t*x*z - s*y, t*y*z + s*x, t*z*z + c,   0.0],
             [0.0,         0.0,         0.0,         1.0]
-        ];
+        ]);
     }
 
-    static mul(a, b) {
-        if (b instanceof Vector4D)
+    static mul(first, second) {
+        if (second instanceof Vector4D) {
+            const a = first.value;
+            const b = second;
             return new Vector4D(
                 a[0][0] * b.x + a[0][1] * b.y + a[0][2] * b.z + a[0][3] * b.w,
                 a[1][0] * b.x + a[1][1] * b.y + a[1][2] * b.z + a[1][3] * b.w,
                 a[2][0] * b.x + a[2][1] * b.y + a[2][2] * b.z + a[2][3] * b.w,
                 a[3][0] * b.x + a[3][1] * b.y + a[3][2] * b.z + a[3][3] * b.w
             );
-        else if (Matrix.test(b))
-            return [
+        }
+        else if (second instanceof Matrix) {
+            const a = first.value;
+            const b = second.value;
+            return new Matrix([
                 [a[0][0]*b[0][0] + a[0][1]*b[1][0] + a[0][2]*b[2][0] + a[0][3]*b[3][0],
                 a[0][0]*b[0][1] + a[0][1]*b[1][1] + a[0][2]*b[2][1] + a[0][3]*b[3][1],
                 a[0][0]*b[0][2] + a[0][1]*b[1][2] + a[0][2]*b[2][2] + a[0][3]*b[3][2],
@@ -84,7 +80,8 @@ export default class Matrix {
                 a[3][0]*b[0][1] + a[3][1]*b[1][1] + a[3][2]*b[2][1] + a[3][3]*b[3][1],
                 a[3][0]*b[0][2] + a[3][1]*b[1][2] + a[3][2]*b[2][2] + a[3][3]*b[3][2],
                 a[3][0]*b[0][3] + a[3][1]*b[1][3] + a[3][2]*b[2][3] + a[3][3]*b[3][3]]
-            ];
+            ]);
+        }
         else {
             throw new TypeError(`Invalid parameter type: ${typeof b}`);
         }
