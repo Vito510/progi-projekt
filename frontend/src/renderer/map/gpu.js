@@ -8,7 +8,7 @@ import Texture from "../../utility/webgl/webgl_texture.js";
 
 export default class WebGLManager {
     static async initialize(canvas, params = {heightmap: undefined, range: 256, offset: -32768, multiplier: 0.03}) {
-        const fragment_shader_code = await (await fetch('../shaders/fragment.glsl')).text();
+        const fragment_shader_code = await (await fetch('./src/renderer/map/fragment.glsl')).text();
         return new WebGLManager(canvas, fragment_shader_code, params);
     }
 
@@ -33,25 +33,15 @@ export default class WebGLManager {
             buffer_size: new Vector2D(this.base_render_size.x, this.base_render_size.y),
 
             grid_size: new Vector3D(this.height_texture.width, this.height_texture.height, params.range),
-            render_scale: 2,
+            render_scale: 1.0,
             
             camera_rotation: new Matrix(),
-            camera_position: new Vector3D(0.0, -1000.0, 0.0),
+            camera_position: new Vector3D(),
             fov: 1.0,
 
             grid_scale: 1.0,
-            shading_mode: 1.0,
-            padding_a: 0.0,
-            padding_b: 0.0,
-            
             height_offset: params.offset,
             height_multiplier: params.multiplier,
-            height_gamma: 1.0,
-            height_invert: 0.0,
-
-            fade_blend: 0.0,
-            voxel_blend: 0.0,
-            grayscale_blend: 0.0,
             normals_epsilon: 1.0,
         };
 
@@ -112,7 +102,7 @@ export default class WebGLManager {
 
         this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-        this.gl.viewport(0, 0, this.uniforms.canvas_size.x / this.uniforms.render_scale, this.uniforms.canvas_size.y / this.uniforms.render_scale);
+        this.gl.viewport(0, 0, this.uniforms.canvas_size.x * this.uniforms.render_scale, this.uniforms.canvas_size.y * this.uniforms.render_scale);
 
         this.gl.useProgram(this.program);
         this.gl.enableVertexAttribArray(this.vertex_location);
@@ -125,8 +115,8 @@ export default class WebGLManager {
         const width = Math.min(this.canvas.clientWidth, this.base_render_size.x);
         const height = Math.min(this.canvas.clientHeight, this.base_render_size.y);
         this.uniforms.canvas_size = new Vector2D(width, height);
-        this.canvas.width = width / this.uniforms.render_scale;
-        this.canvas.height = height / this.uniforms.render_scale;
+        this.canvas.width = width * this.uniforms.render_scale;
+        this.canvas.height = height * this.uniforms.render_scale;
     }
 
     reloadImage(image, height = 256) {
@@ -141,8 +131,8 @@ export default class WebGLManager {
     async screenshot(file_name) {
         const buffer_width = Math.floor(this.uniforms.buffer_size.x);
         const buffer_height = Math.floor(this.uniforms.buffer_size.y);
-        const render_width = Math.floor(this.uniforms.canvas_size.x / this.uniforms.render_scale);
-        const render_height = Math.floor(this.uniforms.canvas_size.y / this.uniforms.render_scale);
+        const render_width = Math.floor(this.uniforms.canvas_size.x * this.uniforms.render_scale);
+        const render_height = Math.floor(this.uniforms.canvas_size.y * this.uniforms.render_scale);
 
         const color_buffer = this.gl.createTexture();
         this.gl.bindTexture(this.gl.TEXTURE_2D, color_buffer);
@@ -158,7 +148,7 @@ export default class WebGLManager {
         
         this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-        this.gl.viewport(0, 0, this.uniforms.canvas_size.x / this.uniforms.render_scale, this.uniforms.canvas_size.y / this.uniforms.render_scale);
+        this.gl.viewport(0, 0, this.uniforms.canvas_size.x * this.uniforms.render_scale, this.uniforms.canvas_size.y * this.uniforms.render_scale);
 
         this.gl.useProgram(this.program);
         this.gl.enableVertexAttribArray(this.vertex_location);

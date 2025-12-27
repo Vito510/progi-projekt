@@ -13,18 +13,8 @@ layout(std140) uniform UniformBlock {
     float fov;
 
     float grid_scale;
-    float shading_mode;
-    float padding_a;
-    float padding_b;
-
     float height_offset;
     float height_multiplier;
-    float height_gamma;
-    float height_invert;
-
-    float fade_blend;
-    float voxel_blend;
-    float grayscale_blend;
     float normals_epsilon;
 } uniforms;
 
@@ -43,7 +33,7 @@ uniform sampler2D height_texture;
 in vec2 texture_coordinates;
 out vec4 output_color;
 
-vec4 traverse(Ray ray);
+float traverse(Ray ray);
 vec2 intersect(Ray ray, vec3 p_min, vec3 p_max);
 vec3 getNormal(vec3 position, float epsilon);
 float getHeight(vec3 position);
@@ -59,39 +49,24 @@ void main() {
     camera_ray.direction = (uniforms.camera_rotation * vec4(normalize(vec3(centered_coordinates.x * uniforms.fov, 1.0, centered_coordinates.y * uniforms.fov)), 1.0)).xyz;
     camera_ray.inverse = 1.0 / camera_ray.direction;
 
-    vec4 r = traverse(camera_ray);
-    vec3 position = camera_ray.origin + camera_ray.direction * r.w;
+    float t = traverse(camera_ray);
+    vec3 position = camera_ray.origin + camera_ray.direction * t;
     vec3 sun = normalize(vec3(1.0, 0.5, 0.0));
-    float voxel = mix(1.0, abs(dot(r.xyz, normalize(vec3(1.0, 0.5, 0.75)))), uniforms.voxel_blend);
-    if (r.w > 0.0) {
-        if (uniforms.shading_mode == 1.0) {
-            float height = mix(1.0, position.z / (uniforms.grid_size.z * uniforms.height_multiplier * uniforms.grid_scale), uniforms.fade_blend);
-            vec3 normal = getNormal(position, uniforms.normals_epsilon);
-            float diffuse = dot(normal, sun) * 0.5 + 0.5;
-            float mask = float((position.x < (uniforms.grid_size.x - 3.0)) && (position.x > 3.0) && (position.y < (uniforms.grid_size.y - 3.0)) && (position.y > 3.0));
-            output_color = vec4(vec3(diffuse * height * voxel * mask), 1.0);
-        } else if (uniforms.shading_mode == 2.0) {
-            vec3 normal = getNormal(position, uniforms.normals_epsilon) * 0.5 + 0.5;
-            output_color = vec4(normal * voxel, 1.0);
-        } else if (uniforms.shading_mode == 3.0) {
-            vec3 color = texture(height_texture, (vec2(1.0, 0.0) - position.xy / (uniforms.grid_size.xy * uniforms.grid_scale)) * vec2(1.0, -1.0)).xyz;
-            float value = (color.r + color.g + color.b) / 3.0;
-            output_color = vec4(mix(color, vec3(value), uniforms.grayscale_blend) * voxel, 1.0);
-        } else {
-            float height = mix(1.0, position.z / (uniforms.grid_size.z * uniforms.height_multiplier * uniforms.grid_scale), uniforms.fade_blend);
-            output_color = vec4(vec3(voxel * height), 1.0);
-        }
+    if (t > 0.0) {
+        vec3 normal = getNormal(position, uniforms.normals_epsilon);
+        float diffuse = dot(normal, sun) * 0.5 + 0.5;
+        float mask = float((position.x < (uniforms.grid_size.x - 3.0)) && (position.x > 3.0) && (position.y < (uniforms.grid_size.y - 3.0)) && (position.y > 3.0));
+        output_color = vec4(vec3(diffuse * mask), 1.0);
     } else {
         output_color = vec4(0.0);
     }
 }
 
-vec4 traverse(Ray ray) {
-    vec3 normal = vec3(0.0, 0.0, 1.0);
+float traverse(Ray ray) {
 
     vec2 bbox_t = intersect(ray, vec3(0.0), uniforms.grid_size * uniforms.grid_scale);
     if (bbox_t.x > bbox_t.y) {
-        return vec4(normal, -1.0);
+        return -1.0;
     }
 
     vec3 position = floor(ray.origin + ray.direction * (bbox_t.x + 0.01));
@@ -105,36 +80,32 @@ vec4 traverse(Ray ray) {
     const int max_steps = 2000;
     for (int i = 0; i < max_steps; i++) {
         if (position.z <= getHeight(position)) {
-            return vec4(normal, length(ray.origin - position));
+            return length(ray.origin - position);
         }
 
         if (t.x < t.y) {
             if (t.x < t.z) {
                 position.x += march.x;
                 if (position.x > limit.x || position.x < 0.0)
-                    return vec4(normal, -1.0);
+                    return -1.0;
                 t.x += delta.x;
-                normal = vec3(-march.x, 0.0, 0.0);
             } else {
                 position.z += march.z;
                 if (position.z > limit.z || position.z < 0.0)
-                    return vec4(normal, -1.0);
+                    return -1.0;
                 t.z += delta.z;
-                normal = vec3(0.0, 0.0, -march.z);
             }
         } else {
             if (t.y < t.z) {
                 position.y += march.y;
                 if (position.y > limit.y || position.y < 0.0)
-                    return vec4(normal, -1.0);
+                    return -1.0;
                 t.y += delta.y;
-                normal = vec3(0.0, -march.y, 0.0);
             } else {
                 position.z += march.z;
                 if (position.z > limit.z || position.z < 0.0)
-                    return vec4(normal, -1.0);
+                    return -1.0;
                 t.z += delta.z;
-                normal = vec3(0.0, 0.0, -march.z);
             }
         }
     }

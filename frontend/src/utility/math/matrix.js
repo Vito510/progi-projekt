@@ -46,6 +46,15 @@ export default class Matrix {
         ]);
     }
 
+    static translationMatrix(pos) {
+        return new Matrix([
+            [1.0, 0.0, 0.0, pos.x],
+            [0.0, 1.0, 0.0, pos.y],
+            [0.0, 0.0, 1.0, pos.z],
+            [0.0, 0.0, 0.0, 1.0]
+        ]);
+    }
+
     static mul(first, second) {
         if (second instanceof Vector4D) {
             const a = first.value;

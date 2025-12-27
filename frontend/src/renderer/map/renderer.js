@@ -2,6 +2,8 @@ import WebGLManager from './gpu.js'
 import Camera from './camera.js';
 import Vector2D from '../../utility/math/vector2d.js';
 import Vector3D from '../../utility/math/vector3d.js';
+// import rayCast from './raycast.js';
+// import generatePathImage from './point_map.js';
 
 export default class Renderer {
     static async initialize(canvas, params) {
@@ -47,22 +49,22 @@ export default class Renderer {
             this.gpu.uniforms.grid_scale = 1.0;
             this.gpu.synchronize();
         } else {
-            this.gpu.uniforms.render_scale = 2.0;
+            this.gpu.uniforms.render_scale = 0.5;
             this.gpu.uniforms.grid_scale = 0.5;
             this.gpu.synchronize();
         }
     }
 
-    rayCast(coorinates) {
-        // this.gpi.uniforms.
-        // return {
-            // x: 0,
-            // y: 0,
-            // z: 0,
-        // }
+    getPoint(coorinates) {
+        // return rayCast(
+        //     new ImageData(this.gpu.height_texture.data, this.gpu.height_texture.width),
+        //     coorinates,
+        //     this.gpu.uniforms
+        // );
     }
 
     setPoints(points) {
-        // this.gpu.path_texture = ...
+        // const path_image = generatePathImage(points, this.gpu.height_texture.width, this.gpu.height_texture.height);
+        // this.gpu.path_texture.store(this.gpu.gl, path_image.data);
     } 
 }
