@@ -1,5 +1,5 @@
 import './Map3D.css';
-import Renderer from '../../renderer/renderer.js';
+import Renderer from '../../renderer/map/renderer.js';
 import { useEffect, useRef, useState } from 'react';
 import type TerrainParameter from '../../interfaces/TerrainParameter.js';
 import Placeholder from '../general/Placeholder.js';

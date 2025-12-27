@@ -1,8 +1,8 @@
-import Matrix from './matrix.js';
-import Vector3D from './vector3d.js';
-import Vector2D from './vector2d.js';
 import * as TouchListener from './touch.js';
-import Vector4D from './vector4d.js';
+import Matrix from '../../utility/math/matrix.js';
+import Vector3D from '../../utility/math/vector3d.js';
+import Vector2D from '../../utility/math/vector2d.js';
+import Vector4D from '../../utility/math/vector4d.js';
 
 export default class Camera {
     #key_states;

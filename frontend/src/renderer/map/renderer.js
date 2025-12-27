@@ -1,7 +1,7 @@
 import WebGLManager from './gpu.js'
 import Camera from './camera.js';
-import Vector2D from './vector2d.js';
-import Vector3D from './vector3d.js';
+import Vector2D from '../../utility/math/vector2d.js';
+import Vector3D from '../../utility/math/vector3d.js';
 
 export default class Renderer {
     static async initialize(canvas, params) {

@@ -1,4 +1,4 @@
-import Vector3D from "./vector3d";
+import Vector3D from "../../utility/math/vector3d";
 
 // TODO rewrite
 export function addTouchListener(element, callback) {

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import Renderer from '../../renderer/particles.js'
+import Renderer from '../../renderer/particles/particles.js'
 import './Particles.css';
 
 export default function Particles() {

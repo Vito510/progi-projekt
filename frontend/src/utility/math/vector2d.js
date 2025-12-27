@@ -1,5 +1,4 @@
 import Vector from "./vector";
-import Vector3D from "./vector3d";
 
 export default class Vector2D extends Vector {
     x;
@@ -30,7 +29,7 @@ export default class Vector2D extends Vector {
     }
     
     static add(...args) {
-        let result = new Vector3D();
+        let result = new Vector2D();
         for (let other of args) {
             if (other instanceof Vector2D) {
                 result.x += other.x;

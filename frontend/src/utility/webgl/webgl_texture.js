@@ -1,4 +1,4 @@
-import ImageUtils from "../utility/image_utils.js";
+import ImageUtils from "../image_utils.js";
 import Formats from "./webgl_formats.js";
 import WebGL from "./webgl_utils.js";
 

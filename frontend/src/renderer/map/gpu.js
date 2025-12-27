@@ -1,10 +1,10 @@
-import Matrix from "./matrix.js";
-import WebGL from "./webgl_utils.js";
-import ImageUtils from "../utility/image_utils.js";
-import Vector3D from "./vector3d.js";
-import Vector2D from "./vector2d.js";
-import Vector from "./vector.js";
-import Texture from "./webgl_texture.js";
+import WebGL from "../../utility/webgl/webgl_utils.js";
+import ImageUtils from "../../utility/image_utils.js";
+import Matrix from "../../utility/math/matrix.js";
+import Vector from "../../utility/math/vector.js";
+import Vector3D from "../../utility/math/vector3d.js";
+import Vector2D from "../../utility/math/vector2d.js";
+import Texture from "../../utility/webgl/webgl_texture.js";
 
 export default class WebGLManager {
     static async initialize(canvas, params = {heightmap: undefined, range: 256, offset: -32768, multiplier: 0.03}) {
