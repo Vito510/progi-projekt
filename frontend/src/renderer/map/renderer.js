@@ -3,7 +3,8 @@ import Camera from './camera.js';
 import Vector2D from '../../utility/math/vector2d.js';
 import Vector3D from '../../utility/math/vector3d.js';
 // import rayCast from './raycast.js';
-// import generatePathImage from './point_map.js';
+import generatePathmap from './pathmap.js';
+import ImageUtils from '../../utility/image_utils.js';
 
 export default class Renderer {
     static async initialize(canvas, params) {
@@ -64,7 +65,8 @@ export default class Renderer {
     }
 
     setPoints(points) {
-        // const path_image = generatePathImage(points, this.gpu.height_texture.width, this.gpu.height_texture.height);
+        const path_image = generatePathmap(points, this.gpu.height_texture.width, this.gpu.height_texture.height);
+        ImageUtils.save(path_image, "test");
         // this.gpu.path_texture.store(this.gpu.gl, path_image.data);
     } 
 }
