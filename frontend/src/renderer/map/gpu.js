@@ -109,6 +109,7 @@ export default class WebGLManager {
         this.gl.useProgram(this.program);
         this.gl.enableVertexAttribArray(this.vertex_location);
         this.height_texture.bind(this.gl);
+        this.path_texture.bind(this.gl);
 
         this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
     }

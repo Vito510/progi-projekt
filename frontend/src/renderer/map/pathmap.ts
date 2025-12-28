@@ -9,9 +9,9 @@ export default function generatePathmap(points: TrackPoint[], width: number, hei
 
     fillCanvas("#00000000");
 
-    const outline = 15;
-    const line = 5;
-    const point = 20;
+    const outline = 5;
+    const line = 3;
+    const point = 10;
     drawPoints(points, (point + outline) * 0.5, "#000000");
     drawLines(points, line + outline, "#000000");
     drawPoints(points, point * 0.5, "#70ADA2");
