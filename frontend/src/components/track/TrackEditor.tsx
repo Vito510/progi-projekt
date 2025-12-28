@@ -41,7 +41,7 @@ export default function TrackEditor({track}: Props) {
     );
 
     function handler(points: TrackPoint[]) {
-        track.points = points
+        track.points = [...points];
     } 
     
     function setMap(params: TerrainParameter) {
@@ -74,7 +74,7 @@ export default function TrackEditor({track}: Props) {
                     </List>
                 </header>
                 <section>
-                    <Map3D params={params}></Map3D>
+                    <Map3D params={params} points={track.points}></Map3D>
                 </section>
                 <aside>
                     <TrackPointEditor points={track.points} onInput={handler}></TrackPointEditor>

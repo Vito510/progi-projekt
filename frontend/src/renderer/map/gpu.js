@@ -20,6 +20,7 @@ export default class WebGLManager {
         this.program;
         this.base_render_size = {x: 2560, y: 1440};
         this.height_texture = new Texture(params.heightmap.data, params.heightmap.width, params.heightmap.height);
+        this.path_texture = new Texture(new Uint8ClampedArray(4 * this.height_texture.width * this.height_texture.height), this.height_texture.width, this.height_texture.height);
 
         this.gl = this.canvas.getContext("webgl2");
         if (!this.gl)
@@ -85,6 +86,7 @@ export default class WebGLManager {
         this.gl.vertexAttribPointer(this.vertex_location, 2, this.gl.FLOAT, false, 2 * Float32Array.BYTES_PER_ELEMENT, 0);
 
         this.height_texture.setup(this.gl, "height_texture", this.program, 0, "LINEAR", "CLAMP_TO_EDGE");
+        this.path_texture.setup(this.gl, "path_texture", this.program, 1, "NEAREST", "CLAMP_TO_EDGE")
 
         this.synchronize();
     }

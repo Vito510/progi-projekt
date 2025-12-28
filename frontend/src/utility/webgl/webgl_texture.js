@@ -37,6 +37,9 @@ export default class Texture {
 
     store(gl, data) {
         const format = "RGBA8";
+        gl.activeTexture(this.binding);
+        gl.bindTexture(gl.TEXTURE_2D, this.texture);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl[format], this.width, this.height, 0, gl[Formats[format].channels], gl[Formats[format].type], data);
+        gl.bindTexture(gl.TEXTURE_2D, null);
     } 
 }

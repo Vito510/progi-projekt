@@ -6,12 +6,14 @@ import Placeholder from '../general/Placeholder.js';
 import Popup from '../general/Popup.js';
 import Card from '../general/Card.js';
 import ButtonHome from '../profile/ButtonHome.js';
+import type TrackPoint from '../../interfaces/TrackPoint.js';
 
 interface Props {
-    params: TerrainParameter
+    params: TerrainParameter,
+    points: TrackPoint[],
 }
 
-export default function Map3D({params}: Props) {
+export default function Map3D({params, points}: Props) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const rendererRef = useRef<Renderer | null>(null);
     const animationRef = useRef<number | null>(null);
@@ -34,6 +36,7 @@ export default function Map3D({params}: Props) {
                 rendererRef.current = value;
                 rendererRef.current?.setQuality(false);
                 animationRef.current = requestAnimationFrame(animate);
+                rendererRef.current.setPoints(points);
             })
             .catch((error) => {
                 setError(error);

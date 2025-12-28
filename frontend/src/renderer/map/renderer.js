@@ -66,7 +66,8 @@ export default class Renderer {
 
     setPoints(points) {
         const path_image = generatePathmap(points, this.gpu.height_texture.width, this.gpu.height_texture.height);
-        ImageUtils.save(path_image, "test");
-        // this.gpu.path_texture.store(this.gpu.gl, path_image.data);
+        // ImageUtils.save(path_image, "test_b_");
+        // ImageUtils.save(new ImageData(this.gpu.height_texture.data, this.gpu.height_texture.width), "testb");
+        this.gpu.path_texture.store(this.gpu.gl, path_image.data);
     } 
 }

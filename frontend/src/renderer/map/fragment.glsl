@@ -30,6 +30,7 @@ struct Data {
 };
 
 uniform sampler2D height_texture;
+uniform sampler2D path_texture;
 in vec2 texture_coordinates;
 out vec4 output_color;
 
@@ -56,7 +57,9 @@ void main() {
         vec3 normal = getNormal(position, uniforms.normals_epsilon);
         float diffuse = dot(normal, sun) * 0.5 + 0.5;
         float mask = float((position.x < (uniforms.grid_size.x - 3.0)) && (position.x > 3.0) && (position.y < (uniforms.grid_size.y - 3.0)) && (position.y > 3.0));
-        output_color = vec4(vec3(diffuse * mask), 1.0);
+        vec4 path = texture(path_texture, position.xy / uniforms.grid_size.xy / uniforms.grid_scale);
+        vec3 color = mix(vec3(diffuse * mask), path.xyz, path.w);
+        output_color = vec4(color, 1.0);
     } else {
         output_color = vec4(0.0);
     }

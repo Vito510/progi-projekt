@@ -69,8 +69,8 @@ export default function MapPage() {
 		const points: TrackPoint[] = [];
 		for (let i=0; i<20; i++) {
 			points.push({
-				x: Math.random() * 100,
-				y: Math.random() * 100,
+				x: Math.random(),
+				y: Math.random(),
 				z: Math.random() * 100,
 			});
 		}
