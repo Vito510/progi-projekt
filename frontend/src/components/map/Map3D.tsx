@@ -7,6 +7,7 @@ import Popup from '../general/Popup.js';
 import Card from '../general/Card.js';
 import ButtonHome from '../profile/ButtonHome.js';
 import type TrackPoint from '../../interfaces/TrackPoint.js';
+import Switch from '../general/Switch.js';
 
 interface Props {
     params: TerrainParameter,
@@ -81,13 +82,9 @@ export default function Map3D({params, points}: Props) {
     return (
         <div className='-map3d'>
             <canvas ref={canvasRef}></canvas>
-            <div className='toggle'>
-                <p>Niska kvaliteta</p>
-                <div className={quality ? "active" : ""} onClick={quality_handler}>
-                    <div></div>
-                </div>
-                <p>Visoka kvaliteta</p>
-            </div>
+            <aside>
+                <Switch offText='Niska kvaliteta' onText='Visoka kvalitete' onInput={quality_handler} defaultValue={quality ? "on" : "off"}></Switch>
+            </aside>
         </div>
     );
 }

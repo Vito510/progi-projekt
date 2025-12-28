@@ -12,11 +12,7 @@ import { useEffect, useState } from 'react';
 import TrackPointEditor from './TrackPointEditor.js';
 import type TrackPoint from '../../interfaces/TrackPoint.js';
 
-interface Props {
-    track: Track
-}
-
-export default function TrackEditor({track}: Props) {
+export default function TrackEditor({track}: {track: Track}) {
     const selection: MapSelection = {
         max_latitude: track.max_lat,
         min_latitude: track.min_lat,
