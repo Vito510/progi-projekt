@@ -2,9 +2,7 @@ import WebGLManager from './gpu.js'
 import Camera from './camera.js';
 import Vector2D from '../../utility/math/vector2d.js';
 import Vector3D from '../../utility/math/vector3d.js';
-// import rayCast from './raycast.js';
 import generatePathmap from './pathmap.js';
-import ImageUtils from '../../utility/image_utils.js';
 
 export default class Renderer {
     static async initialize(canvas, params) {

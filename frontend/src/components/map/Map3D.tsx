@@ -1,20 +1,22 @@
 import './Map3D.css';
-import Renderer from '../../renderer/map/renderer.js';
 import { useEffect, useRef, useState } from 'react';
 import type TerrainParameter from '../../interfaces/TerrainParameter.js';
+import type TrackPoint from '../../interfaces/TrackPoint.js';
+import Renderer from '../../renderer/map/renderer.js';
 import Placeholder from '../general/Placeholder.js';
 import Popup from '../general/Popup.js';
 import Card from '../general/Card.js';
 import ButtonHome from '../profile/ButtonHome.js';
-import type TrackPoint from '../../interfaces/TrackPoint.js';
 import Switch from '../general/Switch.js';
+import List from '../general/List.js';
 
 interface Props {
     params: TerrainParameter,
     points: TrackPoint[],
+    onInit: (ref: Renderer) => void,
 }
 
-export default function Map3D({params, points}: Props) {
+export default function Map3D({params, points, onInit}: Props) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const rendererRef = useRef<Renderer | null>(null);
     const animationRef = useRef<number | null>(null);
@@ -33,9 +35,10 @@ export default function Map3D({params, points}: Props) {
         }
 
         Renderer.initialize(canvas, params)
-            .then((value: Renderer) => {
-                rendererRef.current = value;
-                rendererRef.current?.setQuality(false);
+            .then((ref: Renderer) => {
+                rendererRef.current = ref;
+                onInit(ref);
+                rendererRef.current?.setQuality(quality);
                 animationRef.current = requestAnimationFrame(animate);
                 rendererRef.current.setPoints(points);
             })
@@ -55,36 +58,34 @@ export default function Map3D({params, points}: Props) {
         setQuality(!quality);
     }
 
-    if (error) {
-        return (
-            <div className='-map3d'>
+    return (
+        <div className='-map3d'>
+            {error ? 
                 <Popup>
                     <Card>
                         <header>
-                            <i className="fa fa-times-circle"></i>
-                            <span>Error</span>
+                            <List type='row' gap='small' align='center'>
+                                <i className="fa fa-times-circle"></i>
+                                <span>Error</span>
+                            </List>
                         </header>
-                        <section>
-                            <span>
-                                Pokretanje 3D prikaza nije uspjelo. Pokušajte pokrenuti aplikaciju koristeći "Chromium based" browser.
-                            </span>
+                        <List type='column' gap='small'>
+                            <p>Pokretanje 3D prikaza nije uspjelo. Pokušajte pokrenuti aplikaciju koristeći "Chromium based" browser.</p>
                             <Placeholder>
                                 {"" + error}
                             </Placeholder>
                             <ButtonHome></ButtonHome>
-                        </section>
+                        </List>
                     </Card>
                 </Popup>
-            </div>
-        );
-    }
-
-    return (
-        <div className='-map3d'>
-            <canvas ref={canvasRef}></canvas>
-            <aside>
-                <Switch offText='Niska kvaliteta' onText='Visoka kvalitete' onInput={quality_handler} defaultValue={quality ? "on" : "off"}></Switch>
-            </aside>
+                :
+                <>
+                    <canvas ref={canvasRef}></canvas>
+                    <aside>
+                        <Switch onInput={quality_handler} defaultValue={quality ? "on" : "off"} offText='Niska kvaliteta' onText='Visoka kvalitete'></Switch>
+                    </aside>
+                </>
+            }
         </div>
     );
 }
