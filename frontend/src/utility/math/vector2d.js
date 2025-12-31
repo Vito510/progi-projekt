@@ -18,7 +18,21 @@ export default class Vector2D extends Vector {
         if (this.x == 0 && this.y == 0)
             return new Vector2D();
         else
-            return Vector3D.div(this, len(this));
+            return Vector2D.div(this, len(this));
+    }
+
+    floor() {
+        let result = new Vector2D();
+        for (const key in this)
+            result[key] = Math.floor(this[key]);
+        return result;
+    }
+
+    sign() {
+        let result = new Vector2D();
+        for (const key in this)
+            result[key] = Math.sign(this[key]);
+        return result;
     }
 
     static mix(a, b, factor) {

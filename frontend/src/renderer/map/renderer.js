@@ -2,7 +2,8 @@ import WebGLManager from './gpu.js'
 import Camera from './camera.js';
 import Vector2D from '../../utility/math/vector2d.js';
 import Vector3D from '../../utility/math/vector3d.js';
-import generatePathmap from './pathmap.js';
+import PathMap from './pathmap.js';
+import RayCast from './raycast.js';
 
 export default class Renderer {
     static async initialize(canvas, params) {
@@ -14,7 +15,6 @@ export default class Renderer {
         this.gpu = gpu;
         this.camera = new Camera(canvas, new Vector3D(this.gpu.height_texture.width * 0.75), new Vector2D(180.0, 90.0), 0.5, 5.0, 0.5, false, true);
         this.camera.updateOrbit();
-        this.animation_id;
         this.gpu.synchronize();
 
         window.addEventListener("beforeunload", () => {
@@ -55,15 +55,16 @@ export default class Renderer {
     }
 
     getPoint(coorinates) {
-        // return rayCast(
+        // return RayCast.rayCast(
         //     new ImageData(this.gpu.height_texture.data, this.gpu.height_texture.width),
         //     coorinates,
         //     this.gpu.uniforms
         // );
+        return null;
     }
 
     setPoints(points) {
-        const path_image = generatePathmap(points, this.gpu.height_texture.width, this.gpu.height_texture.height);
+        const path_image = PathMap.generatePathmap(points, this.gpu.height_texture.width, this.gpu.height_texture.height);
         this.gpu.path_texture.store(this.gpu.gl, path_image.data);
     } 
 }

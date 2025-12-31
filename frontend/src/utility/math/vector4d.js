@@ -35,6 +35,20 @@ export default class Vector4D extends Vector{
             return Vector4D.div(this, len(this));
     }
 
+    floor() {
+        let result = new Vector4D();
+        for (const key in this)
+            result[key] = Math.floor(this[key]);
+        return result;
+    }
+
+    sign() {
+        let result = new Vector4D();
+        for (const key in this)
+            result[key] = Math.sign(this[key]);
+        return result;
+    }
+
     static mix(a, b, factor) {
         let result = new Vector2D();
         for (const key in result)

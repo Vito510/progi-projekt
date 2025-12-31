@@ -14,9 +14,10 @@ interface Props {
     params: TerrainParameter,
     points: TrackPoint[],
     onInit: (ref: Renderer) => void,
+    onInput: (point: TrackPoint) => void,
 }
 
-export default function Map3D({params, points, onInit}: Props) {
+export default function Map3D({params, points, onInit, onInput}: Props) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const rendererRef = useRef<Renderer | null>(null);
     const animationRef = useRef<number | null>(null);
@@ -41,6 +42,18 @@ export default function Map3D({params, points, onInit}: Props) {
                 rendererRef.current?.setQuality(quality);
                 animationRef.current = requestAnimationFrame(animate);
                 rendererRef.current.setPoints(points);
+
+                canvasRef.current!.addEventListener("click", (event) => {
+                    const rect = canvasRef.current!.getBoundingClientRect();
+                    const x = (((event.clientX - rect.x) / rect.width) - 0.5) * 2.0;
+                    const y = (((event.clientY - rect.y) / rect.height) - 0.5) * 2.0;
+                    const coordinates: {x: number, y: number} = {x: x, y: y};
+                    const point = rendererRef.current!.getPoint(coordinates);
+                    // console.log("\n");
+                    // console.log(point);
+                    if (point)
+                        onInput(point);
+                });
             })
             .catch((error) => {
                 setError(error);

@@ -1,6 +1,5 @@
 import './TrackEditor.css';
 import { useEffect, useRef, useState } from 'react';
-import type { ReactNode } from 'react';
 import type Track from '../../interfaces/Track.js';
 import type MapSelection from '../../interfaces/MapSelection.js';
 import type TerrainParameter from '../../interfaces/TerrainParameter.js';
@@ -22,15 +21,25 @@ export default function TrackEditor({track}: {track: Track}) {
         min_longitude: track.min_lon,
     };
     let [params, setParams] = useState<TerrainParameter | null>(null);
+    let [pointList, setPointList] = useState<TrackPoint[]>(track.points);
 
     function point_edit_handler(points: TrackPoint[]) {
-        track.points = [...points];
-        if (rendererRef.current)
-            rendererRef.current.setPoints(track.points);
+        const new_points = [...points];
+        setPointList(new_points);
+        track.points = new_points;
+        rendererRef.current!.setPoints(new_points);
     } 
 
     function renderer_init_handler(ref: Renderer) {
         rendererRef.current = ref;
+    }
+
+    function point_add_handler(point: TrackPoint) {
+        pointList.push(point);
+        let new_points = [...pointList];
+        setPointList(new_points);
+        track.points = new_points;
+        rendererRef.current!.setPoints(new_points);
     }
 
     useEffect(() => {
@@ -77,10 +86,10 @@ export default function TrackEditor({track}: {track: Track}) {
                         </List>
                     </header>
                     <section>
-                        <Map3D params={params} points={track.points} onInit={renderer_init_handler}></Map3D>
+                        <Map3D params={params} points={pointList} onInit={renderer_init_handler} onInput={point_add_handler}></Map3D>
                     </section>
                     <aside>
-                        <TrackPointEditor points={track.points} onInput={point_edit_handler}></TrackPointEditor>
+                        <TrackPointEditor points={pointList} onInput={point_edit_handler}></TrackPointEditor>
                     </aside>
                 </div>
                 :

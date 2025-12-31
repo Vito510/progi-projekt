@@ -9,7 +9,6 @@ interface Props {
 }
 
 export default function TrackPointEditor({points, onInput = () => {}}: Props) {
-    const [pointList, setPointList] = useState<TrackPoint[]>(points);
     const [listElement, setListElement] = useState<ReactNode | null>(null);
 
     function swap(array: TrackPoint[], index: number, increment: number) {
@@ -18,36 +17,34 @@ export default function TrackPointEditor({points, onInput = () => {}}: Props) {
         [array[index_a], array[index_b]] = [array[index_b], array[index_a]];
         const new_aray = [...array];
         onInput(new_aray);
-        setPointList(new_aray);
     }
 
     function remove(array: TrackPoint[], index: number) {
         array.splice(index, 1)
         const new_array = [...array];
-        setPointList(new_array);
         onInput(new_array);
     }
 
     useEffect(() => {
         setListElement(
             <>
-                {pointList.map((value, index) => 
+                {points.map((value, index) => 
                     <li key={index}>
                         <samp>({value.x.toFixed(2)},{value.y.toFixed(2)},{Math.round(value.z)})</samp>
-                        <Button shape="round" type="primary" onClick={() => swap(pointList, index, 1)}>
+                        <Button shape="round" type="primary" onClick={() => swap(points, index, 1)}>
                             <i className="fa fa-chevron-up"></i>
                         </Button>
-                        <Button shape="round" type="primary" onClick={() => swap(pointList, index, -1)}>
+                        <Button shape="round" type="primary" onClick={() => swap(points, index, -1)}>
                             <i className="fa fa-chevron-down"></i>
                         </Button>
-                        <Button shape="square" type="tertiary" onClick={() => remove(pointList, index)}>
+                        <Button shape="square" type="tertiary" onClick={() => remove(points, index)}>
                             <i className="fa fa-trash"></i>
                         </Button>
                     </li>)
                 }
             </>
         );
-    }, [pointList]);
+    }, [points]);
 
     return (
         <div className="-track-point-editor">

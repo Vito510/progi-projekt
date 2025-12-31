@@ -1,7 +1,28 @@
+import type Pixel from "../interfaces/Pixel";
+
 const canvas: OffscreenCanvas = new OffscreenCanvas(0, 0);
 const context: OffscreenCanvasRenderingContext2D = canvas.getContext('2d', { willReadFrequently: true })!;
 
 export default class ImageUtils {
+
+    static get(image: ImageData, x: number, y: number): Pixel {
+        x = Math.max(Math.min(Math.floor(x), image.width), 0);
+        y = Math.max(Math.min(Math.floor(y), image.height), 0);
+        const r = image.data[(x + image.width * y) * 4];
+        const g = image.data[(x + image.width * y) * 4 + 1];
+        const b = image.data[(x + image.width * y) * 4 + 2];
+        const a = image.data[(x + image.width * y) * 4 + 3];
+        return {r: r, g: g, b: b, a: a};
+    }
+
+    static set(image: ImageData, x:number, y: number, value: Pixel): void {
+        x = Math.max(Math.min(Math.floor(x), image.width), 0);
+        y = Math.max(Math.min(Math.floor(y), image.height), 0);
+        image.data[(x + image.width * y) * 4] = value.r;
+        image.data[(x + image.width * y) * 4 + 1] = value.g;
+        image.data[(x + image.width * y) * 4 + 2] = value.b;
+        image.data[(x + image.width * y) * 4 + 3] = value.a;
+    }
 
     static resize(image: ImageData, width: number, height: number, interpolation: 'nearest' | 'linear' = 'nearest'): ImageData {
         context.imageSmoothingEnabled = interpolation === 'linear';

@@ -44,6 +44,11 @@ export default class WebGLManager {
             height_offset: params.offset,
             height_multiplier: params.multiplier,
             normals_epsilon: 1.0,
+
+            max_steps: 2048,
+            padding_a: 0.0,
+            padding_b: 0.0,
+            padding_c: 0.0,
         };
 
         const vertices = new Float32Array([
@@ -120,48 +125,6 @@ export default class WebGLManager {
         this.uniforms.canvas_size = new Vector2D(width, height);
         this.canvas.width = width * this.uniforms.render_scale;
         this.canvas.height = height * this.uniforms.render_scale;
-    }
-
-    reloadImage(image, height = 256) {
-        this.height_texture.destroy(this.gl);
-        this.height_texture = new Texture(image.data, image.width, image.height);
-        this.height_texture.setup(this.gl, "height_texture", this.program, 0, "LINEAR", "CLAMP_TO_EDGE");
-        this.uniforms.grid_size.x = this.height_texture.width;
-        this.uniforms.grid_size.y = this.height_texture.height;
-        this.uniforms.grid_size.z = height;
-    }
-
-    async screenshot(file_name) {
-        const buffer_width = Math.floor(this.uniforms.buffer_size.x);
-        const buffer_height = Math.floor(this.uniforms.buffer_size.y);
-        const render_width = Math.floor(this.uniforms.canvas_size.x * this.uniforms.render_scale);
-        const render_height = Math.floor(this.uniforms.canvas_size.y * this.uniforms.render_scale);
-
-        const color_buffer = this.gl.createTexture();
-        this.gl.bindTexture(this.gl.TEXTURE_2D, color_buffer);
-        this.gl.texImage2D(this.gl.TEXTURE_2D, 0, this.gl.RGBA8, buffer_width, buffer_height, 0, this.gl.RGBA, this.gl.UNSIGNED_BYTE, null);
-        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MIN_FILTER, this.gl.LINEAR);
-        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_MAG_FILTER, this.gl.NEAREST);
-        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_S, this.gl.CLAMP_TO_EDGE);
-        this.gl.texParameteri(this.gl.TEXTURE_2D, this.gl.TEXTURE_WRAP_T, this.gl.CLAMP_TO_EDGE);
-        
-        const frame_buffer = this.gl.createFramebuffer();
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER,  frame_buffer);
-        this.gl.framebufferTexture2D(this.gl.FRAMEBUFFER, this.gl.COLOR_ATTACHMENT0, this.gl.TEXTURE_2D, color_buffer, 0);
-        
-        this.gl.clearColor(1.0, 1.0, 1.0, 1.0);
-        this.gl.clear(this.gl.COLOR_BUFFER_BIT | this.gl.DEPTH_BUFFER_BIT);
-        this.gl.viewport(0, 0, this.uniforms.canvas_size.x * this.uniforms.render_scale, this.uniforms.canvas_size.y * this.uniforms.render_scale);
-
-        this.gl.useProgram(this.program);
-        this.gl.enableVertexAttribArray(this.vertex_location);
-        this.height_texture.bind(this.gl);
-
-        this.gl.drawArrays(this.gl.TRIANGLES, 0, 6);
-
-        const image = WebGL.textureToImage(this.gl, color_buffer, render_width, render_height);
-        this.gl.bindFramebuffer(this.gl.FRAMEBUFFER, null);
-        ImageUtils.save(file_name, image);
     }
 }
 

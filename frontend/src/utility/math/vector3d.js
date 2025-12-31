@@ -27,6 +27,20 @@ export default class Vector3D extends Vector {
         else
             return Vector3D.div(this, this.len());
     }
+
+    floor() {
+        let result = new Vector3D();
+        for (const key in this)
+            result[key] = Math.floor(this[key]);
+        return result;
+    }
+
+    sign() {
+        let result = new Vector3D();
+        for (const key in this)
+            result[key] = Math.sign(this[key]);
+        return result;
+    }
     
     static cross(a, b) {
         return vec(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);

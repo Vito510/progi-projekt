@@ -7,6 +7,6 @@ export default class Renderer {
     update(): void;
     render(): void;
     setQuality(quality: boolean): void;
-    rayCast(coorinates: {x: number, y: number}): TrackPoint;
+    getPoint(coorinates: {x: number, y: number}): TrackPoint | null;
     setPoints(points: TrackPoint[]): void;
 }

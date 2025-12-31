@@ -9,7 +9,7 @@ export default class Vector {
     }
 
     data() {
-        return Float32Array(this.array());
+        return new Float32Array(this.array());
     }
 
     static dot(a, b) {

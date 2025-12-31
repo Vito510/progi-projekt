@@ -16,6 +16,8 @@ layout(std140) uniform UniformBlock {
     float height_offset;
     float height_multiplier;
     float normals_epsilon;
+
+    float max_steps;
 } uniforms;
 
 struct Ray {
@@ -80,8 +82,8 @@ float traverse(Ray ray) {
     vec3 limit = floor(uniforms.grid_size * uniforms.grid_scale);
     vec3 t = (planes - ray.origin) * ray.inverse;
 
-    const int max_steps = 2000;
-    for (int i = 0; i < max_steps; i++) {
+    int steps = int(uniforms.max_steps);
+    for (int i = 0; i < steps; i++) {
         if (position.z <= getHeight(position)) {
             return length(ray.origin - position);
         }

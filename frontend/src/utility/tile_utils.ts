@@ -1,4 +1,5 @@
 import type Selection from '../interfaces/MapSelection.js';
+import type Pixel from '../interfaces/Pixel.js';
 import type TerrainParameter from '../interfaces/TerrainParameter.js';
 import ImageUtil from './image_utils.js';
 import pako from 'pako';
@@ -8,13 +9,6 @@ const tile_resolution = 3601;
 const display_resolution = 512;
 const pixel_size = 30.91;
 const max_tiles = 4;
-
-export interface Pixel {
-    r: number, 
-    g: number,
-    b: number,
-    a: number,
-}
 
 export default class TileUtils {
 
@@ -37,7 +31,7 @@ export default class TileUtils {
         return width_tiles * height_tiles;
     }
 
-    static #encodeHeight(height: number): Pixel {
+    static encodeHeight(height: number): Pixel {
         const r = (height >> 8) & 0xFF;
         const g = height & 0xFF;
         const b = 0;
@@ -45,7 +39,7 @@ export default class TileUtils {
         return {r: r, g: g, b: b, a: a};
     }
 
-    static #decodeHeight(color: Pixel): number {
+    static decodeHeight(color: Pixel): number {
         return color.r * 256.0 + color.g;
     }
 
@@ -74,7 +68,7 @@ export default class TileUtils {
                 let height = data_view.getInt16(offset, false) + elevation_offset;
                 if (height == 0)
                     height = elevation_offset;
-                const pixel = TileUtils.#encodeHeight(height);
+                const pixel = TileUtils.encodeHeight(height);
                 image.data[(x + image.width * y) * 4] = pixel.r;
                 image.data[(x + image.width * y) * 4 + 1] = pixel.g;
                 image.data[(x + image.width * y) * 4 + 2] = pixel.b;
@@ -130,7 +124,7 @@ export default class TileUtils {
                 const r = image.data[(x + image.width * y) * 4];
                 const g = image.data[(x + image.width * y) * 4 + 1];
                 const pixel: Pixel = {r, g, b: 0.0, a: 0.0};
-                const height = TileUtils.#decodeHeight(pixel);
+                const height = TileUtils.decodeHeight(pixel);
                 min = Math.min(min, height);
                 max = Math.max(max, height);
             }
