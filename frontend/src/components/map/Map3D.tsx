@@ -95,7 +95,7 @@ export default function Map3D({params, points, onInit, onInput}: Props) {
                 <>
                     <canvas ref={canvasRef}></canvas>
                     <aside>
-                        <Switch onInput={quality_handler} defaultValue={quality ? "on" : "off"} offText='Niska kvaliteta' onText='Visoka kvalitete'></Switch>
+                        <Switch onInput={quality_handler} defaultValue={quality ? "on" : "off"} offText='Niska kvaliteta' onText='Visoka kvaliteta'></Switch>
                     </aside>
                 </>
             }

@@ -43,7 +43,7 @@ export default class Vector3D extends Vector {
     }
     
     static cross(a, b) {
-        return vec(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
+        return new Vector3D(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
     }
     
     static add(...args) {
