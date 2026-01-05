@@ -73,6 +73,20 @@
 
 /* ------------------------------------------------------- */
 
+.-button button.quaternary {
+    background-color: var(--gold-default);
+}
+
+.-button button.quaternary:hover {
+    background-color: var(--gold-highlight);
+}
+
+.-button button.quaternary:active {
+    background-color: var(--gold-muted);
+}
+
+/* ------------------------------------------------------- */
+
 .-button button.disabled {
     background-color: var(--theme-highlight);
     box-shadow: none;
