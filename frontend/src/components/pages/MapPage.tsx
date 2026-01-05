@@ -59,6 +59,7 @@ export default function MapPage() {
 			min_lon: 0,
 			points: [],
 			override: params,
+        	whitelist: [],
 		}
 		setElement(<TrackEditor track={track}></TrackEditor>);
 	}
@@ -87,6 +88,7 @@ export default function MapPage() {
 			min_lon: 0,
 			points: points,
 			override: params,
+        	whitelist: [],
 		}
 		setElement(<TrackEditor track={track}></TrackEditor>);
 	}

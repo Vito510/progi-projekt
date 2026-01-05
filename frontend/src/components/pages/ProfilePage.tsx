@@ -26,6 +26,7 @@ export default function ProfilePage() {
         min_lat: 0,
         min_lon: 0,
         points: [],
+        whitelist: [],
     }
     let tracks: Track[] = [];
     for (let i=0; i<10; i++)

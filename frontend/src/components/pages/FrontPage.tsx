@@ -8,7 +8,6 @@ import ButtonSignIn from '../profile/ButtonSignIn';
 import { useAuth } from '../../context/AuthContext';
 import ButtonNewTrack from '../track/ButtonNewTrack';
 import AppBody from '../general/AppBody';
-// import Particles from '../general/Particles';
 
 export default function FrontPage() {
     const auth = useAuth();
@@ -27,6 +26,7 @@ export default function FrontPage() {
         min_lat: 0,
         min_lon: 0,
         points: [],
+        whitelist: [],
     }
     let tracks: Track[] = [];
     for (let i=0; i<10; i++)
@@ -35,7 +35,6 @@ export default function FrontPage() {
 
     return (
         <>
-            {/* <Particles></Particles> */}
             <AppHeader>
                 <ButtonNewTrack></ButtonNewTrack>
                 {auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
