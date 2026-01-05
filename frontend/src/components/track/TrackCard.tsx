@@ -59,7 +59,7 @@ export default function TrackCard({index = 0, id, name, owner, date, length, sta
                         <i className='fa fa-external-link'></i>
                         Otvori
                     </Button>
-                    <Button type='secondary'>
+                    <Button type='quaternary'>
                         <i className='fa fa-star'></i>
                         Ocjeni
                     </Button>

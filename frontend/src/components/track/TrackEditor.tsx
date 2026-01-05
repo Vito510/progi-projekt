@@ -11,9 +11,13 @@ import Button from '../general/Button.js';
 import Card from '../general/Card.js';
 import Map3D from '../map/Map3D.js';
 import TrackPointEditor from './TrackPointEditor.js';
+import Popup from '../general/Popup.js';
+import Placeholder from '../general/Placeholder.js';
 
 export default function TrackEditor({track}: {track: Track}) {
     const rendererRef = useRef<Renderer | null>(null);
+    const [stats, setStats] = useState<boolean>(false);
+    
     const selection: MapSelection = {
         max_latitude: track.max_lat,
         min_latitude: track.min_lat,
@@ -68,6 +72,9 @@ export default function TrackEditor({track}: {track: Track}) {
                                 <i className='fa fa-save'></i>
                                 <p>Spremi</p>
                             </Button>
+                            {/* <ButtonSaveTrack track={track}></ButtonSaveTrack> */}
+                            {/* <ButtonLikeTrack id={track.id}></ButtonLikeTrack> */}
+                            {/* <ButtonDeleteTrack></ButtonDeleteTrack> */}
                             {/* zamiijeniti sa gumbom za ocjenjivanje */}
                             <Button type='secondary'>
                                 <i className='fa fa-star'></i>
@@ -83,6 +90,41 @@ export default function TrackEditor({track}: {track: Track}) {
                                 <i className='fa fa-trash'></i>
                                 <p>Izbriši</p>
                             </Button>
+                            <Button type='secondary'>
+                                <i className='fa fa-eye'></i>
+                                <p>Vidljivost</p>
+                            </Button>
+                            {/* <Switch onInput={(value) => ()} onText='javno' offText='privatno'></Switch> */}
+                            <Button type='secondary'>
+                                <i className='fa fa-list'></i>
+                                <p>Whitelista</p>
+                            </Button>
+                            <Button type='secondary' onClick={() => {setStats(true)}}>
+                                <i className='fa fa-area-chart'></i>
+                                <p>Statistika</p>
+                            </Button>
+                            {stats && 
+                                <Popup>
+                                    <Card>
+                                        <header>
+                                            <List type='row' gap='medium' align='center'>
+                                                <h2>Statistike staze</h2>
+                                                <Button type='tertiary' onClick={() => {setStats(false)}}>
+                                                    <i className='fa fa-times'></i>
+                                                    <p>Zatvori</p>
+                                                </Button>
+                                            </List>
+                                        </header>
+                                        <section>
+                                            <Placeholder>
+                                                [statistika staze]
+                                            </Placeholder>
+                                            {/* <TrackStats points={track.points}></TrackStats> */}
+                                        </section>
+                                    </Card>
+                                </Popup>
+                            }
+
                         </List>
                     </header>
                     <section>

@@ -13,7 +13,9 @@ export default function TrackPointEditor({points, onInput = () => {}}: Props) {
 
     function swap(array: TrackPoint[], index: number, increment: number) {
         const index_a = index;
-        const index_b = (index - increment) % array.length;
+        let index_b = (index - increment) % array.length;
+        if (index_b < 0)
+            index_b = array.length + index_b;
         [array[index_a], array[index_b]] = [array[index_b], array[index_a]];
         const new_aray = [...array];
         onInput(new_aray);
