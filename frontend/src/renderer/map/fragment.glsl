@@ -36,8 +36,8 @@ uniform sampler2D path_texture;
 in vec2 texture_coordinates;
 out vec4 output_color;
 
-vec3 traverse(Ray ray);
-vec2 intersect(Ray ray, vec3 p_min, vec3 p_max);
+vec3 rayVoxelTraversal(Ray ray);
+vec2 rayAABBIntersection(Ray ray, vec3 aabb_min, vec3 aabb_max);
 vec3 getNormal(vec3 position, float epsilon);
 float getHeight(vec3 position);
 vec3 rayPlaneIntersection(vec3 ray_origin, vec3 ray_direction, vec3 plane_point, vec3 plane_normal);
@@ -53,10 +53,8 @@ void main() {
     camera_ray.direction = (uniforms.camera_rotation * vec4(normalize(vec3(centered_coordinates.x * uniforms.fov, 1.0, centered_coordinates.y * uniforms.fov)), 1.0)).xyz;
     camera_ray.inverse = 1.0 / camera_ray.direction;
 
-    // float t = traverse(camera_ray);
-    vec3 position = traverse(camera_ray);
+    vec3 position = rayVoxelTraversal(camera_ray);
     if (position.x != -1.0) {
-        // vec3 position = camera_ray.origin + camera_ray.direction * t;
         vec3 normal = getNormal(position, uniforms.normals_epsilon);
         vec3 sun = normalize(vec3(1.0, 0.5, 0.0));
         float diffuse = dot(normal, sun) * 0.5 + 0.5;
@@ -87,9 +85,9 @@ void main() {
     }
 }
 
-vec3 traverse(Ray ray) {
+vec3 rayVoxelTraversal(Ray ray) {
 
-    vec2 bbox_t = intersect(ray, vec3(0.0), uniforms.grid_size * uniforms.grid_scale);
+    vec2 bbox_t = rayAABBIntersection(ray, vec3(0.0), uniforms.grid_size * uniforms.grid_scale);
     if (bbox_t.x > bbox_t.y)
         return vec3(-1.0);
 
@@ -137,11 +135,11 @@ vec3 traverse(Ray ray) {
     }
 }
 
-vec2 intersect(Ray ray, vec3 p_min, vec3 p_max) {
+vec2 rayAABBIntersection(Ray ray, vec3 aabb_min, vec3 aabb_max) {
     vec2 t = vec2(0.0, 1.0 / 0.0);
     for (int i = 0; i < 3; i++) {
-        float t1 = (p_min[i] - ray.origin[i]) * ray.inverse[i];
-        float t2 = (p_max[i] - ray.origin[i]) * ray.inverse[i];
+        float t1 = (aabb_min[i] - ray.origin[i]) * ray.inverse[i];
+        float t2 = (aabb_max[i] - ray.origin[i]) * ray.inverse[i];
         t.x = max(t.x, min(t1, t2));
         t.y = min(t.y, max(t1, t2));
     }
@@ -176,120 +174,3 @@ vec3 rayPlaneIntersection(vec3 ray_origin, vec3 ray_direction, vec3 plane_point,
 
     return ray_origin + ray_direction * t;
 }
-
-
-
-
-
-
-// bool traversal(vec3 origin, vec3 dir, out vec3 color, inout uint steps) {
-//     vec3 inv_dir = 1. / dir;
-//     vec3 sgn_dir = sign(inv_dir);
-//     inv_dir = clamp(inv_dir, vec3(-FLT_MAX), vec3(FLT_MAX));
-
-//     vec3 t1 = -origin * inv_dir;
-//     vec3 t2 = (vec3(pc.voxel_resolution) - origin) * inv_dir;
-
-//     vec3 tmins = min(t1, t2);
-//     vec3 tmaxs = max(t1, t2);
-
-//     float tmin = 0;
-//     float tmax = FLT_MAX;
-//     for (int i = 0; i < 3; i++) {
-//         tmin = max(tmin, tmins[i]);
-//         tmax = min(tmax, tmaxs[i]);
-//     }
-
-//     if (tmin > tmax) {
-//         return false;
-//     }
-
-//     uint stepped_axis;
-//     if (tmins.x < tmins.y) {
-//         if (tmins.x < tmins.z) {
-//             stepped_axis = 0;
-//         } else {
-//             stepped_axis = 2;
-//         }
-//     } else {
-//         if (tmins.y < tmins.z) {
-//             stepped_axis = 1;
-//         } else {
-//             stepped_axis = 2;
-//         }
-//     }
-
-//     origin += dir * tmin;
-//     uvec3 coord = uvec3(clamp(floor(origin), vec3(0), vec3(pc.voxel_resolution - 1)));
-//     vec3 t = (coord + 0.5 * (1 + sgn_dir) - origin) * inv_dir;
-
-//     uvec3 ustep = uvec3(ivec3(sgn_dir));
-//     vec3 delta = inv_dir * sgn_dir;
-
-//     ivec3 texel_coord = ivec3(coord.x / 4, coord.y / 4, coord.z / 8);
-//     uvec4 texel = imageLoad(voxelImage, texel_coord);
-//     bool instantHit = bool(texel[coord.x % 4] >> ((coord.y % 4) + (coord.z % 8) * 4) & 1u);
-//     if (!instantHit)
-//     while (true) {
-//         steps++;
-
-//         if (t.x < t.y) {
-//             if (t.x < t.z) {
-//                 coord.x += ustep.x;
-//                 t.x += delta.x;
-//                 stepped_axis = 0;
-//             } else {
-//                 coord.z += ustep.z;
-//                 t.z += delta.z;
-//                 stepped_axis = 2;
-//             }
-//         } else {
-//             if (t.y < t.z) {
-//                 coord.y += ustep.y;
-//                 t.y += delta.y;
-//                 stepped_axis = 1;
-//             } else {
-//                 coord.z += ustep.z;
-//                 t.z += delta.z;
-//                 stepped_axis = 2;
-//             }
-//         }
-
-//         if (any(greaterThanEqual(coord, uvec3(pc.voxel_resolution))))
-//         return false;
-//         if (readVoxel(coord, texel, texel_coord))
-//         break;
-//     }
-
-//     vec3 mask = vec3(0);
-//     mask[stepped_axis] = 1;
-//     float t_inside = dot(t, mask) - dot(delta, mask);
-
-//     switch (pc.render_mode) {
-//         case COORD:
-//         color = vec3(coord) / vec3(pc.voxel_resolution - 1);
-//         break;
-//         case NORMAL:
-//         vec3 normal = -mask * sgn_dir;
-//         color = max(normal.xyz, 0) - min(normal.yxz + normal.zyx, 0);
-//         break;
-//         case UV:
-//         vec3 hit = origin + dir * t_inside;
-//         vec3 local_hit = hit - coord;
-//         vec2 uv;
-//         if (stepped_axis == 0) {
-//             uv = local_hit.yz;
-//         } else if (stepped_axis == 1) {
-//             uv = local_hit.xz;
-//         } else {
-//             uv = local_hit.xy;
-//         }
-//         color = vec3(uv, 0);
-//         break;
-//         case DEPTH:
-//         float depth = (tmin + t_inside) * length(dir);
-//         color = vec3(1 / (1 + depth / pc.voxel_resolution)) + vec3(0.3, 0.0, 0.7) / 256;
-//         break;
-//     }
-//     return true;
-// }
