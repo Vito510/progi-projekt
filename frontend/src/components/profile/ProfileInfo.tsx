@@ -12,13 +12,80 @@ export default function ProfileInfo() {
     const [show_buttons, setShowButtons] = useState<boolean>(true) // dodati provjeru jel trenutni profil koji se ucita naš profil ili tuđi
     const [error_message, setErrorMessage] = useState<string | null>(null);
 
-    const save_handler = () => { // provjeri jel unesen dobar username
-        setErrorMessage("Neispravno ime, pokušajte ponovno.");
-    }
+    const save_handler = async () => {
+        const input = (document.querySelector('input[type="text"]') as HTMLInputElement)?.value;
 
-    const delete_handler = () => {
+        if (!input || input.trim().length === 0) {
+            setErrorMessage("Unesite korisničko ime.");
+            return;
+        }
 
-    }
+        try {
+            const response = await fetch('/profile/me', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${sessionStorage.getItem("authToken") || ""}`
+                },
+                body: JSON.stringify({ username: input.trim() })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const updatedUser = data.user ?? data;
+
+                auth.setUser({
+                    ...auth.user!,
+                    ...updatedUser
+                });
+
+                close_popup();
+
+
+                /*const updatedUser = await fetch('/profile/me', {
+                    headers: di da {
+                        'Authorization': `Bearer ${sessionStorage.getItem("authToken") || ""}`
+                    }
+                }).then(res => res.json());
+
+                console.log('Profile updated', updatedUser);
+
+                close_popup();*/
+            } else if (response.status === 409) {
+                setErrorMessage("Korisničko ime je zauzeto.");
+            } else {
+                setErrorMessage("Nešto je pošlo po zlu. Pokušajte ponovno.");
+            }
+        } catch (error) {
+            console.error("Error editing profile:", error);
+            setErrorMessage("Nešto je pošlo po zlu. Pokušajte ponovno.");
+        }
+    };
+
+
+    const delete_handler = async () => {
+        try {
+            const response = await fetch('/profile/me', {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}`,
+                },
+            });
+
+            if (response.ok) {
+                console.log('Profile deleted');
+
+                // log out + redirect
+                sessionStorage.removeItem("authToken");
+                window.location.href = "/";
+            } else {
+                console.error('Delete failed');
+            }
+        } catch (error) {
+            console.error('Error deleting profile:', error);
+        }
+    };
+
 
     const close_popup = () => {
         setPopup(null)

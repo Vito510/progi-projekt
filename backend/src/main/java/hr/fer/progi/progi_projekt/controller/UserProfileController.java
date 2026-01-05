@@ -8,6 +8,11 @@ import hr.fer.progi.progi_projekt.service.UserProfileService;
 
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 @RestController
 public class UserProfileController {
     UserProfileService userProfileService;
@@ -37,8 +42,64 @@ public class UserProfileController {
         return userProfileService.editProfile(profile);
     }
 
+    @PutMapping("/profile/me")
+    public ResponseEntity<UserProfile> editCurrentUser(
+            Authentication authentication,
+            @RequestBody Map<String, String> body)
+    {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).build();
+        }
+
+        String email = authentication.getName();
+
+        Long userId = userProfileService.getUserIdByEmail(email);
+        if (userId == null) {
+            return ResponseEntity.status(404).build();
+        }
+
+        String newUsername = body.get("username");
+        if (newUsername == null || newUsername.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        UserProfile existingUser = userProfileService.getProfile(userId);
+        if (existingUser == null) {
+            return ResponseEntity.status(404).build();
+        }
+
+        if (userProfileService.userExistsByUsername(newUsername)) {
+            return ResponseEntity.status(409).body(null);
+        }
+
+        existingUser.setUsername(newUsername);
+
+        UserProfile updated = userProfileService.editProfile(existingUser);
+
+        return ResponseEntity.ok(updated);
+    }
+
+
+
     @DeleteMapping("/profile/{id}")
-    public void deleteProfile(@PathVariable int id){
+    public void deleteProfile(@PathVariable int id) {
         userProfileService.deleteProfile(id);
+    }
+
+    @DeleteMapping("/profile/me")
+    public ResponseEntity<String> deleteCurrentUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
+
+        String email = authentication.getName();
+
+        Long userId = userProfileService.getUserIdByEmail(email);
+        if (userId == null) {
+            return ResponseEntity.status(404).body("User not found");
+        }
+
+        userProfileService.deleteProfile(userId);
+        return ResponseEntity.ok("Profile deleted");
     }
 }

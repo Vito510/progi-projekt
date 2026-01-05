@@ -39,41 +39,92 @@ public class UserProfileService {
         return userRepo.findByEmail(email).orElse(null);
     }
 
+    public Long getUserIdByEmail(String email) {
+        return userRepo.findByEmail(email)
+                .map(UserProfile::getId)
+                .orElse(null);
+    }
+
+
     public void createProfile(String username, HttpServletRequest request) {
         System.out.println("Trying to create user: " + username);
-        // provjeri postoji li user sa tim emailom vec
+
         String jwt = null;
         String email = null;
         JwtUtil jwtUtil = new JwtUtil();
-        if (request.getHeader("Authorization") != null && request.getHeader("Authorization").startsWith("Bearer ")) {
-            jwt = request.getHeader("Authorization").substring(7);
+
+        // Get JWT from Authorization header
+        String authHeader = request.getHeader("Authorization");
+        System.out.println("Authorization header: " + authHeader);
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwt = authHeader.substring(7);
+            System.out.println("JWT: " + jwt);
+
+            try {
+                email = jwtUtil.extractUsername(jwt);
+            } catch (Exception e) {
+                System.out.println("Failed to extract email from JWT: " + e.getMessage());
+            }
         }
 
-        if (jwt != null) {
-            email = jwtUtil.extractUsername(jwt);
-        }
+        System.out.println("Email extracted: " + email);
 
-        if (userExistsByEmail(email)) {
-            //korisnik vec postoji, ignoraj
-            System.out.println("User already exists");
+        if (email == null) {
+            // No valid JWT/email, cannot create profile
+            System.out.println("No valid email found, aborting profile creation.");
             return;
         }
 
-        System.out.println("Kreiram novi user: " + username);
+        if (userExistsByEmail(email)) {
+            System.out.println("User already exists with email: " + email);
+            return;
+        }
+
+        System.out.println("Creating new user: " + username);
         UserProfile userProfile = new UserProfile(username, email, Role.USER);
-        saveUserProfile(userProfile);
+
+        try {
+            saveUserProfile(userProfile);
+            System.out.println("User created successfully!");
+        } catch (Exception e) {
+            System.out.println("Error saving user profile: " + e.getMessage());
+        }
     }
 
-    public UserProfile getProfile(int id) {
-        return null;
+
+    public UserProfile getProfile(long id) {
+        return userRepo.findById(id).orElse(null);
     }
 
     public UserProfile editProfile(UserProfile profile) {
-        return null;
+        UserProfile existingUser = userRepo.findById(profile.getId()).orElse(null);
+
+        if (existingUser == null) {
+            System.out.println("User with ID " + profile.getId() + " not found");
+            return null;
+        }
+
+        if (userExistsByUsername(profile.getUsername())) {
+            System.out.println("Username " + profile.getUsername() + " is already taken");
+            return null;
+        }
+
+        existingUser.setUsername(profile.getUsername());
+        //existingUser.setEmail(profile.getEmail());
+        //existingUser.setRole(profile.getRole());
+
+        return userRepo.save(existingUser);
     }
 
-    public void deleteProfile(int id) {
-        
+    public void deleteProfile(long id) {
+        if (userRepo.existsById(id)) {
+            userRepo.deleteById(id);
+            System.out.println("User with ID " + id + " has been deleted");
+        }
+        else {
+            System.out.println("User with ID " + id + " not found");
+        }
     }
 
 }

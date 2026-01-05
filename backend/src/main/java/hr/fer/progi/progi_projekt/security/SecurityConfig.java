@@ -28,10 +28,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
         http
                 .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()
                 )
-                        .oauth2Login(oauth2 -> oauth2
+
+                .oauth2Login(oauth2 -> oauth2
                                 .successHandler((request, response, authentication) -> {
 
                                     OAuth2User user = (OAuth2User) authentication.getPrincipal();
