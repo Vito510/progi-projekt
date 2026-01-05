@@ -1,0 +1,39 @@
+@startuml PregledStazaDijStanja
+hide empty description
+
+mainframe **stm:** Pregled staza
+
+state "Pregled popisa staza" as s1{
+    s1 : entry / prikaži prilagođeni popis staza
+   
+    state "Početno stanje" as s1.1
+    state "Neocijenjeno" as s1.2
+    s1.2 : entry / ukloni istaknutost gumba "Ocijeni"
+    state "Ocijenjeno" as s1.3
+    s1.3 : entry / istakni gumb "Ocijeni"
+    state uvjInitOcjena <<choice>>
+
+    [*] --> s1.1
+    s1.1 --> uvjInitOcjena : učitana staza \
+    [korisnik nije vlasnik staze]
+    uvjInitOcjena --> s1.2 : [staza nije\nveć ocijenjena]
+    uvjInitOcjena --> s1.3 : [staza već ocijenjena]
+
+    s1.2 --> s1.3 : odabran gumb "Ocijeni"
+    s1.3 --> s1.2 : odabran gumb "Ocijeni"
+}
+note top of s1 : svaka staza ima vlastite gumbove "Otvori" i \
+"Podijeli"\n te gumb "Ocijeni" ako korisnik nije ujedno i vlasnik staze
+
+state "Prozor za dijeljenje" as s2
+s2 : entry / prikaži prozor za dijeljenje\n\
+odabran gumb "Kopiraj" / kopiraj poveznicu u međuspremnik
+
+[*] --> s1
+
+s1 --> [*] : odabran gumb "Otvori" / otvori stranicu za uređivanje staze
+
+s1 --> s2 : odabran gumb "Podijeli"
+s2 --> s1 : zatvoren prozor za dijeljenje
+
+@enduml
