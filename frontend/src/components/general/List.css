@@ -43,6 +43,14 @@
     justify-content: center;
 }
 
+.-list.space-around {
+    justify-content: space-around;
+}
+
+.-list.space-between {
+    justify-content: space-between;
+}
+
 /* ------------------------------------------------------- */
 
 .-list.align-start {

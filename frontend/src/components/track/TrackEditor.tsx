@@ -64,7 +64,7 @@ export default function TrackEditor({track}: {track: Track}) {
             {params ?
                 <div className='-track-editor'>
                     <header>
-                        <List type='row' gap='medium' wrap justify='center' align='center'>
+                        <List type='row' gap='small' wrap justify='space-between' align='center'>
                             {/* <h2>{track.name}</h2> */}
                             <input type="text" placeholder="Unesite naziv staze" defaultValue={track.name}/>
                             {/* zamiijeniti sa gumbom za spremanje */}

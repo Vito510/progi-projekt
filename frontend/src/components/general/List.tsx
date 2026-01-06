@@ -5,7 +5,7 @@ interface Props {
     children?: ReactNode,
     type?: "row" | "column",
     align?: "start" | "end" | "center",
-    justify?: "start" | "end" | "center",
+    justify?: "start" | "end" | "center" | "space-between" | "space-around",
     wrap?: boolean,
     gap?: "nogap" | "small" | "medium" | "large",
 }
