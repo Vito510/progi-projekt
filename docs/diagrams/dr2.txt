@@ -1,3 +1,4 @@
+
 ```mermaid
 classDiagram
     class Renderer{
@@ -7,6 +8,9 @@ classDiagram
         +update()
         +render()
         +destroy()
+        +setQuality()
+        +getPoint(coordinates)
+        +setPoints(points)
     }
     class WebGLManager{
         -canvas: HTMLCanvasElement
@@ -16,13 +20,13 @@ classDiagram
         -program: WebGLProgram
         -base_render_size: Object
         -height_texture: Texture
+        -path_texture: Texture
         +uniforms: Object
+        +initialize(canvas, params)
         +constructor(canvas, fragment_shader_code, params)
         +destroy()
         +render()
         +synchronize()
-        +reloadImage(image, height)
-        +screenshot(filename)
     }
     class Texture {
         -data: UInt8ClampedArray
@@ -49,40 +53,43 @@ classDiagram
         +orbit_anchor: Vector3D
         +enabled: boolean
         -key_states: Object
-        +constructor(...)
+        +constructor()
         +getRotationMatrix()
         +getLocalDirection()
         +update()
         +updatePosition(local_direction)
-        +updateRotation(dh = 0.0, dv = 0.0)
-        +updateOrbit(dh = 0.0, dv = 0.0, dz = 1.0)
+        +updateRotation(dh, dv)
+        +updateOrbit(dh, dv, dz)
     }
     class Matrix{
-        +data: number[][]
+        +value: number[][]
         +constructor(array)
         +array()
         +data()
-        +test()
-        +rotationMatrix(axis, rad)
+        +static rotationMatrix(axis, rad)
+        +static translationMatrix(axis, rad)
         +static rotate(mat, rad, axis)
         +static mul(a, b)
+        +static deg2rad(deg)
+        +static rad2deg(rad)
         +static rot2dir(horizontal, vertical)
     }
     class Vector {
         <<abstract>>
-        +copy()
         +array()
         +data()
-        +test()
         +static dot(a, b)
         +len()
-        +norm()
-        +static mix(a, b, factor)
     }
     class Vector2D {
         +x: number
         +y: number
         +constructor(x, y)
+        +copy()
+        +norm()
+        +floor()
+        +sign()
+        +static mix(a, b, factor)
         +static add(...args)
         +static sub(a, ...b)
         +static mul(a, b)
@@ -92,20 +99,30 @@ classDiagram
         +x: number
         +y: number
         +z: number
-        +constructor(x, y, z)
+        +constructor(x, y)
+        +copy()
+        +norm()
+        +floor()
+        +sign()
+        +static mix(a, b, factor)
         +static add(...args)
         +static sub(a, ...b)
         +static mul(a, b)
         +static div(a, b)
-        +static cross(a, b)
         +xy()
+        +static cross(a, b)
     }
     class Vector4D {
         +x: number
         +y: number
         +z: number
         +w: number
-        +constructor(x, y, z, w)
+        +constructor(x, y)
+        +copy()
+        +norm()
+        +floor()
+        +sign()
+        +static mix(a, b, factor)
         +static add(...args)
         +static sub(a, ...b)
         +static mul(a, b)
@@ -113,26 +130,26 @@ classDiagram
         +xyz()
         +xy()
     }
-    class WebGL{
+    class WebGLUtils{
         <<utility>>
         +static compileShader(gl, shader_code, type)
         +static linkProgram(gl, vertex_shader, fragment_shader)
         +static createProgram(gl, vertex_shader_code, fragment_shader_code)
-        +static setFeedbaclVaryings(gl, program, varyings, mode = "SEPARATE_ATTRIBS")
-        +static createTexture(gl, width, height, format = "RGBA8", filter = "LINEAR", wrap_mode = "REPEAT", data = null)
+        +static setFeedbaclVaryings(gl, program, varyings, mode)
+        +static createTexture(gl, width, height, format, filter, wrap_mode, data)
         +static textureToImage(gl, texture, width, height)
     }
-    class TerrainProcessor{
+    class TileUtils{
         <<utility>>
-        +static elevation_offset
-        +static tile_resolution
-        +static display_resolution
-        +static pixel_size
-        +static max_tiles
+        +static elevation_offset: number
+        +static tile_resolution: number
+        +static display_resolution: number
+        +static pixel_size: number
+        +static max_tiles: number
         +static isValidSelection(selection)
         +static getTileCount(selection)
-        -static encodeHeight(height)
-        -static decodeHeight(pixel)
+        +static encodeHeight(height)
+        +static decodeHeight(pixel)
         -static getUrl(longitude, latitude)
         -static fetchTile(longitude, latitude)
         -static getTileSet(selection)
@@ -141,8 +158,10 @@ classDiagram
         +static getParams(image, scale)
         +static getData(selection)
     }
-    class Image {
+    class ImageUtils {
         <<utility>>
+        -static canvas: OffscreenCanvas
+        -static context: OffscreenCanvasRenderingContext2D
         +static get(image, x, y)
         +static set(image, x, y, value)
         +static iterate(image, setter)
@@ -152,28 +171,64 @@ classDiagram
         +static load(url)
         +static save(image, name)
     }
+    class RayCast {
+        <<utility>>
+        +static rayCast(heightmap, coordinates, uniforms)
+        -static traverse(heightmap, uniforms, origin, direction)
+        -static intersect(origin, direction, aabb_min, aabb_max)
+        -static getHeight(heightmap, uniforms, position)
+    }
+    class PathMap {
+        <<utility>>
+        -static canvas: OffscreenCanvas
+        -static context: OffscreenCanvasRenderingContext2D
+        +static generatePathmap(points, width, height)
+        -static drawPoints(points, radius, color)
+        -static drawLines(points, thickness, color)
+        -static drawCircle(radius, x, y, color)
+        -static fillCanvas(color)
+    }
+    class TrackPoint {
+        <<type>>
+        +x: number
+        +y: number
+        +z: number
+    }
     class Pixel{
         <<type>>
-        +r
-        +g
-        +b
-        +a
+        +r: number
+        +g: number
+        +b: number
+        +a: number
     }
 
     Renderer *-- WebGLManager
-    WebGLManager <.. Texture
-    Renderer <.. Camera
+    Renderer o.. Camera
+    
+    TileUtils ..> ImageUtils
+    TileUtils ..> Pixel
+    ImageUtils ..> Pixel
+
+    Camera o.. Vector2D
+    Camera o.. Vector3D
+    Camera o.. Matrix
+
+    WebGLManager o.. Texture
+    Texture ..> WebGLUtils
+    WebGLManager ..> WebGLUtils
+
+    Renderer ..> PathMap
+    Renderer ..> RayCast
+    PathMap ..> TrackPoint
+    RayCast ..> Vector2D
+    RayCast ..> Vector3D
+    RayCast ..> Vector4D
+    RayCast ..> Matrix
+    RayCast ..> ImageUtils
+    
     Vector <|-- Vector2D
     Vector <|-- Vector3D
     Vector <|-- Vector4D
-    Camera <.. Vector2D
-    Camera <.. Vector3D
-    Camera <.. Matrix
-    Matrix <.. Vector4D
-    Matrix <.. Vector3D
-    Texture <.. WebGL
-    WebGLManager <.. WebGL
-    TerrainProcessor <.. Image
-    TerrainProcessor <.. Pixel
-    Image <.. Pixel
+    Matrix ..> Vector4D
+    Matrix ..> Vector3D
 ```
