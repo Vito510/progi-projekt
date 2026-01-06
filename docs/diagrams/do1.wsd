@@ -1,77 +1,69 @@
 @startuml opciDijagram
 left to right direction
 
-frame "uc: Planinarko - cjelokupni pogled" {
-  skinparam packageStyle rectangle
-  actor "Opći korisnik" as A2
-  together{
-    actor "Registirani korisnik" as A5
-    actor "Neregistrirani korisnik" as A1
-  }
-  actor "Administator" as A4
-  rectangle "Web aplikacija" {
-    usecase "UC-01\nRegistracija" as UC01
-    usecase "UC-02\nPrijava" as UC02
-    usecase "UC-03\nOcjenjivanje staze" as UC03
-    usecase "UC-04\nAutorizacija" as UC04
-    usecase "UC-05\nKreiranje staze" as UC05
-    usecase "UC-06\nPregled privatnih staza" as UC06
-    usecase "UC-07\nPregled javnih staza" as UC07
-    usecase "UC-08\nUređivanje svih staza" as UC08
-    usecase "UC-09\n3D prikaz" as UC09
-    usecase "UC-10\nUpravljanje profilima" as UC10
-  }
-  together{
-    actor "GoogleOAuth" as A3
-    actor "OpenStreetMap" as AM
-    actor "Nextzen" as AN
-    actor "Baza" as AB
-    note as N1 #FFCCCC
-      UC-01, UC-02, UC-03, UC-05,
-      UC-06, UC-07, UC-08 i UC-10
-      su povezani s bazom podataka
-    end note
-  }
-  
-  A1 --> UC01
+mainframe **uc:** Planinarko - cjelokupni pogled
 
-  UC04 <-- A3
-  UC02 ..> UC04 : <<include>>
-  UC01 ..> UC02 : <<include>>
-
-  UC09 <-- AN
-  UC05 ..> UC09 : <<include>>
-  UC06 ..> UC09 : <<extends>>
-  UC07 ..> UC09 : <<extends>>
-  UC08 ..> UC09 : <<extends>>
-
-  UC05 <-- AM
-
-  ' nasljedivanje
-  A5 <|-- A4
-  A2 <|-- A5
-  A2 <|-- A1
-
-  A2 --> UC05
-  A2 --> UC10
-
-  A5 --> UC03
-  A5 --> UC02
-
-  A2 --> UC07
-  A4 --> UC08
-
-  A5 --> UC06
-
-  ' hackovi za ljepsi dijagram
-  UC03 <-[hidden]- AM
+actor "Opći korisnik" as A2
+together{
+  actor "Registirani korisnik" as A5
+  actor "Neregistrirani korisnik" as A1
 }
+actor "Administator" as A4
+rectangle "Web aplikacija" {
+  usecase "UC-01\nRegistracija" as UC01
+  usecase "UC-02\nPrijava" as UC02
+  usecase "UC-03\nOcjenjivanje staze" as UC03
+  usecase "UC-04\nAutorizacija" as UC04
+  usecase "UC-05\nKreiranje staze" as UC05
+  usecase "UC-06\nPregled privatnih staza" as UC06
+  usecase "UC-07\nPregled javnih staza" as UC07
+  usecase "UC-08\nUređivanje svih staza" as UC08
+  usecase "UC-09\n3D prikaz" as UC09
+  usecase "UC-10\nUpravljanje profilima" as UC10
+}
+together{
+  actor "GoogleOAuth" as A3
+  actor "OpenStreetMap" as AM
+  actor "Nextzen" as AN
+  actor "Baza" as AB
+  note as N1 #FFCCCC
+    UC-01, UC-02, UC-03, UC-05,
+    UC-06, UC-07, UC-08 i UC-10
+    su povezani s bazom podataka
+  end note
+}
+  
+A1 --> UC01
+
+UC04 <-- A3
+UC02 ..> UC04 : <<include>>
+UC01 ..> UC02 : <<include>>
+
+UC09 <-- AN
+UC05 ..> UC09 : <<include>>
+UC06 ..> UC09 : <<extends>>
+UC07 ..> UC09 : <<extends>>
+UC08 ..> UC09 : <<extends>>
+
+UC05 <-- AM
+
+' nasljedivanje
+A5 <|-- A4
+A2 <|-- A5
+A2 <|-- A1
+
+A2 --> UC05
+A2 --> UC10
+
+A5 --> UC03
+A5 --> UC02
+
+A2 --> UC07
+A4 --> UC08
+
+A5 --> UC06
+
+' hackovi za ljepsi dijagram
+UC03 <-[hidden]- AM
 
 @enduml
-
-    ' usecase "kreirat profil"
-    ' usecase "odabrati površinu na 2D karti"
-    ' usecase "vizualizirati 3D prikaz"
-    ' usecase "definirati put staze"
-    ' usecase "vidjeti statističke podatke staze"
-    ' usecase "vidjeti javne staze bez registracije"

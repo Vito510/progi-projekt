@@ -1,0 +1,51 @@
+@startuml IzradaStazeDijStanja
+hide empty description
+
+mainframe **stm:** Izrada staze
+
+state "Odabir područja" as s1
+s1 : entry / prikaži kartu
+
+state "Učitavanje reljefa" as s2
+s2 : do / prikaži poruku učitavanja
+
+state "Uređivanje staze" as s3 {
+  s3 : entry / postavi praznu listu točaka
+
+  state "Ažuriranje krivulje" as s3.1
+  state uvjUnos <<choice>>
+  state "Čekanje radnje" as s3.2
+  state "Spremanje" as s3.3
+  s3.3 : entry / pročitaj polje za unos naziva
+  state "Prikaz statistike" as s3.4
+  s3.4 : entry / prikaži prozor sa statistikom
+  state "Prozor za dijeljenje" as s3.5
+  s3.5 : entry / prikaži prozor za dijeljenje\nodabran gumb "Kopiraj" / \
+  kopiraj poveznicu u međuspremnik
+
+
+  [*] --> s3.1
+  s3.1 --> s3.2 : iscrtana krivulja
+  s3.2 --> s3.1 : dodana točka
+  s3.2 --> s3.1 : izbrisana točka
+  s3.2 --> s3.1 : promijenjen redoslijed točaka
+
+  s3.2 --> s3.3 : odabran gumb\n"Spremi"
+  s3.3 --> uvjUnos : odabran gumb "Spremi"
+  uvjUnos --> s3.3 : [unos nije ispravan || postoji staza s istim nazivom]\
+  / obavijesti korisnika o razlogu neuspjeha
+  uvjUnos --> s3.2 : [unos ispravan && ne postoji staza\ns istim nazivom]\
+  / staza pohranjena\nu bazu podataka
+
+  s3.2 --> s3.4 : odabran gumb\n"Statistika"
+  s3.4 --> s3.2 : zatvoren prozor\nsa statistkom
+
+  s3.2 --> s3.5 : odabran gumb "Podijeli"
+  s3.5 --> s3.2 : zatvoren prozor za dijeljenje
+}
+
+[*] --> s1
+s1 --> s2 : odabran gumb "Odaberi područje"
+s2 --> s3 : učitan reljef / prikaži 3D teren
+
+@enduml
