@@ -1,140 +1,126 @@
-import Vector3D from "../../utility/math/vector3d";
 
-// TODO rewrite
 export function addTouchListener(element, callback) {
-    let previous_a = new Vector3D(0.0);
-    let previous_b = new Vector3D(0.0);
-    let previous_distance;
+    let startX = 0;
+    let startY = 0;
+    let lastX = 0;
+    let lastY = 0;
+    let startDistance = 0;
+    let lastDistance = 0;
+    let activeTouches = 0;
+    let isPinching = false;
+    let isDragging = false;
 
-    element.addEventListener("touchstart", (event) => {
+    function getTouchDistance(t1, t2) {
+        const dx = t2.clientX - t1.clientX;
+        const dy = t2.clientY - t1.clientY;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    function handleTouchStart(event) {
         event.preventDefault();
-        if (event.touches.length == 1) {
-            const touch_a = event.touches.item(0);
-            previous_a = new Vector3D(touch_a.clientX, touch_a.clientY, 0.0);
+        const touches = event.touches;
+        activeTouches = touches.length;
+
+        if (touches.length === 1) {
+            isDragging = true;
+            startX = lastX = touches[0].clientX;
+            startY = lastY = touches[0].clientY;
+        } else if (touches.length === 2) {
+            isPinching = true;
+            isDragging = false;
+            startDistance = getTouchDistance(touches[0], touches[1]);
+            lastDistance = startDistance;
+        }
+    }
+
+    function handleTouchMove(event) {
+        event.preventDefault();
+        const touches = event.touches;
+        activeTouches = touches.length;
+
+        let delta_x = 0;
+        let delta_y = 0;
+        let delta_zoom = 0;
+
+        if (isDragging && touches.length === 1) {
+            const currentX = touches[0].clientX;
+            const currentY = touches[0].clientY;
+
+            delta_x = currentX - lastX;
+            delta_y = currentY - lastY;
+
+            lastX = currentX;
+            lastY = currentY;
+        } else if (isPinching && touches.length === 2) {
+            const currentDistance = getTouchDistance(touches[0], touches[1]);
+            delta_zoom = currentDistance - lastDistance;
+            lastDistance = currentDistance;
+        }
+
+        if (delta_x !== 0 || delta_y !== 0 || delta_zoom !== 0) {
+            callback({
+                drag_x: delta_x,
+                drag_y: delta_y,
+                zoom: delta_zoom
+            });
+        }
+    }
+
+    function handleTouchEnd(event) {
+        if (event.touches.length === 0) {
+            isDragging = false;
+            isPinching = false;
         } else {
-            const touch_b = event.touches.item(1);
-            previous_b = new Vector3D(touch_b.clientX, touch_b.clientY, 0.0);
-            previous_distance = Vector3D.sub(previous_a, previous_b).len();
+            activeTouches = event.touches.length;
+            if (activeTouches === 1 && isPinching) {
+                isPinching = false;
+                isDragging = true;
+                startX = lastX = event.touches[0].clientX;
+                startY = lastY = event.touches[0].clientY;
+            }
         }
-    });
+    }
 
-    element.addEventListener("touchmove", (event) => {
-        const touch_a = event.touches.item(0);
-        let delta = Vector3D.sub(new Vector3D(touch_a.clientX, touch_a.clientY, 0.0), previous_a);
-        // let pan = Vector.vec(0.0);
-        previous_a = new Vector3D(touch_a.clientX, touch_a.clientY, 0.0);
+    element.addEventListener('touchstart', handleTouchStart, { passive: false });
+    element.addEventListener('touchmove', handleTouchMove, { passive: false });
+    element.addEventListener('touchend', handleTouchEnd);
+    element.addEventListener('touchcancel', handleTouchEnd);
 
-        if (event.touches.length > 1) {
-            const touch_b = event.touches.item(1);
-            previous_b = new Vector3D(touch_b.clientX, touch_b.clientY, 0.0);
-            const distance = (Vector3D.sub(previous_a, previous_b)).len();
-            // pan = Vector.vec(delta.x, delta.y, 0.0);
-            delta = new Vector3D(0.0, 0.0, distance - previous_distance);
-            previous_distance = distance;
-        }
-
-        callback({
-            drag_x: delta.x * 2.0,
-            drag_y: delta.y * 2.0,
-            zoom: delta.z,
-            // pan_x: pan.x,
-            // pan_y: pan.y,
-        });
-    });
+    return function removeTouchListener() {
+        element.removeEventListener('touchstart', handleTouchStart);
+        element.removeEventListener('touchmove', handleTouchMove);
+        element.removeEventListener('touchend', handleTouchEnd);
+        element.removeEventListener('touchcancel', handleTouchEnd);
+    };
 }
 
-// export function addTouchListener(element, callback) {
-//     let id_a = null;
-//     let id_b = null;
-//     let previous_a = Vector.vec(0.0);
-//     let previous_b = Vector.vec(0.0);
-//     let previous_distance;
+export function addDoubleTapListener(element, callback) {
+    let lastTapTime = 0;
+    let tapTimeout = null;
+    const DOUBLE_TAP_DELAY = 300;
 
-//     element.addEventListener("pointerdown", function(event) {
-//         // console.log(event);
-//         // element.setPointerCapture(event.pointerId);
-//         event.preventDefault();
-//         if (id_a === null) {
-//             id_a = event.pointerId;
-//             previous_a.x = event.screenX;
-//             previous_a.y = event.screenY;
-//         } else if (id_b === null) {
-//             id_b = event.pointerId;
-//             previous_b.x = event.screenX;
-//             previous_b.y = event.screenY;
-//             previous_distance = Vector.len(Vector.sub(previous_a, previous_b));
-//         }
-//     });
+    function handleTouchEnd(event) {
+        const currentTime = Date.now();
+        const timeSinceLastTap = currentTime - lastTapTime;
 
-//     element.addEventListener("pointermove", function(event) {
-//         if (id_a === null) return;
-//         // console.log(event.pointerId);
-//         let drag = Vector.vec(0.0);
-//         let pan = Vector.vec(0.0);
-//         let zoom = 0.0;
-//         let current_a = Vector.vec(previous_a.x, previous_a.y, 0.0);
-//         let current_b = Vector.vec(previous_b.x, previous_b.y, 0.0);
-//         let current_distance = previous_distance;
+        if (timeSinceLastTap < DOUBLE_TAP_DELAY) {
+            clearTimeout(tapTimeout);
+            lastTapTime = 0;
+            callback(event.clientX, event.clientY);
+            event.preventDefault();
+        } else {
+            lastTapTime = currentTime;
+            clearTimeout(tapTimeout);
+            tapTimeout = setTimeout(() => {
+            lastTapTime = 0;
+            }, DOUBLE_TAP_DELAY);
+        }
+    }
 
-//         if (event.pointerId == id_a) {
-//             current_a.x = event.screenX;
-//             current_a.y = event.screenY;
-//         } 
-//         else if (event.pointerId == id_b) {
-//             current_b.x = event.screenX;
-//             current_b.y = event.screenY;
-//             current_distance = Vector.len(Vector.sub(current_a, current_b));
-//         }
+    element.addEventListener('pointerup', handleTouchEnd);
 
-//         // console.log({
-//         //     vec: Vector.vec(event.screenX, event.screenY, 0.0),
-//         //     current_a: current_a,
-//         //     current_b: current_b,
-//         //     previous_a: previous_a,
-//         //     previous_b: previous_b,
-//         // });
-
-//         if (id_b === null) {
-//             drag = Vector.sub(current_a, previous_a);
-//             // previous_a.x = current_a.x;
-//             // previous_a.y = current_a.y;
-//             previous_a.x = event.screenX;
-//             previous_a.y = event.screenY;
-//         } 
-//         else {
-//             pan = Vector.sub(current_a, previous_a);
-//             zoom = current_distance - previous_distance;
-//             previous_distance = Vector.len(Vector.sub(previous_a, previous_b));
-//             // previous_b.x = current_b.x;
-//             // previoous_b.y = current_b.y;
-//             previous_b.x = event.screenX;
-//             previous_b.y = event.screenY;
-//             previous_distance = current_distance;
-//         }
-
-//         console.log({
-//             drag_x: drag.x * 2.0,
-//             drag_y: drag.y * 2.0,
-//             pan_x: pan.x,
-//             pan_y: pan.y,
-//             zoom: zoom,
-//         });
-
-//         callback({
-//             drag_x: drag.x * 2.0,
-//             drag_y: drag.y * 2.0,
-//             pan_x: pan.x,
-//             pan_y: pan.y,
-//             zoom: zoom,
-//         });
-//     });
-
-//     ["pointerup", "pointercancel"].forEach((type) => {
-//         element.addEventListener(type, function(event) {
-//             if (event.pointerId == id_a)
-//                 id_a = null;
-//             else if (event.pointerId == id_b)
-//                 id_b = null;
-//         });
-//     });
-// }
+    return function removeDoubleTapListener() {
+        element.removeEventListener('pointerup', handleTouchEnd);
+        clearTimeout(tapTimeout);
+    };
+}

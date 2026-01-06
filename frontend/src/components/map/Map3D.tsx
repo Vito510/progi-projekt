@@ -9,6 +9,7 @@ import Card from '../general/Card.js';
 import ButtonHome from '../profile/ButtonHome.js';
 import Switch from '../general/Switch.js';
 import List from '../general/List.js';
+import * as TouchListener from '../../renderer/map/touch.js';
 
 interface Props {
     params: TerrainParameter,
@@ -43,10 +44,10 @@ export default function Map3D({params, points, onInit, onInput}: Props) {
                 animationRef.current = requestAnimationFrame(animate);
                 rendererRef.current.setPoints(points);
 
-                canvasRef.current!.addEventListener("click", (event) => {
+                TouchListener.addDoubleTapListener(canvas, (clientX, clientY) => {
                     const rect = canvasRef.current!.getBoundingClientRect();
-                    const x = (((event.clientX - rect.x) / rect.width) - 0.5) * 2.0;
-                    const y = (((event.clientY - rect.y) / rect.height) - 0.5) * 2.0;
+                    const x = (((clientX - rect.x) / rect.width) - 0.5) * 2.0;
+                    const y = (((clientY - rect.y) / rect.height) - 0.5) * 2.0;
                     const coordinates: {x: number, y: number} = {x: x, y: y};
                     const point = rendererRef.current!.getPoint(coordinates);
                     // console.log("\n");
@@ -96,6 +97,7 @@ export default function Map3D({params, points, onInit, onInput}: Props) {
                     <canvas ref={canvasRef}></canvas>
                     <aside>
                         <Switch onInput={quality_handler} defaultValue={quality ? "on" : "off"} offText='Niska kvaliteta' onText='Visoka kvaliteta'></Switch>
+                        <small><em>Dupli klik za stvaranje točke</em></small>
                     </aside>
                 </>
             }

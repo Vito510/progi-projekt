@@ -72,7 +72,7 @@ export default class Camera {
                 this.updateRotation(-event.drag_x, -event.drag_y);
 
             if (event.zoom != 0)
-                this.position = Vector3D.add(this.position, Vector3D.mul(Matrix.rot2dir(this.rotation.x, -this.rotation.y), this.speed * event.zoom));
+                this.position = Vector3D.add(this.position, Vector3D.mul(Matrix.rot2dir(this.rotation.x, -this.rotation.y), 8.0 * this.sensitivity * event.zoom));
         });
 
         document.addEventListener('wheel', (event) => {

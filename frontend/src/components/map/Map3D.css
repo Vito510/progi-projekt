@@ -20,6 +20,12 @@
     position: absolute;
     top: var(--spacing);
     left: var(--spacing);
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--packing);
+    align-items: center;
 }
 
 /* ------------------------------------------------------- */
