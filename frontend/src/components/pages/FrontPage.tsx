@@ -7,7 +7,12 @@ import ButtonProfile from '../profile/ButtonProfile';
 import ButtonSignIn from '../profile/ButtonSignIn';
 import { useAuth } from '../../context/AuthContext';
 import ButtonNewTrack from '../track/ButtonNewTrack';
+<<<<<<< Updated upstream
 import AppBody from '../general/AppBody';
+=======
+import Placeholder from '../general/Placeholder';
+import ProfileSearch from '../profile/ProfileSearch';
+>>>>>>> Stashed changes
 
 export default function FrontPage() {
     const auth = useAuth();
@@ -39,6 +44,7 @@ export default function FrontPage() {
                 <ButtonNewTrack></ButtonNewTrack>
                 {auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
             </AppHeader>
+<<<<<<< Updated upstream
             <AppBody width='thin'>
                 <div className='-front-page'>
                     <div className="banner"></div>
@@ -46,6 +52,14 @@ export default function FrontPage() {
                     <TrackList tracks={tracks}/>
                 </div>
             </AppBody>
+=======
+            <main className='-front-page'>
+                <div className="banner"></div>
+                <h1>Najbolje staze</h1>
+                <ProfileSearch></ProfileSearch>
+                <TrackList tracks={tracks}/>
+            </main>
+>>>>>>> Stashed changes
             <AppFooter/>
         </>
     );
