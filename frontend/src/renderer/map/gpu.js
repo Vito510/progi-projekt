@@ -101,6 +101,7 @@ export default class WebGLManager {
         this.gl.deleteBuffer(this.uniform_buffer);
         this.gl.deleteProgram(this.program);
         this.height_texture.destroy(this.gl);
+        this.path_texture.destroy(this.gl);
     }
 
     render() {
