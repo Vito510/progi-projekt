@@ -3,6 +3,7 @@ import WebGL from '../../utility/webgl/webgl_utils.js';
 export default class Particles {
     constructor() {
         this.gl
+        this.animation_id
 
         this.pointPositionBuffer = []
         this.pointVelocityBuffer
@@ -266,7 +267,7 @@ export default class Particles {
             // drawLines(110 / 255.0, 176 / 255.0, 165 / 255.0);
             drawPoints(25.0, 1.0, 1.0, 1.0);
             drawLines(1.0, 1.0, 1.0);
-            requestAnimationFrame(render);
+            this.animation_id = requestAnimationFrame(render);
         }
         
         this.gl.enable(this.gl.DEPTH_TEST);
@@ -274,11 +275,12 @@ export default class Particles {
         this.gl.blendFunc(this.gl.SRC_ALPHA, this.gl.ONE_MINUS_SRC_ALPHA);
         this.gl.clearColor(0.0, 0.0, 0.0, 0.0);
         document.addEventListener('mousemove', handleMouseMove);
-        requestAnimationFrame(render);
+        this.animation_id = requestAnimationFrame(render);
     }
 
     unload() {
-        this.gl.bindBuffer(gl.ARRAY_BUFFER, null);
+        cancelAnimationFrame(this.animation_id);
+        
         this.gl.deleteBuffer(this.lineBuffer);
         this.gl.deleteBuffer(this.pointPositionBuffer[0]);
         this.gl.deleteBuffer(this.pointPositionBuffer[1]);
@@ -286,6 +288,9 @@ export default class Particles {
 
         this.gl.deleteProgram(this.lineProgram);
         this.gl.deleteProgram(this.pointProgram);
+
+        const ext = this.gl.getExtension('WEBGL_lose_context');
+        if (ext) ext.loseContext();
         this.gl = null;
     }
 }
