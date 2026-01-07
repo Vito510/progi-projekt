@@ -14,16 +14,18 @@ import * as TouchListener from '../../renderer/map/touch.js';
 interface Props {
     params: TerrainParameter,
     points: TrackPoint[],
-    onInit: (ref: Renderer) => void,
-    onInput: (point: TrackPoint) => void,
+    onInput: (points: TrackPoint[]) => void,
 }
 
-export default function Map3D({params, points, onInit, onInput}: Props) {
+let renderer: Renderer | null = null;
+
+export default function Map3D({params, points, onInput}: Props) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
-    const rendererRef = useRef<Renderer | null>(null);
     const animationRef = useRef<number | null>(null);
     const [error, setError] = useState<Error | null>(null);
     const [quality, setQuality] = useState<boolean>(false);
+
+    // console.log("Map3D", points);
 
     useEffect(() => {
         const canvas = canvasRef.current!;
@@ -31,27 +33,30 @@ export default function Map3D({params, points, onInit, onInput}: Props) {
         const animate = () => {
             if (!animationRef.current)
                 return;
-            rendererRef.current?.update();
-            rendererRef.current?.render();
+            renderer?.update();
+            renderer?.render();
             animationRef.current = requestAnimationFrame(animate);
         }
 
         Renderer.initialize(canvas, params)
             .then((ref: Renderer) => {
-                rendererRef.current = ref;
-                onInit(ref);
-                rendererRef.current?.setQuality(quality);
+                renderer = ref;
+                renderer?.setQuality(quality);
+                renderer.setPoints(points);
                 animationRef.current = requestAnimationFrame(animate);
-                rendererRef.current.setPoints(points);
 
                 TouchListener.addDoubleTapListener(canvas, (clientX, clientY) => {
                     const rect = canvasRef.current!.getBoundingClientRect();
                     const x = (((clientX - rect.x) / rect.width) - 0.5) * 2.0;
                     const y = (((clientY - rect.y) / rect.height) - 0.5) * 2.0;
                     const coordinates: {x: number, y: number} = {x: x, y: y};
-                    const point = rendererRef.current!.getPoint(coordinates);
-                    if (point)
-                        onInput(point);
+                    const point = renderer!.getPoint(coordinates);
+
+                    if (point) {
+                        let new_points = [...points];
+                        new_points.push(point);
+                        onInput(new_points)
+                    }
                 });
             })
             .catch((error) => {
@@ -61,17 +66,20 @@ export default function Map3D({params, points, onInit, onInput}: Props) {
         return () => {
             cancelAnimationFrame(animationRef.current!);
             animationRef.current = null;
-            rendererRef.current?.destroy();
+            renderer?.destroy();
+            renderer = null;
         }
     }, []);
 
     useEffect(() => {
-        if (rendererRef.current)
-            rendererRef.current!.adjustCanvas();
+        if (renderer) {
+            renderer.adjustCanvas();
+            renderer.setPoints(points);
+        }
     });
 
     function quality_handler() {
-        rendererRef.current?.setQuality(!quality);
+        renderer?.setQuality(!quality);
         setQuality(!quality);
     }
 

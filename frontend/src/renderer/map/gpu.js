@@ -102,6 +102,9 @@ export default class WebGLManager {
         this.gl.deleteProgram(this.program);
         this.height_texture.destroy(this.gl);
         this.path_texture.destroy(this.gl);
+        const ext = this.gl.getExtension('WEBGL_lose_context');
+        if (ext) ext.loseContext();
+        this.gl = null;
     }
 
     render() {
