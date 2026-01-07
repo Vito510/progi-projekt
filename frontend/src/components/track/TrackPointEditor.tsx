@@ -1,4 +1,3 @@
-import { useEffect, useState, type ReactNode } from "react";
 import type TrackPoint from "../../interfaces/TrackPoint";
 import Button from "../general/Button";
 import './TrackPointEditor.css';
@@ -9,7 +8,6 @@ interface Props {
 }
 
 export default function TrackPointEditor({points, onInput = () => {}}: Props) {
-    const [listElement, setListElement] = useState<ReactNode | null>(null);
 
     function swap(array: TrackPoint[], index: number, increment: number) {
         const index_a = index;
@@ -27,30 +25,22 @@ export default function TrackPointEditor({points, onInput = () => {}}: Props) {
         onInput(new_array);
     }
 
-    useEffect(() => {
-        setListElement(
-            <>
-                {points.map((value, index) => 
-                    <li key={index}>
-                        <samp>({value.x.toFixed(2)},{value.y.toFixed(2)},{Math.round(value.z)})</samp>
-                        <Button shape="round" type="primary" onClick={() => swap(points, index, 1)}>
-                            <i className="fa fa-chevron-up"></i>
-                        </Button>
-                        <Button shape="round" type="primary" onClick={() => swap(points, index, -1)}>
-                            <i className="fa fa-chevron-down"></i>
-                        </Button>
-                        <Button shape="square" type="tertiary" onClick={() => remove(points, index)}>
-                            <i className="fa fa-trash"></i>
-                        </Button>
-                    </li>)
-                }
-            </>
-        );
-    }, [points]);
-
     return (
         <div className="-track-point-editor">
-            {listElement}
+            {points.map((value, index) => 
+                <li key={index}>
+                    <samp>({value.x.toFixed(2)},{value.y.toFixed(2)},{Math.round(value.z)})</samp>
+                    <Button shape="round" type="primary" onClick={() => swap(points, index, 1)}>
+                        <i className="fa fa-chevron-up"></i>
+                    </Button>
+                    <Button shape="round" type="primary" onClick={() => swap(points, index, -1)}>
+                        <i className="fa fa-chevron-down"></i>
+                    </Button>
+                    <Button shape="square" type="tertiary" onClick={() => remove(points, index)}>
+                        <i className="fa fa-trash"></i>
+                    </Button>
+                </li>)
+            }
         </div>
     );
 }

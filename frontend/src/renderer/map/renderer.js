@@ -55,12 +55,11 @@ export default class Renderer {
     }
 
     getPoint(coorinates) {
-        // return RayCast.rayCast(
-        //     new ImageData(this.gpu.height_texture.data, this.gpu.height_texture.width),
-        //     coorinates,
-        //     this.gpu.uniforms
-        // );
-        return null;
+        return RayCast.rayCast(
+            new ImageData(this.gpu.height_texture.data, this.gpu.height_texture.width),
+            coorinates,
+            this.gpu.uniforms
+        );
     }
 
     setPoints(points) {

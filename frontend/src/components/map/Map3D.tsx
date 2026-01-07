@@ -14,7 +14,7 @@ import * as TouchListener from '../../renderer/map/touch.js';
 interface Props {
     params: TerrainParameter,
     points: TrackPoint[],
-    onInput: (points: TrackPoint[]) => void,
+    onInput: (point: TrackPoint) => void,
 }
 
 let renderer: Renderer | null = null;
@@ -24,8 +24,6 @@ export default function Map3D({params, points, onInput}: Props) {
     const animationRef = useRef<number | null>(null);
     const [error, setError] = useState<Error | null>(null);
     const [quality, setQuality] = useState<boolean>(false);
-
-    // console.log("Map3D", points);
 
     useEffect(() => {
         const canvas = canvasRef.current!;
@@ -38,6 +36,8 @@ export default function Map3D({params, points, onInput}: Props) {
             animationRef.current = requestAnimationFrame(animate);
         }
 
+        let remove_listener: () => void = () => {};
+
         Renderer.initialize(canvas, params)
             .then((ref: Renderer) => {
                 renderer = ref;
@@ -45,18 +45,14 @@ export default function Map3D({params, points, onInput}: Props) {
                 renderer.setPoints(points);
                 animationRef.current = requestAnimationFrame(animate);
 
-                TouchListener.addDoubleTapListener(canvas, (clientX, clientY) => {
+                remove_listener = TouchListener.addDoubleTapListener(canvas, (clientX, clientY) => {
                     const rect = canvasRef.current!.getBoundingClientRect();
                     const x = (((clientX - rect.x) / rect.width) - 0.5) * 2.0;
                     const y = (((clientY - rect.y) / rect.height) - 0.5) * 2.0;
                     const coordinates: {x: number, y: number} = {x: x, y: y};
                     const point = renderer!.getPoint(coordinates);
-
-                    if (point) {
-                        let new_points = [...points];
-                        new_points.push(point);
-                        onInput(new_points)
-                    }
+                    if (point) 
+                        onInput(point);
                 });
             })
             .catch((error) => {
@@ -65,6 +61,7 @@ export default function Map3D({params, points, onInput}: Props) {
 
         return () => {
             cancelAnimationFrame(animationRef.current!);
+            remove_listener();
             animationRef.current = null;
             renderer?.destroy();
             renderer = null;

@@ -1,5 +1,4 @@
 import WebGL from "../../utility/webgl/webgl_utils.js";
-import ImageUtils from "../../utility/image_utils.js";
 import Matrix from "../../utility/math/matrix.js";
 import Vector from "../../utility/math/vector.js";
 import Vector3D from "../../utility/math/vector3d.js";
