@@ -9,4 +9,5 @@ export default class Renderer {
     setQuality(quality: boolean): void;
     getPoint(coorinates: {x: number, y: number}): TrackPoint | null;
     setPoints(points: TrackPoint[]): void;
+    adjustCanvas(): void;
 }

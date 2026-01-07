@@ -50,8 +50,6 @@ export default function Map3D({params, points, onInit, onInput}: Props) {
                     const y = (((clientY - rect.y) / rect.height) - 0.5) * 2.0;
                     const coordinates: {x: number, y: number} = {x: x, y: y};
                     const point = rendererRef.current!.getPoint(coordinates);
-                    // console.log("\n");
-                    // console.log(point);
                     if (point)
                         onInput(point);
                 });
@@ -66,6 +64,11 @@ export default function Map3D({params, points, onInit, onInput}: Props) {
             rendererRef.current?.destroy();
         }
     }, []);
+
+    useEffect(() => {
+        if (rendererRef.current)
+            rendererRef.current!.adjustCanvas();
+    });
 
     function quality_handler() {
         rendererRef.current?.setQuality(!quality);

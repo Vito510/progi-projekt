@@ -67,4 +67,8 @@ export default class Renderer {
         const path_image = PathMap.generatePathmap(points, this.gpu.height_texture.width, this.gpu.height_texture.height);
         this.gpu.path_texture.store(this.gpu.gl, path_image.data);
     } 
+
+    adjustCanvas() {
+        this.gpu.synchronize();
+    }
 }
