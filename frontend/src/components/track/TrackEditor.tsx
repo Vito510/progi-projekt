@@ -32,9 +32,11 @@ export default function TrackEditor({track}: {track: Track}) {
     } 
 
     function point_add_handler(point: TrackPoint) {
-        const top = track.points[track.points.length - 1];
-        if (point.x === top.x && point.y === top.y && point.z === top.z)
-            return;
+        if (track.points.length > 0) {
+            const top = track.points[track.points.length - 1];
+            if (point.x === top.x && point.y === top.y && point.z === top.z)
+                return;
+        }
         track.points.push(point);
         let new_points = [...track.points];
         track.points = new_points;
