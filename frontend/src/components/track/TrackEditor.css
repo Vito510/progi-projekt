@@ -31,7 +31,6 @@
     grid-area: a;
     min-height: 0;
     border-left: var(--border-highlight);
-    padding: 1rem 0rem;
 }
 
 /* ------------------------------------------------------- */

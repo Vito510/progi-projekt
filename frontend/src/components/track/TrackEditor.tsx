@@ -17,6 +17,7 @@ export default function TrackEditor({track}: {track: Track}) {
     let [params, setParams] = useState<TerrainParameter | null>(null);
     const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
     const [stats, setStats] = useState<boolean>(false);
+    const [previewPoint, setPreviewPoint] = useState<TrackPoint | null>(null);
 
     const selection: MapSelection = {
         max_latitude: track.max_lat,
@@ -116,7 +117,7 @@ export default function TrackEditor({track}: {track: Track}) {
                                             <Placeholder>
                                                 [statistika staze]
                                             </Placeholder>
-                                            {/* <TrackStats points={track.points}></TrackStats> */}
+                                            {/* <TrackStats points={track.points} longitude_multiplier={params.heightmap.width / params.multiplier} latitude_multiplier={params.heightmap.height / params.multiplier}, heightmap={params.heightmap}></TrackStats> */}
                                         </section>
                                     </Card>
                                 </Popup>
@@ -125,10 +126,10 @@ export default function TrackEditor({track}: {track: Track}) {
                         </List>
                     </header>
                     <section>
-                        <Map3D params={params} points={pointList} onInput={point_add_handler}></Map3D>
+                        <Map3D params={params} points={pointList} preview={previewPoint} onInput={point_add_handler}></Map3D>
                     </section>
                     <aside>
-                        <TrackPointEditor points={pointList} onInput={point_edit_handler}></TrackPointEditor>
+                        <TrackPointEditor points={pointList} onInput={point_edit_handler} onPreview={(point) => {setPreviewPoint(point)}} heightmap={params.heightmap}></TrackPointEditor>
                     </aside>
                 </div>
                 :
