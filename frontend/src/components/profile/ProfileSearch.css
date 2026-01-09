@@ -1,42 +1,43 @@
-.profile-search {
-    transition: background-color 0.25s;
-    position: relative;
-  
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--packing);
-    padding: 0.5rem 1rem;
-  
-    border-radius: var(--roundness);
-    background-color: var(--accent-muted);
-    box-shadow: var(--shadow-highlight);
-    border: none;
-    color: black;
 
-    font-size: inherit;
-  }
-  
-  .profile-search input {
-    flex: 1;
-    border: none;
-    outline: none;
-    font-size: inherit;
-    padding: 0.25rem;
-    color: black;
-  }
-  
-  .profile-search button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: black;
+/* ------------------------------------------------------- */
 
-  }
-  
-  .profile-search button i {
-    pointer-events: none; 
-    color: black;
+.-profile-search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--packing);
+  padding: 0.5rem 1rem;
 
-  }
+  border-radius: var(--roundness);
+  background-color: var(--accent-muted);
+  box-shadow: var(--shadow-highlight);
+}
+
+/* ------------------------------------------------------- */
   
+.-profile-search input {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+
+  font-size: inherit;
+  font-weight: 500;
+
+  background: none;
+  border-radius: var(--roundness);
+  box-shadow: var(--shadow-inset);
+  border: none;
+}
+  
+.-profile-search input:hover {
+  background-color: var(--darken);
+}
+
+.-profile-search input:active {
+  background-color: var(--highlight); 
+}
+
+.-profile-search input:focus {
+  outline: none;
+}
+
+/* ------------------------------------------------------- */

@@ -43,8 +43,8 @@ export default function FrontPage() {
             <AppBody width='thin'>
                 <div className='-front-page'>
                     <div className="banner"></div>
-                    <h1>Najbolje staze</h1>
                     <ProfileSearch></ProfileSearch>
+                    <h1>Najbolje staze</h1>
                     <TrackList tracks={tracks}/>
                 </div>
             </AppBody>
