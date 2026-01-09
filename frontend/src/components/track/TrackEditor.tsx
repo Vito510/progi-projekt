@@ -18,31 +18,12 @@ export default function TrackEditor({track}: {track: Track}) {
     const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
     const [stats, setStats] = useState<boolean>(false);
     const [previewPoint, setPreviewPoint] = useState<TrackPoint | null>(null);
-
     const selection: MapSelection = {
         max_latitude: track.max_lat,
         min_latitude: track.min_lat,
         max_longitude: track.max_lon,
         min_longitude: track.min_lon,
     };
-
-    function point_edit_handler(points: TrackPoint[]) {
-        const new_points = [...points];
-        track.points = new_points;
-        setPointList(new_points);
-    } 
-
-    function point_add_handler(point: TrackPoint) {
-        if (track.points.length > 0) {
-            const top = track.points[track.points.length - 1];
-            if (point.x === top.x && point.y === top.y && point.z === top.z)
-                return;
-        }
-        track.points.push(point);
-        let new_points = [...track.points];
-        track.points = new_points;
-        setPointList(new_points);
-    }
 
     useEffect(() => {
         if (!track.override) {
@@ -126,10 +107,10 @@ export default function TrackEditor({track}: {track: Track}) {
                         </List>
                     </header>
                     <section>
-                        <Map3D params={params} points={pointList} preview={previewPoint} onInput={point_add_handler}></Map3D>
+                        <Map3D params={params} points={pointList} previewPoint={previewPoint}></Map3D>
                     </section>
                     <aside>
-                        <TrackPointEditor points={pointList} onInput={point_edit_handler} onPreview={(point) => {setPreviewPoint(point)}} heightmap={params.heightmap}></TrackPointEditor>
+                        <TrackPointEditor points={pointList} onInput={(points) => {setPointList(points)}} onPreview={(point) => {setPreviewPoint(point)}} heightmap={params.heightmap}></TrackPointEditor>
                     </aside>
                 </div>
                 :
