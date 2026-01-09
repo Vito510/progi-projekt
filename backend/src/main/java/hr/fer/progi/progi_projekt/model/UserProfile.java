@@ -21,9 +21,9 @@ public class UserProfile {
     private Role role;
 
     @OneToMany
-    private List<UserRoute> userRoutes;
+    private List<UserTrack> userTracks;
     @OneToMany
-    private List<UserRoute> starredRoutes;
+    private List<UserTrack> starredTracks;
 
     public UserProfile() {
     }
@@ -45,13 +45,13 @@ public class UserProfile {
     public String getEmail() {
         return email;
     }
-    public List<UserRoute> getUserRoutes() {
-        return userRoutes;
+    public List<UserTrack> getUserTracks() {
+        return userTracks;
     }
     public Role getRole() {
         return role;
     }
-    public List<UserRoute> getStarredRoutes() {
-        return starredRoutes;
+    public List<UserTrack> getStarredTracks() {
+        return starredTracks;
     }
 }
