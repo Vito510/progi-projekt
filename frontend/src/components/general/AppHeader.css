@@ -4,16 +4,16 @@
     height: fit-content;
     z-index: 2;
     
-    background-color: var(--theme-default);
-    outline: var(--thickness) solid var(--theme-muted);
-    border-bottom: var(--border-highlight);
-
     display: flex;
     flex-direction: row;
     align-items: center;
     flex-wrap: wrap;
     justify-content: space-between;
-
+    
+    background-color: var(--theme-default);
+    outline: var(--thickness) solid var(--theme-muted);
+    border-bottom: var(--border-highlight);
+    
     gap: var(--packing);
     padding: 0.5rem 1rem 0.5rem 1rem;
     margin-bottom: var(--thickness);
@@ -42,8 +42,9 @@
 @media screen and (max-width: 768px) {
     .-app-header .-button button {
         padding: 0rem;
-        background: none !important;
+        background: none;
         border: none;
+        box-shadow: none;
     }
 
     .-app-header .-button p {

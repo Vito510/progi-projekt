@@ -29,14 +29,9 @@
 /* ------------------------------------------------------- */
 
 .-profile-page {
-    min-width: fit-content;
-    width: 50%;
+    width: 100%;
     height: 100%;
     min-height: 0rem;
-
-    background-color: var(--darken);
-    border-right: var(--thickness) solid var(--theme-muted);
-    box-shadow: 0rem 0rem var(--spacing) var(--theme-dark);
 
     display: grid;
     grid-template-areas: 'a m' '. m';
@@ -52,10 +47,6 @@
 
 @media screen and (max-width: 768px) {
     .-profile-page {
-        box-shadow: none;
-        border: none;
-        width: 100%;
-
         display: grid;
         grid-template-areas: 'a' 'm';
         grid-template-columns: 1fr;

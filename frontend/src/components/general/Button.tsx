@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 interface Props {
     onClick?: () => void,
     children: ReactNode,
-    type?: 'primary' | 'secondary' | 'tertiary'
+    type?: 'primary' | 'secondary' | 'tertiary' | 'quaternary'
     shape?: 'rectangular' |'square' | 'round'
     link?: string
     disabled?: boolean

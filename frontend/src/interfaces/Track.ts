@@ -1,3 +1,4 @@
+import type TerrainParameter from "./TerrainParameter.ts";
 import type TrackPoint from "./TrackPoint.ts";
 
 export default interface Track {
@@ -11,6 +12,8 @@ export default interface Track {
     min_lon: number,
     max_lat: number,
     max_lon: number,
+    whitelist: string[],
     points: TrackPoint[],
+    override?: TerrainParameter | null, // samo za frontend debug
 }
 

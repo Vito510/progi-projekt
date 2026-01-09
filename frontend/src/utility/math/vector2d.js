@@ -1,0 +1,98 @@
+import Vector from "./vector";
+
+export default class Vector2D extends Vector {
+    x;
+    y;
+
+    constructor(x = 0, y = 0) {
+        super();
+        this.x = x;
+        this.y = y;
+    }
+
+    copy() {
+        return new Vector2D(this.x, this.y);
+    }
+
+    norm() {
+        if (this.x == 0 && this.y == 0)
+            return new Vector2D();
+        else
+            return Vector2D.div(this, len(this));
+    }
+
+    floor() {
+        let result = new Vector2D();
+        for (const key in this)
+            result[key] = Math.floor(this[key]);
+        return result;
+    }
+
+    sign() {
+        let result = new Vector2D();
+        for (const key in this)
+            result[key] = Math.sign(this[key]);
+        return result;
+    }
+
+    static mix(a, b, factor) {
+        let result = new Vector2D();
+        for (const key in result)
+            result[key] = (a[key] * (1.0 - factor)) + (b[key] * factor);
+        return result;
+    }
+    
+    static add(...args) {
+        let result = new Vector2D();
+        for (let other of args) {
+            if (other instanceof Vector2D) {
+                result.x += other.x;
+                result.y += other.y;
+            }
+            else {
+                result.x += other;
+                result.y += other;
+            }
+        }
+        return result;        
+    }
+
+    static sub(a, ...b) {
+        let result = a.copy();
+        for (let other of b) {
+            if (other instanceof Vector2D) {
+                result.x -= other.x;
+                result.y -= other.y;
+            }
+            else {
+                result.x -= other;
+                result.y -= other;
+            }
+        }
+        return result;    
+    }
+
+    static mul(a, b) {
+        let result = a.copy();
+        if (b instanceof Vector2D) {
+            result.x *= b.x;
+            result.y *= b.y;
+        } else {
+            result.x *= b;
+            result.y *= b;
+        }
+        return result;    
+    }
+
+    static div(a, b) {
+        let result = a.copy();
+        if (b instanceof Vector2D) {
+            result.x /= b.x;
+            result.y /= b.y;
+        } else {
+            result.x /= b;
+            result.y /= b;
+        }
+        return result;
+    }
+}

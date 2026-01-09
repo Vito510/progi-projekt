@@ -7,12 +7,14 @@ import ButtonProfile from '../profile/ButtonProfile';
 import ButtonSignIn from '../profile/ButtonSignIn';
 import { useAuth } from '../../context/AuthContext';
 import ButtonNewTrack from '../track/ButtonNewTrack';
+import ProfileSearch from '../profile/ProfileSearch';
+import AppBody from '../general/AppBody';
 
 export default function FrontPage() {
     const auth = useAuth();
 
 
-    // TEMP stvaranje rute za debug
+    // TEMP stvaranje staze za debug
     let route: Track = {
         name: "Naziv staze",
         stars: 101,
@@ -25,8 +27,9 @@ export default function FrontPage() {
         min_lat: 0,
         min_lon: 0,
         points: [],
+        whitelist: [],
     }
-    let tracks: [Track] = [route];
+    let tracks: Track[] = [];
     for (let i=0; i<10; i++)
         tracks.push(route);
 
@@ -37,11 +40,14 @@ export default function FrontPage() {
                 <ButtonNewTrack></ButtonNewTrack>
                 {auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
             </AppHeader>
-            <main className='-front-page'>
-                <div className="banner"></div>
-                <h1>Najbolje staze</h1>
-                <TrackList tracks={tracks}/>
-            </main>
+            <AppBody width='thin'>
+                <div className='-front-page'>
+                    <div className="banner"></div>
+                    <h1>Najbolje staze</h1>
+                    <ProfileSearch></ProfileSearch>
+                    <TrackList tracks={tracks}/>
+                </div>
+            </AppBody>
             <AppFooter/>
         </>
     );

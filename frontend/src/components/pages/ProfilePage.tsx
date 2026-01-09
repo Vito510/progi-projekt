@@ -8,6 +8,7 @@ import TrackListStats from '../track/TrackListStats';
 import ProfileInfo from '../profile/ProfileInfo';
 import ButtonNewTrack from '../track/ButtonNewTrack';
 import Card from '../general/Card';
+import AppBody from '../general/AppBody';
 
 export default function ProfilePage() {
 
@@ -25,8 +26,9 @@ export default function ProfilePage() {
         min_lat: 0,
         min_lon: 0,
         points: [],
+        whitelist: [],
     }
-    let tracks: [Track] = [route];
+    let tracks: Track[] = [];
     for (let i=0; i<10; i++)
         tracks.push(route);
 
@@ -37,23 +39,25 @@ export default function ProfilePage() {
                 <ButtonNewTrack></ButtonNewTrack>
                 <ButtonSignOut></ButtonSignOut>
             </AppHeader>
-            <main className='-profile-page'>
-                <aside>
-                    <Card>
-                        <header>
-                            <ProfileInfo></ProfileInfo>
-                        </header>
-                        <hr/>
-                        <section>
-                            <TrackListStats tracks={tracks}></TrackListStats>
-                        </section>
-                    </Card>
-                </aside>
-                <menu>
-                    <h1>Korisničke staze</h1>
-                    <TrackList tracks={tracks}/>
-                </menu>
-            </main>
+            <AppBody width='thin'>
+                <div className='-profile-page'>
+                    <aside>
+                        <Card>
+                            <header>
+                                <ProfileInfo></ProfileInfo>
+                            </header>
+                            <hr/>
+                            <section>
+                                <TrackListStats tracks={tracks}></TrackListStats>
+                            </section>
+                        </Card>
+                    </aside>
+                    <menu>
+                        <h1>Korisničke staze</h1>
+                        <TrackList tracks={tracks}/>
+                    </menu>
+                </div>
+            </AppBody>
             <AppFooter/>
         </>
     );

@@ -1,13 +1,8 @@
 
 .-front-page {
-    min-width: fit-content;
-    width: 50%;
     height: 100%;
+    width: 100%;
     min-height: 0rem;
-
-    background-color: var(--darken);
-    border-right: var(--thickness) solid var(--theme-muted);
-    box-shadow: 0rem 0rem var(--spacing) var(--theme-dark);
 
     display: flex;
     flex-direction: column;
@@ -16,15 +11,6 @@
     padding: var(--spacing);
     padding-top: 0rem;
     gap: var(--spacing);
-}
-
-@media screen and (max-width: 768px) {
-    .-front-page {
-        width: 100%;
-        background: none;
-        box-shadow: none;
-        border: none;
-    }
 }
 
 /* ------------------------------------------------------- */

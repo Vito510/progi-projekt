@@ -22,7 +22,7 @@
 }
 
 .-list.medium {
-    gap: calc(var(--spacing) * 0.5);
+    gap: calc(var(--packing) * 2);
 }
 
 .-list.large {
@@ -41,6 +41,14 @@
 
 .-list.justify-center {
     justify-content: center;
+}
+
+.-list.space-around {
+    justify-content: space-around;
+}
+
+.-list.space-between {
+    justify-content: space-between;
 }
 
 /* ------------------------------------------------------- */

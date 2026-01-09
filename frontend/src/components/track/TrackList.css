@@ -12,7 +12,6 @@
 
     overflow-y: auto;
     overflow-x: hidden;
-    padding-bottom: var(--spacing);
     scrollbar-color: var(--text-default) #00000000;
 }
 

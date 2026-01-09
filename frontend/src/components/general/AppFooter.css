@@ -2,8 +2,8 @@
     transition: transform 1s;
     width: 100%;
     position: fixed;
-    bottom: 0rem;
-    left: 0rem;
+    bottom: 0px;
+    left: 0px;
     z-index: 401;
     transform: translate(0%, calc(100% - 2rem));
     

@@ -3,6 +3,8 @@ import AppHeader from "../general/AppHeader";
 import './RegisterPage.css';
 import Button from "../general/Button";
 import Card from "../general/Card";
+import AppBody from "../general/AppBody";
+import List from "../general/List";
 
 export default function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -65,29 +67,31 @@ export default function RegisterPage() {
   return (
     <>
       <AppHeader/>
-      <main className="-register-page">
-        <Card>
-          <header>
-            <h2>Registracija</h2>
-          </header>
-          <section>
-            <div className="column">
-              <div className="row">
-                <input
-                  type="text"
-                  placeholder="Odaberite korisničko ime"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-                <Button onClick={handleConfirm}>
-                  {loading ? "Provjera..." : "Potvrdi"}
-                </Button>
-              </div>
-              {error && <p className="error-text">{error}</p>}
-            </div>
-          </section>
-        </Card>
-      </main>
+      <AppBody centered noFooter>
+        <div className="-register-page">
+          <Card>
+            <header>
+              <h2>Registracija</h2>
+            </header>
+            <section>
+              <List type="column" gap="medium">
+                <List type="row" gap="medium" wrap align="center">
+                  <input
+                    type="text"
+                    placeholder="Odaberite korisničko ime"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  />
+                  <Button onClick={handleConfirm}>
+                    {loading ? "Provjera..." : "Potvrdi"}
+                  </Button>
+                </List>
+                {error && <p className="error-text">{error}</p>}
+              </List>
+            </section>
+          </Card>
+        </div>
+      </AppBody>
     </>
   );
 }
