@@ -2,7 +2,7 @@ package hr.fer.progi.progi_projekt.service;
 
 import java.util.List;
 
-import hr.fer.progi.progi_projekt.repository.UserRepository;
+import hr.fer.progi.progi_projekt.repository.UserProfileRepository;
 import hr.fer.progi.progi_projekt.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -13,9 +13,9 @@ import hr.fer.progi.progi_projekt.model.enums.Role;
 
 @Service
 public class UserProfileService {
-    private final UserRepository userRepo;
+    private final UserProfileRepository userRepo;
 
-    public UserProfileService(UserRepository userRepo) {
+    public UserProfileService(UserProfileRepository userRepo) {
         this.userRepo = userRepo;
     }
 

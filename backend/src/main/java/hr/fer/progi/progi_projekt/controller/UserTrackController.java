@@ -15,22 +15,22 @@ public class UserTrackController {
     }
 
     @GetMapping("/track/{id}")
-    public UserTrack getUserTrack(@PathVariable int id) {
+    public UserTrack getUserTrack(@PathVariable Long id) {
         return userTrackService.getUserTrack(id);
     }
     
     @PostMapping("/track")
-    public UserTrack createUserTrack(UserTrack profile){
+    public boolean createUserTrack(UserTrack profile){
         return userTrackService.createUserTrack(profile);
     }
 
     @PutMapping("/track")
-    public UserTrack editUserTRack(UserTrack profile){
+    public boolean editUserTrack(UserTrack profile){
         return userTrackService.editUserTrack(profile);
     }
 
     @DeleteMapping("/track/{id}")
-    public void deleteUserTrack(@PathVariable int id){
-        userTrackService.deleteUserTrack(id);
+    public boolean deleteUserTrack(@PathVariable Long id){
+        return userTrackService.deleteUserTrack(id);
     }
 }
