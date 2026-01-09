@@ -9,17 +9,16 @@ import Card from '../general/Card.js';
 import ButtonHome from '../profile/ButtonHome.js';
 import Switch from '../general/Switch.js';
 import List from '../general/List.js';
-import * as TouchListener from '../../renderer/map/touch.js';
 
 interface Props {
     params: TerrainParameter,
     points: TrackPoint[],
-    onInput: (point: TrackPoint) => void,
+    previewPoint: TrackPoint | null,
 }
 
 let renderer: Renderer | null = null;
 
-export default function Map3D({params, points, onInput}: Props) {
+export default function Map3D({params, points, previewPoint}: Props) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const animationRef = useRef<number | null>(null);
     const [error, setError] = useState<Error | null>(null);
@@ -42,18 +41,13 @@ export default function Map3D({params, points, onInput}: Props) {
             .then((ref: Renderer) => {
                 renderer = ref;
                 renderer?.setQuality(quality);
-                renderer.setPoints(points);
-                animationRef.current = requestAnimationFrame(animate);
 
-                remove_listener = TouchListener.addDoubleTapListener(canvas, (clientX, clientY) => {
-                    const rect = canvasRef.current!.getBoundingClientRect();
-                    const x = (((clientX - rect.x) / rect.width) - 0.5) * 2.0;
-                    const y = (((clientY - rect.y) / rect.height) - 0.5) * 2.0;
-                    const coordinates: {x: number, y: number} = {x: x, y: y};
-                    const point = renderer!.getPoint(coordinates);
-                    if (point) 
-                        onInput(point);
-                });
+                let new_points = [...points];
+                if (previewPoint)
+                    new_points.push(previewPoint);
+                renderer.setPoints(new_points);
+                
+                animationRef.current = requestAnimationFrame(animate);
             })
             .catch((error) => {
                 setError(error);
@@ -71,7 +65,11 @@ export default function Map3D({params, points, onInput}: Props) {
     useEffect(() => {
         if (renderer) {
             renderer.adjustCanvas();
-            renderer.setPoints(points);
+
+            let new_points = [...points];
+            if (previewPoint)
+                new_points.push(previewPoint);
+            renderer.setPoints(new_points);
         }
     });
 
@@ -105,7 +103,6 @@ export default function Map3D({params, points, onInput}: Props) {
                     <canvas ref={canvasRef}></canvas>
                     <aside>
                         <Switch onInput={quality_handler} defaultValue={quality ? "on" : "off"} offText='Niska kvaliteta' onText='Visoka kvaliteta'></Switch>
-                        <small><em>Dupli klik za stvaranje točke</em></small>
                     </aside>
                 </>
             }

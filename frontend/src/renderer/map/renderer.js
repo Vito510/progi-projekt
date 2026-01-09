@@ -14,7 +14,6 @@ export default class Renderer {
     constructor(gpu, canvas) {
         this.gpu = gpu;
         this.camera = new Camera(canvas, new Vector3D(this.gpu.height_texture.width * 0.75), new Vector2D(180.0, 90.0), 0.5, 1.0, 0.5, false, true);
-        // this.camera = new Camera(canvas, new Vector3D(this.gpu.height_texture.width * 0.75), new Vector2D(0.0, 0.0), 0.5, 1.0, 0.5, false, true);
         this.camera.updateOrbit();
         this.gpu.synchronize();
 
