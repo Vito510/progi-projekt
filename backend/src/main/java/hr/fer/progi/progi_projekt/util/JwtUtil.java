@@ -1,6 +1,7 @@
 package hr.fer.progi.progi_projekt.util;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
@@ -31,15 +32,21 @@ public class JwtUtil {
     }
 
     public boolean isTokenValid(String token, String username) {
-        return extractUsername(token).equals(username) && !isTokenExpired(token);
+        return !isTokenExpired(token) && extractUsername(token).equals(username);
     }
 
     private boolean isTokenExpired(String token) {
-        return extractClaims(token).getExpiration().before(new Date());
+        Claims claims;
+        try {
+            claims = extractClaims(token);
+        } catch (JwtException e) {
+            return true;
+        }
+        return claims.getExpiration().before(new Date());
     }
 
     @SuppressWarnings("deprecation")
-    private Claims extractClaims(String token) {
+    private Claims extractClaims(String token) throws JwtException {
         return Jwts.parser()
                 .setSigningKey(getSigningKey())
                 .build()
