@@ -17,7 +17,7 @@ export default function FrontPage() {
     const [tracks, setTracks] = useState<Track[]>([]);
 
     useEffect(() => {
-        fetch('/track/top')
+        fetch('/api/track/top')
             .then(res => res.json())
             .then(data => {
                 const mapped: Track[] = data.map((t: any) => ({

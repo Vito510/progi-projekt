@@ -1,7 +1,10 @@
 package hr.fer.progi.progi_projekt.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
+import hr.fer.progi.progi_projekt.dto.TopTrackDto;
 import hr.fer.progi.progi_projekt.model.UserTrack;
 import hr.fer.progi.progi_projekt.service.UserTrackService;
 
@@ -32,5 +35,10 @@ public class UserTrackController {
     @DeleteMapping("/track/{id}")
     public boolean deleteUserTrack(@PathVariable Long id){
         return userTrackService.deleteUserTrack(id);
+    }
+
+    @GetMapping("/track/top")
+    public List<TopTrackDto> getTopTracks() {
+        return userTrackService.getTopTracks();
     }
 }

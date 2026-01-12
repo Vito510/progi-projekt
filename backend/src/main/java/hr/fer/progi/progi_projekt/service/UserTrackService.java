@@ -1,15 +1,21 @@
 package hr.fer.progi.progi_projekt.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import hr.fer.progi.progi_projekt.dto.TopTrackDto;
 import hr.fer.progi.progi_projekt.model.UserTrack;
 import hr.fer.progi.progi_projekt.repository.UserTrackRepository;
 
 @Service
 public class UserTrackService {
-    private UserTrackRepository trackRepo;
+    private final UserTrackRepository trackRepo;
+
+    public UserTrackService(UserTrackRepository trackRepo) {
+        this.trackRepo = trackRepo;
+    }
 
     public boolean createUserTrack(UserTrack userTrack) {
         if(!trackRepo.findByName(userTrack.getName()).isEmpty()){
@@ -39,5 +45,9 @@ public class UserTrackService {
         }
         trackRepo.delete(track.get());
         return true;
+    }
+
+    public List<TopTrackDto> getTopTracks() {
+        return trackRepo.findTop10Tracks();
     }
 }

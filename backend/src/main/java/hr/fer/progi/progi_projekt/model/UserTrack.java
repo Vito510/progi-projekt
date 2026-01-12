@@ -3,34 +3,43 @@ package hr.fer.progi.progi_projekt.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.text.DateFormat;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
-import hr.fer.progi.progi_projekt.model.enums.TrackVisibility;
-
 @Entity
-@Component
+@Table(name = "paths")
 public class UserTrack {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment
-    @Column(name = "trackid")
+    @Column(name = "pathid")
     private Long id;
+
+    @Column(name = "pathname", nullable = false)
     private String name;
+    
     private String owner;
+
     private DateFormat dateCreated;
-    private TrackVisibility visibility;
-    private int stars;
+
+    @Column(name = "visibility", nullable = false)
+    private String visibility;
+
+    @Column(name = "miny", nullable = false)
     private int minLat;
+
+    @Column(name = "minx", nullable = false)
     private int minLon;
+
+    @Column(name = "maxy", nullable = false)
     private int maxLat;
+
+    @Column(name = "maxx", nullable = false)
     private int maxLon;
+
     private List<String> whitelist;
+
     @ElementCollection
     private List<TrackPoint> points;
 
@@ -50,25 +59,12 @@ public class UserTrack {
         this.name = name;
     }
 
-    public TrackVisibility getVisibility() {
+    public String getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(TrackVisibility availability) {
-        this.visibility = availability;
-    }
-
-    public int getStars() {
-        return stars;
-    }
-
-    public void increaseStars() {
-        this.stars++;
-    }
-
-    public void decreaseStars() {
-        if(this.stars>0)
-            this.stars--;
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
     }
 
     public DateFormat getDateCreated() {
