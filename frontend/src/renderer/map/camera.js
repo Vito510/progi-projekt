@@ -75,6 +75,12 @@ export default class Camera {
                 this.position = Vector3D.add(this.position, Vector3D.mul(Matrix.rot2dir(this.rotation.x, -this.rotation.y), 8.0 * this.sensitivity * event.zoom));
         });
 
+
+        document.addEventListener('wheel', (event) => {
+            if(event.ctrlKey && this.enabled)
+                event.preventDefault();
+        }, { passive: false });
+
         document.addEventListener('wheel', (event) => {
             if (this.enabled) {
                 if (this.orbit_mode) {
