@@ -25,7 +25,7 @@ export default function FrontPage() {
                     name: t.name,
                     owner: t.owner,
                     date_created: new Date(),
-                    visibility: t.visibility === 1 ? 'Public' : 'Private',
+                    visibility: t.visibility === 'PUBLIC' ? 'Public' : 'Private',
                     stars: Number(t.stars),
                     min_lat: t.minLat ?? t.min_lat,
                     min_lon: t.minLon ?? t.min_lon,
