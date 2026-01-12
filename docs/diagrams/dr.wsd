@@ -1,0 +1,36 @@
+@startuml dr
+left to right direction
+
+node Korisnik <<device>> {
+  artifact WebPreglednik <<artifact>>
+}
+
+node Render {
+  node WebPosluzitelj <<executionEnvironment>> {
+    artifact index.html <<artifact>>
+    artifact Dockerfile <<artifact>>
+    artifact "0.0.1-SNAPSHOT" <<artifact>>
+  }
+  node RenderBazaPodataka <<executionEnvironment>> {
+    artifact BazaPodataka <<artifact>>
+  }
+}
+
+node GoogleOAuth2.0 {
+
+}
+
+node OpenStreetMap {
+
+}
+
+node Nextzen {
+
+}
+
+Korisnik -- Render : HTTPS
+WebPosluzitelj -- RenderBazaPodataka : HTTPS
+WebPosluzitelj -- GoogleOAuth2.0 : HTTPS
+WebPosluzitelj -- OpenStreetMap : HTTPS
+WebPosluzitelj -- Nextzen : HTTPS
+@enduml
