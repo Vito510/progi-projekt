@@ -12,11 +12,14 @@ import Map3D from '../map/Map3D.js';
 import TrackPointEditor from './TrackPointEditor.js';
 import Popup from '../general/Popup.js';
 import Placeholder from '../general/Placeholder.js';
+import ButtonSaveTrack from './ButtonSaveTrack.js';
+import ButtonDeleteTrack from './ButtonDeleteTrack.js';
 
 export default function TrackEditor({track}: {track: Track}) {
     let [params, setParams] = useState<TerrainParameter | null>(null);
     const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
     const [stats, setStats] = useState<boolean>(false);
+    //const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false);
     const [previewPoint, setPreviewPoint] = useState<TrackPoint | null>(null);
     const selection: MapSelection = {
         max_latitude: track.max_lat,
@@ -44,16 +47,10 @@ export default function TrackEditor({track}: {track: Track}) {
                 <div className='-track-editor'>
                     <header>
                         <List type='row' gap='small' wrap justify='space-between' align='center'>
-                            {/* <h2>{track.name}</h2> */}
+                            {/* {<h2>{track.name}</h2>} */}
                             <input type="text" placeholder="Unesite naziv staze" defaultValue={track.name}/>
-                            {/* zamiijeniti sa gumbom za spremanje */}
-                            <Button type='primary'>
-                                <i className='fa fa-save'></i>
-                                <p>Spremi</p>
-                            </Button>
-                            {/* <ButtonSaveTrack track={track}></ButtonSaveTrack> */}
+                            <ButtonSaveTrack track={track}></ButtonSaveTrack>
                             {/* <ButtonLikeTrack id={track.id}></ButtonLikeTrack> */}
-                            {/* <ButtonDeleteTrack></ButtonDeleteTrack> */}
                             {/* zamiijeniti sa gumbom za ocjenjivanje */}
                             <Button type='secondary'>
                                 <i className='fa fa-star'></i>
@@ -64,11 +61,7 @@ export default function TrackEditor({track}: {track: Track}) {
                                 <i className='fa fa-clone'></i>
                                 <p>Podijeli</p>
                             </Button>
-                            {/* zamiijeniti sa gumbom za brisanje */}
-                            <Button type='tertiary'>
-                                <i className='fa fa-trash'></i>
-                                <p>Izbriši</p>
-                            </Button>
+                            <ButtonDeleteTrack id={track.id} ></ButtonDeleteTrack>
                             <Button type='secondary'>
                                 <i className='fa fa-eye'></i>
                                 <p>Vidljivost</p>
