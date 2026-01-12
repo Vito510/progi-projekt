@@ -12,7 +12,9 @@ export default defineConfig({
       '/auth': backend,
       '/logout': backend,
       '/check-username': backend,
-      '/create-user': backend
+      '/create-user': backend,
+      '/profile': backend,
+      '/track': backend
     }
   }
 })
