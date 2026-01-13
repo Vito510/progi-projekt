@@ -3,7 +3,6 @@ import Camera from './camera.js';
 import Vector2D from '../../utility/math/vector2d.js';
 import Vector3D from '../../utility/math/vector3d.js';
 import PathMap from './pathmap.js';
-import RayCast from './raycast.js';
 
 export default class Renderer {
     static async initialize(canvas, params) {
@@ -52,15 +51,6 @@ export default class Renderer {
             this.gpu.uniforms.grid_scale = 0.5;
             this.gpu.synchronize();
         }
-    }
-
-    getPoint(coorinates) {
-        // ImageUtils.save(RayCast.createDebugImage(new ImageData(this.gpu.height_texture.data, this.gpu.height_texture.width), uniforms));
-        return RayCast.rayCast(
-            new ImageData(this.gpu.height_texture.data, this.gpu.height_texture.width),
-            coorinates,
-            this.gpu.uniforms
-        );
     }
 
     setPoints(points) {

@@ -7,7 +7,6 @@ export default class Renderer {
     update(): void;
     render(): void;
     setQuality(quality: boolean): void;
-    getPoint(coorinates: {x: number, y: number}): TrackPoint | null;
     setPoints(points: TrackPoint[]): void;
     adjustCanvas(): void;
 }
