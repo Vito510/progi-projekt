@@ -3,13 +3,14 @@ import List from '../general/List.js';
 import Card from '../general/Card.js';
 import Popup from '../general/Popup.js';
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
     id: number;
 }
 
-export default function ButtonSaveTrack({ id }: Props) {
-
+export default function ButtonDeleteTrack({ id }: Props) {
+    const navigate = useNavigate();
     const [deleteConfirm, setDeleteConfirm] = useState(false);
 
     const handleConfirmDelete = async () => {
@@ -28,12 +29,11 @@ export default function ButtonSaveTrack({ id }: Props) {
             }
 
             console.log("Obrisao", id);
+            navigate("/");
             
         } catch (error) {
             console.error("Error:", error);
             // Handle error (show error message)
-        } finally {
-            setDeleteConfirm(false);
         }
     };
 
