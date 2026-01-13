@@ -56,19 +56,6 @@ export default function TrackEditor({track}: {track: Track}) {
                                 :
                                 <h2>{track.name}</h2>
                             }
-                            
-                            {canRate &&
-                                <>
-                                    {/* Ocjenjivanje staze */}
-                                    <ButtonLikeTrack id={track.id}></ButtonLikeTrack>
-
-                                    {/* Dijeljenje staze */}
-                                    <Button type='secondary'>
-                                        <i className='fa fa-clone'></i>
-                                        <p>Podijeli</p>
-                                    </Button>
-                                </>
-                            }
 
                             {canEdit &&
                                 <>
@@ -81,6 +68,19 @@ export default function TrackEditor({track}: {track: Track}) {
                                     {/* Vidljivost staze */}
                                     <ButtonVisibleTrack id={track.id}></ButtonVisibleTrack>
                                     <ButtonWhitelistTrack id={track.id}></ButtonWhitelistTrack>
+                                </>
+                            }
+                            
+                            {canRate &&
+                                <>
+                                    {/* Ocjenjivanje staze */}
+                                    <ButtonLikeTrack id={track.id}></ButtonLikeTrack>
+
+                                    {/* Dijeljenje staze */}
+                                    <Button type='secondary'>
+                                        <i className='fa fa-clone'></i>
+                                        <p>Podijeli</p>
+                                    </Button>
                                 </>
                             }
 
