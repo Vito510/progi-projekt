@@ -52,7 +52,7 @@ export default function TrackEditor({track}: {track: Track}) {
                     <header>
                         <List type='row' gap='small' wrap justify='space-between' align='center'>
                             {canEdit ?
-                                <input type="text" placeholder="Unesite naziv staze" defaultValue={track.name}/>
+                                <input type="text" placeholder="Unesite naziv staze" defaultValue={track.name} onChange={(e) => {track.name = e.target.value}}/>
                                 :
                                 <h2>{track.name}</h2>
                             }
