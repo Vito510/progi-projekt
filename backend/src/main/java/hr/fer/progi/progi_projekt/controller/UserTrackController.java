@@ -9,6 +9,7 @@ import hr.fer.progi.progi_projekt.model.UserTrack;
 import hr.fer.progi.progi_projekt.service.UserTrackService;
 import org.springframework.security.core.Authentication;
 import java.security.Principal;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api")
@@ -36,18 +37,19 @@ public class UserTrackController {
     }
     
     @PostMapping("/track")
-    public boolean createUserTrack(UserTrack profile){
-        return userTrackService.createUserTrack(profile);
+    public boolean createUserTrack(@RequestBody UserTrack track, HttpServletRequest request){
+        System.out.println(track);
+        return userTrackService.createUserTrack(track, request);
     }
 
     @PutMapping("/track")
-    public boolean editUserTrack(UserTrack profile){
-        return userTrackService.editUserTrack(profile);
+    public boolean editUserTrack(@RequestBody UserTrack track, HttpServletRequest request){
+        return userTrackService.editUserTrack(track, request);
     }
 
     @DeleteMapping("/track/{id}")
-    public boolean deleteUserTrack(@PathVariable Long id){
-        return userTrackService.deleteUserTrack(id);
+    public boolean deleteUserTrack(@PathVariable Long id, HttpServletRequest request){
+        return userTrackService.deleteUserTrack(id, request);
     }
 
     @GetMapping("/track/top")

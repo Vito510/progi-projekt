@@ -19,36 +19,45 @@ public class UserTrack {
     @Column(name = "pathname", nullable = false)
     private String name;
     
-    private String owner;
+    @Column(name = "UserID", nullable = false)
+    private Long ownerId;
 
+    @Column(name = "dateCreated", nullable = true)
     private DateFormat dateCreated;
 
     @Column(name = "visibility", nullable = false)
     private String visibility;
 
-    @Column(name = "miny", nullable = false)
-    private int minLat;
+    @Column(name = "miny", nullable = true)
+    private Float minLat;
 
-    @Column(name = "minx", nullable = false)
-    private int minLon;
+    @Column(name = "minx", nullable = true)
+    private Float minLon;
 
-    @Column(name = "maxy", nullable = false)
-    private int maxLat;
+    @Column(name = "maxy", nullable = true)
+    private Float maxLat;
 
-    @Column(name = "maxx", nullable = false)
-    private int maxLon;
+    @Column(name = "maxx", nullable = true)
+    private Float maxLon;
 
     private List<String> whitelist;
 
     @ElementCollection
     private List<TrackPoint> points;
 
+    @Override
+    public String toString() {
+        return "UserTrack [id=" + id + ", name=" + name + ", ownerId=" + ownerId + ", dateCreated=" + dateCreated
+                + ", visibility=" + visibility + ", minLat=" + minLat + ", minLon=" + minLon + ", maxLat=" + maxLat
+                + ", maxLon=" + maxLon + ", whitelist=" + whitelist + ", points=" + points + "]";
+    }
+
     public Long getId() {
         return id;
     }
 
-    public String getOwner() {
-        return owner;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -59,47 +68,59 @@ public class UserTrack {
         this.name = name;
     }
 
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+    
     public String getVisibility() {
         return visibility;
     }
-
+    
     public void setVisibility(String visibility) {
         this.visibility = visibility;
     }
-
+    
     public DateFormat getDateCreated() {
         return dateCreated;
     }
-
-    public int getMinLat() {
+    
+    public void setDateCreated(DateFormat dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+    
+    public Float getMinLat() {
         return minLat;
     }
 
-    public void setMinLat(int minLat) {
+    public void setMinLat(Float minLat) {
         this.minLat = minLat;
     }
 
-    public int getMinLon() {
+    public Float getMinLon() {
         return minLon;
     }
 
-    public void setMinLon(int minLon) {
+    public void setMinLon(Float minLon) {
         this.minLon = minLon;
     }
 
-    public int getMaxLat() {
+    public Float getMaxLat() {
         return maxLat;
     }
 
-    public void setMaxLat(int maxLat) {
+    public void setMaxLat(Float maxLat) {
         this.maxLat = maxLat;
     }
 
-    public int getMaxLon() {
+    public Float getMaxLon() {
         return maxLon;
     }
 
-    public void setMaxLon(int maxLon) {
+    public void setMaxLon(Float maxLon) {
         this.maxLon = maxLon;
     }
 

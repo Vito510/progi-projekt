@@ -4,32 +4,39 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class TrackPoint {
-    private double x;
-    private double y;
-    private double z;
-    
-    public TrackPoint(double x, double y, double z) {
+    private Float x;
+    private Float y;
+    private Float z;
+
+    public TrackPoint() {
+    }
+
+    public TrackPoint(Float x, Float y, Float z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
-    public double getX() {
+    public Float getX() {
         return x;
     }
-    public void setX(double x) {
+    public void setX(Float x) {
         this.x = x;
     }
-    public double getY() {
+    public Float getY() {
         return y;
     }
-    public void setY(double y) {
+    public void setY(Float y) {
         this.y = y;
     }
-    public double getZ() {
+    public Float getZ() {
         return z;
     }
-    public void setZ(double z) {
+    public void setZ(Float z) {
         this.z = z;
+    }
+    @Override
+    public String toString() {
+        return "TrackPoint [x=" + x + ", y=" + y + ", z=" + z + "]";
     }
 
     

@@ -39,4 +39,13 @@ public class AuthService {
 
         return new AuthResponse(false, "", "");
     }
+
+    public Long getCurrentUserId(HttpServletRequest request){
+        AuthResponse auth = getCurrentUser(request);
+        if(auth.isAuthenticated()==false){
+            System.out.println("Ne vrijedi autentifikacija");
+            return null;
+        }
+        return userProfileService.getUserIdByEmail(auth.getEmail());
+    }
 }

@@ -2,7 +2,6 @@ import Button from "../general/Button";
 import List from '../general/List.js';
 import Card from '../general/Card.js';
 import Popup from '../general/Popup.js';
-import Placeholder from '../general/Placeholder.js';
 import { useState } from "react";
 
 interface Props {
@@ -17,7 +16,11 @@ export default function ButtonSaveTrack({ id }: Props) {
         console.log("Brisem stazu " + id)
         try {
             const response = await fetch(`/api/track/${id}`, {
-                method: 'DELETE'
+                method: 'DELETE',
+                credentials: "include", 
+                headers: {
+                    Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}`
+                },
             });
 
             if (!response.ok) {

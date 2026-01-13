@@ -21,7 +21,7 @@ export default defineConfig({
       '/api': {
         target: backend,
         changeOrigin: true,
-        secure: false,
+        secure: false
       }
     }
   }
