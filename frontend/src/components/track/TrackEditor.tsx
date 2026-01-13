@@ -66,7 +66,7 @@ export default function TrackEditor({track}: {track: Track}) {
                                     <ButtonDeleteTrack id={track.id} ></ButtonDeleteTrack>
 
                                     {/* Vidljivost staze */}
-                                    <ButtonVisibleTrack id={track.id}></ButtonVisibleTrack>
+                                    <ButtonVisibleTrack track={track}></ButtonVisibleTrack>
                                     <ButtonWhitelistTrack id={track.id}></ButtonWhitelistTrack>
                                 </>
                             }
