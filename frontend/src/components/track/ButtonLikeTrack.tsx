@@ -8,8 +8,8 @@ interface Props {
 }
 
 export default function ButtonLikeTrack({ track }: Props) {
-    const { user } = useAuth();
-    const canLike = user?.authenticated && !(track.owner === user.name);
+    // const { user } = useAuth(); //već je u TrackEditoru
+    // const canLike = user?.authenticated && !(track.owner === user.name);
     const [isLiked, setIsLiked] = useState(false); // trebalo bi se nekako saznat je li ovaj korisnik od prije likeao
 
     const handleLike = () => {
@@ -26,19 +26,16 @@ export default function ButtonLikeTrack({ track }: Props) {
 
     return (
         <>
-            {canLike ?
-                isLiked ?
-                    <Button type="quaternary" onClick={handleLike}>
-                        <i className="fa fa-star"></i>
-                        <p>Ocjenjeno</p>
-                    </Button>
-                    :
-                    <Button type="secondary" onClick={handleLike}>
-                        <i className="fa fa-star"></i>
-                        <p>Ocjeni</p>
-                    </Button>
-            :
-                <></>
+            {isLiked ?
+                <Button type="quaternary" onClick={handleLike}>
+                    <i className="fa fa-star"></i>
+                    <p>Ocjenjeno</p>
+                </Button>
+                :
+                <Button type="secondary" onClick={handleLike}>
+                    <i className="fa fa-star"></i>
+                    <p>Ocjeni</p>
+                </Button>
             }
         </>
     );
