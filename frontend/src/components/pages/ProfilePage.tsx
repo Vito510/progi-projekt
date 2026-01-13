@@ -9,12 +9,36 @@ import ProfileInfo from '../profile/ProfileInfo';
 import ButtonNewTrack from '../track/ButtonNewTrack';
 import Card from '../general/Card';
 import AppBody from '../general/AppBody';
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 export default function ProfilePage() {
+    const { name: paramName } = useParams<{ name: string }>();
+    const [tracks, setTracks] = useState<Track[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
+    const name = paramName ?? "name";
+
+    useEffect(() => {
+        const fetchTracks = async () => {
+            try {
+                const res = await fetch(`/api/profile/${name}/tracks`);
+                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+                const data: Track[] = await res.json();
+                setTracks(data);
+            } catch (err: any) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchTracks();
+    }, [name]);
 
     // TEMP stvaranje rute za debug
-    let route: Track = {
+    /*let route: Track = {
         name: "Naziv staze",
         stars: 101,
         visibility: 'Private',
@@ -30,7 +54,7 @@ export default function ProfilePage() {
     }
     let tracks: Track[] = [];
     for (let i=0; i<10; i++)
-        tracks.push(route);
+        tracks.push(route);*/
 
 
     return (

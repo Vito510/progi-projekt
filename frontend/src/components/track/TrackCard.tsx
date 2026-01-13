@@ -31,7 +31,7 @@ export default function TrackCard({index = 0, id, name, owner, date, length, sta
                     </List>
                     <List type='column' align='end' justify='center'>
                         <p>{owner}</p>
-                        <em className='collapsed'>{date.toDateString()}</em>
+                        <em className='collapsed'>{date ? new Date(date).toDateString() : 'N/A'}</em>
                     </List>
                 </section>
             </header>

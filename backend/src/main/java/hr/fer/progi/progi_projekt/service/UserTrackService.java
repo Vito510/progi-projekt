@@ -17,6 +17,16 @@ public class UserTrackService {
         this.trackRepo = trackRepo;
     }
 
+    public List<TopTrackDto> getTracksForProfile(String profileUsername, String viewerUsername) {
+        boolean isOwner = profileUsername.equals(viewerUsername);
+
+        if (isOwner) {
+            return trackRepo.findAllByOwnerUsername(profileUsername);
+        }
+
+        return trackRepo.findPublicAndWhitelisted(profileUsername, viewerUsername);
+    }
+
     public boolean createUserTrack(UserTrack userTrack) {
         if(!trackRepo.findByName(userTrack.getName()).isEmpty()){
             return false;

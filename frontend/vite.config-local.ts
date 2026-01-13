@@ -17,7 +17,7 @@ export default defineConfig({
       '/logout': backend,
       '/check-username': backend,
       '/create-user': backend,
-      //'/profile': backend,
+      '/profile': backend,
       '/api': {
         target: backend,
         changeOrigin: true,
