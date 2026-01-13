@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import './TrackCard.css';
 import List from '../general/List';
 import Button from '../general/Button';
+import ButtonLikeTrack from './ButtonLikeTrack.js';
 
 interface Props {
     index?: number,
@@ -59,10 +60,7 @@ export default function TrackCard({index = 0, id, name, owner, date, length, sta
                         <i className='fa fa-external-link'></i>
                         Otvori
                     </Button>
-                    <Button type='quaternary'>
-                        <i className='fa fa-star'></i>
-                        Ocjeni
-                    </Button>
+                    <ButtonLikeTrack id={id}></ButtonLikeTrack>
                     <Button type='secondary'>
                         <i className='fa fa-clone'></i>
                         Podijeli

@@ -8,12 +8,16 @@ import TileUtils from "../../utility/tile_utils.js";
 import List from '../general/List.js';
 import Button from '../general/Button.js';
 import Card from '../general/Card.js';
+import Switch from '../general/Switch.js';
 import Map3D from '../map/Map3D.js';
 import TrackPointEditor from './TrackPointEditor.js';
 import Popup from '../general/Popup.js';
 import Placeholder from '../general/Placeholder.js';
 import ButtonSaveTrack from './ButtonSaveTrack.js';
 import ButtonDeleteTrack from './ButtonDeleteTrack.js';
+import ButtonLikeTrack from './ButtonLikeTrack.js';
+import ButtonVisibleTrack from './ButtonVisibleTrack.js';
+import ButtonWhitelistTrack from './ButtonWhitelistTrack.js';
 
 export default function TrackEditor({track}: {track: Track}) {
     let [params, setParams] = useState<TerrainParameter | null>(null);
@@ -50,27 +54,16 @@ export default function TrackEditor({track}: {track: Track}) {
                             {/* {<h2>{track.name}</h2>} */}
                             <input type="text" placeholder="Unesite naziv staze" defaultValue={track.name}/>
                             <ButtonSaveTrack track={track}></ButtonSaveTrack>
-                            {/* <ButtonLikeTrack id={track.id}></ButtonLikeTrack> */}
-                            {/* zamiijeniti sa gumbom za ocjenjivanje */}
-                            <Button type='secondary'>
-                                <i className='fa fa-star'></i>
-                                <p>Ocjeni</p>
-                            </Button>
+                            <ButtonLikeTrack id={track.id}></ButtonLikeTrack>
                             {/* zamiijeniti sa gumbom za dijeljenje */}
                             <Button type='secondary'>
                                 <i className='fa fa-clone'></i>
                                 <p>Podijeli</p>
                             </Button>
                             <ButtonDeleteTrack id={track.id} ></ButtonDeleteTrack>
-                            <Button type='secondary'>
-                                <i className='fa fa-eye'></i>
-                                <p>Vidljivost</p>
-                            </Button>
-                            {/* <Switch onInput={(value) => ()} onText='javno' offText='privatno'></Switch> */}
-                            <Button type='secondary'>
-                                <i className='fa fa-list'></i>
-                                <p>Whitelista</p>
-                            </Button>
+                            <ButtonVisibleTrack id={track.id}></ButtonVisibleTrack>
+                            {/* <Switch onInput={(value) => console.log("Switched")} onText='javno' offText='privatno'></Switch> */}
+                            <ButtonWhitelistTrack id={track.id}></ButtonWhitelistTrack>
                             <Button type='secondary' onClick={() => {setStats(true)}}>
                                 <i className='fa fa-area-chart'></i>
                                 <p>Statistika</p>
