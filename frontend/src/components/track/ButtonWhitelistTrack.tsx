@@ -12,7 +12,7 @@ interface Props {
 export default function ButtonWhitelistTrack({ track }: Props) {
     const [editList, setEditList] = useState(false);
     const [searchInput, setSearchInput] = useState("");
-    const [tempWhitelist, setTempWhitelist] = useState<string[]>([]);
+    const [tempWhitelist, setTempWhitelist] = useState<string[]>([...track.whitelist]);
 
     const handleAddUser = () => {
         if (searchInput.trim() && !tempWhitelist.includes(searchInput.trim())) {

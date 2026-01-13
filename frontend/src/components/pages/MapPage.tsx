@@ -59,7 +59,7 @@ export default function MapPage() {
 			min_lon: 0,
 			points: [],
 			override: params,
-        	whitelist: [],
+        	whitelist: ["petar", "grašo"],
 		}
 		setElement(<TrackEditor track={track}></TrackEditor>);
 	}
