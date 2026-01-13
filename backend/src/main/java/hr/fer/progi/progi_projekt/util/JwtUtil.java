@@ -1,8 +1,8 @@
 package hr.fer.progi.progi_projekt.util;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
@@ -20,9 +20,9 @@ public class JwtUtil {
 
     public String generateToken(String username) {
         return Jwts.builder()
-                .setSubject(username)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
+                .subject(username)
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
                 .signWith(getSigningKey()) // <-- updated
                 .compact();
     }
@@ -32,18 +32,25 @@ public class JwtUtil {
     }
 
     public boolean isTokenValid(String token, String username) {
-        return extractUsername(token).equals(username) && !isTokenExpired(token);
+        return !isTokenExpired(token) && extractUsername(token).equals(username);
     }
 
     private boolean isTokenExpired(String token) {
-        return extractClaims(token).getExpiration().before(new Date());
+        Claims claims;
+        try {
+            claims = extractClaims(token);
+        } catch (JwtException e) {
+            return true;
+        }
+        return claims.getExpiration().before(new Date());
     }
 
-    private Claims extractClaims(String token) {
+    @SuppressWarnings("deprecation")
+    private Claims extractClaims(String token) throws JwtException {
         return Jwts.parser()
                 .setSigningKey(getSigningKey())
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }

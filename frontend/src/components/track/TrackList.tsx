@@ -1,8 +1,12 @@
-import type TrackListDescriptor from "../../interfaces/TrackListDescriptor";
+import type Track from "../../interfaces/Track";
 import TrackCard from "./TrackCard";
 import "./TrackList.css";
 
-export default function TrackList({ tracks }: TrackListDescriptor) {
+interface Props {
+  tracks: Track[],
+}
+
+export default function TrackList({tracks}: Props) {
   return (
     <ul className="-track-list">
       {tracks.map((track, index) => (
@@ -10,11 +14,12 @@ export default function TrackList({ tracks }: TrackListDescriptor) {
           key={index}
           index={index}
           name={track.name}
-          latitude={track.latitude}
-          longitude={track.longitude}
-          length={track.length}
+          length={10} // iskoristiti util funkciju za racunanje duljine #23
           stars={track.stars}
           visibility={track.visibility}
+          id={index}
+          owner={track.owner}
+          date={track.date_created}
         />
       ))}
     </ul>

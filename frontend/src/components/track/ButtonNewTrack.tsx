@@ -1,13 +1,10 @@
-import { Link } from "react-router-dom";
 import Button from "../general/Button";
 
 export default function ButtonNewTrack() {
     return (
-        <Link to={"/map"}>
-            <Button type="primary">
-                <i className="fa fa-plus fa-lg"></i>
-                <p>Nova staza</p>
-            </Button>
-        </Link>
+        <Button type="primary" link="/map">
+            <i className="fa fa-plus fa-lg"></i>
+            <p>Nova staza</p>
+        </Button>
     );
 }

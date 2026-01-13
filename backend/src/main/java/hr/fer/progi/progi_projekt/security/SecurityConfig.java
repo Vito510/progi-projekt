@@ -2,7 +2,6 @@ package hr.fer.progi.progi_projekt.security;
 
 import hr.fer.progi.progi_projekt.service.UserProfileService;
 import hr.fer.progi.progi_projekt.util.JwtUtil;
-import jakarta.servlet.http.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -29,10 +28,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthFilter jwtAuthFilter) throws Exception {
         http
                 .cors(Customizer.withDefaults())
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()
                 )
-                        .oauth2Login(oauth2 -> oauth2
+
+                .oauth2Login(oauth2 -> oauth2
                                 .successHandler((request, response, authentication) -> {
 
                                     OAuth2User user = (OAuth2User) authentication.getPrincipal();
@@ -53,7 +54,7 @@ public class SecurityConfig {
 
                                 })
                         )                .logout(logout -> logout
-                        .logoutUrl("/logout")
+                        .logoutUrl("/api/logout")
                         .logoutSuccessUrl(frontendUrl)
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
@@ -67,7 +68,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin(frontendUrl);
+        //configuration.addAllowedOrigin(frontendUrl);
+        configuration.addAllowedOriginPattern("*"); // allow all origins
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
         configuration.setAllowCredentials(true);

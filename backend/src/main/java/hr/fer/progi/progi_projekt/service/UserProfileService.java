@@ -1,26 +1,21 @@
 package hr.fer.progi.progi_projekt.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import hr.fer.progi.progi_projekt.repository.UserRepository;
+import hr.fer.progi.progi_projekt.repository.UserProfileRepository;
+import hr.fer.progi.progi_projekt.util.JwtUtil;
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Service;
 
 import hr.fer.progi.progi_projekt.model.UserProfile;
-import hr.fer.progi.progi_projekt.model.enums.*;
+import hr.fer.progi.progi_projekt.model.enums.Role;
 
 @Service
 public class UserProfileService {
-    private final UserRepository userRepo;
-    // DEBUG (umjesto ovoga podaci trebaju biti u bazi podataka)
-    List<UserProfile> profileList = new ArrayList<UserProfile>(Arrays.asList(
-        new UserProfile("vladimir", "vladi.mir@gmail.com", Role.ADMIN),
-        new UserProfile("bananaman", "danko.bananko@gmail.com", Role.USER)
-    ));
+    private final UserProfileRepository userRepo;
 
-    public UserProfileService(UserRepository userRepo) {
+    public UserProfileService(UserProfileRepository userRepo) {
         this.userRepo = userRepo;
     }
 
@@ -44,43 +39,92 @@ public class UserProfileService {
         return userRepo.findByEmail(email).orElse(null);
     }
 
-    public UserProfile register(UserProfile profile) {
-        // TODO autorizirati
-        // TODO stvoriti novi profil u bazi
-
-        // DEBUG
-        profileList.add(profile);
-        return profile;
+    public Long getUserIdByEmail(String email) {
+        return userRepo.findByEmail(email)
+                .map(UserProfile::getId)
+                .orElse(null);
     }
 
-    public UserProfile getProfile(int id) {
-        // TODO autorizirati
-        // TODO dohvatiti iz baze
 
-        // DEBUG
-        UserProfile profile = profileList.stream().filter((el) -> el.getId() == id).findFirst().orElse(new UserProfile());
-        return profile;
+    public void createProfile(String username, HttpServletRequest request) {
+        System.out.println("Trying to create user: " + username);
+
+        String jwt = null;
+        String email = null;
+        JwtUtil jwtUtil = new JwtUtil();
+
+        // Get JWT from Authorization header
+        String authHeader = request.getHeader("Authorization");
+        System.out.println("Authorization header: " + authHeader);
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            jwt = authHeader.substring(7);
+            System.out.println("JWT: " + jwt);
+
+            try {
+                email = jwtUtil.extractUsername(jwt);
+            } catch (Exception e) {
+                System.out.println("Failed to extract email from JWT: " + e.getMessage());
+            }
+        }
+
+        System.out.println("Email extracted: " + email);
+
+        if (email == null) {
+            // No valid JWT/email, cannot create profile
+            System.out.println("No valid email found, aborting profile creation.");
+            return;
+        }
+
+        if (userExistsByEmail(email)) {
+            System.out.println("User already exists with email: " + email);
+            return;
+        }
+
+        System.out.println("Creating new user: " + username);
+        UserProfile userProfile = new UserProfile(username, email, Role.USER);
+
+        try {
+            saveUserProfile(userProfile);
+            System.out.println("User created successfully!");
+        } catch (Exception e) {
+            System.out.println("Error saving user profile: " + e.getMessage());
+        }
+    }
+
+
+    public UserProfile getProfile(long id) {
+        return userRepo.findById(id).orElse(null);
     }
 
     public UserProfile editProfile(UserProfile profile) {
-        // TODO autorizirati
-        // TODO promijeniti u bazi
+        UserProfile existingUser = userRepo.findById(profile.getId()).orElse(null);
 
-        // DEBUG
-        List<Integer> ids = profileList.stream().map((el) -> el.getId()).toList();
-        int index = ids.indexOf(profile.getId());
-        profileList.set(index, profile);
-        return profile;
+        if (existingUser == null) {
+            System.out.println("User with ID " + profile.getId() + " not found");
+            return null;
+        }
+
+        if (userExistsByUsername(profile.getUsername())) {
+            System.out.println("Username " + profile.getUsername() + " is already taken");
+            return null;
+        }
+
+        existingUser.setUsername(profile.getUsername());
+        //existingUser.setEmail(profile.getEmail());
+        //existingUser.setRole(profile.getRole());
+
+        return userRepo.save(existingUser);
     }
 
-    public void deleteProfile(int id) {
-        // TODO autorizirati
-        // TODO izbrisati u bazi
-
-        // DEBUG
-        List<Integer> ids = profileList.stream().map((el) -> el.getId()).toList();
-        int index = ids.indexOf(id);
-        profileList.remove(index);
+    public void deleteProfile(long id) {
+        if (userRepo.existsById(id)) {
+            userRepo.deleteById(id);
+            System.out.println("User with ID " + id + " has been deleted");
+        }
+        else {
+            System.out.println("User with ID " + id + " not found");
+        }
     }
 
 }

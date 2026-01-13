@@ -4,25 +4,26 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AuthResponse {
-    private String token;
-    private UserProfile userProfile;
-    private String requestToken;
-    private int expires_in;
+    private boolean authenticated = false;
+    private String name;
+    private String email;
 
-    public String getToken() {
-        return token;
+    public AuthResponse(){
+    }
+    public AuthResponse(boolean authenticated, String name, String email) {
+        this.authenticated = authenticated;
+        this.name = name;
+        this.email = email;
     }
 
-    public String getRequestToken() {
-        return requestToken;
+    public boolean isAuthenticated() {
+        return authenticated;
     }
-
-    public UserProfile getUserProfile() {
-        return userProfile;
+    public String getName() {
+        return name;
     }
-
-    public int getExpires_in() {
-        return expires_in;
+    public String getEmail() {
+        return email;
     }
     
 }

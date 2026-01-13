@@ -1,7 +1,5 @@
 package hr.fer.progi.progi_projekt.controller;
 
-import hr.fer.progi.progi_projekt.model.enums.Role;
-import hr.fer.progi.progi_projekt.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,7 +7,11 @@ import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.service.UserProfileService;
 
 import java.util.Map;
-import java.util.Optional;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserProfileController {
@@ -17,20 +19,6 @@ public class UserProfileController {
 
     public UserProfileController(UserProfileService service){
         this.userProfileService = service;
-    }
-
-    @GetMapping("/profile/{id}")
-    public UserProfile getProfile(@PathVariable int id) {
-        return userProfileService.getProfile(id);
-    }
-
-    public UserProfile getProfileByEmail(String email) {
-        return userProfileService.getUserProfileByEmail(email);
-    }
-    @GetMapping("/test")
-    public void Test() {
-        System.out.println(userProfileService.getUserProfileByEmail("test@gmail.com"));
-        System.out.println(userProfileService.getAllUserProfiles());
     }
 
     @GetMapping("/check-username")
@@ -41,35 +29,12 @@ public class UserProfileController {
 
     @GetMapping("/create-user")
     public void createUser(@RequestParam String username, HttpServletRequest request) {
-
-        System.out.println("Trying to create user: " + username);
-        // provjeri postoji li user sa tim emailom vec
-        String jwt = null;
-        String email = null;
-        JwtUtil jwtUtil = new JwtUtil();
-        if (request.getHeader("Authorization") != null && request.getHeader("Authorization").startsWith("Bearer ")) {
-            jwt = request.getHeader("Authorization").substring(7);
-        }
-
-        if (jwt != null) {
-            email = jwtUtil.extractUsername(jwt);
-        }
-
-        if (userProfileService.userExistsByEmail(email)) {
-            //korisnik vec postoji, ignoraj
-            System.out.println("User already exists");
-            return;
-        }
-
-        System.out.println("Kreiram novi user: " + username);
-        UserProfile userProfile = new UserProfile(username, email, Role.USER);
-        userProfileService.saveUserProfile(userProfile);
-
+        userProfileService.createProfile(username, request);
     }
 
-    @PostMapping("/profile")
-    public UserProfile register(@RequestBody UserProfile profile){
-        return userProfileService.register(profile);
+    @GetMapping("/profile/{id}")
+    public UserProfile getProfile(@PathVariable int id) {
+        return userProfileService.getProfile(id);
     }
 
     @PutMapping("/profile")
@@ -77,8 +42,64 @@ public class UserProfileController {
         return userProfileService.editProfile(profile);
     }
 
+    @PutMapping("/profile/me")
+    public ResponseEntity<UserProfile> editCurrentUser(
+            Authentication authentication,
+            @RequestBody Map<String, String> body)
+    {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).build();
+        }
+
+        String email = authentication.getName();
+
+        Long userId = userProfileService.getUserIdByEmail(email);
+        if (userId == null) {
+            return ResponseEntity.status(404).build();
+        }
+
+        String newUsername = body.get("username");
+        if (newUsername == null || newUsername.isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        UserProfile existingUser = userProfileService.getProfile(userId);
+        if (existingUser == null) {
+            return ResponseEntity.status(404).build();
+        }
+
+        if (userProfileService.userExistsByUsername(newUsername)) {
+            return ResponseEntity.status(409).body(null);
+        }
+
+        existingUser.setUsername(newUsername);
+
+        UserProfile updated = userProfileService.editProfile(existingUser);
+
+        return ResponseEntity.ok(updated);
+    }
+
+
+
     @DeleteMapping("/profile/{id}")
-    public void deleteProfile(@PathVariable int id){
+    public void deleteProfile(@PathVariable int id) {
         userProfileService.deleteProfile(id);
+    }
+
+    @DeleteMapping("/profile/me")
+    public ResponseEntity<String> deleteCurrentUser(Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(401).body("Unauthorized");
+        }
+
+        String email = authentication.getName();
+
+        Long userId = userProfileService.getUserIdByEmail(email);
+        if (userId == null) {
+            return ResponseEntity.status(404).body("User not found");
+        }
+
+        userProfileService.deleteProfile(userId);
+        return ResponseEntity.ok("Profile deleted");
     }
 }

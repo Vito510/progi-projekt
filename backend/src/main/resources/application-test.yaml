@@ -1,0 +1,34 @@
+app:
+  hostname: ${HOSTNAME}
+  frontend-url: "http://localhost:5173"
+server:
+  servlet:
+    session:
+      cookie:
+        same-site: none
+        secure: true
+spring:
+  application:
+    name: progi-projekt
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
+            scope:
+              - email
+              - profile
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+  h2:
+    console:
+      enabled: true

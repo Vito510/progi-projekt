@@ -13,7 +13,6 @@
     border-radius: var(--roundness);
     background-color: var(--accent-muted);
     box-shadow: var(--shadow-highlight);
-    /* border: 1px solid var(--accent-highlight); */
     border: none;
 
     font-size: inherit;
@@ -53,3 +52,59 @@
 .-button button.primary:hover {
     background-color: var(--accent-highlight);
 }
+
+.-button button.primary:active {
+    background-color: var(--accent-muted);
+}
+
+/* ------------------------------------------------------- */
+
+.-button button.tertiary {
+    background-color: var(--invalid-default);
+}
+
+.-button button.tertiary:hover {
+    background-color: var(--invalid-highlight);
+}
+
+.-button button.tertiary:active {
+    background-color: var(--invalid-muted);
+}
+
+/* ------------------------------------------------------- */
+
+.-button button.quaternary {
+    background-color: var(--gold-default);
+}
+
+.-button button.quaternary:hover {
+    background-color: var(--gold-highlight);
+}
+
+.-button button.quaternary:active {
+    background-color: var(--gold-muted);
+}
+
+/* ------------------------------------------------------- */
+
+.-button button.disabled {
+    background-color: var(--theme-highlight);
+    box-shadow: none;
+}
+
+.-button button.disabled * {
+    color: var(--text-muted);
+}
+
+.-button button.disabled:hover {
+    background-color: var(--theme-highlight);
+    box-shadow: none;
+    cursor: default;
+}
+
+.-button button.disabled:active {
+    background-color: var(--theme-highlight);
+    box-shadow: none;
+}
+
+/* ------------------------------------------------------- */

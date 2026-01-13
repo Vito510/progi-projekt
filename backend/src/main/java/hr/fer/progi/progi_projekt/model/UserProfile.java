@@ -1,6 +1,5 @@
 package hr.fer.progi.progi_projekt.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
@@ -15,55 +14,44 @@ public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment
     @Column(name = "userid")
-    private int id;
+    private Long id;
 
     private String username;
     private String email;
     private Role role;
 
     @OneToMany
-    private List<UserRoute> userRoutes;
+    private List<UserTrack> userTracks;
     @OneToMany
-    private List<UserRoute> starredRoutes;
+    private List<UserTrack> starredTracks;
 
-    public UserProfile(){
-
+    public UserProfile() {
     }
-    
     public UserProfile(String username, String email, Role role) {
         this.username = username;
         this.email = email;
         this.role = role;
-        this.userRoutes = new ArrayList<>();
-        this.starredRoutes = new ArrayList<>();
     }
 
-    public UserProfile(String username, String email, Role role, List<UserRoute> userRoutes,
-            List<UserRoute> starredRoutes) {
-        this.username = username;
-        this.email = email;
-        this.role = role;
-        this.userRoutes = userRoutes;
-        this.starredRoutes = starredRoutes;
-    }
-
-    public int getId() {
+    public Long getId() {
         return id;
     }
     public String getUsername() {
         return username;
     }
+    public void setUsername(String username) {
+        this.username = username;
+    }
     public String getEmail() {
         return email;
     }
-    public List<UserRoute> getUserRoutes() {
-        return userRoutes;
+    public List<UserTrack> getUserTracks() {
+        return userTracks;
     }
     public Role getRole() {
         return role;
     }
-    public List<UserRoute> getStarredRoutes() {
-        return starredRoutes;
+    public List<UserTrack> getStarredTracks() {
+        return starredTracks;
     }
-    
 }

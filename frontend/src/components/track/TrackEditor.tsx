@@ -1,0 +1,120 @@
+import './TrackEditor.css';
+import { useEffect, useState } from 'react';
+import type Track from '../../interfaces/Track.js';
+import type MapSelection from '../../interfaces/MapSelection.js';
+import type TerrainParameter from '../../interfaces/TerrainParameter.js';
+import type TrackPoint from '../../interfaces/TrackPoint.js';
+import TileUtils from "../../utility/tile_utils.js";
+import List from '../general/List.js';
+import Button from '../general/Button.js';
+import Card from '../general/Card.js';
+import Switch from '../general/Switch.js';
+import Map3D from '../map/Map3D.js';
+import TrackPointEditor from './TrackPointEditor.js';
+import Popup from '../general/Popup.js';
+import Placeholder from '../general/Placeholder.js';
+import ButtonSaveTrack from './ButtonSaveTrack.js';
+import ButtonDeleteTrack from './ButtonDeleteTrack.js';
+import ButtonLikeTrack from './ButtonLikeTrack.js';
+import ButtonVisibleTrack from './ButtonVisibleTrack.js';
+import ButtonWhitelistTrack from './ButtonWhitelistTrack.js';
+
+export default function TrackEditor({track}: {track: Track}) {
+    let [params, setParams] = useState<TerrainParameter | null>(null);
+    const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
+    const [stats, setStats] = useState<boolean>(false);
+    //const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false);
+    const [previewPoint, setPreviewPoint] = useState<TrackPoint | null>(null);
+    const selection: MapSelection = {
+        max_latitude: track.max_lat,
+        min_latitude: track.min_lat,
+        max_longitude: track.max_lon,
+        min_longitude: track.min_lon,
+    };
+
+    useEffect(() => {
+        if (!track.override) {
+            TileUtils.getData(selection)
+                .then((params) => {
+                    setParams(params);
+                });
+            
+        } else {
+            params = track.override;
+            setParams(params);
+        }
+    }, []);
+
+    return (
+        <>
+            {params ?
+                <div className='-track-editor'>
+                    <header>
+                        <List type='row' gap='small' wrap justify='space-between' align='center'>
+                            {/* {<h2>{track.name}</h2>} */}
+                            <input type="text" placeholder="Unesite naziv staze" defaultValue={track.name}/>
+                            <ButtonSaveTrack track={track}></ButtonSaveTrack>
+                            <ButtonLikeTrack id={track.id}></ButtonLikeTrack>
+                            {/* zamiijeniti sa gumbom za dijeljenje */}
+                            <Button type='secondary'>
+                                <i className='fa fa-clone'></i>
+                                <p>Podijeli</p>
+                            </Button>
+                            <ButtonDeleteTrack id={track.id} ></ButtonDeleteTrack>
+                            <ButtonVisibleTrack id={track.id}></ButtonVisibleTrack>
+                            {/* <Switch onInput={(value) => console.log("Switched")} onText='javno' offText='privatno'></Switch> */}
+                            <ButtonWhitelistTrack id={track.id}></ButtonWhitelistTrack>
+                            <Button type='secondary' onClick={() => {setStats(true)}}>
+                                <i className='fa fa-area-chart'></i>
+                                <p>Statistika</p>
+                            </Button>
+                            {stats && 
+                                <Popup>
+                                    <Card>
+                                        <header>
+                                            <List type='row' gap='medium' align='center'>
+                                                <h2>Statistike staze</h2>
+                                                <Button type='tertiary' onClick={() => {setStats(false)}}>
+                                                    <i className='fa fa-times'></i>
+                                                    <p>Zatvori</p>
+                                                </Button>
+                                            </List>
+                                        </header>
+                                        <section>
+                                            <Placeholder>
+                                                [statistika staze]
+                                            </Placeholder>
+                                            {/* <TrackStats points={track.points} longitude_multiplier={params.heightmap.width / params.multiplier} latitude_multiplier={params.heightmap.height / params.multiplier}, heightmap={params.heightmap}></TrackStats> */}
+                                        </section>
+                                    </Card>
+                                </Popup>
+                            }
+
+                        </List>
+                    </header>
+                    <section>
+                        <Map3D params={params} points={pointList} previewPoint={previewPoint}></Map3D>
+                    </section>
+                    <aside>
+                        <TrackPointEditor points={pointList} onInput={(points) => {setPointList(points)}} onPreview={(point) => {setPreviewPoint(point)}} heightmap={params.heightmap}></TrackPointEditor>
+                    </aside>
+                </div>
+                :
+                <div className='-track-editor-loading'>
+                    <Card>
+                        <header style={{ fontSize: "1.5rem" }}>
+                            <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+                            <span>Učitavanje reljefa</span>
+                        </header>
+                        <section>
+                            <code>{`Dohvaćanje ${TileUtils.getTileCount(selection)} regija/e`}</code>
+                            <br></br>
+                            <code>Moglo bi potrajati...</code>
+                        </section>
+                    </Card>
+                </div>
+            }
+        </>
+    );
+}
+
