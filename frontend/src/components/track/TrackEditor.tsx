@@ -8,7 +8,6 @@ import TileUtils from "../../utility/tile_utils.js";
 import List from '../general/List.js';
 import Button from '../general/Button.js';
 import Card from '../general/Card.js';
-import Switch from '../general/Switch.js';
 import Map3D from '../map/Map3D.js';
 import TrackPointEditor from './TrackPointEditor.js';
 import Popup from '../general/Popup.js';
@@ -21,9 +20,10 @@ import ButtonWhitelistTrack from './ButtonWhitelistTrack.js';
 
 export default function TrackEditor({track}: {track: Track}) {
     let [params, setParams] = useState<TerrainParameter | null>(null);
+    const [canEdit, setCanEdit] = useState<boolean>(true); // dodati provjeru može li korisnik editat ovu stazu
+    const [canRate, setCanRate] = useState<boolean>(true); // dodati provjeru može li korisnik ocjeniti ovu stazu
     const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
     const [stats, setStats] = useState<boolean>(false);
-    //const [deleteConfirm, setDeleteConfirm] = useState<boolean>(false);
     const [previewPoint, setPreviewPoint] = useState<TrackPoint | null>(null);
     const selection: MapSelection = {
         max_latitude: track.max_lat,
@@ -51,19 +51,40 @@ export default function TrackEditor({track}: {track: Track}) {
                 <div className='-track-editor'>
                     <header>
                         <List type='row' gap='small' wrap justify='space-between' align='center'>
-                            {/* {<h2>{track.name}</h2>} */}
-                            <input type="text" placeholder="Unesite naziv staze" defaultValue={track.name}/>
-                            <ButtonSaveTrack track={track}></ButtonSaveTrack>
-                            <ButtonLikeTrack id={track.id}></ButtonLikeTrack>
-                            {/* zamiijeniti sa gumbom za dijeljenje */}
-                            <Button type='secondary'>
-                                <i className='fa fa-clone'></i>
-                                <p>Podijeli</p>
-                            </Button>
-                            <ButtonDeleteTrack id={track.id} ></ButtonDeleteTrack>
-                            <ButtonVisibleTrack id={track.id}></ButtonVisibleTrack>
-                            {/* <Switch onInput={(value) => console.log("Switched")} onText='javno' offText='privatno'></Switch> */}
-                            <ButtonWhitelistTrack id={track.id}></ButtonWhitelistTrack>
+                            {canEdit ?
+                                <input type="text" placeholder="Unesite naziv staze" defaultValue={track.name}/>
+                                :
+                                <h2>{track.name}</h2>
+                            }
+                            
+                            {canRate &&
+                                <>
+                                    {/* Ocjenjivanje staze */}
+                                    <ButtonLikeTrack id={track.id}></ButtonLikeTrack>
+
+                                    {/* Dijeljenje staze */}
+                                    <Button type='secondary'>
+                                        <i className='fa fa-clone'></i>
+                                        <p>Podijeli</p>
+                                    </Button>
+                                </>
+                            }
+
+                            {canEdit &&
+                                <>
+                                    {/* Spremanje staze */}
+                                    <ButtonSaveTrack track={track}></ButtonSaveTrack>
+
+                                    {/* Brisanje staze */}
+                                    <ButtonDeleteTrack id={track.id} ></ButtonDeleteTrack>
+
+                                    {/* Vidljivost staze */}
+                                    <ButtonVisibleTrack id={track.id}></ButtonVisibleTrack>
+                                    <ButtonWhitelistTrack id={track.id}></ButtonWhitelistTrack>
+                                </>
+                            }
+
+                            {/* Statistika staze */}
                             <Button type='secondary' onClick={() => {setStats(true)}}>
                                 <i className='fa fa-area-chart'></i>
                                 <p>Statistika</p>
@@ -96,7 +117,9 @@ export default function TrackEditor({track}: {track: Track}) {
                         <Map3D params={params} points={pointList} previewPoint={previewPoint}></Map3D>
                     </section>
                     <aside>
-                        <TrackPointEditor points={pointList} onInput={(points) => {setPointList(points)}} onPreview={(point) => {setPreviewPoint(point)}} heightmap={params.heightmap}></TrackPointEditor>
+                        {canEdit &&
+                            <TrackPointEditor points={pointList} onInput={(points) => {setPointList(points); track.points = [...points];}} onPreview={(point) => {setPreviewPoint(point)}} heightmap={params.heightmap}></TrackPointEditor>
+                        }
                     </aside>
                 </div>
                 :
