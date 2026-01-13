@@ -74,7 +74,7 @@ export default function TrackEditor({track}: {track: Track}) {
                             {canRate &&
                                 <>
                                     {/* Ocjenjivanje staze */}
-                                    <ButtonLikeTrack id={track.id}></ButtonLikeTrack>
+                                    <ButtonLikeTrack track={track}></ButtonLikeTrack>
 
                                     {/* Dijeljenje staze */}
                                     <Button type='secondary'>
