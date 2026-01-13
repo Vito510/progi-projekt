@@ -21,9 +21,18 @@ export default function ButtonLikeTrack({ id }: Props) {
     };
 
     return (
-        <Button type={`${isLiked ? 'quaternary' : 'secondary'}`} onClick={handleLike}>
-            <i className="fa fa-star"></i>
-            <p>Ocjeni</p>
-        </Button>
+        <>
+            {isLiked ?
+                <Button type="quaternary" onClick={handleLike}>
+                    <i className="fa fa-star"></i>
+                    <p>Ocjenjeno</p>
+                </Button>
+                :
+                <Button type="secondary" onClick={handleLike}>
+                    <i className="fa fa-star"></i>
+                    <p>Ocjeni</p>
+                </Button>
+            }
+        </>
     );
 }

@@ -1,29 +1,37 @@
+import type Track from "../../interfaces/Track";
 import Button from "../general/Button";
 import { useState } from "react";
 
 interface Props {
-    id: number;
+    track: Track;
 }
 
-export default function ButtonVisibleTrack({ id }: Props) {
-    // ili prvo ucitaj je li vec visible
-    const [isVisible, setIsVisible] = useState(false);
+export default function ButtonVisibleTrack({ track }: Props) {
+    const [isVisible, setIsVisible] = useState(track.visibility === "Public");
 
     const handleVisible = () => {
-        // dodaj api da posalje visible ili ne ovisno o tome kakvo je trenutno stanje
         if (isVisible) {
             setIsVisible(false);
-            console.log("Sakrio sam");
+            track.visibility = "Private";
         } else {
             setIsVisible(true);
-            console.log("Ucinio vidljivim")
+            track.visibility = "Public";
         }
     };
 
     return (
-        <Button type={`${isVisible ? 'secondary' : 'quaternary'}`} onClick={handleVisible}>
-            <i className={`fa ${isVisible ? 'fa-eye' : 'fa-eye-slash'}`}></i>
-            <p>Vidljivost</p>
-        </Button>
+        <>
+            {isVisible ?
+                <Button type="secondary" onClick={handleVisible}>
+                    <i className={`fa fa-eye`}></i>
+                    <p>Vidljivost</p>
+                </Button>
+                :
+                <Button type="quaternary" onClick={handleVisible}>
+                    <i className={`fa fa-eye-slash`}></i>
+                    <p>Vidljivost</p>
+                </Button>
+            }
+        </>
     );
 }
