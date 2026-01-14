@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class UserProfileController {
     UserProfileService userProfileService;
 
@@ -27,7 +28,7 @@ public class UserProfileController {
         return Map.of("exists", exists);
     }
 
-    @GetMapping("/create-user")
+    @PostMapping("/profile")
     public void createUser(@RequestParam String username, HttpServletRequest request) {
         userProfileService.createProfile(username, request);
     }

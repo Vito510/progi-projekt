@@ -1,10 +1,6 @@
 package hr.fer.progi.progi_projekt.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -13,6 +9,7 @@ import java.util.List;
 @Table(name = "paths")
 public class UserTrack {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment
     @Column(name = "pathid")
     private Long id;
 

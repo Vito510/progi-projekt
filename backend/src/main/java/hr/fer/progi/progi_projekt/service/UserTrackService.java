@@ -31,7 +31,9 @@ public class UserTrackService {
     }
 
     public boolean createUserTrack(UserTrack userTrack, HttpServletRequest request) {
+        userTrack.setId(null);
         Long ownerId = authService.getCurrentUserId(request);
+        System.out.println("owner: "+ownerId);
         if(ownerId==null){
             return false;
         }

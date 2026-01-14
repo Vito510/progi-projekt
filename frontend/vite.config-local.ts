@@ -8,16 +8,8 @@ export default defineConfig({
   server: {
     host: false,
     proxy: {
-      '/me': {
-        target: backend,
-        changeOrigin: true,
-        secure: false
-      },
       '/auth': backend,
       '/logout': backend,
-      '/check-username': backend,
-      '/create-user': backend,
-      '/profile': backend,
       '/api': {
         target: backend,
         changeOrigin: true,

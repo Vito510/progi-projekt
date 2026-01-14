@@ -16,7 +16,7 @@ public class AuthController {
     }
 
     // API za FE da dohvatimo trenutno prijavljenog korisnika
-    @GetMapping("/me")
+    @GetMapping("/api/me")
     public AuthResponse getCurrentUser(HttpServletRequest request) {
         return authService.getCurrentUser(request);
     }

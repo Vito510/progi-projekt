@@ -5,7 +5,7 @@ export interface UserResponse {
   }
   
   export async function fetchCurrentUser(): Promise<UserResponse> {
-    const res = await fetch("/me", { 
+    const res = await fetch("/api/me", { 
       credentials: "include", 
       headers: { Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}` } 
     }); 

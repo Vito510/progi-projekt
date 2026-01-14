@@ -21,7 +21,7 @@ export default function ProfileInfo() {
         }
 
         try {
-            const response = await fetch('/profile/me', {
+            const response = await fetch('/api/profile/me', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export default function ProfileInfo() {
                 close_popup();
 
 
-                /*const updatedUser = await fetch('/profile/me', {
+                /*const updatedUser = await fetch('/api/profile/me', {
                     headers: di da {
                         'Authorization': `Bearer ${sessionStorage.getItem("authToken") || ""}`
                     }
@@ -65,7 +65,7 @@ export default function ProfileInfo() {
 
     const delete_handler = async () => {
         try {
-            const response = await fetch('/profile/me', {
+            const response = await fetch('/api/profile/me', {
                 method: 'DELETE',
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}`,
