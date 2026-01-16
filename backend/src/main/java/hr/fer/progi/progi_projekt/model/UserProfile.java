@@ -1,7 +1,5 @@
 package hr.fer.progi.progi_projekt.model;
 
-import java.util.List;
-
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
@@ -19,11 +17,6 @@ public class UserProfile {
     private String username;
     private String email;
     private Role role;
-
-    @OneToMany
-    private List<UserTrack> userTracks;
-    @OneToMany
-    private List<UserTrack> starredTracks;
 
     public UserProfile() {
     }
@@ -45,13 +38,7 @@ public class UserProfile {
     public String getEmail() {
         return email;
     }
-    public List<UserTrack> getUserTracks() {
-        return userTracks;
-    }
     public Role getRole() {
         return role;
-    }
-    public List<UserTrack> getStarredTracks() {
-        return starredTracks;
     }
 }

@@ -2,9 +2,9 @@ package hr.fer.progi.progi_projekt.service;
 
 import org.springframework.stereotype.Service;
 
-import hr.fer.progi.progi_projekt.model.AuthResponse;
+import hr.fer.progi.progi_projekt.dto.AuthResponse;
 import hr.fer.progi.progi_projekt.model.UserProfile;
-import hr.fer.progi.progi_projekt.util.JwtUtil;
+import hr.fer.progi.progi_projekt.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
@@ -15,7 +15,15 @@ public class AuthService {
         this.userProfileService = userProfileService;
     }
 
-    public AuthResponse getCurrentUser(HttpServletRequest request) {
+    public AuthResponse getCurrentUserResponse(HttpServletRequest request) {
+        UserProfile user = getCurrentUser(request);
+        if (user != null) {
+            return new AuthResponse(true, user.getUsername(), user.getEmail());
+        }
+        return new AuthResponse(false, "", "");
+    }
+
+    public UserProfile getCurrentUser(HttpServletRequest request) {
         String jwt = null;
         String email = null;
         UserProfile user = null;
@@ -32,20 +40,15 @@ public class AuthService {
         if (email != null) {
             user = userProfileService.getUserProfileByEmail(email);
         }
-
-        if (user != null) {
-            return new AuthResponse(true, user.getUsername(), email);
-        }
-
-        return new AuthResponse(false, "", "");
+        return user;
     }
 
     public Long getCurrentUserId(HttpServletRequest request){
-        AuthResponse auth = getCurrentUser(request);
-        if(auth.isAuthenticated()==false){
+        UserProfile user = getCurrentUser(request);
+        if(user==null){
             System.out.println("Ne vrijedi autentifikacija");
             return null;
         }
-        return userProfileService.getUserIdByEmail(auth.getEmail());
+        return user.getId();
     }
 }

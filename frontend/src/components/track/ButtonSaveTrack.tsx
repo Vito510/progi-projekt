@@ -11,13 +11,14 @@ export default function ButtonSaveTrack({ track }: Props) {
         const payload = {
             id: track.id,
             name: track.name,
-            owner: track.owner,
-            date_created: track.date_created,
-            visibility: track.visibility,
-            min_lat: track.min_lat,
-            min_lon: track.min_lon,
-            max_lat: track.max_lat,
-            max_lon: track.min_lon,
+            ownerName: track.owner,
+            dateCreated: track.date_created,
+            visibility: track.visibility=="Private" ? "PRIVATE" : "PUBLIC",
+            //visibility: track.visibility=="Private" ? 1 : 0, // moze ili brojevi ili slova sve veliko
+            minLat: track.min_lat,
+            minLon: track.min_lon,
+            maxLat: track.max_lat,
+            maxLon: track.min_lon,
             whitelist: track.whitelist,
             points: track.points,
         }

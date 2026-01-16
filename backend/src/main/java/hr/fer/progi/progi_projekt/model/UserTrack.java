@@ -1,9 +1,9 @@
 package hr.fer.progi.progi_projekt.model;
 
-import jakarta.persistence.*;
+import java.time.LocalDate;
 
-import java.text.DateFormat;
-import java.util.List;
+import hr.fer.progi.progi_projekt.model.enums.TrackVisibility;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "paths")
@@ -20,10 +20,10 @@ public class UserTrack {
     private Long ownerId;
 
     @Column(name = "dateCreated", nullable = true)
-    private DateFormat dateCreated;
+    private LocalDate dateCreated;
 
     @Column(name = "visibility", nullable = false)
-    private String visibility;
+    private TrackVisibility visibility;
 
     @Column(name = "miny", nullable = true)
     private Float minLat;
@@ -37,16 +37,27 @@ public class UserTrack {
     @Column(name = "maxx", nullable = true)
     private Float maxLon;
 
-    private List<String> whitelist;
+    public UserTrack() {
+    }
 
-    @ElementCollection
-    private List<TrackPoint> points;
+    public UserTrack(Long id, String name, Long ownerId, LocalDate dateCreated, TrackVisibility visibility, Float minLat,
+            Float minLon, Float maxLat, Float maxLon) {
+        this.id = id;
+        this.name = name;
+        this.ownerId = ownerId;
+        this.dateCreated = dateCreated;
+        this.visibility = visibility;
+        this.minLat = minLat;
+        this.minLon = minLon;
+        this.maxLat = maxLat;
+        this.maxLon = maxLon;
+    }
 
     @Override
     public String toString() {
         return "UserTrack [id=" + id + ", name=" + name + ", ownerId=" + ownerId + ", dateCreated=" + dateCreated
                 + ", visibility=" + visibility + ", minLat=" + minLat + ", minLon=" + minLon + ", maxLat=" + maxLat
-                + ", maxLon=" + maxLon + ", whitelist=" + whitelist + ", points=" + points + "]";
+                + ", maxLon=" + maxLon + "]";
     }
 
     public Long getId() {
@@ -73,19 +84,19 @@ public class UserTrack {
         this.ownerId = ownerId;
     }
     
-    public String getVisibility() {
+    public TrackVisibility getVisibility() {
         return visibility;
     }
     
-    public void setVisibility(String visibility) {
+    public void setVisibility(TrackVisibility visibility) {
         this.visibility = visibility;
     }
     
-    public DateFormat getDateCreated() {
+    public LocalDate getDateCreated() {
         return dateCreated;
     }
     
-    public void setDateCreated(DateFormat dateCreated) {
+    public void setDateCreated(LocalDate dateCreated) {
         this.dateCreated = dateCreated;
     }
     
@@ -120,21 +131,4 @@ public class UserTrack {
     public void setMaxLon(Float maxLon) {
         this.maxLon = maxLon;
     }
-
-    public List<String> getWhitelist() {
-        return whitelist;
-    }
-
-    public void setWhitelist(List<String> whitelist) {
-        this.whitelist = whitelist;
-    }
-
-    public List<TrackPoint> getPoints() {
-        return points;
-    }
-
-    public void setPoints(List<TrackPoint> points) {
-        this.points = points;
-    }
- 
 }

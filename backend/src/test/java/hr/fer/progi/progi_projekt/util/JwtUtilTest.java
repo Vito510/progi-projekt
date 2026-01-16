@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
+import hr.fer.progi.progi_projekt.security.JwtUtil;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 

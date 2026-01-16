@@ -3,7 +3,7 @@ package hr.fer.progi.progi_projekt.service;
 import java.util.List;
 
 import hr.fer.progi.progi_projekt.repository.UserProfileRepository;
-import hr.fer.progi.progi_projekt.util.JwtUtil;
+import hr.fer.progi.progi_projekt.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
