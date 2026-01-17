@@ -17,7 +17,8 @@ export default function ProfilePage() {
     const [tracks, setTracks] = useState<Track[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-
+    const [sortType, setSortType] = useState<"name" | "stars" | null>(null);
+   
     const name = paramName ?? "name";
 
     useEffect(() => {
@@ -36,6 +37,22 @@ export default function ProfilePage() {
 
         fetchTracks();
     }, [name]);
+
+    const sortByName = (tracks: Track[]) => {
+        return tracks.slice().sort((a, b) => a.name.localeCompare(b.name));
+    };
+
+    const sortByStars = (tracks: Track[]) => {
+        return tracks.slice().sort((a, b) => b.stars - a.stars);
+    };
+
+const sortedTracks =
+    sortType === "name"
+        ? sortByName(tracks)
+        : sortType === "stars"
+        ? sortByStars(tracks)
+        : tracks;
+
 
     // TEMP stvaranje rute za debug
     /*let route: Track = {
@@ -76,9 +93,19 @@ export default function ProfilePage() {
                             </section>
                         </Card>
                     </aside>
+                    <menu className="profile-sort-menu">
+                    <button onClick={() => setSortType("name")}>
+                        Sortiraj po imenu
+                    </button>
+
+                    <button onClick={() => setSortType("stars")}>
+                        Sortiraj po zvjezdicama
+                    </button>
+                </menu>
+
                     <menu>
                         <h1>Korisničke staze</h1>
-                        <TrackList tracks={tracks}/>
+                        <TrackList tracks={sortedTracks}/>
                     </menu>
                 </div>
             </AppBody>
