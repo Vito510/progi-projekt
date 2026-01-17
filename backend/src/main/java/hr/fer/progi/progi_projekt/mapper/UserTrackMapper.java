@@ -41,14 +41,14 @@ public class UserTrackMapper {
         return dto;
     }
 
-    public UserTrack toEntity(UserTrackDto dto, Long ownerId) {
+    public UserTrack toNewEntity(UserTrackDto dto, Long ownerId) {
         if (dto == null) {
             return null;
         }
 
         UserTrack entity = new UserTrack();
 
-        entity.setId(dto.getId());
+        entity.setId(null); // id staze se dinamicki dodijeli, zato ostaje null
         entity.setName(dto.getName());
         entity.setDateCreated(dto.getDateCreated());
         entity.setMinLat(dto.getMinLat());
@@ -58,6 +58,25 @@ public class UserTrackMapper {
         entity.setVisibility(dto.getVisibility());
 
         entity.setOwnerId(ownerId);
+
+        return entity;
+    }
+
+    public UserTrack updateEntity(UserTrackDto dto, UserTrack entity) {
+        if (dto == null) {
+            return null;
+        }
+
+        // id staze se nakon prvotnog stvaranja ne dira
+        entity.setName(dto.getName());
+        // datum se nakon prvotnog stvaranja ne dira
+        entity.setMinLat(dto.getMinLat());
+        entity.setMinLon(dto.getMinLon());
+        entity.setMaxLat(dto.getMaxLat());
+        entity.setMaxLon(dto.getMaxLon());
+        entity.setVisibility(dto.getVisibility());
+
+        // ownerId se nakon prvotnog stvaranja ne dira
 
         return entity;
     }

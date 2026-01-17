@@ -16,10 +16,10 @@ public class UserTrack {
     @Column(name = "pathname", nullable = false)
     private String name;
     
-    @Column(name = "UserID", nullable = false)
+    @Column(name = "userid", nullable = false)
     private Long ownerId;
 
-    @Column(name = "dateCreated", nullable = true)
+    @Column(name = "datecreated", nullable = true)
     private LocalDate dateCreated;
 
     @Column(name = "visibility", nullable = false)

@@ -44,20 +44,7 @@ public class UserTrackService {
             return false;
         }
 
-        // ownerName -> ownerId
-        // Optional<UserProfile> ownerProfile = profileRepo.findByUsername(userTrackDto.getOwnerName());
-        // if(ownerProfile.isEmpty()){
-        //     System.out.println("ne postoji owner");
-        //     return false;
-        // }
-        // // ako nisi admin, smijes samo sebi dodati stazu
-        // if(ownerProfile.get().getId()!=currUser.getId() && currUser.getRole()!=Role.ADMIN){
-        //     System.out.println("ne stavljas sebi");
-        //     return false;
-        // }
-        // UserTrack userTrack = trackMapper.toEntity(userTrackDto, ownerProfile.get().getId());
-        UserTrack userTrack = trackMapper.toEntity(userTrackDto, currUser.getId());
-        userTrack.setId(null);
+        UserTrack userTrack = trackMapper.toNewEntity(userTrackDto, currUser.getId());
         trackRepo.save(userTrack);
         return true;
     }
@@ -86,7 +73,7 @@ public class UserTrackService {
             return false;
         }
         
-        UserTrack userTrack = trackMapper.toEntity(userTrackDto, track.get().getOwnerId());
+        UserTrack userTrack = trackMapper.updateEntity(userTrackDto, track.get());
         trackRepo.save(userTrack);
         return true;
     }
