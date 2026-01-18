@@ -10,8 +10,8 @@ import Button from '../general/Button.js';
 import Card from '../general/Card.js';
 import Map3D from '../map/Map3D.js';
 import TrackPointEditor from './TrackPointEditor.js';
-import Popup from '../general/Popup.js';
-import Placeholder from '../general/Placeholder.js';
+// import Popup from '../general/Popup.js';
+// import Placeholder from '../general/Placeholder.js';
 import ButtonSaveTrack from './ButtonSaveTrack.js';
 import ButtonDeleteTrack from './ButtonDeleteTrack.js';
 import ButtonLikeTrack from './ButtonLikeTrack.js';
@@ -52,7 +52,12 @@ export default function TrackEditor({track}: {track: Track}) {
                     <header>
                         <List type='row' gap='small' wrap justify='space-between' align='center'>
                             {canEdit ?
-                                <input type="text" placeholder="Unesite naziv staze" defaultValue={track.name} onChange={(e) => {track.name = e.target.value}}/>
+                                <input 
+                                    type="text" 
+                                    placeholder="Unesite naziv staze" 
+                                    defaultValue={track.name} 
+                                    onChange={(e) => {track.name = e.target.value}}
+                                />
                                 :
                                 <h2>{track.name}</h2>
                             }

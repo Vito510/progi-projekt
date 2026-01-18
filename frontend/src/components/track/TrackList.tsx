@@ -15,7 +15,7 @@ export default function TrackList({tracks}: Props) {
           key={index}
           index={index}
           name={track.name}
-          length={calculateSlopeDistance(generateChartData(track))}
+          length={calculateSlopeDistance(generateChartData(track)) / 1000}
           stars={track.stars}
           visibility={track.visibility}
           id={index}
