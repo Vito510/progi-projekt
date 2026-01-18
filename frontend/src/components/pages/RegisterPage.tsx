@@ -44,7 +44,8 @@ export default function RegisterPage() {
       } else {
         // You can proceed with registration or navigation here
         console.log("Kreiram novi profil")
-        const res = await fetch(`/api/create-user?username=${encodeURIComponent(username)}`, { 
+        const res = await fetch(`/api/profile?username=${encodeURIComponent(username)}`, { 
+          method: 'POST',
           credentials: "include", 
           headers: { Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}` } 
         }); 
