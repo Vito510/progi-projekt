@@ -97,7 +97,7 @@ public class UserProfileService {
         return userRepo.findById(id).orElse(null);
     }
 
-    public UserProfile editProfile(UserProfile profile) {
+    /*public UserProfile editProfile(UserProfile profile) {
         UserProfile existingUser = userRepo.findById(profile.getId()).orElse(null);
 
         if (existingUser == null) {
@@ -115,16 +115,23 @@ public class UserProfileService {
         //existingUser.setRole(profile.getRole());
 
         return userRepo.save(existingUser);
+    }*/
+
+    public UserProfile updateUsername(String oldUsername, String newUsername) {
+        UserProfile user = userRepo.findByUsername(oldUsername)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (userRepo.existsByUsername(newUsername)) {
+            throw new RuntimeException("Username already taken");
+        }
+
+        user.setUsername(newUsername);
+        return userRepo.save(user);
     }
 
-    public void deleteProfile(long id) {
-        if (userRepo.existsById(id)) {
-            userRepo.deleteById(id);
-            System.out.println("User with ID " + id + " has been deleted");
-        }
-        else {
-            System.out.println("User with ID " + id + " not found");
-        }
+    public void deleteProfileByUsername(String username) {
+        UserProfile user = userRepo.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userRepo.delete(user);
     }
-
 }

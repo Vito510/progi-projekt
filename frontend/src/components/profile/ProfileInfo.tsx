@@ -20,8 +20,10 @@ export default function ProfileInfo() {
             return;
         }
 
+        const username = auth.user?.name;
+
         try {
-            const response = await fetch('/api/profile/me', {
+            const response = await fetch(`/api/profile/${username}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,15 +34,13 @@ export default function ProfileInfo() {
 
             if (response.ok) {
                 const data = await response.json();
-                const updatedUser = data.user ?? data;
 
                 auth.setUser({
                     ...auth.user!,
-                    ...updatedUser
+                    name: data.username
                 });
 
                 close_popup();
-
 
                 /*const updatedUser = await fetch('/api/profile/me', {
                     headers: di da {
@@ -64,9 +64,16 @@ export default function ProfileInfo() {
 
 
     const delete_handler = async () => {
+        const username = auth.user?.name;
+        if (!username) {
+            console.error("Username not found in auth context");
+            return;
+        }
+
         try {
-            const response = await fetch('/api/profile/me', {
+            const response = await fetch(`/api/profile/${username}`, {
                 method: 'DELETE',
+                credentials: "include",
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}`,
                 },

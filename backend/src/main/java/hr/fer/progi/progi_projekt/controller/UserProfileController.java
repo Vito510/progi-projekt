@@ -38,7 +38,7 @@ public class UserProfileController {
         return userProfileService.getProfile(id);
     }
 
-    @PutMapping("/profile")
+    /*@PutMapping("/profile")
     public UserProfile editProfile(@RequestBody UserProfile profile){
         return userProfileService.editProfile(profile);
     }
@@ -78,29 +78,30 @@ public class UserProfileController {
         UserProfile updated = userProfileService.editProfile(existingUser);
 
         return ResponseEntity.ok(updated);
+    }*/
+
+    @PutMapping("/profile/{username}")
+    public ResponseEntity<?> updateProfile(
+            @PathVariable String username,
+            @RequestBody Map<String, String> body
+    ) {
+        String newUsername = body.get("username");
+        UserProfile updated = userProfileService.updateUsername(username, newUsername);
+        return ResponseEntity.ok(updated);
     }
 
-
-
-    @DeleteMapping("/profile/{id}")
+    /*@DeleteMapping("/profile/{id}")
     public void deleteProfile(@PathVariable int id) {
         userProfileService.deleteProfile(id);
-    }
+    }*/
 
-    @DeleteMapping("/profile/me")
-    public ResponseEntity<String> deleteCurrentUser(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
-
-        String email = authentication.getName();
-
-        Long userId = userProfileService.getUserIdByEmail(email);
-        if (userId == null) {
+    @DeleteMapping("/profile/{username}")
+    public ResponseEntity<String> deleteProfileByUsername(@PathVariable String username) {
+        if (!userProfileService.userExistsByUsername(username)) {
             return ResponseEntity.status(404).body("User not found");
         }
 
-        userProfileService.deleteProfile(userId);
+        userProfileService.deleteProfileByUsername(username);
         return ResponseEntity.ok("Profile deleted");
     }
 }
