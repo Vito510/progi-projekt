@@ -1,6 +1,7 @@
 import type Track from "../../interfaces/Track";
 import TrackCard from "./TrackCard";
 import "./TrackList.css";
+import { generateChartData, calculateSlopeDistance } from './TrackUtils.js';
 
 interface Props {
   tracks: Track[],
@@ -14,7 +15,7 @@ export default function TrackList({tracks}: Props) {
           key={index}
           index={index}
           name={track.name}
-          length={10} // iskoristiti util funkciju za racunanje duljine #23
+          length={calculateSlopeDistance(generateChartData(track))}
           stars={track.stars}
           visibility={track.visibility}
           id={index}
