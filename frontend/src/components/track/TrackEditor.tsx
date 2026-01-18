@@ -17,13 +17,13 @@ import ButtonDeleteTrack from './ButtonDeleteTrack.js';
 import ButtonLikeTrack from './ButtonLikeTrack.js';
 import ButtonVisibleTrack from './ButtonVisibleTrack.js';
 import ButtonWhitelistTrack from './ButtonWhitelistTrack.js';
+import ButtonStatistika from './ButtonStatistika.js';
 
 export default function TrackEditor({track}: {track: Track}) {
     let [params, setParams] = useState<TerrainParameter | null>(null);
     const [canEdit, setCanEdit] = useState<boolean>(true); // dodati provjeru može li korisnik editat ovu stazu
     const [canRate, setCanRate] = useState<boolean>(true); // dodati provjeru može li korisnik ocjeniti ovu stazu
     const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
-    const [stats, setStats] = useState<boolean>(false);
     const [previewPoint, setPreviewPoint] = useState<TrackPoint | null>(null);
     const selection: MapSelection = {
         max_latitude: track.max_lat,
@@ -83,34 +83,7 @@ export default function TrackEditor({track}: {track: Track}) {
                                     </Button>
                                 </>
                             }
-
-                            {/* Statistika staze */}
-                            <Button type='secondary' onClick={() => {setStats(true)}}>
-                                <i className='fa fa-area-chart'></i>
-                                <p>Statistika</p>
-                            </Button>
-                            {stats && 
-                                <Popup>
-                                    <Card>
-                                        <header>
-                                            <List type='row' gap='medium' align='center'>
-                                                <h2>Statistike staze</h2>
-                                                <Button type='tertiary' onClick={() => {setStats(false)}}>
-                                                    <i className='fa fa-times'></i>
-                                                    <p>Zatvori</p>
-                                                </Button>
-                                            </List>
-                                        </header>
-                                        <section>
-                                            <Placeholder>
-                                                [statistika staze]
-                                            </Placeholder>
-                                            {/* <TrackStats points={track.points} longitude_multiplier={params.heightmap.width / params.multiplier} latitude_multiplier={params.heightmap.height / params.multiplier}, heightmap={params.heightmap}></TrackStats> */}
-                                        </section>
-                                    </Card>
-                                </Popup>
-                            }
-
+                            <ButtonStatistika track={track}></ButtonStatistika>
                         </List>
                     </header>
                     <section>
