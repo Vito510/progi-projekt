@@ -69,7 +69,7 @@ export default function ButtonTrackStats({ track }: Props) {
                 <p>Statistika</p>
             </Button>
             {stats && 
-                <Popup>
+                <Popup onClick={() => {setStats(false)}}>
                     <Card>
                         <header>
                             <List type='row' gap='medium' align='center' justify="space-between" expand>

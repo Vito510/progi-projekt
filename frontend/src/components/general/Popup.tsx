@@ -2,13 +2,20 @@ import type { ReactNode } from "react";
 import './Popup.css';
 
 interface Props {
-    children: ReactNode
+    children: ReactNode,
+    onClick?: () => void,
 }
 
-export default function Popup(props: Props) {
+export default function Popup({children, onClick = () => {}}: Props) {
+
+    function click_handler(event: any) {
+        if (event.currentTarget === event.target)
+            onClick();
+    }
+
     return (
-        <div className="-popup">
-            {props.children}
+        <div className="-popup" onClick={click_handler}>
+            {children}
         </div>
     );
 }
