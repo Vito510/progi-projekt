@@ -10,8 +10,6 @@ import Button from '../general/Button.js';
 import Card from '../general/Card.js';
 import Map3D from '../map/Map3D.js';
 import TrackPointEditor from './TrackPointEditor.js';
-// import Popup from '../general/Popup.js';
-// import Placeholder from '../general/Placeholder.js';
 import ButtonSaveTrack from './ButtonSaveTrack.js';
 import ButtonDeleteTrack from './ButtonDeleteTrack.js';
 import ButtonLikeTrack from './ButtonLikeTrack.js';
@@ -123,7 +121,7 @@ export default function TrackEditor({track}: {track: Track}) {
                     </aside>
                 </div>
                 :
-                <div className='-track-editor-loading'>
+                <List expand align='center' justify='center'>
                     <Card>
                         <header style={{ fontSize: "1.5rem" }}>
                             <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
@@ -135,7 +133,7 @@ export default function TrackEditor({track}: {track: Track}) {
                             <code>Moglo bi potrajati...</code>
                         </section>
                     </Card>
-                </div>
+                </List>
             }
         </>
     );
