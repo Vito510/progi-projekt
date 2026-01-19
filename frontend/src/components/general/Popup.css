@@ -19,4 +19,17 @@
 
 .-popup>* {
     z-index: 501;
+
+    animation-name: popup;
+    animation-duration: 0.3s;
+    animation-timing-function: cubic-bezier( 0.24, 2.27, 0.21, 0.98 );
 }   
+
+@keyframes popup {
+    0% {
+        transform: scale(85%);
+    }
+    100% {
+        transform: scale(100%);
+    }
+}
