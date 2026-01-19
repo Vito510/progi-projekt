@@ -8,11 +8,13 @@ interface Props {
     justify?: "start" | "end" | "center" | "space-between" | "space-around",
     wrap?: boolean,
     gap?: "nogap" | "small" | "medium" | "large",
+    expand?: boolean
 }
 
-export default function List({children, type = "row", align = "start", justify = "start", wrap = false, gap = "nogap"}: Props) {
+export default function List({children, type = "row", align = "start", justify = "start", wrap = false, gap = "nogap", expand = false}: Props) {
     let className = "-list";
     if (wrap) className += " wrap";
+    if (expand) className += " expand";
     className += " " + gap
     className += " align-" + align
     className += " " + type
