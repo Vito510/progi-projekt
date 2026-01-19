@@ -85,6 +85,13 @@ strong {
     color: var(--accent-highlight);
 }
 
+samp {
+    background-color: var(--darken);
+    border-radius: var(--roundness);
+    padding: 0.25rem 0.5rem;
+    font-family: monospace;
+}
+
 /* ------------------------------------------------------- */
 
 /* ROOT ELEMENT STYLING */
@@ -113,6 +120,5 @@ strong {
     font-family: Audiowide;
     src: url(/fonts/Audiowide/Audiowide-Regular.ttf);
 }
-
 
 /* ------------------------------------------------------- */

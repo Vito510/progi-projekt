@@ -51,15 +51,6 @@
     display: none;
 }
 
-.-track-card samp {
-    background-color: var(--darken);
-    border-radius: var(--roundness);
-    /* border: var(--border-highlight); */
-    /* box-shadow: var(--shadow-inset); */
-    padding: 0.25rem 0.5rem;
-    font-family: monospace;
-}
-
 /* ------------------------------------------------------- */
 
 .-track-card>* {
