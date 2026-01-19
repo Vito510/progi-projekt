@@ -152,7 +152,7 @@ export default class TileUtils {
         let cropped = combined;
         if (selection.min_latitude != selection.max_latitude && selection.min_longitude != selection.max_longitude)
             cropped = TileUtils.#cropToSelection(combined, selection);
-        const resize_factor = Math.min(cropped.width, cropped.height) / display_resolution;
+        const resize_factor = Math.max(Math.min(cropped.width, cropped.height) / display_resolution, 1.0);
         const resized = ImageUtils.resize(cropped, cropped.width / resize_factor * 0.8, cropped.height / resize_factor); // ARBITRARY
         
         return TileUtils.getParams(resized, resize_factor);
