@@ -17,7 +17,7 @@ import ButtonDeleteTrack from './ButtonDeleteTrack.js';
 import ButtonLikeTrack from './ButtonLikeTrack.js';
 import ButtonVisibleTrack from './ButtonVisibleTrack.js';
 import ButtonWhitelistTrack from './ButtonWhitelistTrack.js';
-import ButtonStatistika from './ButtonStatistika.js';
+import ButtonTrackStats from './ButtonTrackStats.js';
 
 export default function TrackEditor({track}: {track: Track}) {
     let [params, setParams] = useState<TerrainParameter | null>(null);
@@ -50,7 +50,7 @@ export default function TrackEditor({track}: {track: Track}) {
             {params ?
                 <div className='-track-editor'>
                     <header>
-                        <List type='row' gap='small' wrap justify='space-between' align='center'>
+                        <List type='row' gap='small' wrap align='center'>
                             {canEdit ?
                                 <input 
                                     type="text" 
@@ -88,7 +88,7 @@ export default function TrackEditor({track}: {track: Track}) {
                                     </Button>
                                 </>
                             }
-                            <ButtonStatistika track={track}></ButtonStatistika>
+                            <ButtonTrackStats track={track}></ButtonTrackStats>
                         </List>
                     </header>
                     <section>

@@ -1,9 +1,9 @@
-import Button from "../general/Button";
+import Button from "../general/Button.js";
 import List from '../general/List.js';
 import Card from '../general/Card.js';
 import Popup from '../general/Popup.js';
 import { useState, useEffect, useRef } from "react";
-import type Track from "../../interfaces/Track";
+import type Track from "../../interfaces/Track.js";
 import { Chart } from 'chart.js/auto';
 import { generateChartData, calculateTrackStatistics } from './TrackUtils.js';
 
@@ -11,7 +11,7 @@ interface Props {
     track: Track;
 }
 
-export default function ButtonLikeTrack({ track }: Props) {
+export default function ButtonTrackStats({ track }: Props) {
     const [stats, setStats] = useState<boolean>(false);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const chartRef = useRef<Chart | null>(null);
@@ -72,7 +72,7 @@ export default function ButtonLikeTrack({ track }: Props) {
                 <Popup>
                     <Card>
                         <header>
-                            <List type='row' gap='medium' align='center'>
+                            <List type='row' gap='medium' align='center' justify="space-between" expand>
                                 <h2>Statistike staze</h2>
                                 <Button type='tertiary' onClick={() => {setStats(false)}}>
                                     <i className='fa fa-times'></i>
@@ -92,7 +92,6 @@ export default function ButtonLikeTrack({ track }: Props) {
                                 <p><strong>Razlika visine:</strong> {statistics.heightDifference}m</p>
                             </div>
                             )}
-                            {/* <TrackStats points={track.points} longitude_multiplier={params.heightmap.width / params.multiplier} latitude_multiplier={params.heightmap.height / params.multiplier}, heightmap={params.heightmap}></TrackStats> */}
                         </section>
                     </Card>
                 </Popup>
