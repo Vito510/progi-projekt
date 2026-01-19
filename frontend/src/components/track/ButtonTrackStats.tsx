@@ -1,3 +1,4 @@
+import './ButtonTrackStats.css';
 import Button from "../general/Button.js";
 import List from '../general/List.js';
 import Card from '../general/Card.js';
@@ -25,7 +26,6 @@ export default function ButtonTrackStats({ track }: Props) {
             chartRef.current.destroy();
         }
 
-        
 
         const data = generateChartData(track);
         setChartData(data);
@@ -55,12 +55,7 @@ export default function ButtonTrackStats({ track }: Props) {
         };
     }, [stats, track.points]);
 
-
-    
-
     const statistics = stats ? calculateTrackStatistics(chartData) : null;
-
-
 
     return (
         <>
@@ -79,17 +74,37 @@ export default function ButtonTrackStats({ track }: Props) {
                                 </Button>
                             </List>
                         </header>
-                        <section style={{ width: '80vw', maxWidth: '1000px', minWidth: '300px' }}>
-                            <canvas ref={canvasRef}></canvas>
-                            {statistics && (
-                            <div>
-                                <p><strong>Broj točaka:</strong> {statistics.numPoints}</p>
-                                <p><strong>Horizontalna udaljenost:</strong> {statistics.horizontalDistance}m</p>
-                                <p><strong>Udaljenost s nagibom:</strong> {statistics.slopeDistance}m</p>
-                                <p><strong>Minimalna visina:</strong> {statistics.minHeight}m</p>
-                                <p><strong>Maksimalna visina:</strong> {statistics.maxHeight}m</p>
-                                <p><strong>Razlika visine:</strong> {statistics.heightDifference}m</p>
+                        <section className="-button-track-stats">
+                            <div style={{ width: '80vw', maxWidth: '1000px', minWidth: '300px', aspectRatio: '2' }}>
+                                <canvas ref={canvasRef} ></canvas>
                             </div>
+                            {statistics && (
+                                <List gap="small" type="column" wrap>
+                                    <List align="center" justify='space-between' expand>
+                                        <p><i className="fa fa-list-ol"></i> Broj točaka</p>
+                                        <samp>{statistics.numPoints}</samp>
+                                    </List>
+                                    <List align="center" justify='space-between' expand>
+                                        <p><i className="fa fa-arrows-h"></i> Horizontalna udaljenost</p>
+                                        <samp>{statistics.horizontalDistance}m</samp>
+                                    </List>
+                                    <List align="center" justify='space-between' expand>
+                                        <p><i className="fa fa-line-chart"></i> Udaljenost s nagibom</p>
+                                        <samp>{statistics.slopeDistance}m</samp>
+                                    </List>
+                                    <List align="center" justify='space-between' expand>
+                                        <p><i className="fa fa-chevron-up"></i> Maksimalna visina</p>
+                                        <samp>{statistics.maxHeight}m</samp>
+                                    </List>
+                                    <List align="center" justify='space-between' expand>
+                                        <p><i className="fa fa-chevron-down"></i> Minimalna visina</p>
+                                        <samp>{statistics.minHeight}m</samp>
+                                    </List>
+                                    <List align="center" justify='space-between' expand>
+                                        <p><i className="fa fa-arrows-v"></i> Razlika visine</p>
+                                        <samp>{statistics.heightDifference}m</samp>
+                                    </List>
+                                </List>
                             )}
                         </section>
                     </Card>

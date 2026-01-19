@@ -104,7 +104,7 @@
     transform: scale(100%);
     background: none;
     box-shadow: none;
-    text-shadow: 0.1rem 0.1rem 0rem black, 0rem 0rem 0.5rem var(--highlight);
+    text-shadow: 0.1rem 0.1rem 0rem black;
     padding: 0rem;
 }
 
