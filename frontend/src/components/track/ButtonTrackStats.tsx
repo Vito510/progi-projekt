@@ -74,9 +74,8 @@ export default function ButtonTrackStats({ track }: Props) {
                         <header>
                             <List type='row' gap='medium' align='center' justify="space-between" expand>
                                 <h2>Statistike staze</h2>
-                                <Button type='tertiary' onClick={() => {setStats(false)}}>
-                                    <i className='fa fa-times'></i>
-                                    <p>Zatvori</p>
+                                <Button type='tertiary' onClick={() => {setStats(false)}} shape="noshape">
+                                    <i className='fa fa-times fa-2x'></i>
                                 </Button>
                             </List>
                         </header>

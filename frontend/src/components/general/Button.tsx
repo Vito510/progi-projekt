@@ -6,7 +6,7 @@ interface Props {
     onClick?: () => void,
     children: ReactNode,
     type?: 'primary' | 'secondary' | 'tertiary' | 'quaternary'
-    shape?: 'rectangular' |'square' | 'round'
+    shape?: 'rectangular' |'square' | 'round' | 'noshape'
     link?: string
     disabled?: boolean
 }

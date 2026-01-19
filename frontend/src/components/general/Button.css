@@ -57,6 +57,10 @@
     background-color: var(--accent-muted);
 }
 
+.-button button.primary.noshape * {
+    color: var(--accent-highlight);
+}
+
 /* ------------------------------------------------------- */
 
 .-button button.tertiary {
@@ -69,6 +73,10 @@
 
 .-button button.tertiary:active {
     background-color: var(--invalid-muted);
+}
+
+.-button button.tertiary.noshape * {
+    color: var(--invalid-highlight);
 }
 
 /* ------------------------------------------------------- */
@@ -85,11 +93,42 @@
     background-color: var(--gold-muted);
 }
 
+.-button button.quaternary.noshape * {
+    color: var(--gold-highlight);
+}
+
+/* ------------------------------------------------------- */
+
+.-button button.noshape {
+    transition: transform 0.25s;
+    transform: scale(100%);
+    background: none;
+    box-shadow: none;
+    text-shadow: 0.1rem 0.1rem 0rem black, 0rem 0rem 0.5rem var(--highlight);
+    padding: 0rem;
+}
+
+.-button button.noshape:hover {
+    transition: transform 0.25s;
+    transform: scale(125%);
+    background: none;
+    box-shadow: none;
+}
+
+.-button button.noshape:active {
+    transition: transform 0.1s;
+    transform: scale(90%);
+    background: none;
+    box-shadow: none;
+}
+
 /* ------------------------------------------------------- */
 
 .-button button.disabled {
     background-color: var(--theme-highlight);
     box-shadow: none;
+    transform: scale(100%);
+    text-shadow: none;
 }
 
 .-button button.disabled * {
@@ -99,12 +138,14 @@
 .-button button.disabled:hover {
     background-color: var(--theme-highlight);
     box-shadow: none;
+    transform: scale(100%);
     cursor: default;
 }
 
 .-button button.disabled:active {
     background-color: var(--theme-highlight);
     box-shadow: none;
+    transform: scale(100%);
 }
 
 /* ------------------------------------------------------- */
