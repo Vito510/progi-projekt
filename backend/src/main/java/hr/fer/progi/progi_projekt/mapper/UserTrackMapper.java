@@ -1,20 +1,21 @@
 package hr.fer.progi.progi_projekt.mapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import hr.fer.progi.progi_projekt.dto.TrackPointDto;
 import hr.fer.progi.progi_projekt.dto.UserTrackDto;
 import hr.fer.progi.progi_projekt.model.TrackPoint;
 import hr.fer.progi.progi_projekt.model.UserTrack;
-import hr.fer.progi.progi_projekt.repository.UserProfileRepository;
 
 @Component
 public class UserTrackMapper {
-    UserProfileRepository profileRepo;
+    private final TrackPointMapper pointMapper;
 
-    public UserTrackMapper(UserProfileRepository profileRepo) {
-        this.profileRepo = profileRepo;
+    public UserTrackMapper(TrackPointMapper pointMapper) {
+        this.pointMapper = pointMapper;
     }
 
     public UserTrackDto toDto(UserTrack entity, int numOfStars, String ownerName, List<TrackPoint> points, List<String> whitelist) {
@@ -35,8 +36,13 @@ public class UserTrackMapper {
 
         dto.setNumOfStars(numOfStars);
         dto.setOwnerName(ownerName);
-        dto.setPoints(points);
         dto.setWhitelist(whitelist);
+
+        List<TrackPointDto> pointsDto = new ArrayList<>();
+        for (int i = 0; i<points.size(); i++) {
+            pointsDto.add(pointMapper.toDto(points.get(i)));
+        }
+        dto.setPoints(pointsDto);
 
         return dto;
     }

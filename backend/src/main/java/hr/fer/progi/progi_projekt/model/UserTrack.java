@@ -1,7 +1,9 @@
 package hr.fer.progi.progi_projekt.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import hr.fer.progi.progi_projekt.model.enums.TrackVisibility;
@@ -38,6 +40,14 @@ public class UserTrack {
 
     @Column(name = "maxx", nullable = true)
     private Float maxLon;
+
+    @OneToMany(
+        mappedBy = "track",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    @OrderBy("orderPoint ASC")
+    private List<TrackPoint> points = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(
@@ -166,5 +176,13 @@ public class UserTrack {
 
     public void setWhitelistedProfiles(Set<UserProfile> whitelistedProfiles) {
         this.whitelistedProfiles = whitelistedProfiles;
+    }
+
+    public List<TrackPoint> getPoints() {
+        return points;
+    }
+
+    public void setPoints(List<TrackPoint> points) {
+        this.points = points;
     }
 }

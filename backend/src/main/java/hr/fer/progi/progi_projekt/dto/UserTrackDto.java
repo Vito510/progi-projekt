@@ -3,12 +3,8 @@ package hr.fer.progi.progi_projekt.dto;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
-import hr.fer.progi.progi_projekt.model.TrackPoint;
 import hr.fer.progi.progi_projekt.model.enums.TrackVisibility;
 
-@Component
 public class UserTrackDto {
     private Long id;
     private String name;
@@ -20,7 +16,7 @@ public class UserTrackDto {
     private Float minLon;
     private Float maxLat;
     private Float maxLon;
-    private List<TrackPoint> points;
+    private List<TrackPointDto> points;
     private List<String> whitelist;
 
     @Override
@@ -91,10 +87,10 @@ public class UserTrackDto {
     public void setMaxLon(Float maxLon) {
         this.maxLon = maxLon;
     }
-    public List<TrackPoint> getPoints() {
+    public List<TrackPointDto> getPoints() {
         return points;
     }
-    public void setPoints(List<TrackPoint> points) {
+    public void setPoints(List<TrackPointDto> points) {
         this.points = points;
     }
     public List<String> getWhitelist() {

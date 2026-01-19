@@ -39,7 +39,6 @@ public class UserTrackController {
     
     @PostMapping("/track")
     public boolean createUserTrack(@RequestBody UserTrackDto track, HttpServletRequest request){
-        System.out.println(track);
         return userTrackService.createUserTrack(track, request);
     }
 

@@ -10,8 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import hr.fer.progi.progi_projekt.dto.TopTrackDto;
+import hr.fer.progi.progi_projekt.dto.TrackPointDto;
 import hr.fer.progi.progi_projekt.dto.UserTrackDto;
+import hr.fer.progi.progi_projekt.mapper.TrackPointMapper;
 import hr.fer.progi.progi_projekt.mapper.UserTrackMapper;
+import hr.fer.progi.progi_projekt.model.TrackPoint;
 import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.model.UserTrack;
 import hr.fer.progi.progi_projekt.model.enums.Role;
@@ -25,17 +28,20 @@ public class UserTrackService {
     private final UserProfileRepository profileRepo;
     private final AuthService authService;
     private final UserTrackMapper trackMapper;
+    private final TrackPointMapper pointMapper;
 
     public UserTrackService(
         UserTrackRepository trackRepo,
         AuthService authService, 
         UserTrackMapper trackMapper, 
-        UserProfileRepository profileRepo
+        UserProfileRepository profileRepo,
+        TrackPointMapper pointMapper
     ) {
         this.trackRepo = trackRepo;
         this.profileRepo = profileRepo;
         this.authService = authService;
         this.trackMapper = trackMapper;
+        this.pointMapper = pointMapper;
     }
 
     public List<TopTrackDto> getTracksForProfile(String profileUsername, String viewerUsername) {
@@ -59,6 +65,8 @@ public class UserTrackService {
 
         UserTrack userTrack = trackMapper.toNewEntity(userTrackDto, currUser.getId());
         trackRepo.save(userTrack);
+
+        updatePoints(userTrack, userTrackDto.getPoints());
        
         List<String> filteredWhitelist = new ArrayList<>(userTrackDto.getWhitelist());
         filteredWhitelist.remove(currUser.getUsername());
@@ -93,6 +101,8 @@ public class UserTrackService {
         
         UserTrack userTrack = trackMapper.updateEntity(userTrackDto, track.get());
         trackRepo.save(userTrack);
+
+        updatePoints(userTrack, userTrackDto.getPoints());
 
         List<String> filteredWhitelist = new ArrayList<>(userTrackDto.getWhitelist());
         if(currUser.getRole()!=Role.ADMIN){
@@ -138,5 +148,17 @@ public class UserTrackService {
             }
         }
         entity.setWhitelistedProfiles(whitelistedProfiles);
+    }
+
+    public void updatePoints(UserTrack entity, List<TrackPointDto> pointsDto){
+        List<TrackPoint> points = entity.getPoints();
+        entity.getPoints().clear();
+
+        for (int i = 0; i<pointsDto.size(); i++) {
+            TrackPoint p = pointMapper.toEntity(pointsDto.get(i));
+            p.setOrderPoint(i);
+            p.setTrack(entity);
+            points.add(p);
+        }
     }
 }
