@@ -1,6 +1,10 @@
 package hr.fer.progi.progi_projekt.model;
 
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.stereotype.Component;
 
 import hr.fer.progi.progi_projekt.model.enums.Role;
@@ -17,6 +21,12 @@ public class UserProfile {
     private String username;
     private String email;
     private Role role;
+
+    @ManyToMany(mappedBy = "givenStars")
+    private Set<UserTrack> starredTracks = new HashSet<>();
+
+    @ManyToMany(mappedBy = "whitelistedProfiles")
+    private Set<UserTrack> grantedAccessTracks = new HashSet<>();
 
     public UserProfile() {
     }
@@ -50,6 +60,16 @@ public class UserProfile {
     public void setRole(Role role) {
         this.role = role;
     }
-
-    
+    public Set<UserTrack> getStarredTracks() {
+        return starredTracks;
+    }
+    public void setStarredTracks(Set<UserTrack> starredTracks) {
+        this.starredTracks = starredTracks;
+    }
+    public Set<UserTrack> getGrantedAccessTracks() {
+        return grantedAccessTracks;
+    }
+    public void setGrantedAccessTracks(Set<UserTrack> grantedAccessTracks) {
+        this.grantedAccessTracks = grantedAccessTracks;
+    }
 }

@@ -1,6 +1,8 @@
 package hr.fer.progi.progi_projekt.model;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import hr.fer.progi.progi_projekt.model.enums.TrackVisibility;
 import jakarta.persistence.*;
@@ -36,6 +38,24 @@ public class UserTrack {
 
     @Column(name = "maxx", nullable = true)
     private Float maxLon;
+
+    @ManyToMany
+    @JoinTable(
+        name = "stars",
+        joinColumns = @JoinColumn(name = "pathid"),
+        inverseJoinColumns = @JoinColumn(name = "userid"),
+        uniqueConstraints = @UniqueConstraint(columnNames = {"pathid", "userid"})
+    )
+    private Set<UserProfile> givenStars = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "whitelist",
+        joinColumns = @JoinColumn(name = "pathid"),
+        inverseJoinColumns = @JoinColumn(name = "userid"),
+        uniqueConstraints = @UniqueConstraint(columnNames = {"pathid", "userid"})
+    )
+    private Set<UserProfile> whitelistedProfiles = new HashSet<>();
 
     public UserTrack() {
     }
@@ -130,5 +150,21 @@ public class UserTrack {
 
     public void setMaxLon(Float maxLon) {
         this.maxLon = maxLon;
+    }
+
+    public Set<UserProfile> getGivenStars() {
+        return givenStars;
+    }
+
+    public void setGivenStars(Set<UserProfile> givenStars) {
+        this.givenStars = givenStars;
+    }
+
+    public Set<UserProfile> getWhitelistedProfiles() {
+        return whitelistedProfiles;
+    }
+
+    public void setWhitelistedProfiles(Set<UserProfile> whitelistedProfiles) {
+        this.whitelistedProfiles = whitelistedProfiles;
     }
 }

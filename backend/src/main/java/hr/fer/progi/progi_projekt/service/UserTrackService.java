@@ -1,9 +1,13 @@
 package hr.fer.progi.progi_projekt.service;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import hr.fer.progi.progi_projekt.dto.TopTrackDto;
 import hr.fer.progi.progi_projekt.dto.UserTrackDto;
@@ -11,17 +15,25 @@ import hr.fer.progi.progi_projekt.mapper.UserTrackMapper;
 import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.model.UserTrack;
 import hr.fer.progi.progi_projekt.model.enums.Role;
+import hr.fer.progi.progi_projekt.repository.UserProfileRepository;
 import hr.fer.progi.progi_projekt.repository.UserTrackRepository;
 import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class UserTrackService {
     private final UserTrackRepository trackRepo;
+    private final UserProfileRepository profileRepo;
     private final AuthService authService;
     private final UserTrackMapper trackMapper;
 
-    public UserTrackService(UserTrackRepository trackRepo, AuthService authService, UserTrackMapper trackMapper) {
+    public UserTrackService(
+        UserTrackRepository trackRepo,
+        AuthService authService, 
+        UserTrackMapper trackMapper, 
+        UserProfileRepository profileRepo
+    ) {
         this.trackRepo = trackRepo;
+        this.profileRepo = profileRepo;
         this.authService = authService;
         this.trackMapper = trackMapper;
     }
@@ -36,6 +48,7 @@ public class UserTrackService {
         return trackRepo.findPublicAndWhitelisted(profileUsername, viewerUsername);
     }
 
+    @Transactional
     public boolean createUserTrack(UserTrackDto userTrackDto, HttpServletRequest request) {
         // trenutni korisnik
         UserProfile currUser = authService.getCurrentUser(request);
@@ -46,6 +59,10 @@ public class UserTrackService {
 
         UserTrack userTrack = trackMapper.toNewEntity(userTrackDto, currUser.getId());
         trackRepo.save(userTrack);
+       
+        List<String> filteredWhitelist = new ArrayList<>(userTrackDto.getWhitelist());
+        filteredWhitelist.remove(currUser.getUsername());
+        updateWhitelist(userTrack, filteredWhitelist);
         return true;
     }
 
@@ -54,6 +71,7 @@ public class UserTrackService {
         return track;
     }
 
+    @Transactional
     public boolean editUserTrack(UserTrackDto userTrackDto, HttpServletRequest request) {
         // trenutni korisnik
         UserProfile currUser = authService.getCurrentUser(request);
@@ -75,6 +93,12 @@ public class UserTrackService {
         
         UserTrack userTrack = trackMapper.updateEntity(userTrackDto, track.get());
         trackRepo.save(userTrack);
+
+        List<String> filteredWhitelist = new ArrayList<>(userTrackDto.getWhitelist());
+        if(currUser.getRole()!=Role.ADMIN){
+            filteredWhitelist.remove(currUser.getUsername());
+        }
+        updateWhitelist(userTrack, filteredWhitelist);
         return true;
     }
 
@@ -103,5 +127,16 @@ public class UserTrackService {
 
     public List<TopTrackDto> getTopTracks() {
         return trackRepo.findTop10Tracks();
+    }
+
+    public void updateWhitelist(UserTrack entity, List<String> whitelist){
+        Set<UserProfile> whitelistedProfiles = new HashSet<>();
+        for (String name : whitelist) {
+            Optional<UserProfile> profile = profileRepo.findByUsername(name);
+            if(profile.isPresent()){
+                whitelistedProfiles.add(profile.get());
+            }
+        }
+        entity.setWhitelistedProfiles(whitelistedProfiles);
     }
 }
