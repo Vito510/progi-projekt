@@ -1,10 +1,10 @@
 import { useRef, useState } from "react";
 import type TrackPoint from "../../interfaces/TrackPoint";
 import Button from "../general/Button";
-import List from "../general/List";
 import './TrackPointEditor.css';
 import ImageUtils from "../../utility/image_utils";
 import TileUtils from "../../utility/tile_utils";
+import MapPointPlacer from "../map/MapPointPlacer";
 
 interface Props {
     points: TrackPoint[],
@@ -18,7 +18,7 @@ export default function TrackPointEditor({points, onInput, onPreview, heightmap}
     const input_x_ref = useRef<HTMLInputElement>(null);
     const input_y_ref = useRef<HTMLInputElement>(null);
 
-    function swap(array: TrackPoint[], index: number, increment: number) {
+    function swap(array: TrackPoint[], index: number, increment: number): void {
         const index_a = index;
         let index_b = (index - increment) % array.length;
         if (index_b < 0)
@@ -28,13 +28,13 @@ export default function TrackPointEditor({points, onInput, onPreview, heightmap}
         onInput(new_aray);
     }
 
-    function remove(array: TrackPoint[], index: number) {
+    function remove(array: TrackPoint[], index: number): void {
         array.splice(index, 1)
         const new_array = [...array];
         onInput(new_array);
     }
 
-    function add(array: TrackPoint[], point: TrackPoint) {
+    function add(array: TrackPoint[], point: TrackPoint): void {
         if (array.length > 0) {
             const top = array[array.length - 1];
             if (point.x === top.x && point.y === top.y && point.z === top.z)
@@ -73,47 +73,25 @@ export default function TrackPointEditor({points, onInput, onPreview, heightmap}
 
     return (
         <div className="-track-point-editor">
-            {points.map((value, index) => 
-                <li key={index}>
-                    <samp>({value.x.toFixed(2)},{value.y.toFixed(2)},{Math.round(value.z)})</samp>
-                    <Button shape="round" type="primary" onClick={() => swap(points, index, 1)}>
-                        <i className="fa fa-chevron-up"></i>
-                    </Button>
-                    <Button shape="round" type="primary" onClick={() => swap(points, index, -1)}>
-                        <i className="fa fa-chevron-down"></i>
-                    </Button>
-                    <Button shape="square" type="tertiary" onClick={() => remove(points, index)}>
-                        <i className="fa fa-trash"></i>
-                    </Button>
-                </li>)
-            }
-            <section>
-                <p>Stvaranje nove točke</p>
-                <List type="column" align="center">
-                    <List type="row" gap="small" align="center">
-                        <List type="column" gap="nogap">
-                            <List type="row" gap="small" align="center">
-                                <em>X</em>
-                                <input type="range" ref={input_x_ref} onInput={() => {updatePreview()}}></input>
-                            </List>
-                            <List type="row" gap="small" align="center">
-                                <em>Y</em>
-                                <input type="range" ref={input_y_ref} onInput={() => {updatePreview()}}></input>
-                            </List>
-                        </List>
-                        <Button shape="square" type="secondary" onClick={() => {togglePreview()}}>
-                            {usePreview ?
-                                <i className="fa fa-eye"></i>
-                                :
-                                <i className="fa fa-eye-slash"></i>
-                            }
+            <main>
+                <MapPointPlacer heightmap={heightmap} points={points} onInput={(point) => {add(points, point)}}></MapPointPlacer>
+            </main>
+            <aside>
+                {points.map((value, index) => 
+                    <li key={index}>
+                        <samp>({value.x.toFixed(2)},{value.y.toFixed(2)},{Math.round(value.z)})</samp>
+                        <Button shape="round" type="primary" onClick={() => swap(points, index, 1)}>
+                            <i className="fa fa-chevron-up"></i>
                         </Button>
-                        <Button shape="square" type="primary" onClick={() => {add(points, getPoint())}}>
-                            <i className="fa fa-add"></i>
+                        <Button shape="round" type="primary" onClick={() => swap(points, index, -1)}>
+                            <i className="fa fa-chevron-down"></i>
                         </Button>
-                    </List>
-                </List>
-            </section>
+                        <Button shape="square" type="tertiary" onClick={() => remove(points, index)}>
+                            <i className="fa fa-trash"></i>
+                        </Button>
+                    </li>)
+                }
+            </aside>
         </div>
     );
 }

@@ -101,14 +101,17 @@ export default function TrackEditor({track}: {track: Track}) {
                             <Popup onClick={() => {setIsEditing(false)}}>
                                 <Card>
                                     <header>
-                                        <h2>Uređivanje točaka</h2>
-                                        <p><em>Kliknite da dodate točku</em></p>
-                                        <Button onClick={() => {setIsEditing(false)}}>
-                                            Close
-                                        </Button>
+                                        <List expand align='center' justify='space-between'>
+                                            <List type='column' gap='nogap'>
+                                                <h2>Uređivanje točaka</h2>
+                                                <p><em>Kliknite da biste dodali točku</em></p>
+                                            </List>
+                                            <Button type='tertiary' onClick={() => {setIsEditing(false)}} shape="noshape">
+                                                <i className='fa fa-times fa-2x'></i>
+                                            </Button>
+                                        </List>
                                     </header>
                                     <section>
-                                        {/* <MapPointPlacer heightmap={params.heightmap} points={pointList} onInput={(point) => {console.log(point);}}></MapPointPlacer> */}
                                         <TrackPointEditor points={pointList} onInput={(points) => {setPointList(points); track.points = [...points];}} onPreview={(point) => {setPreviewPoint(point)}} heightmap={params.heightmap}></TrackPointEditor>
                                     </section>
                                 </Card>

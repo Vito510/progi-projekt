@@ -4,6 +4,11 @@ import TileUtils from "../../utility/tile_utils";
 import PathMap from "../../renderer/map/pathmap";
 import ImageUtils from "../../utility/image_utils";
 
+let normalized_heightmap: ImageData;
+let context: CanvasRenderingContext2D | null;
+const temp_canvas = document.createElement('canvas');
+    const temp_context = temp_canvas.getContext('2d');
+
 interface Props {
     heightmap: ImageData,
     points: TrackPoint[],
@@ -12,8 +17,6 @@ interface Props {
 
 export default function MapPointPlacer({heightmap, onInput, points}: Props) {
     const canvas_ref = useRef<HTMLCanvasElement>(null);
-    let normalized_heightmap: ImageData;
-    let context: CanvasRenderingContext2D | null;
 
     function click_handler(event: any) {
         const rect = canvas_ref.current!.getBoundingClientRect();
@@ -62,19 +65,18 @@ export default function MapPointPlacer({heightmap, onInput, points}: Props) {
 }
 
 function drawCanvas(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, background: ImageData, overlay: ImageData): void {
-    const tempCanvas = document.createElement('canvas');
-    const tempCtx = tempCanvas.getContext('2d');
-    tempCanvas.width = background.width;
-    tempCanvas.height = background.height;
+    
+    temp_canvas.width = background.width;
+    temp_canvas.height = background.height;
 
-    tempCtx!.putImageData(background, 0, 0);
-    context.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+    temp_context!.putImageData(background, 0, 0);
+    context.drawImage(temp_canvas, 0, 0, canvas.width, canvas.height);
 
-    tempCtx!.putImageData(overlay, 0, 0);
+    temp_context!.putImageData(overlay, 0, 0);
     context.save();
     context.translate(canvas.width, 0);
     context.scale(-1, 1);
-    context.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
+    context.drawImage(temp_canvas, 0, 0, canvas.width, canvas.height);
     context.restore();
 }
 
