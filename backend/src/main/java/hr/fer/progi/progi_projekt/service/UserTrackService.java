@@ -18,6 +18,7 @@ import hr.fer.progi.progi_projekt.model.TrackPoint;
 import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.model.UserTrack;
 import hr.fer.progi.progi_projekt.model.enums.Role;
+import hr.fer.progi.progi_projekt.model.enums.TrackVisibility;
 import hr.fer.progi.progi_projekt.repository.UserProfileRepository;
 import hr.fer.progi.progi_projekt.repository.UserTrackRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -74,9 +75,32 @@ public class UserTrackService {
         return true;
     }
 
-    public UserTrack getUserTrack(Long id) {
+    public UserTrackDto getUserTrack(Long id, HttpServletRequest request) {
+        // trenutni korisnik
+        UserProfile currUser = authService.getCurrentUser(request);
+        if(currUser==null){
+            return null;
+        }
+
         UserTrack track = trackRepo.findById(id).orElse(null);
-        return track;
+        if(track==null){
+            return null;
+        }
+        if(track.getVisibility()==TrackVisibility.PRIVATE
+            && track.getOwnerId()!=currUser.getId()
+            && !track.getWhitelistedProfiles().contains(currUser)
+            && currUser.getRole()!=Role.ADMIN){
+            return null;
+        }
+
+        String ownerName = profileRepo.findById(track.getOwnerId()).get().getUsername();
+        UserTrackDto dto = trackMapper.toDto(track, ownerName);
+
+        if(track.getOwnerId()!=currUser.getId() && currUser.getRole()!=Role.ADMIN){
+            dto.setWhitelist(null);
+        }
+
+        return dto;
     }
 
     @Transactional

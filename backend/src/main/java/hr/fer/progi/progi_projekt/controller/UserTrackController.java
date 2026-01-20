@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import hr.fer.progi.progi_projekt.dto.TopTrackDto;
 import hr.fer.progi.progi_projekt.dto.UserTrackDto;
-import hr.fer.progi.progi_projekt.model.UserTrack;
 import hr.fer.progi.progi_projekt.service.UserTrackService;
 import org.springframework.security.core.Authentication;
 import java.security.Principal;
@@ -33,8 +32,8 @@ public class UserTrackController {
 
 
     @GetMapping("/track/{id}")
-    public UserTrack getUserTrack(@PathVariable Long id) {
-        return userTrackService.getUserTrack(id);
+    public UserTrackDto getUserTrack(@PathVariable Long id, HttpServletRequest request) {
+        return userTrackService.getUserTrack(id, request);
     }
     
     @PostMapping("/track")
