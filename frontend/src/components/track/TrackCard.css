@@ -13,7 +13,7 @@
 
     background-color: var(--accent-muted);
     border-radius: var(--roundness);
-    box-shadow: var(--shadow-highlight), var(--shadow-smooth), var(--shadow-sharp);
+    box-shadow: var(--shadow-highlight), var(--shadow-sharp);
     
     opacity: 0%;
     transform: translate(50%, 0%);
