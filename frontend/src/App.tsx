@@ -14,7 +14,7 @@ export default function App() {
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<FrontPage/>}/>
-            <Route path="/profile" element={<ProfilePage/>}/>
+            <Route path="/profile/:name" element={<ProfilePage/>}/>
             <Route path="/map" element={<MapPage/>}/>
             <Route path="/login" element={<LoginPage/>}/>
             <Route path="/login-success" element={<LoginSuccessPage />} />

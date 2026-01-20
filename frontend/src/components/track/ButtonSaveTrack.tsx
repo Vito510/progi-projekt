@@ -30,7 +30,7 @@ export default function ButtonSaveTrack({ track }: Props) {
             whitelist: track.whitelist,
             points: track.points,
         }
-        console.log("stvaram stazu " + JSON.stringify(payload))
+        console.log("stvaram stazu ", payload)
         setLoading(true);
 
         try {
