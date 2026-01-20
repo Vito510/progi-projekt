@@ -1,7 +1,7 @@
 import type Selection from '../interfaces/MapSelection.js';
 import type Pixel from '../interfaces/Pixel.js';
 import type TerrainParameter from '../interfaces/TerrainParameter.js';
-import ImageUtil from './image_utils.js';
+import ImageUtils from './image_utils.js';
 import pako from 'pako';
 
 const elevation_offset = 32768;
@@ -101,8 +101,8 @@ export default class TileUtils {
     }
 
     static #combineTiles(tiles: ImageData[][]): ImageData {
-        const horizontal: ImageData[] = tiles.map((images) => ImageUtil.stitch(images, "horizontal"));
-        const vertical: ImageData = ImageUtil.stitch(horizontal, "vertical");
+        const horizontal: ImageData[] = tiles.map((images) => ImageUtils.stitch(images, "horizontal"));
+        const vertical: ImageData = ImageUtils.stitch(horizontal, "vertical");
         return vertical;
     }
 
@@ -111,7 +111,7 @@ export default class TileUtils {
         const y = (selection.min_latitude - Math.floor(selection.min_latitude)) * tile_resolution;
         const width = (selection.max_longitude - Math.floor(selection.min_longitude)) * tile_resolution - x;
         const height = (selection.max_latitude - Math.floor(selection.min_latitude)) * tile_resolution - y;
-        const cropped = ImageUtil.crop(image, x, (image.height - y) - height, width, height);
+        const cropped = ImageUtils.crop(image, x, (image.height - y) - height, width, height);
         return cropped;
     }
 
@@ -152,9 +152,45 @@ export default class TileUtils {
         let cropped = combined;
         if (selection.min_latitude != selection.max_latitude && selection.min_longitude != selection.max_longitude)
             cropped = TileUtils.#cropToSelection(combined, selection);
-        const resize_factor = Math.min(cropped.width, cropped.height) / display_resolution;
-        const resized = ImageUtil.resize(cropped, cropped.width / resize_factor * 0.8, cropped.height / resize_factor); // ARBITRARY
+        const resize_factor = Math.max(Math.min(cropped.width, cropped.height) / display_resolution, 1.0);
+        const resized = ImageUtils.resize(cropped, cropped.width / resize_factor * 0.8, cropped.height / resize_factor); // ARBITRARY
         
         return TileUtils.getParams(resized, resize_factor);
     }
+
+    static generateNormalizedHeightmap(heightmap: ImageData): ImageData {
+        let new_image = new ImageData(heightmap.width, heightmap.height);
+
+        let min = Infinity;
+        let max = -Infinity;
+        for (let x = 0; x < heightmap.width; x++) {
+            for (let y = 0; y < heightmap.height; y++) {
+                const encoded = ImageUtils.get(heightmap, x, y);
+                const height = TileUtils.decodeHeight(encoded);
+                min = Math.min(min, height);
+                max = Math.max(max, height);
+            }
+        }
+
+        for (let x=0; x<heightmap.width; x++) {
+            for(let y=0; y<heightmap.height; y++) {
+                const encoded = ImageUtils.get(heightmap, x, y);
+                const height = TileUtils.decodeHeight(encoded);
+                const normalized = mapRange(height, min, max, 0, 255, true);
+                const pixel = {r: normalized, g: normalized, b: normalized, a: 255};
+                ImageUtils.set(new_image, x, y, pixel);
+            }
+        }
+
+        return new_image;
+    }
+}
+
+function mapRange(value: number, fromMin: number, fromMax: number, toMin: number, toMax: number, clamp = false): number {
+    if (Math.abs(fromMax - fromMin) < Number.EPSILON)
+        return toMin;
+    let result = ((value - fromMin) / (fromMax - fromMin)) * (toMax - toMin) + toMin;
+    if (clamp)
+        result = Math.max(Math.min(result, toMax), toMin);
+    return result;
 }

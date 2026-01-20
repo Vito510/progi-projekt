@@ -1,8 +1,5 @@
-package hr.fer.progi.progi_projekt.model;
+package hr.fer.progi.progi_projekt.dto;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class AuthResponse {
     private boolean authenticated = false;
     private String name;

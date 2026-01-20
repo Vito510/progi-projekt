@@ -3,17 +3,18 @@ package hr.fer.progi.progi_projekt.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
+import hr.fer.progi.progi_projekt.dto.UserProfileDto;
 import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.service.UserProfileService;
 
 import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class UserProfileController {
     UserProfileService userProfileService;
 
@@ -27,17 +28,17 @@ public class UserProfileController {
         return Map.of("exists", exists);
     }
 
-    @GetMapping("/create-user")
+    @PostMapping("/profile")
     public void createUser(@RequestParam String username, HttpServletRequest request) {
         userProfileService.createProfile(username, request);
     }
 
-    @GetMapping("/profile/{id}")
-    public UserProfile getProfile(@PathVariable int id) {
-        return userProfileService.getProfile(id);
+    @GetMapping("/profile/{username}")
+    public UserProfileDto getProfile(@PathVariable String username, HttpServletRequest request) {
+        return userProfileService.getProfile(username, request);
     }
 
-    @PutMapping("/profile")
+    /*@PutMapping("/profile")
     public UserProfile editProfile(@RequestBody UserProfile profile){
         return userProfileService.editProfile(profile);
     }
@@ -77,29 +78,30 @@ public class UserProfileController {
         UserProfile updated = userProfileService.editProfile(existingUser);
 
         return ResponseEntity.ok(updated);
+    }*/
+
+    @PutMapping("/profile/{username}")
+    public ResponseEntity<?> updateProfile(
+            @PathVariable String username,
+            @RequestBody Map<String, String> body
+    ) {
+        String newUsername = body.get("username");
+        UserProfile updated = userProfileService.updateUsername(username, newUsername);
+        return ResponseEntity.ok(updated);
     }
 
-
-
-    @DeleteMapping("/profile/{id}")
+    /*@DeleteMapping("/profile/{id}")
     public void deleteProfile(@PathVariable int id) {
         userProfileService.deleteProfile(id);
-    }
+    }*/
 
-    @DeleteMapping("/profile/me")
-    public ResponseEntity<String> deleteCurrentUser(Authentication authentication) {
-        if (authentication == null || !authentication.isAuthenticated()) {
-            return ResponseEntity.status(401).body("Unauthorized");
-        }
-
-        String email = authentication.getName();
-
-        Long userId = userProfileService.getUserIdByEmail(email);
-        if (userId == null) {
+    @DeleteMapping("/profile/{username}")
+    public ResponseEntity<String> deleteProfileByUsername(@PathVariable String username) {
+        if (!userProfileService.userExistsByUsername(username)) {
             return ResponseEntity.status(404).body("User not found");
         }
 
-        userProfileService.deleteProfile(userId);
+        userProfileService.deleteProfileByUsername(username);
         return ResponseEntity.ok("Profile deleted");
     }
 }

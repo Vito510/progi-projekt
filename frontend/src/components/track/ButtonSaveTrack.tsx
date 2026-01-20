@@ -1,27 +1,38 @@
 import Button from "../general/Button";
 import type Track from "../../interfaces/Track";
+import List from '../general/List.js';
+import Card from '../general/Card.js';
+import Popup from '../general/Popup.js';
+import Placeholder from "../general/Placeholder.js";
+import { useState } from 'react';
 
 interface Props {
     track: Track;
 }
 
 export default function ButtonSaveTrack({ track }: Props) {
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const handleSave = async () => {
         const payload = {
             id: track.id,
             name: track.name,
-            owner: track.owner,
-            date_created: track.date_created,
-            visibility: track.visibility,
-            min_lat: track.min_lat,
-            min_lon: track.min_lon,
-            max_lat: track.max_lat,
-            max_lon: track.min_lon,
+            ownerName: track.owner,
+            dateCreated: track.date_created,
+            visibility: track.visibility=="Private" ? "PRIVATE" : "PUBLIC",
+            //visibility: track.visibility=="Private" ? 1 : 0, // moze ili brojevi ili slova sve veliko
+            minLat: track.min_lat,
+            minLon: track.min_lon,
+            maxLat: track.max_lat,
+            maxLon: track.max_lon,
             whitelist: track.whitelist,
             points: track.points,
         }
-        console.log("stvaram stazu " + JSON.stringify(payload))
+        console.log("stvaram stazu ", payload)
+        setLoading(true);
+
         try {
             const response = await fetch(`/api/track`, {
                 method: 'POST',
@@ -34,22 +45,61 @@ export default function ButtonSaveTrack({ track }: Props) {
             });
 
             if (!response.ok) {
-                throw new Error('nije uspio spremit');
+                throw new Error(`${response.status}: ${response.statusText}`);
             }
 
-            console.log("Spremio stazu:", track.id);
+            console.log("Spremio stazu");
+            setSuccess(true);
+            
+            // Vrati normalnu ikonu nakon 2 sekunde
+            setTimeout(() => {
+                setSuccess(false);
+            }, 2000);
             
         } catch (error) {
             console.error("Error:", error);
-            // handler
+            setErrorMessage(error instanceof Error ? error.message : 'Nepoznata greška');
+        } finally {
+            setLoading(false);
         }
 
     };
 
     return (
-        <Button type="primary" onClick={handleSave}>
-            <i className="fa fa-save"></i>
-            <p>Spremi</p>
-        </Button>
+        <>
+            <Button type="primary" onClick={handleSave} disabled={loading || success}>
+                {loading ? (
+                    <i className="fa fa-spinner fa-pulse"></i>
+                ) : success ? (
+                    <i className="fa fa-check"></i>
+                ) : (
+                    <i className="fa fa-save"></i>
+                )}
+                <p>{loading ? 'Spremam...' : success ? 'Spremljeno!' : 'Spremi'}</p>
+            </Button>
+
+            {errorMessage && 
+                <Popup>
+                    <Card>
+                        <header>
+                            <h2>Ne mogu spremiti stazu :(</h2>
+                        </header>
+                        <section>
+                            <Placeholder>
+                                <p>{errorMessage}</p>
+                            </Placeholder>
+                        </section>
+                        <section>
+                            <List type='row' gap='medium' align='center'>
+                                <Button type='secondary' onClick={() => setErrorMessage(null)}>
+                                    <i className='fa fa-times'></i>
+                                    <p>OK</p>
+                                </Button>
+                            </List>
+                        </section>
+                    </Card>
+                </Popup>
+            }
+        </>
     );
 }

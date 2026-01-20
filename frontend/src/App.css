@@ -81,8 +81,15 @@ h1, h2 {
     text-shadow: 2px 5px 0px var(--darken), 0px 0px 2rem var(--highlight);
 }
 
-strong {
+strong, strong>*{
     color: var(--accent-highlight);
+}
+
+samp {
+    background-color: var(--darken);
+    border-radius: var(--roundness);
+    padding: 0.25rem 0.5rem;
+    font-family: monospace;
 }
 
 /* ------------------------------------------------------- */
@@ -113,6 +120,5 @@ strong {
     font-family: Audiowide;
     src: url(/fonts/Audiowide/Audiowide-Regular.ttf);
 }
-
 
 /* ------------------------------------------------------- */

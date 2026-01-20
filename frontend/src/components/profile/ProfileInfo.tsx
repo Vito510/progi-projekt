@@ -5,44 +5,50 @@ import List from '../general/List';
 import Button from '../general/Button';
 import Popup from '../general/Popup';
 import Card from '../general/Card';
+import type User from '../../interfaces/User';
 
-export default function ProfileInfo() {
+interface ProfileInfoProps {
+    profile: User;
+}
+
+export default function ProfileInfo({ profile }: ProfileInfoProps) {
     const auth = useAuth();
+    const isOwnProfile = auth.user?.name === profile.name;
+
+    
     const [popup, setPopup] = useState<ReactNode | null>(null);
-    const [show_buttons, setShowButtons] = useState<boolean>(true) // dodati provjeru jel trenutni profil koji se ucita naš profil ili tuđi
     const [error_message, setErrorMessage] = useState<string | null>(null);
+    const [newUsername, setNewUsername] = useState("");
 
     const save_handler = async () => {
-        const input = (document.querySelector('input[type="text"]') as HTMLInputElement)?.value;
+        if (!isOwnProfile) return;
 
-        if (!input || input.trim().length === 0) {
+        if (!newUsername.trim()) {
             setErrorMessage("Unesite korisničko ime.");
             return;
         }
 
         try {
-            const response = await fetch('/profile/me', {
+            const response = await fetch(`/api/profile/${profile.name}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${sessionStorage.getItem("authToken") || ""}`
                 },
-                body: JSON.stringify({ username: input.trim() })
+                body: JSON.stringify({ username: newUsername.trim() })
             });
 
             if (response.ok) {
                 const data = await response.json();
-                const updatedUser = data.user ?? data;
 
                 auth.setUser({
                     ...auth.user!,
-                    ...updatedUser
+                    name: data.username
                 });
 
                 close_popup();
 
-
-                /*const updatedUser = await fetch('/profile/me', {
+                /*const updatedUser = await fetch('/api/profile/me', {
                     headers: di da {
                         'Authorization': `Bearer ${sessionStorage.getItem("authToken") || ""}`
                     }
@@ -64,9 +70,12 @@ export default function ProfileInfo() {
 
 
     const delete_handler = async () => {
+        if (!isOwnProfile) return;
+
         try {
-            const response = await fetch('/profile/me', {
+            const response = await fetch(`/api/profile/${profile.name}`, {
                 method: 'DELETE',
+                credentials: "include",
                 headers: {
                     Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}`,
                 },
@@ -101,7 +110,12 @@ export default function ProfileInfo() {
                     </header>
                     <List type='column' gap='medium'>
                         <List type='row' gap='large' align='center' wrap>
-                            <input type="text" placeholder="Unesite korisničko ime"/>
+                            <input
+                                type="text"
+                                value={newUsername}
+                                onChange={(e) => setNewUsername(e.target.value)}
+                                placeholder="Unesite korisničko ime"
+                            />
                             <List type='row' gap='small' align='center'>
                                 <Button type='primary' onClick={save_handler}>
                                     <i className='fa fa-check'></i>
@@ -129,7 +143,7 @@ export default function ProfileInfo() {
                         <em>Ako obrišete profil, izbrisati će se sve vaše staze!</em>
                     </header>
                     <List type='row' gap='large' align='center' wrap>
-                        <p>Jeste li sigurni da želite obrisati svoji profil?</p>
+                        <p>Jeste li sigurni da želite obrisati svoj profil?</p>
                         <List type='row' gap='small' align='center'>
                             <Button type='tertiary' onClick={delete_handler}>
                                 <i className='fa fa-trash'></i>
@@ -148,9 +162,11 @@ export default function ProfileInfo() {
 
     return (
         <div className="-profile-info">
-            <h2>{auth.user?.name ? auth.user.name : "Naziv profila"}</h2>
-            <p>{auth.user?.email ? auth.user.email : "email.adresa@email.com"}</p>
-            {show_buttons && 
+            {/* <h2>{auth.user?.name ? auth.user.name : "Naziv profila"}</h2>
+            <p>{auth.user?.email ? auth.user.email : "email.adresa@email.com"}</p> */}
+            <h2>{profile.name}</h2>
+            <p>{profile.email}</p>
+            {isOwnProfile && 
                 <>
                     <List type='row' gap='small' wrap>
                         <Button onClick={popup_edit_profile}>

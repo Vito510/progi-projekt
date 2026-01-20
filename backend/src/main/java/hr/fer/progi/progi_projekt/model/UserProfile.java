@@ -1,8 +1,10 @@
 package hr.fer.progi.progi_projekt.model;
 
-import java.util.List;
-
 import jakarta.persistence.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.stereotype.Component;
 
 import hr.fer.progi.progi_projekt.model.enums.Role;
@@ -20,10 +22,11 @@ public class UserProfile {
     private String email;
     private Role role;
 
-    @OneToMany
-    private List<UserTrack> userTracks;
-    @OneToMany
-    private List<UserTrack> starredTracks;
+    @ManyToMany(mappedBy = "givenStars")
+    private Set<UserTrack> starredTracks = new HashSet<>();
+
+    @ManyToMany(mappedBy = "whitelistedProfiles")
+    private Set<UserTrack> grantedAccessTracks = new HashSet<>();
 
     public UserProfile() {
     }
@@ -32,9 +35,12 @@ public class UserProfile {
         this.email = email;
         this.role = role;
     }
-
+    
     public Long getId() {
         return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
     public String getUsername() {
         return username;
@@ -45,13 +51,25 @@ public class UserProfile {
     public String getEmail() {
         return email;
     }
-    public List<UserTrack> getUserTracks() {
-        return userTracks;
+    public void setEmail(String email) {
+        this.email = email;
     }
     public Role getRole() {
         return role;
     }
-    public List<UserTrack> getStarredTracks() {
+    public void setRole(Role role) {
+        this.role = role;
+    }
+    public Set<UserTrack> getStarredTracks() {
         return starredTracks;
+    }
+    public void setStarredTracks(Set<UserTrack> starredTracks) {
+        this.starredTracks = starredTracks;
+    }
+    public Set<UserTrack> getGrantedAccessTracks() {
+        return grantedAccessTracks;
+    }
+    public void setGrantedAccessTracks(Set<UserTrack> grantedAccessTracks) {
+        this.grantedAccessTracks = grantedAccessTracks;
     }
 }

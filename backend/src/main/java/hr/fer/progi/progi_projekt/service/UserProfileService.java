@@ -1,22 +1,28 @@
 package hr.fer.progi.progi_projekt.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import hr.fer.progi.progi_projekt.repository.UserProfileRepository;
-import hr.fer.progi.progi_projekt.util.JwtUtil;
+import hr.fer.progi.progi_projekt.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import hr.fer.progi.progi_projekt.dto.UserProfileDto;
+import hr.fer.progi.progi_projekt.mapper.UserProfileMapper;
 import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.model.enums.Role;
 
 @Service
 public class UserProfileService {
     private final UserProfileRepository userRepo;
+    private final UserProfileMapper userMapper;
 
-    public UserProfileService(UserProfileRepository userRepo) {
+    public UserProfileService(UserProfileRepository userRepo, UserProfileMapper userMapper) {
         this.userRepo = userRepo;
+        this.userMapper = userMapper;
     }
 
     public List<UserProfile> getAllUserProfiles() {
@@ -93,11 +99,15 @@ public class UserProfileService {
     }
 
 
-    public UserProfile getProfile(long id) {
-        return userRepo.findById(id).orElse(null);
+    public UserProfileDto getProfile(String username, HttpServletRequest request) {
+        Optional<UserProfile> profile = userRepo.findByUsername(username);
+        if(profile.isEmpty()){
+            return null;
+        }
+        return userMapper.toDto(profile.get(), new ArrayList<>());
     }
 
-    public UserProfile editProfile(UserProfile profile) {
+    /*public UserProfile editProfile(UserProfile profile) {
         UserProfile existingUser = userRepo.findById(profile.getId()).orElse(null);
 
         if (existingUser == null) {
@@ -115,16 +125,23 @@ public class UserProfileService {
         //existingUser.setRole(profile.getRole());
 
         return userRepo.save(existingUser);
+    }*/
+
+    public UserProfile updateUsername(String oldUsername, String newUsername) {
+        UserProfile user = userRepo.findByUsername(oldUsername)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (userRepo.existsByUsername(newUsername)) {
+            throw new RuntimeException("Username already taken");
+        }
+
+        user.setUsername(newUsername);
+        return userRepo.save(user);
     }
 
-    public void deleteProfile(long id) {
-        if (userRepo.existsById(id)) {
-            userRepo.deleteById(id);
-            System.out.println("User with ID " + id + " has been deleted");
-        }
-        else {
-            System.out.println("User with ID " + id + " not found");
-        }
+    public void deleteProfileByUsername(String username) {
+        UserProfile user = userRepo.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        userRepo.delete(user);
     }
-
 }

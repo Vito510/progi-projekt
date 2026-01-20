@@ -1,17 +1,6 @@
 
 /* ------------------------------------------------------- */
 
-*.-track-editor-loading {
-    width: 100%;
-    height: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* ------------------------------------------------------- */
-
 .-track-editor>header {
     grid-area: h;
     padding: 1rem;
@@ -46,7 +35,6 @@
     grid-template-rows: 0fr 1fr;
 
     background-color: var(--darken);
-    /* background-color: var(--theme-highlight); */
     border-radius: var(--roundness);
     box-shadow: var(--shadow-sharp), var(--shadow-highlight);
 
@@ -69,7 +57,7 @@
 
 /* ------------------------------------------------------- */
 
-.-track-editor input {
+.-track-editor input[type="text"] {
   background-color: var(--theme-highlight);
   border-radius: var(--roundness);
   border: none;
@@ -81,17 +69,19 @@
   font-size: inherit;
 }
   
-.-track-editor input:hover {
+.-track-editor input[type="text"]:hover {
   background-color: var(--darken);
 }
 
-.-track-editor input:active {
+.-track-editor input[type="text"]:active {
   background-color: var(--highlight); 
 }
 
-.-track-editor input:focus {
+.-track-editor input[type="text"]:focus {
   outline: 2px solid var(--highlight);
   outline-offset: 2px;
+  /* outline: none; */
+  /* border-left: 0.5rem solid var(--accent-default); */
 }
 
 /* ------------------------------------------------------- */

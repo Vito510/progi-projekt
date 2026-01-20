@@ -10,20 +10,21 @@ import Button from '../general/Button.js';
 import Card from '../general/Card.js';
 import Map3D from '../map/Map3D.js';
 import TrackPointEditor from './TrackPointEditor.js';
-import Popup from '../general/Popup.js';
-import Placeholder from '../general/Placeholder.js';
 import ButtonSaveTrack from './ButtonSaveTrack.js';
 import ButtonDeleteTrack from './ButtonDeleteTrack.js';
 import ButtonLikeTrack from './ButtonLikeTrack.js';
 import ButtonVisibleTrack from './ButtonVisibleTrack.js';
 import ButtonWhitelistTrack from './ButtonWhitelistTrack.js';
+import ButtonTrackStats from './ButtonTrackStats.js';
+import Popup from '../general/Popup.js';
+import MapPointPlacer from '../map/MapPointPlacer.js';
 
 export default function TrackEditor({track}: {track: Track}) {
     let [params, setParams] = useState<TerrainParameter | null>(null);
     const [canEdit, setCanEdit] = useState<boolean>(true); // dodati provjeru može li korisnik editat ovu stazu
     const [canRate, setCanRate] = useState<boolean>(true); // dodati provjeru može li korisnik ocjeniti ovu stazu
+    const [isEditing, setIsEditing] = useState<boolean>(false);
     const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
-    const [stats, setStats] = useState<boolean>(false);
     const [previewPoint, setPreviewPoint] = useState<TrackPoint | null>(null);
     const selection: MapSelection = {
         max_latitude: track.max_lat,
@@ -50,9 +51,14 @@ export default function TrackEditor({track}: {track: Track}) {
             {params ?
                 <div className='-track-editor'>
                     <header>
-                        <List type='row' gap='small' wrap justify='space-between' align='center'>
+                        <List type='row' gap='small' wrap align='center'>
                             {canEdit ?
-                                <input type="text" placeholder="Unesite naziv staze" defaultValue={track.name} onChange={(e) => {track.name = e.target.value}}/>
+                                <input 
+                                    type="text" 
+                                    placeholder="Unesite naziv staze" 
+                                    defaultValue={track.name} 
+                                    onChange={(e) => {track.name = e.target.value}}
+                                />
                                 :
                                 <h2>{track.name}</h2>
                             }
@@ -83,34 +89,26 @@ export default function TrackEditor({track}: {track: Track}) {
                                     </Button>
                                 </>
                             }
-
-                            {/* Statistika staze */}
-                            <Button type='secondary' onClick={() => {setStats(true)}}>
-                                <i className='fa fa-area-chart'></i>
-                                <p>Statistika</p>
+                            <ButtonTrackStats track={track}></ButtonTrackStats>
+                            <Button onClick={() => {setIsEditing(true)}}>
+                                [WIP] Edit points
                             </Button>
-                            {stats && 
-                                <Popup>
+                            {isEditing &&
+                                <Popup onClick={() => {setIsEditing(false)}}>
                                     <Card>
                                         <header>
-                                            <List type='row' gap='medium' align='center'>
-                                                <h2>Statistike staze</h2>
-                                                <Button type='tertiary' onClick={() => {setStats(false)}}>
-                                                    <i className='fa fa-times'></i>
-                                                    <p>Zatvori</p>
-                                                </Button>
-                                            </List>
+                                            <h2>Uređivanje točaka</h2>
+                                            <p><em>Kliknite da dodate točku</em></p>
+                                            <Button onClick={() => {setIsEditing(false)}}>
+                                                Close
+                                            </Button>
                                         </header>
                                         <section>
-                                            <Placeholder>
-                                                [statistika staze]
-                                            </Placeholder>
-                                            {/* <TrackStats points={track.points} longitude_multiplier={params.heightmap.width / params.multiplier} latitude_multiplier={params.heightmap.height / params.multiplier}, heightmap={params.heightmap}></TrackStats> */}
+                                            <MapPointPlacer heightmap={params.heightmap} points={pointList} onInput={(point) => {console.log(point);}}></MapPointPlacer>
                                         </section>
                                     </Card>
                                 </Popup>
                             }
-
                         </List>
                     </header>
                     <section>
@@ -123,7 +121,7 @@ export default function TrackEditor({track}: {track: Track}) {
                     </aside>
                 </div>
                 :
-                <div className='-track-editor-loading'>
+                <List expand align='center' justify='center'>
                     <Card>
                         <header style={{ fontSize: "1.5rem" }}>
                             <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
@@ -135,7 +133,7 @@ export default function TrackEditor({track}: {track: Track}) {
                             <code>Moglo bi potrajati...</code>
                         </section>
                     </Card>
-                </div>
+                </List>
             }
         </>
     );

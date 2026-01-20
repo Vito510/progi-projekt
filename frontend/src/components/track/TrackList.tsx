@@ -12,14 +12,7 @@ export default function TrackList({tracks}: Props) {
       {tracks.map((track, index) => (
         <TrackCard
           key={index}
-          index={index}
-          name={track.name}
-          length={10} // iskoristiti util funkciju za racunanje duljine #23
-          stars={track.stars}
-          visibility={track.visibility}
-          id={index}
-          owner={track.owner}
-          date={track.date_created}
+          track={track}
         />
       ))}
     </ul>

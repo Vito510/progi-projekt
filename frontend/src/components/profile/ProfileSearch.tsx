@@ -12,11 +12,11 @@ export default function ProfileSearch() {
         <div className="-profile-search">
             <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Pretraži profil..."/>
             {searchTerm.trim() ?
-                <Button shape="round" link={`/profile/${searchTerm}`} type="primary">
+                <Button shape="noshape" link={`/profile/${searchTerm}`}>
                     <i className="fa fa-search fa-lg"></i>
                 </Button>
                 :
-                <Button shape="round" disabled>
+                <Button shape="noshape" disabled>
                     <i className="fa fa-search fa-lg"></i>
                 </Button>
             }

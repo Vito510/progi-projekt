@@ -9,6 +9,7 @@ import java.util.Optional;
 @Repository
 public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
     // Basic CRUD methods come for free (findAll, findById, save, deleteById, etc.)
+    Optional<UserProfile> findByUsername(String username);
     Optional<UserProfile> findByEmail(String email);
 
     boolean existsByEmail(String email);

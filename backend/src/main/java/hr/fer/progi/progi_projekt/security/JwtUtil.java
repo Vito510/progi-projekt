@@ -1,4 +1,4 @@
-package hr.fer.progi.progi_projekt.util;
+package hr.fer.progi.progi_projekt.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

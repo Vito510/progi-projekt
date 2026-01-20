@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 import hr.fer.progi.progi_projekt.dto.TopTrackDto;
+import hr.fer.progi.progi_projekt.dto.UserTrackDto;
 import hr.fer.progi.progi_projekt.model.UserTrack;
 import hr.fer.progi.progi_projekt.service.UserTrackService;
 import org.springframework.security.core.Authentication;
@@ -37,13 +38,12 @@ public class UserTrackController {
     }
     
     @PostMapping("/track")
-    public boolean createUserTrack(@RequestBody UserTrack track, HttpServletRequest request){
-        System.out.println(track);
+    public boolean createUserTrack(@RequestBody UserTrackDto track, HttpServletRequest request){
         return userTrackService.createUserTrack(track, request);
     }
 
     @PutMapping("/track")
-    public boolean editUserTrack(@RequestBody UserTrack track, HttpServletRequest request){
+    public boolean editUserTrack(@RequestBody UserTrackDto track, HttpServletRequest request){
         return userTrackService.editUserTrack(track, request);
     }
 

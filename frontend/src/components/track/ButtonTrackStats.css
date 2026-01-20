@@ -1,0 +1,18 @@
+
+.-button-track-stats {
+    width: 100%;
+    height: 100%;
+}
+
+.-button-track-stats>.-list>* {
+    padding: 0.25rem 0.25rem;
+    border-radius: var(--roundness);
+}
+
+.-button-track-stats>.-list>*:nth-child(even) {
+    background: linear-gradient(270deg, var(--accent-default) -100%, transparent 100%);
+}
+
+.-button-track-stats>.-list>*:nth-child(odd) {
+    background: linear-gradient(270deg, var(--accent-default) -25%, transparent 100%);
+}

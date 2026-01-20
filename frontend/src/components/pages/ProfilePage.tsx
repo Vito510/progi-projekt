@@ -11,21 +11,41 @@ import Card from '../general/Card';
 import AppBody from '../general/AppBody';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import type User from '../../interfaces/User';
+
 
 export default function ProfilePage() {
     const { name: paramName } = useParams<{ name: string }>();
     const [tracks, setTracks] = useState<Track[]>([]);
+    const [profile, setProfile] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [sortType, setSortType] = useState<"name" | "stars" | null>(null);
+   
+    // const name = paramName ?? "name";
+    // provjeri što raditi ako nije navedeno ime
+    if (!paramName) {
+    return <p>Nešto ne valja.</p>;
+    }
 
-    const name = paramName ?? "name";
+    const name = paramName;
 
     useEffect(() => {
-        const fetchTracks = async () => {
+        const fetchProfileData = async () => {
             try {
-                const res = await fetch(`/api/profile/${name}/tracks`);
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                const data: Track[] = await res.json();
+                // Fetch profile info by username
+                const profileRes = await fetch(`/api/profile/${name}`);
+                if (!profileRes.ok) throw new Error(`HTTP error (fetching profile data) status: ${profileRes.status}`);
+                const profileData = await profileRes.json();
+                setProfile({
+                    name: profileData.username,
+                    email: profileData.email
+                });
+
+
+                const trackRes = await fetch(`/api/profile/${name}/tracks`);
+                if (!trackRes.ok) throw new Error(`HTTP error! status (fetching profile tracks): ${trackRes.status}`);
+                const data: Track[] = await trackRes.json();
                 setTracks(data);
             } catch (err: any) {
                 setError(err.message);
@@ -34,8 +54,24 @@ export default function ProfilePage() {
             }
         };
 
-        fetchTracks();
+        fetchProfileData();
     }, [name]);
+
+    const sortByName = (tracks: Track[]) => {
+        return tracks.slice().sort((a, b) => a.name.localeCompare(b.name));
+    };
+
+    const sortByStars = (tracks: Track[]) => {
+        return tracks.slice().sort((a, b) => b.stars - a.stars);
+    };
+
+const sortedTracks =
+    sortType === "name"
+        ? sortByName(tracks)
+        : sortType === "stars"
+        ? sortByStars(tracks)
+        : tracks;
+
 
     // TEMP stvaranje rute za debug
     /*let route: Track = {
@@ -68,7 +104,7 @@ export default function ProfilePage() {
                     <aside>
                         <Card>
                             <header>
-                                <ProfileInfo></ProfileInfo>
+                                {profile && <ProfileInfo profile={profile}></ProfileInfo>}
                             </header>
                             <hr/>
                             <section>
@@ -76,9 +112,19 @@ export default function ProfilePage() {
                             </section>
                         </Card>
                     </aside>
+                    <menu className="profile-sort-menu">
+                        <button onClick={() => setSortType("name")}>
+                            Sortiraj po imenu
+                        </button>
+
+                        <button onClick={() => setSortType("stars")}>
+                            Sortiraj po zvjezdicama
+                        </button>
+                    </menu>
+
                     <menu>
                         <h1>Korisničke staze</h1>
-                        <TrackList tracks={tracks}/>
+                        <TrackList tracks={sortedTracks}/>
                     </menu>
                 </div>
             </AppBody>

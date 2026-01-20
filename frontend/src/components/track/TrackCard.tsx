@@ -3,19 +3,14 @@ import './TrackCard.css';
 import List from '../general/List';
 import Button from '../general/Button';
 import ButtonLikeTrack from './ButtonLikeTrack.js';
+import type Track from '../../interfaces/Track.js';
 
 interface Props {
     index?: number,
-    name: string,
-    length: number,
-    stars: number,
-    visibility: string,
-    id: number,
-    owner: string
-    date: Date
+    track: Track,
 }
 
-export default function TrackCard({index = 0, id, name, owner, date, length, stars, visibility} : Props) {
+export default function TrackCard({index = 0, track} : Props) {
     const ref = useRef<HTMLLIElement>(null);
     useEffect(() => {
         if (ref.current)
@@ -27,12 +22,12 @@ export default function TrackCard({index = 0, id, name, owner, date, length, sta
             <header>
                 <section>
                     <List type='column' align='start' justify='center'>
-                        <h3>{name}</h3>
-                        <em className='collapsed'>#{id}</em>
+                        <h3>{track.name}</h3>
+                        <em className='collapsed'>#{track.id}</em>
                     </List>
                     <List type='column' align='end' justify='center'>
-                        <p>{owner}</p>
-                        <em className='collapsed'>{date ? new Date(date).toDateString() : 'N/A'}</em>
+                        <p>{track.owner}</p>
+                        <em className='collapsed'>{track.date_created ? new Date(track.date_created).toDateString() : 'N/A'}</em>
                     </List>
                 </section>
             </header>
@@ -46,13 +41,13 @@ export default function TrackCard({index = 0, id, name, owner, date, length, sta
                     <span>
                         <i className="fa fa-star"></i>
                         <p className='collapsed'>Broj zvjezdica</p>
-                        <samp>{stars}</samp>
+                        <samp>{track.stars}</samp>
                     </span>
                     <span>
-                        <i className={"fa fa-2x " + (visibility === 'Public' ? 'fa-eye' : 'fa-eye-slash') + " open"}></i>
+                        <i className={"fa fa-2x " + (track.visibility === 'Public' ? 'fa-eye' : 'fa-eye-slash') + " open"}></i>
                         <i className="fa fa-eye collapsed"></i>
                         <p className='collapsed'>Vidljivost</p>
-                        <samp className='collapsed'>{visibility === 'Public' ? 'javno' : 'privatno'}</samp>
+                        <samp className='collapsed'>{track.visibility === 'Public' ? 'javno' : 'privatno'}</samp>
                     </span>
                 </section>
                 <section>
@@ -60,7 +55,7 @@ export default function TrackCard({index = 0, id, name, owner, date, length, sta
                         <i className='fa fa-external-link'></i>
                         Otvori
                     </Button>
-                    <ButtonLikeTrack id={id}></ButtonLikeTrack>
+                    <ButtonLikeTrack track={track}></ButtonLikeTrack>
                     <Button type='secondary'>
                         <i className='fa fa-clone'></i>
                         Podijeli

@@ -1,6 +1,6 @@
 package hr.fer.progi.progi_projekt.controller;
 
-import hr.fer.progi.progi_projekt.model.AuthResponse;
+import hr.fer.progi.progi_projekt.dto.AuthResponse;
 import hr.fer.progi.progi_projekt.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +16,9 @@ public class AuthController {
     }
 
     // API za FE da dohvatimo trenutno prijavljenog korisnika
-    @GetMapping("/me")
-    public AuthResponse getCurrentUser(HttpServletRequest request) {
-        return authService.getCurrentUser(request);
+    @GetMapping("/api/me")
+    public AuthResponse getCurrentUserResponse(HttpServletRequest request) {
+        return authService.getCurrentUserResponse(request);
     }
 
     @GetMapping("/auth/google")

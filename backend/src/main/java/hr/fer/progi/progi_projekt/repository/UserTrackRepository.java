@@ -30,7 +30,7 @@ public interface UserTrackRepository extends JpaRepository<UserTrack, Long>{
         FROM paths p
         JOIN users u ON u.userid = p.userid
         LEFT JOIN stars s ON s.pathid = p.pathid
-        WHERE p.visibility = 'PUBLIC'
+        WHERE p.visibility = 0
         GROUP BY p.pathid, u.username
         ORDER BY stars DESC
         LIMIT 10
@@ -78,7 +78,7 @@ public interface UserTrackRepository extends JpaRepository<UserTrack, Long>{
                 LEFT JOIN stars s ON s.pathid = p.pathid
                 WHERE u.username = ?
                     AND (
-                        p.visibility = 'PUBLIC'
+                        p.visibility = 0
                         OR EXISTS (
                             SELECT 1 FROM whitelist w
                             WHERE w.pathid = p.pathid

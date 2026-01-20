@@ -1,7 +1,7 @@
 package hr.fer.progi.progi_projekt.security;
 
 import hr.fer.progi.progi_projekt.service.UserProfileService;
-import hr.fer.progi.progi_projekt.util.JwtUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
