@@ -44,30 +44,3 @@
 }
 
 /* ------------------------------------------------------- */
-
-.-track-editor input[type="text"] {
-  background-color: var(--theme-highlight);
-  border-radius: var(--roundness);
-  border: none;
-
-  color: var(--text-default);
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  font-size: inherit;
-}
-  
-.-track-editor input[type="text"]:hover {
-  background-color: var(--darken);
-}
-
-.-track-editor input[type="text"]:active {
-  background-color: var(--highlight); 
-}
-
-.-track-editor input[type="text"]:focus {
-  outline: 2px solid var(--highlight);
-  outline-offset: 2px;
-}
-
-/* ------------------------------------------------------- */
