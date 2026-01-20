@@ -63,20 +63,23 @@ export default function TrackList({tracks}: Props) {
 
     return (
         <div className="-track-list">
-            <header>
-                <List type="row" gap='medium' align="center">
-                    {ButtonNameSort()}
-                    {ButtonStarSort()}
-                </List>
-            </header>
-            <menu>
-                {sorted.map((track, index) => (
-                    <TrackCard key={index} track={track}/>
-                ))}
-                {sorted.length == 0 && 
-                    <em>Nema staza</em>
-                }
-            </menu>
+            {sorted.length == 0 ?
+                <em>Nema staza</em>
+                :
+                <>
+                    <header>
+                        <List type="row" gap='medium' align="center">
+                            {ButtonNameSort()}
+                            {ButtonStarSort()}
+                        </List>
+                    </header>
+                    <menu>
+                        {sorted.map((track, index) => (
+                            <TrackCard key={index} track={track}/>
+                        ))}
+                    </menu>
+                </>
+            }
         </div>
     );
 }
