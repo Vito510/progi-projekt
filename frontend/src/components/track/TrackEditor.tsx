@@ -17,7 +17,6 @@ import ButtonVisibleTrack from './ButtonVisibleTrack.js';
 import ButtonWhitelistTrack from './ButtonWhitelistTrack.js';
 import ButtonTrackStats from './ButtonTrackStats.js';
 import Popup from '../general/Popup.js';
-import MapPointPlacer from '../map/MapPointPlacer.js';
 
 export default function TrackEditor({track}: {track: Track}) {
     let [params, setParams] = useState<TerrainParameter | null>(null);
@@ -93,32 +92,29 @@ export default function TrackEditor({track}: {track: Track}) {
                             <Button onClick={() => {setIsEditing(true)}}>
                                 [WIP] Edit points
                             </Button>
-                            {isEditing &&
-                                <Popup onClick={() => {setIsEditing(false)}}>
-                                    <Card>
-                                        <header>
-                                            <h2>Uređivanje točaka</h2>
-                                            <p><em>Kliknite da dodate točku</em></p>
-                                            <Button onClick={() => {setIsEditing(false)}}>
-                                                Close
-                                            </Button>
-                                        </header>
-                                        <section>
-                                            <MapPointPlacer heightmap={params.heightmap} points={pointList} onInput={(point) => {console.log(point);}}></MapPointPlacer>
-                                        </section>
-                                    </Card>
-                                </Popup>
-                            }
                         </List>
                     </header>
-                    <section>
+                    <main>
                         <Map3D params={params} points={pointList} previewPoint={previewPoint}></Map3D>
-                    </section>
-                    <aside>
-                        {canEdit &&
-                            <TrackPointEditor points={pointList} onInput={(points) => {setPointList(points); track.points = [...points];}} onPreview={(point) => {setPreviewPoint(point)}} heightmap={params.heightmap}></TrackPointEditor>
+
+                        {isEditing &&
+                            <Popup onClick={() => {setIsEditing(false)}}>
+                                <Card>
+                                    <header>
+                                        <h2>Uređivanje točaka</h2>
+                                        <p><em>Kliknite da dodate točku</em></p>
+                                        <Button onClick={() => {setIsEditing(false)}}>
+                                            Close
+                                        </Button>
+                                    </header>
+                                    <section>
+                                        {/* <MapPointPlacer heightmap={params.heightmap} points={pointList} onInput={(point) => {console.log(point);}}></MapPointPlacer> */}
+                                        <TrackPointEditor points={pointList} onInput={(points) => {setPointList(points); track.points = [...points];}} onPreview={(point) => {setPreviewPoint(point)}} heightmap={params.heightmap}></TrackPointEditor>
+                                    </section>
+                                </Card>
+                            </Popup>
                         }
-                    </aside>
+                    </main>
                 </div>
                 :
                 <List expand align='center' justify='center'>

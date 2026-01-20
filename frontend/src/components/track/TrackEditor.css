@@ -16,12 +16,6 @@
     background-color: var(--darken);
 }
 
-.-track-editor>aside {
-    grid-area: a;
-    min-height: 0;
-    border-left: var(--border-highlight);
-}
-
 /* ------------------------------------------------------- */
 
 .-track-editor {
@@ -46,12 +40,6 @@
         grid-template-areas: 'h' 'c' 'a';
         grid-template-columns: 1fr;
         grid-template-rows: 0fr 3fr 1fr;
-    }
-    .-track-editor>aside {
-        border-left: none;
-        border-top: var(--border-highlight);
-
-        overflow-y: scroll;
     }
 }
 
@@ -80,9 +68,6 @@
 .-track-editor input[type="text"]:focus {
   outline: 2px solid var(--highlight);
   outline-offset: 2px;
-  /* outline: none; */
-  /* border-left: 0.5rem solid var(--accent-default); */
 }
 
 /* ------------------------------------------------------- */
-
