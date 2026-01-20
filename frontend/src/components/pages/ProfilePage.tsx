@@ -20,12 +20,11 @@ export default function ProfilePage() {
     const [profile, setProfile] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [sortType, setSortType] = useState<"name" | "stars" | null>(null);
    
     // const name = paramName ?? "name";
     // provjeri što raditi ako nije navedeno ime
     if (!paramName) {
-    return <p>Nešto ne valja.</p>;
+        return <p>Nešto ne valja.</p>;
     }
 
     const name = paramName;
@@ -57,42 +56,6 @@ export default function ProfilePage() {
         fetchProfileData();
     }, [name]);
 
-    const sortByName = (tracks: Track[]) => {
-        return tracks.slice().sort((a, b) => a.name.localeCompare(b.name));
-    };
-
-    const sortByStars = (tracks: Track[]) => {
-        return tracks.slice().sort((a, b) => b.stars - a.stars);
-    };
-
-const sortedTracks =
-    sortType === "name"
-        ? sortByName(tracks)
-        : sortType === "stars"
-        ? sortByStars(tracks)
-        : tracks;
-
-
-    // TEMP stvaranje rute za debug
-    /*let route: Track = {
-        name: "Naziv staze",
-        stars: 101,
-        visibility: 'Private',
-        owner: "Naziv vlasnika",
-        date_created: new Date(2018, 11, 24, 10, 33, 30, 0),
-        id: 0,
-        max_lat: 0,
-        max_lon: 0,
-        min_lat: 0,
-        min_lon: 0,
-        points: [],
-        whitelist: [],
-    }
-    let tracks: Track[] = [];
-    for (let i=0; i<10; i++)
-        tracks.push(route);*/
-
-
     return (
         <>
             <AppHeader>
@@ -112,23 +75,36 @@ const sortedTracks =
                             </section>
                         </Card>
                     </aside>
-                    <menu className="profile-sort-menu">
-                        <button onClick={() => setSortType("name")}>
-                            Sortiraj po imenu
-                        </button>
-
-                        <button onClick={() => setSortType("stars")}>
-                            Sortiraj po zvjezdicama
-                        </button>
-                    </menu>
-
                     <menu>
                         <h1>Korisničke staze</h1>
-                        <TrackList tracks={sortedTracks}/>
+                        <TrackList tracks={tracks}/>
                     </menu>
                 </div>
             </AppBody>
             <AppFooter/>
         </>
     );
+}
+
+// DEBUG
+function getDebugTracks(): Track[] {
+    let tracks: Track[] = [];
+    for (let i=0; i<10; i++) {
+        let track: Track = {
+            name: (Math.random()).toFixed(Math.random() * 10),
+            stars: Math.floor(Math.random() * 100),
+            visibility: 'Private',
+            owner: "Naziv vlasnika",
+            date_created: new Date(2018, 11, 24, 10, 33, 30, 0),
+            id: i,
+            max_lat: 0,
+            max_lon: 0,
+            min_lat: 0,
+            min_lon: 0,
+            points: [],
+            whitelist: [],
+        }
+        tracks.push(track);
+    }
+    return tracks;
 }

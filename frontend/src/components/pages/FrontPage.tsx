@@ -39,26 +39,6 @@ export default function FrontPage() {
             .catch(console.error);
     }, []);
 
-    // TEMP stvaranje staze za debug
-    /*let route: Track = {
-        name: "Naziv staze",
-        stars: 101,
-        visibility: 'Private',
-        owner: "Naziv vlasnika",
-        date_created: new Date(2018, 11, 24, 10, 33, 30, 0),
-        id: 0,
-        max_lat: 0,
-        max_lon: 0,
-        min_lat: 0,
-        min_lon: 0,
-        points: [],
-        whitelist: [],
-    }
-    let tracks: Track[] = [];
-    for (let i=0; i<10; i++)
-        tracks.push(route);*/
-
-
     return (
         <>
             <AppHeader>
@@ -77,3 +57,26 @@ export default function FrontPage() {
         </>
     );
 };
+
+// DEBUG
+function getDebugTracks(): Track[] {
+    let tracks: Track[] = [];
+    for (let i=0; i<10; i++) {
+        let track: Track = {
+            name: (Math.random()).toFixed(Math.random() * 10),
+            stars: Math.floor(Math.random() * 100),
+            visibility: 'Private',
+            owner: "Naziv vlasnika",
+            date_created: new Date(2018, 11, 24, 10, 33, 30, 0),
+            id: i,
+            max_lat: 0,
+            max_lon: 0,
+            min_lat: 0,
+            min_lon: 0,
+            points: [],
+            whitelist: [],
+        }
+        tracks.push(track);
+    }
+    return tracks;
+}

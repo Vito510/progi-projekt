@@ -21,8 +21,8 @@ import MapPointPlacer from '../map/MapPointPlacer.js';
 
 export default function TrackEditor({track}: {track: Track}) {
     let [params, setParams] = useState<TerrainParameter | null>(null);
-    const [canEdit, setCanEdit] = useState<boolean>(true); // dodati provjeru može li korisnik editat ovu stazu
-    const [canRate, setCanRate] = useState<boolean>(true); // dodati provjeru može li korisnik ocjeniti ovu stazu
+    const [canEdit, setCanEdit] = useState<boolean>(true); // dodati provjeru može li korisnik editat ovu stazu (isOwner || isAdmin)
+    const [canRate, setCanRate] = useState<boolean>(true); // dodati provjeru može li korisnik ocjeniti ovu stazu (!isOwner)
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
     const [previewPoint, setPreviewPoint] = useState<TrackPoint | null>(null);
