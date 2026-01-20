@@ -3,6 +3,7 @@ package hr.fer.progi.progi_projekt.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
+import hr.fer.progi.progi_projekt.dto.UserProfileDto;
 import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.service.UserProfileService;
 
@@ -32,9 +33,9 @@ public class UserProfileController {
         userProfileService.createProfile(username, request);
     }
 
-    @GetMapping("/profile/{id}")
-    public UserProfile getProfile(@PathVariable int id) {
-        return userProfileService.getProfile(id);
+    @GetMapping("/profile/{username}")
+    public UserProfileDto getProfile(@PathVariable String username, HttpServletRequest request) {
+        return userProfileService.getProfile(username, request);
     }
 
     /*@PutMapping("/profile")

@@ -1,6 +1,8 @@
 package hr.fer.progi.progi_projekt.service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import hr.fer.progi.progi_projekt.repository.UserProfileRepository;
 import hr.fer.progi.progi_projekt.security.JwtUtil;
@@ -8,15 +10,19 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Service;
 
+import hr.fer.progi.progi_projekt.dto.UserProfileDto;
+import hr.fer.progi.progi_projekt.mapper.UserProfileMapper;
 import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.model.enums.Role;
 
 @Service
 public class UserProfileService {
     private final UserProfileRepository userRepo;
+    private final UserProfileMapper userMapper;
 
-    public UserProfileService(UserProfileRepository userRepo) {
+    public UserProfileService(UserProfileRepository userRepo, UserProfileMapper userMapper) {
         this.userRepo = userRepo;
+        this.userMapper = userMapper;
     }
 
     public List<UserProfile> getAllUserProfiles() {
@@ -93,8 +99,12 @@ public class UserProfileService {
     }
 
 
-    public UserProfile getProfile(long id) {
-        return userRepo.findById(id).orElse(null);
+    public UserProfileDto getProfile(String username, HttpServletRequest request) {
+        Optional<UserProfile> profile = userRepo.findByUsername(username);
+        if(profile.isEmpty()){
+            return null;
+        }
+        return userMapper.toDto(profile.get(), new ArrayList<>());
     }
 
     /*public UserProfile editProfile(UserProfile profile) {
