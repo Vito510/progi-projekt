@@ -102,7 +102,7 @@
 .-button button.noshape {
     transition: transform 0.25s;
     transform: scale(100%);
-    background: none;
+    background: none !important;
     box-shadow: none;
     text-shadow: 0.1rem 0.1rem 0rem black;
     padding: 0rem;
