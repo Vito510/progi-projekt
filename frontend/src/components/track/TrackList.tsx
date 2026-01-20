@@ -9,28 +9,51 @@ interface Props {
     tracks: Track[],
 }
 
+type SortType =
+    | "Unsorted"
+    | "NameAsc"
+    | "NameDesc"
+    | "StarAsc"
+    | "StarDesc";
+
 export default function TrackList({tracks}: Props) {
-    const [sorted, setSorted] = useState<Track[]>(tracks);
-    const [currentSort, setCurrentSort] = useState<String>("Unsorted");
+    const [currentSort, setCurrentSort] = useState<SortType>("Unsorted");
+
+    const sortedTracks = (() => {
+        const copy = tracks.slice();
+
+        switch (currentSort) {
+            case "NameAsc":
+                return copy.sort((a, b) => a.name.localeCompare(b.name));
+            case "NameDesc":
+                return copy.sort((a, b) => b.name.localeCompare(a.name));
+            case "StarAsc":
+                return copy.sort((a, b) => a.stars - b.stars);
+            case "StarDesc":
+                return copy.sort((a, b) => b.stars - a.stars);
+            default:
+                return copy;
+        }
+    })();
 
     function ButtonNameSort() {
         if (currentSort === "NameAsc")
             return (
-                <Button onClick={() => {setSorted(tracks.slice().sort((a, b) => a.name.localeCompare(b.name))); setCurrentSort("NameDesc");}}>
+                <Button onClick={() => {setCurrentSort("NameDesc");}}>
                     <i className='fa fa-sort-desc'></i>
                     <i className='fa fa-font'></i>
                 </Button>
             )
         else if (currentSort === "NameDesc") 
             return (
-                <Button onClick={() => {setSorted(tracks.slice().sort((a, b) => b.name.localeCompare(a.name))); setCurrentSort("NameAsc");}}>
+                <Button onClick={() => {setCurrentSort("NameAsc");}}>
                     <i className='fa fa-sort-asc'></i>
                     <i className='fa fa-font'></i>
                 </Button>
             )
         else
             return (
-                <Button onClick={() => {setSorted(tracks.slice().sort((a, b) => b.name.localeCompare(a.name))); setCurrentSort("NameAsc");}}>
+                <Button onClick={() => {setCurrentSort("NameAsc");}}>
                     <i className='fa fa-sort'></i>
                     <i className='fa fa-font'></i>
                 </Button>
@@ -40,21 +63,21 @@ export default function TrackList({tracks}: Props) {
     function ButtonStarSort() {
         if (currentSort === "StarAsc")
             return (
-                <Button onClick={() => {setSorted(tracks.slice().sort((a, b) => a.stars - b.stars)); setCurrentSort("StarDesc");}}>
+                <Button onClick={() => {setCurrentSort("StarDesc");}}>
                     <i className='fa fa-sort-desc'></i>
                     <i className='fa fa-star'></i>
                 </Button>
             )
         else if (currentSort === "StarDesc") 
             return (
-                <Button onClick={() => {setSorted(tracks.slice().sort((a, b) => b.stars - a.stars)); setCurrentSort("StarAsc");}}>
+                <Button onClick={() => {setCurrentSort("StarAsc");}}>
                     <i className='fa fa-sort-asc'></i>
                     <i className='fa fa-star'></i>
                 </Button>
             )
         else
             return (
-                <Button onClick={() => {setSorted(tracks.slice().sort((a, b) => b.stars - a.stars)); setCurrentSort("StarAsc");}}>
+                <Button onClick={() => {setCurrentSort("StarAsc");}}>
                     <i className='fa fa-sort'></i>
                     <i className='fa fa-star'></i>
                 </Button>
@@ -63,7 +86,7 @@ export default function TrackList({tracks}: Props) {
 
     return (
         <div className="-track-list">
-            {sorted.length == 0 ?
+            {sortedTracks.length == 0 ?
                 <em>Nema staza</em>
                 :
                 <>
@@ -74,7 +97,7 @@ export default function TrackList({tracks}: Props) {
                         </List>
                     </header>
                     <menu>
-                        {sorted.map((track, index) => (
+                        {sortedTracks.map((track, index) => (
                             <TrackCard key={index} track={track}/>
                         ))}
                     </menu>

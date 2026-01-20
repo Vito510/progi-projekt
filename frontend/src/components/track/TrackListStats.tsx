@@ -1,7 +1,11 @@
-import type TrackListDescriptor from '../../interfaces/TrackList';
+import type Track from "../../interfaces/Track";
 import './TrackListStats.css';
 
-export default function TrackListStats({tracks}: TrackListDescriptor) {
+interface Props {
+    tracks: Track[],
+}
+
+export default function TrackListStats({tracks}: Props) {
     const sum_stars = tracks.map((el) => el.stars).reduce((acc, curr) => acc + curr, 0) ?? 0;
     const n_rutes = tracks.length;
     const n_private = tracks.map((el) => Number(el.visibility === 'Private')).reduce((acc, curr) => acc + curr, 0) ?? 0;
