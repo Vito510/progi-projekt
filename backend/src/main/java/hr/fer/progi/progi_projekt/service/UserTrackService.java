@@ -159,6 +159,45 @@ public class UserTrackService {
         return true;
     }
 
+    public Boolean isTrackStarred(Long id, HttpServletRequest request){
+        // trenutni korisnik
+        UserProfile currUser = authService.getCurrentUser(request);
+        if(currUser==null){
+            return null;
+        }
+        Optional<UserTrack> track = trackRepo.findById(id);
+        if(track.isEmpty()){
+            return null;
+        }
+
+        return track.get().getGivenStars().contains(currUser);
+    }
+
+    @Transactional
+    public Boolean setTrackStarred(Long id, boolean setStarred, HttpServletRequest request){
+        // trenutni korisnik
+        UserProfile currUser = authService.getCurrentUser(request);
+        if(currUser==null){
+            return null;
+        }
+        Optional<UserTrack> track = trackRepo.findById(id);
+        if(track.isEmpty()){
+            return null;
+        }
+
+        System.out.println("ode jeee");
+
+        if(setStarred){
+            System.out.println("staraj");
+            track.get().getGivenStars().add(currUser);
+        }
+        else{
+            System.out.println("makni star");
+            track.get().getGivenStars().remove(currUser);
+        }
+        return track.get().getGivenStars().contains(currUser);
+    }
+
     public List<TopTrackDto> getTopTracks() {
         return trackRepo.findTop10Tracks();
     }

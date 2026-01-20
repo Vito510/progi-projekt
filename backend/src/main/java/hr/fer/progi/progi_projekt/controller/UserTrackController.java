@@ -10,6 +10,8 @@ import hr.fer.progi.progi_projekt.service.UserTrackService;
 import org.springframework.security.core.Authentication;
 import java.security.Principal;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 @RestController
 @RequestMapping("/api")
@@ -55,4 +57,15 @@ public class UserTrackController {
     public List<TopTrackDto> getTopTracks() {
         return userTrackService.getTopTracks();
     }
+
+    @GetMapping("/track/{id}/star")
+    public Boolean isTrackStarred(@PathVariable Long id, HttpServletRequest request) {
+        return userTrackService.isTrackStarred(id, request);
+    }
+
+    @PutMapping("/track/{id}/star")
+    public Boolean setTrackStarred(@PathVariable Long id, @RequestBody boolean isStarred, HttpServletRequest request) {
+        return userTrackService.setTrackStarred(id, isStarred, request);
+    }
+    
 }
