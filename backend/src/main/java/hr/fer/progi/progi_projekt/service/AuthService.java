@@ -43,7 +43,7 @@ public class AuthService {
         return user;
     }
 
-    public Long getCurrentUserId(HttpServletRequest request){
+    public Integer getCurrentUserId(HttpServletRequest request){
         UserProfile user = getCurrentUser(request);
         if(user==null){
             System.out.println("Ne vrijedi autentifikacija");

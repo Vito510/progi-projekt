@@ -75,7 +75,7 @@ public class UserTrackService {
         return true;
     }
 
-    public UserTrackDto getUserTrack(Long id, HttpServletRequest request) {
+    public UserTrackDto getUserTrack(Integer id, HttpServletRequest request) {
         // trenutni korisnik
         UserProfile currUser = authService.getCurrentUser(request);
         if(currUser==null){
@@ -136,7 +136,7 @@ public class UserTrackService {
         return true;
     }
 
-    public boolean deleteUserTrack(Long id, HttpServletRequest request) {
+    public boolean deleteUserTrack(Integer id, HttpServletRequest request) {
         // trenutni korisnik
         UserProfile currUser = authService.getCurrentUser(request);
         if(currUser==null){
@@ -159,7 +159,7 @@ public class UserTrackService {
         return true;
     }
 
-    public Boolean isTrackStarred(Long id, HttpServletRequest request){
+    public Boolean isTrackStarred(Integer id, HttpServletRequest request){
         // trenutni korisnik
         UserProfile currUser = authService.getCurrentUser(request);
         if(currUser==null){
@@ -174,7 +174,7 @@ public class UserTrackService {
     }
 
     @Transactional
-    public Boolean setTrackStarred(Long id, boolean setStarred, HttpServletRequest request){
+    public Boolean setTrackStarred(Integer id, boolean setStarred, HttpServletRequest request){
         // trenutni korisnik
         UserProfile currUser = authService.getCurrentUser(request);
         if(currUser==null){

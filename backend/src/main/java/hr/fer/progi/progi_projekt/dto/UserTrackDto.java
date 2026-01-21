@@ -6,7 +6,7 @@ import java.util.List;
 import hr.fer.progi.progi_projekt.model.enums.TrackVisibility;
 
 public class UserTrackDto {
-    private Long id;
+    private Integer id;
     private String name;
     private int numOfStars;
     private TrackVisibility visibility;
@@ -27,10 +27,10 @@ public class UserTrackDto {
                 + whitelist + "]";
     }
     
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getName() {

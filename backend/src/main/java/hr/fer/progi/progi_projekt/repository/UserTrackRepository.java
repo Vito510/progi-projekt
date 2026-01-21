@@ -13,7 +13,7 @@ import hr.fer.progi.progi_projekt.dto.TopTrackDto;
 import hr.fer.progi.progi_projekt.model.UserTrack;
 
 @Repository
-public interface UserTrackRepository extends JpaRepository<UserTrack, Long>{
+public interface UserTrackRepository extends JpaRepository<UserTrack, Integer>{
     Optional<UserTrack> findByName(String name);
 
     @Query(value = """
