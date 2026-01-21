@@ -9,8 +9,8 @@ classDiagram
         +render()
         +destroy()
         +setQuality()
-        +getPoint(coordinates)
         +setPoints(points)
+        +adjustCanvas()
     }
     class WebGLManager{
         -canvas: HTMLCanvasElement
@@ -171,13 +171,6 @@ classDiagram
         +static load(url)
         +static save(image, name)
     }
-    class RayCast {
-        <<utility>>
-        +static rayCast(heightmap, coordinates, uniforms)
-        -static traverse(heightmap, uniforms, origin, direction)
-        -static intersect(origin, direction, aabb_min, aabb_max)
-        -static getHeight(heightmap, uniforms, position)
-    }
     class PathMap {
         <<utility>>
         -static canvas: OffscreenCanvas
@@ -218,13 +211,7 @@ classDiagram
     WebGLManager ..> WebGLUtils
 
     Renderer ..> PathMap
-    Renderer ..> RayCast
     PathMap ..> TrackPoint
-    RayCast ..> Vector2D
-    RayCast ..> Vector3D
-    RayCast ..> Vector4D
-    RayCast ..> Matrix
-    RayCast ..> ImageUtils
     
     Vector <|-- Vector2D
     Vector <|-- Vector3D
