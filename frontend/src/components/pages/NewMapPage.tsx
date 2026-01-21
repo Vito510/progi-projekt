@@ -1,4 +1,4 @@
-import "./MapPage.css";
+import "./NewMapPage.css";
 import { useState, type ReactNode } from "react";
 import { useAuth } from "../../context/AuthContext";
 import ImageUtils from '../../utility/image_utils';
