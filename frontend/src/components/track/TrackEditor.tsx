@@ -1,6 +1,6 @@
+import './TrackEditor.css';
 import type TrackPoint from "../../interfaces/TrackPoint";
 import Button from "../general/Button";
-import './TrackPointEditor.css';
 import MapPointPlacer from "../map/MapPointPlacer";
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
     heightmap: ImageData,
 }
 
-export default function TrackPointEditor({points, onInput, heightmap}: Props) {
+export default function TrackEditor({points, onInput, heightmap}: Props) {
     function swap(array: TrackPoint[], index: number, increment: number): void {
         const index_a = index;
         let index_b = (index - increment) % array.length;
@@ -40,7 +40,7 @@ export default function TrackPointEditor({points, onInput, heightmap}: Props) {
     }
 
     return (
-        <div className="-track-point-editor">
+        <div className="-track-editor">
             <main>
                 <MapPointPlacer heightmap={heightmap} points={points} onInput={(point) => {add(points, point)}}></MapPointPlacer>
             </main>

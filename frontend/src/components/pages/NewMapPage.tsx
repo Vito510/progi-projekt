@@ -17,7 +17,7 @@ import AppBody from "../general/AppBody";
 import Card from "../general/Card";
 import List from "../general/List";
 
-export default function MapPage() {
+export default function NewMapPage() {
 	const auth = useAuth();
 	let [element, setElement] = useState<ReactNode>(
 		<>

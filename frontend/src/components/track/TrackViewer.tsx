@@ -9,7 +9,7 @@ import List from '../general/List.js';
 import Button from '../general/Button.js';
 import Card from '../general/Card.js';
 import MapRenderer from '../map/MapRenderer.js';
-import TrackPointEditor from './TrackPointEditor.js';
+import TrackEditor from './TrackEditor.js';
 import ButtonSaveTrack from './ButtonSaveTrack.js';
 import ButtonDeleteTrack from './ButtonDeleteTrack.js';
 import ButtonLikeTrack from './ButtonLikeTrack.js';
@@ -18,7 +18,7 @@ import ButtonWhitelistTrack from './ButtonWhitelistTrack.js';
 import ButtonTrackStats from './ButtonTrackStats.js';
 import Popup from '../general/Popup.js';
 
-export default function TrackEditor({track}: {track: Track}) {
+export default function TrackViewer({track}: {track: Track}) {
     let [params, setParams] = useState<TerrainParameter | null>(null);
     const [canEdit, setCanEdit] = useState<boolean>(true); // dodati provjeru može li korisnik editat ovu stazu (isOwner || isAdmin)
     const [canRate, setCanRate] = useState<boolean>(true); // dodati provjeru može li korisnik ocjeniti ovu stazu (!isOwner)
@@ -111,7 +111,7 @@ export default function TrackEditor({track}: {track: Track}) {
                                         </List>
                                     </header>
                                     <section>
-                                        <TrackPointEditor points={pointList} onInput={(points) => {setPointList(points); track.points = [...points];}} heightmap={params.heightmap}></TrackPointEditor>
+                                        <TrackEditor points={pointList} onInput={(points) => {setPointList(points); track.points = [...points];}} heightmap={params.heightmap}></TrackEditor>
                                     </section>
                                 </Card>
                             </Popup>

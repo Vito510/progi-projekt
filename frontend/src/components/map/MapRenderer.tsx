@@ -17,7 +17,7 @@ interface Props {
 
 let renderer: Renderer | null = null;
 
-export default function Map3D({params, points}: Props) {
+export default function MapRenderer({params, points}: Props) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const animationRef = useRef<number | null>(null);
     const [error, setError] = useState<Error | null>(null);

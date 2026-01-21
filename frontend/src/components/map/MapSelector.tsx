@@ -11,7 +11,7 @@ interface Props {
 	onInput: (selection: MapSelection, mapImage?: ImageData) => void | Promise<void>;
 }
 
-export default function Map2D({ onInput }: Props) {
+export default function MapSelector({ onInput }: Props) {
 	useEffect(() => {
 		// Initialize map
 		const map = Leaflet.map("map", {
