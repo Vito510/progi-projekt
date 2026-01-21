@@ -77,6 +77,10 @@ export default function TrackPointEditor({points, onInput, onPreview, heightmap}
                 <MapPointPlacer heightmap={heightmap} points={points} onInput={(point) => {add(points, point)}}></MapPointPlacer>
             </main>
             <aside>
+                <Button type="tertiary" onClick={() => {onInput([])}} wide>
+                    <i className="fa fa-trash"></i>
+                    <p>Izbriši sve točke</p>
+                </Button>
                 {points.map((value, index) => 
                     <li key={index}>
                         <samp>({value.x.toFixed(2)},{value.y.toFixed(2)},{Math.round(value.z)})</samp>
