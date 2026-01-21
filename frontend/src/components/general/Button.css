@@ -43,6 +43,11 @@
     aspect-ratio: 1;
 }
 
+.-button button.wide {
+    width: 100%;
+    justify-content: center;
+}
+
 /* ------------------------------------------------------- */
 
 .-button button.primary {
