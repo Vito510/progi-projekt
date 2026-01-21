@@ -29,8 +29,10 @@ export default function TrackPointEditor({points, onInput, heightmap}: Props) {
     function add(array: TrackPoint[], point: TrackPoint): void {
         if (array.length > 0) {
             const top = array[array.length - 1];
-            if (point.x === top.x && point.y === top.y && point.z === top.z)
+            if (point.x === top.x && point.y === top.y && point.z === top.z) {
+                onInput([...array]);
                 return;
+            }
         }
         array.push(point);
         const new_array = [...array];
