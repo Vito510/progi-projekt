@@ -127,7 +127,7 @@ public class UserProfileService {
         return dto;
     }
 
-    public UserProfile updateUsername(String oldUsername, String newUsername, HttpServletRequest request) {
+    public UserProfileDto updateUsername(String oldUsername, String newUsername, HttpServletRequest request) {
         UserProfile user = userRepo.findByUsername(oldUsername)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -145,7 +145,8 @@ public class UserProfileService {
         }
 
         user.setUsername(newUsername);
-        return userRepo.save(user);
+        userRepo.save(user);
+        return userMapper.toDto(user);
     }
 
     public void deleteProfileByUsername(String username, HttpServletRequest request) {

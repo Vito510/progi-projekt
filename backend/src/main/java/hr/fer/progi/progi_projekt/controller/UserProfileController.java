@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.*;
 
 import hr.fer.progi.progi_projekt.dto.UserProfileDto;
-import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.service.UserProfileService;
 
 import java.util.Map;
@@ -51,7 +50,7 @@ public class UserProfileController {
             HttpServletRequest request
     ) {
         String newUsername = body.get("username");
-        UserProfile updated = userProfileService.updateUsername(username, newUsername, request);
+        UserProfileDto updated = userProfileService.updateUsername(username, newUsername, request);
         return ResponseEntity.ok(updated);
     }
 
