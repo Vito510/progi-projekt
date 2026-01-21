@@ -5,6 +5,7 @@ import PathMap from "../../renderer/map/pathmap";
 import ImageUtils from "../../utility/image_utils";
 
 let normalized_heightmap: ImageData;
+let pointmap: ImageData;
 let context: CanvasRenderingContext2D | null;
 const temp_canvas: OffscreenCanvas = new OffscreenCanvas(0, 0);
 const temp_context: OffscreenCanvasRenderingContext2D = temp_canvas.getContext('2d', { willReadFrequently: true })!;
@@ -47,7 +48,7 @@ export default function MapPointPlacer({heightmap, onInput, points}: Props) {
  
     useEffect(() => {
         normalized_heightmap = TileUtils.generateNormalizedHeightmap(heightmap);
-        const pointmap = PathMap.generatePathmap(points, heightmap.width, heightmap.height);
+        pointmap = PathMap.generatePathmap(points, heightmap.width, heightmap.height);
 
         canvas_ref.current!.addEventListener("resize", () => {
             drawCanvas(context!, canvas_ref.current!, normalized_heightmap, pointmap);
@@ -64,7 +65,7 @@ export default function MapPointPlacer({heightmap, onInput, points}: Props) {
     }, []);
 
     useEffect(() => {
-        const pointmap = PathMap.generatePathmap(points, heightmap.width, heightmap.height);
+        pointmap = PathMap.generatePathmap(points, heightmap.width, heightmap.height);
         drawCanvas(context!, canvas_ref.current!, normalized_heightmap, pointmap);
     }, [points])
 
