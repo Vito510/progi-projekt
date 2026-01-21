@@ -11,7 +11,7 @@ import ButtonProfile from "../profile/ButtonProfile";
 import ButtonSignIn from "../profile/ButtonSignIn";
 import Button from "../general/Button";
 import type Track from "../../interfaces/Track";
-import TrackEditor from "../track/TrackEditor";
+import TrackViewer from "../track/TrackViewer";
 import type TrackPoint from "../../interfaces/TrackPoint";
 import AppBody from "../general/AppBody";
 import Card from "../general/Card";
@@ -31,7 +31,7 @@ export default function MapPage() {
 							</Button>
 						</List>
 						<em>Odabirete površinu navigacijom karte i klikom na gumb. Prozor karte označava cijelu odabranu površinu.</em>
-						<Button onClick={async () => {setElement(<TrackEditor track={await getDevTrack()}></TrackEditor>);}}>
+						<Button onClick={async () => {setElement(<TrackViewer track={await getDevTrack()}></TrackViewer>);}}>
 							<samp><i className="fa fa-code"></i> [DEBUG]</samp>
 							<p>Skip map</p>
 						</Button>
@@ -65,7 +65,7 @@ export default function MapPage() {
 			override: null,
         	whitelist: ["petar", "grašo"], // trebalo bi biti prazno
 		}
-		setElement(<TrackEditor track={track}></TrackEditor>);
+		setElement(<TrackViewer track={track}></TrackViewer>);
 	}
 
 	return (

@@ -1,4 +1,4 @@
-import './TrackEditor.css';
+import './TrackViewer.css';
 import { useEffect, useState } from 'react';
 import type Track from '../../interfaces/Track.js';
 import type MapSelection from '../../interfaces/MapSelection.js';
@@ -47,7 +47,7 @@ export default function TrackEditor({track}: {track: Track}) {
     return (
         <>
             {params ?
-                <div className='-track-editor'>
+                <div className='-track-viewer'>
                     <header>
                         <List type='row' gap='small' wrap align='center'>
                             {canEdit ?
