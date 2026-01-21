@@ -34,7 +34,7 @@ public class UserTrackController {
 
 
     @GetMapping("/track/{id}")
-    public UserTrackDto getUserTrack(@PathVariable Long id, HttpServletRequest request) {
+    public UserTrackDto getUserTrack(@PathVariable Integer id, HttpServletRequest request) {
         return userTrackService.getUserTrack(id, request);
     }
     
@@ -49,7 +49,7 @@ public class UserTrackController {
     }
 
     @DeleteMapping("/track/{id}")
-    public boolean deleteUserTrack(@PathVariable Long id, HttpServletRequest request){
+    public boolean deleteUserTrack(@PathVariable Integer id, HttpServletRequest request){
         return userTrackService.deleteUserTrack(id, request);
     }
 
@@ -59,12 +59,12 @@ public class UserTrackController {
     }
 
     @GetMapping("/track/{id}/star")
-    public Boolean isTrackStarred(@PathVariable Long id, HttpServletRequest request) {
+    public Boolean isTrackStarred(@PathVariable Integer id, HttpServletRequest request) {
         return userTrackService.isTrackStarred(id, request);
     }
 
     @PutMapping("/track/{id}/star")
-    public Boolean setTrackStarred(@PathVariable Long id, @RequestBody boolean isStarred, HttpServletRequest request) {
+    public Boolean setTrackStarred(@PathVariable Integer id, @RequestBody boolean isStarred, HttpServletRequest request) {
         return userTrackService.setTrackStarred(id, isStarred, request);
     }
     

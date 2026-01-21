@@ -45,7 +45,7 @@ public class UserProfileService {
         return userRepo.findByEmail(email).orElse(null);
     }
 
-    public Long getUserIdByEmail(String email) {
+    public Integer getUserIdByEmail(String email) {
         return userRepo.findByEmail(email)
                 .map(UserProfile::getId)
                 .orElse(null);

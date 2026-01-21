@@ -52,7 +52,7 @@ public class UserTrackMapper {
         return dto;
     }
 
-    public UserTrack toNewEntity(UserTrackDto dto, Long ownerId) {
+    public UserTrack toNewEntity(UserTrackDto dto, Integer ownerId) {
         if (dto == null) {
             return null;
         }

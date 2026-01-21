@@ -54,7 +54,7 @@ public class UserProfileController {
 
         String email = authentication.getName();
 
-        Long userId = userProfileService.getUserIdByEmail(email);
+        Integer userId = userProfileService.getUserIdByEmail(email);
         if (userId == null) {
             return ResponseEntity.status(404).build();
         }

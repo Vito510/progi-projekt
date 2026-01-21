@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface UserProfileRepository extends JpaRepository<UserProfile, Long> {
+public interface UserProfileRepository extends JpaRepository<UserProfile, Integer> {
     // Basic CRUD methods come for free (findAll, findById, save, deleteById, etc.)
     Optional<UserProfile> findByUsername(String username);
     Optional<UserProfile> findByEmail(String email);

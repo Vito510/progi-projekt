@@ -16,7 +16,7 @@ public class UserProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment
     @Column(name = "userid")
-    private Long id;
+    private Integer id;
 
     private String username;
     private String email;
@@ -36,10 +36,10 @@ public class UserProfile {
         this.role = role;
     }
     
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
     public String getUsername() {
