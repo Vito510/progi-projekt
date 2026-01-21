@@ -14,7 +14,7 @@ import { useEffect } from "react";
 
 export default function FrontPage() {
     const auth = useAuth();
-    const [tracks, setTracks] = useState<Track[]>(getDebugTracks());
+    const [tracks, setTracks] = useState<Track[]>([]);
 
     useEffect(() => {
         fetch('/api/track/top')
@@ -42,13 +42,13 @@ export default function FrontPage() {
     return (
         <>
             <AppHeader>
+                <ProfileSearch></ProfileSearch>
                 <ButtonNewTrack></ButtonNewTrack>
                 {auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
             </AppHeader>
             <AppBody width='thin'>
                 <div className='-front-page'>
                     <div className="banner"></div>
-                    <ProfileSearch></ProfileSearch>
                     <h1>Najbolje staze</h1>
                     <TrackList tracks={tracks}/>
                 </div>

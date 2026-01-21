@@ -41,13 +41,12 @@
     --thickness: 0.5rem;
     --spacing: 2rem;
     --packing: 0.5rem;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 @media screen and (max-width: 768px) {
     :root {
         --spacing: 1rem;
-        font-size: 14px;
     }
 }
 

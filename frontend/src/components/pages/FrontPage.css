@@ -10,7 +10,7 @@
 
     padding: var(--spacing);
     padding-top: 0rem;
-    gap: var(--spacing);
+    gap: 1rem;
 }
 
 /* ------------------------------------------------------- */

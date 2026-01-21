@@ -1,6 +1,7 @@
+import "./ProfileSearch.css";
 import { useState } from "react";
-import './ProfileSearch.css';
 import Button from "../general/Button";
+import List from "../general/List";
 export default function ProfileSearch() {
     const [searchTerm, setSearchTerm] = useState("");
 
@@ -10,16 +11,18 @@ export default function ProfileSearch() {
     
     return (
         <div className="-profile-search">
-            <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Pretraži profil..."/>
-            {searchTerm.trim() ?
-                <Button shape="noshape" link={`/profile/${searchTerm}`}>
-                    <i className="fa fa-search fa-lg"></i>
-                </Button>
-                :
-                <Button shape="noshape" disabled>
-                    <i className="fa fa-search fa-lg"></i>
-                </Button>
-            }
+            <List type="row" align="center" gap="small">
+                <input type="text" value={searchTerm} onChange={handleInputChange} placeholder="Unesite ime profila"/>
+                {searchTerm.trim() ?
+                    <Button shape="noshape" link={`/profile/${searchTerm}`}>
+                        <i className="fa fa-search fa-lg"></i>
+                    </Button>
+                    :
+                    <Button shape="noshape" disabled>
+                        <i className="fa fa-search fa-lg"></i>
+                    </Button>
+                }
+            </List>
         </div>
     );
 }

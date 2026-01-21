@@ -2,19 +2,14 @@
 /* ------------------------------------------------------- */
 
 .-profile-search {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: var(--packing);
-    padding: 0.5rem 1rem;
-
-    border-radius: var(--roundness);
-    background-color: var(--accent-muted);
-    box-shadow: var(--shadow-highlight), var(--shadow-smooth);
+    position: relative;
 }
 
-.-profile-search>input {
-    background-color: var(--darken);
+.-profile-search>.-list>.-button {
+    position: absolute;
+    right: 0.5rem;
+    top: 50%;
+    translate: 50%,50%;
 }
 
 /* ------------------------------------------------------- */

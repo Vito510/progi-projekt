@@ -39,7 +39,7 @@ export default function ButtonWhitelistTrack({ track }: Props) {
                         </header>
                         <section>
                             <List type="column" gap="medium">
-                                <div className="-profile-search">
+                                <List type="row" gap="small">
                                     <input 
                                         type="text" 
                                         value={searchInput} 
@@ -50,8 +50,7 @@ export default function ButtonWhitelistTrack({ track }: Props) {
                                     <Button shape="round" type="primary" onClick={handleAddUser}>
                                         <i className="fa fa-user-plus fa-lg"></i>
                                     </Button>
-                                </div>
-
+                                </List>
                                 {tempWhitelist.length === 0 ? 
                                     <em>Nema korisnika na whitelisti</em>
                                     : 
@@ -72,7 +71,7 @@ export default function ButtonWhitelistTrack({ track }: Props) {
                             </List>
                         </section>
                         <footer>
-                            <List type='row' gap='medium' align='center'>
+                            <List type='row' gap='medium' align='center' justify="end" expand>
                                 <Button type='secondary' onClick={() => {setTempWhitelist([...track.whitelist]); setEditList(false);}}>
                                     <i className='fa fa-times'></i>
                                     <p>Odustani</p>
