@@ -50,23 +50,25 @@ export default function MapPointPlacer({heightmap, onInput, points}: Props) {
         normalized_heightmap = TileUtils.generateNormalizedHeightmap(heightmap);
         pointmap = PathMap.generatePathmap(points, heightmap.width, heightmap.height);
 
-        canvas_ref.current!.addEventListener("resize", () => {
-            drawCanvas(context!, canvas_ref.current!, normalized_heightmap, pointmap);
-        })
-        window.addEventListener("resize", () => {
-            drawCanvas(context!, canvas_ref.current!, normalized_heightmap, pointmap);
-        })
-        
         context = canvas_ref.current!.getContext('2d');    
         if (!context)
             throw new Error("Failed to get rendering context");
         
-        drawCanvas(context, canvas_ref.current!, normalized_heightmap, pointmap);
+        function refreshCanvas() {
+            drawMap(context!, canvas_ref.current!, normalized_heightmap, pointmap);
+        }
+        canvas_ref.current!.addEventListener("resize", refreshCanvas);
+        window.addEventListener("resize", refreshCanvas);
+        refreshCanvas()
+
+        return () => {
+            window.removeEventListener("resize", refreshCanvas);
+        }
     }, []);
 
     useEffect(() => {
         pointmap = PathMap.generatePathmap(points, heightmap.width, heightmap.height);
-        drawCanvas(context!, canvas_ref.current!, normalized_heightmap, pointmap);
+        drawMap(context!, canvas_ref.current!, normalized_heightmap, pointmap);
     }, [points])
 
     return (
@@ -82,7 +84,7 @@ export default function MapPointPlacer({heightmap, onInput, points}: Props) {
     );
 }
 
-function drawCanvas(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, background: ImageData, overlay: ImageData): void {
+function drawMap(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, background: ImageData, overlay: ImageData): void {
     syncResolution(canvas);
 
     temp_canvas.width = background.width;
