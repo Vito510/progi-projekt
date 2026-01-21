@@ -14,13 +14,33 @@ import type Track from "../../interfaces/Track";
 import TrackEditor from "../track/TrackEditor";
 import type TrackPoint from "../../interfaces/TrackPoint";
 import AppBody from "../general/AppBody";
+import Card from "../general/Card";
+import List from "../general/List";
 
 export default function MapPage() {
 	const auth = useAuth();
 	let [element, setElement] = useState<ReactNode>(
 		<>
-			<Map2D onInput={handler}/>
-			<Button onClick={async () => {setElement(<TrackEditor track={await getDevTrack()}></TrackEditor>);}}>[DEBUG] Skip map</Button>
+			<Card>
+				<header>
+					<List type="column" gap="small">
+						<List align="center" justify="space-between" expand>
+							<h2>Stvaranje nove rute</h2>
+							<Button type="tertiary" shape="noshape" link="/">
+								<i className="fa fa-times-circle fa-2x"></i>
+							</Button>
+						</List>
+						<em>Odabirete površinu navigacijom karte i klikom na gumb. Prozor karte označava cijelu odabranu površinu.</em>
+						<Button onClick={async () => {setElement(<TrackEditor track={await getDevTrack()}></TrackEditor>);}}>
+							<samp><i className="fa fa-code"></i> [DEBUG]</samp>
+							<p>Skip map</p>
+						</Button>
+					</List>
+				</header>
+				<section>
+					<Map2D onInput={handler}/>
+				</section>
+			</Card>
 		</>
 	);
 

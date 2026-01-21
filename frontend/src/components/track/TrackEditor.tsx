@@ -106,7 +106,7 @@ export default function TrackEditor({track}: {track: Track}) {
                                                 <p><em>Kliknite da biste dodali točku</em></p>
                                             </List>
                                             <Button type='tertiary' onClick={() => {setIsEditing(false)}} shape="noshape">
-                                                <i className='fa fa-times fa-2x'></i>
+                                                <i className='fa fa-times-circle fa-2x'></i>
                                             </Button>
                                         </List>
                                     </header>

@@ -11,7 +11,13 @@
     padding: var(--spacing);
 }
 
-.-map-page code {
-    font-family: monospace;
-    color: var(--text-muted);
+.-map-page>.-card {
+    width: 100%;
+    height: 100%;
+}
+
+.-map-page>.-card>section {
+    padding: 0;
+    width: 100%;
+    height: 100%;
 }

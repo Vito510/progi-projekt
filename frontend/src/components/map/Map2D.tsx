@@ -6,6 +6,8 @@ import Leaflet from "leaflet";
 import TileUtils from "../../utility/tile_utils";
 import html2canvas from "html2canvas";
 import Card from "../general/Card";
+import List from "../general/List";
+import Button from "../general/Button";
 
 interface Props {
 	// onInput: (selection: MapSelection) => void | Promise<void>;
@@ -129,14 +131,7 @@ export default function Map2D({ onInput }: Props) {
 
 	return (
 		<div className="-map-2d">
-			<Card>
-				<header>
-					<em>
-						Odabirete površinu navigacijom karte i klikom na gumb. Prozor karte označava cijelu odabranu površinu.
-					</em>
-				</header>
-				<div id="map"></div>
-			</Card>
+			<div id="map"></div>
 		</div>
 	);
 }

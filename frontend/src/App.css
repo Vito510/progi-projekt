@@ -91,6 +91,11 @@ samp {
     font-family: monospace;
 }
 
+code {
+    font-family: monospace;
+    color: var(--text-muted);
+}
+
 input[type="text"] {
   /* background-color: var(--theme-highlight); */
   background-color: var(--lighten);
