@@ -83,7 +83,9 @@ export default function TrackPointEditor({points, onInput, onPreview, heightmap}
                 </Button>
                 {points.map((value, index) => 
                     <li key={index}>
-                        <samp>({value.x.toFixed(2)},{value.y.toFixed(2)},{Math.round(value.z)})</samp>
+                        {/* <samp>({value.x.toFixed(2)},{value.y.toFixed(2)},{Math.round(value.z)})</samp> */}
+                        <em>{index+1}.</em>
+                        <samp>{Math.round(value.z)}m</samp>
                         <Button shape="round" type="primary" onClick={() => swap(points, index, 1)}>
                             <i className="fa fa-chevron-up"></i>
                         </Button>

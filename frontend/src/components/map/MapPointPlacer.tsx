@@ -18,8 +18,6 @@ interface Props {
 export default function MapPointPlacer({heightmap, onInput, points}: Props) {
     const canvas_ref = useRef<HTMLCanvasElement>(null);
 
-    // console.log(heightmap.width, heightmap.height, heightmap.width / heightmap.height);
-
     function click_handler(event: any) {
         const rect = canvas_ref.current!.getBoundingClientRect();
         const x = 1.0 - (event.clientX - rect.x) / rect.width;

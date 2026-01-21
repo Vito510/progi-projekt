@@ -24,17 +24,19 @@
     background-color: var(--theme-highlight);
 }
 
+.-track-point-editor>aside>li>em {
+    min-width: 1.5rem;
+    font-family: monospace;
+}
+
 .-track-point-editor>aside>li>samp {
     width: 100%;
     height: 100%;
-    box-shadow: var(--shadow-inset);
-    padding: 0.5rem;
 
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-
 }
 
 /* ------------------------------------------------------- */
@@ -42,16 +44,31 @@
 .-track-point-editor>main {
     width: 100%;
     height: 100%;
+    /* height: 60dvh; */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
     /* height: fit-content; */
 }
 
 .-track-point-editor>aside {
-    /* min-height: 0; */
     min-width: fit-content;
-    width: fit-content;
-    /* height: 100%; */
-    /* height: fit-content; */
-    height: inherit;
+    /* height: min-content; */
+
+    height: auto;
+    height: fit-content;
+    height: min-content;
+    height: max-content;
+    height: 100%;
+
+    /* max-height: fit-content; */
+    /* max-height: min-content; */
+    /* max-height: max-content; */
+
+    /* min-height: fit-content; */
+    min-height: min-content;
+    /* min-height: max-content; */
 
     padding: 1rem;
     padding-bottom: 0rem;
@@ -69,9 +86,12 @@
 /* ------------------------------------------------------- */
 
 .-track-point-editor {
+    height: 100%;
+    width: 100%;
+    min-height: 0px;
+
     display: flex;
     flex-direction: row;
-    min-height: 0;
 
     border-top: var(--border-highlight);
 }
