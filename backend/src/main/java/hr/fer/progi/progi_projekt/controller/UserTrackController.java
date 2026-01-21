@@ -7,8 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import hr.fer.progi.progi_projekt.dto.TopTrackDto;
 import hr.fer.progi.progi_projekt.dto.UserTrackDto;
 import hr.fer.progi.progi_projekt.service.UserTrackService;
-import org.springframework.security.core.Authentication;
-import java.security.Principal;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 

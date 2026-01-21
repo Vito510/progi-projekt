@@ -1,6 +1,5 @@
 package hr.fer.progi.progi_projekt.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -114,32 +113,19 @@ public class UserProfileService {
 
 
     public UserProfileDto getProfile(String username, HttpServletRequest request) {
+        UserProfile currUser = authService.getCurrentUser(request);
+
         Optional<UserProfile> profile = userRepo.findByUsername(username);
         if(profile.isEmpty()){
             return null;
         }
-        return userMapper.toDto(profile.get(), new ArrayList<>());
+        UserProfileDto dto = userMapper.toDto(profile.get());
+        if(currUser == null || (!profile.get().getId().equals(currUser.getId()) && currUser.getRole()!=Role.ADMIN)){
+            dto.setEmail(null);
+            dto.setRole(null);
+        }
+        return dto;
     }
-
-    /*public UserProfile editProfile(UserProfile profile) {
-        UserProfile existingUser = userRepo.findById(profile.getId()).orElse(null);
-
-        if (existingUser == null) {
-            System.out.println("User with ID " + profile.getId() + " not found");
-            return null;
-        }
-
-        if (userExistsByUsername(profile.getUsername())) {
-            System.out.println("Username " + profile.getUsername() + " is already taken");
-            return null;
-        }
-
-        existingUser.setUsername(profile.getUsername());
-        //existingUser.setEmail(profile.getEmail());
-        //existingUser.setRole(profile.getRole());
-
-        return userRepo.save(existingUser);
-    }*/
 
     public UserProfile updateUsername(String oldUsername, String newUsername, HttpServletRequest request) {
         UserProfile user = userRepo.findByUsername(oldUsername)

@@ -82,25 +82,22 @@ public class UserTrackService {
     public UserTrackDto getUserTrack(Integer id, HttpServletRequest request) {
         // trenutni korisnik
         UserProfile currUser = authService.getCurrentUser(request);
-        if(currUser==null){
-            return null;
-        }
 
         UserTrack track = trackRepo.findById(id).orElse(null);
         if(track==null){
             return null;
         }
-        if(track.getVisibility()==TrackVisibility.PRIVATE
-            && track.getOwnerId()!=currUser.getId()
+        if(track.getVisibility()==TrackVisibility.PRIVATE && (currUser==null ||
+            (!track.getOwnerId().equals(currUser.getId())
             && !track.getWhitelistedProfiles().contains(currUser)
-            && currUser.getRole()!=Role.ADMIN){
+            && currUser.getRole()!=Role.ADMIN))){
             return null;
         }
 
         String ownerName = profileRepo.findById(track.getOwnerId()).get().getUsername();
         UserTrackDto dto = trackMapper.toDto(track, ownerName);
 
-        if(track.getOwnerId()!=currUser.getId() && currUser.getRole()!=Role.ADMIN){
+        if(currUser==null || !track.getOwnerId().equals(currUser.getId()) && currUser.getRole()!=Role.ADMIN){
             dto.setWhitelist(null);
         }
 
@@ -122,7 +119,7 @@ public class UserTrackService {
         }
         
         // ako nisi admin, ne smijes uredivati tudu stazu
-        if(track.get().getOwnerId()!=currUser.getId() && currUser.getRole()!=Role.ADMIN){
+        if(!track.get().getOwnerId().equals(currUser.getId()) && currUser.getRole()!=Role.ADMIN){
             System.out.println("Korisnik nije vlasnik staze");
             return false;
         }
@@ -154,7 +151,7 @@ public class UserTrackService {
         }
 
         // ako nisi admin, ne smijes brisati tudu stazu
-        if(track.get().getOwnerId()!=currUser.getId() && currUser.getRole()!=Role.ADMIN){
+        if(!track.get().getOwnerId().equals(currUser.getId()) && currUser.getRole()!=Role.ADMIN){
             System.out.println("Korisnik nije vlasnik staze");
             return false;
         }
@@ -189,14 +186,10 @@ public class UserTrackService {
             return null;
         }
 
-        System.out.println("ode jeee");
-
         if(setStarred){
-            System.out.println("staraj");
             track.get().getGivenStars().add(currUser);
         }
         else{
-            System.out.println("makni star");
             track.get().getGivenStars().remove(currUser);
         }
         return track.get().getGivenStars().contains(currUser);
