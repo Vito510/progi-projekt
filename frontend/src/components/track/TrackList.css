@@ -11,7 +11,6 @@
     border-radius: var(--roundness);
     padding: 0.5rem;
 
-    background-color: red;
     background: linear-gradient(90deg, transparent 0%, var(--darken) 50%);
 }
 
@@ -21,8 +20,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100%;
     min-height: 0;
+    height: 100%;
     width: fit-content;
 
     gap: 1.5rem;

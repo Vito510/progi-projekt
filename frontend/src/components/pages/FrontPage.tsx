@@ -14,7 +14,7 @@ import { useEffect } from "react";
 
 export default function FrontPage() {
     const auth = useAuth();
-    const [tracks, setTracks] = useState<Track[]>([]);
+    const [tracks, setTracks] = useState<Track[]>(getDebugTracks());
 
     useEffect(() => {
         fetch('/api/track/top')
@@ -63,7 +63,7 @@ function getDebugTracks(): Track[] {
     let tracks: Track[] = [];
     for (let i=0; i<10; i++) {
         let track: Track = {
-            name: (Math.random()).toFixed(Math.random() * 10),
+            name: (Math.random()).toFixed(Math.random() * 20),
             stars: Math.floor(Math.random() * 100),
             visibility: 'Private',
             owner: "Naziv vlasnika",

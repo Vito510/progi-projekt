@@ -54,7 +54,7 @@
 /* ------------------------------------------------------- */
 
 .-track-card>* {
-    padding: calc(var(--spacing) / 2) calc(var(--spacing) * 2);
+    padding: calc(var(--spacing) / 2) var(--spacing);
     height: 100%;
     width: auto;
 }
@@ -68,6 +68,7 @@
 
 .-track-card>footer {
     background-color: var(--darken);
+    width: 100%;
 
     display: flex;
     flex-direction: row;
@@ -79,6 +80,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: center;
     gap: var(--spacing);
 }
 
@@ -138,6 +140,17 @@
     background-size: 400% 400%;
 }
 
+.-track-card>header h3, .-track-card>header p {
+    /* ARBITRARY */
+    width: 15rem;
+    overflow-x: hidden;
+}
+
+.-track-card:hover>header h3, .-track-card:hover>header p {
+    width: auto;
+    overflow-x: none;
+}
+
 /* ------------------------------------------------------- */
 
 @media screen and (max-width: 768px) {
@@ -162,6 +175,11 @@
     
     .-track-card {
         width: 100%;
+    }
+    
+    .-track-card>header h3, .-track-card>header p {
+        /* ARBITRARY */
+        width: 8rem;
     }
 }
 
