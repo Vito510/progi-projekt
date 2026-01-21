@@ -6,13 +6,18 @@ import hr.fer.progi.progi_projekt.dto.AuthResponse;
 import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import hr.fer.progi.progi_projekt.repository.UserProfileRepository;
 
 @Service
 public class AuthService {
-    private final UserProfileService userProfileService;
 
-    AuthService(UserProfileService userProfileService) {
-        this.userProfileService = userProfileService;
+    private final UserProfileRepository userProfileRepository;
+    private final JwtUtil jwtUtil;
+
+    public AuthService(UserProfileRepository userProfileRepository,
+                       JwtUtil jwtUtil) {
+        this.userProfileRepository = userProfileRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     public AuthResponse getCurrentUserResponse(HttpServletRequest request) {
@@ -24,31 +29,24 @@ public class AuthService {
     }
 
     public UserProfile getCurrentUser(HttpServletRequest request) {
-        String jwt = null;
-        String email = null;
-        UserProfile user = null;
-        JwtUtil jwtUtil = new JwtUtil();
-        if (request.getHeader("Authorization") != null && request.getHeader("Authorization").startsWith("Bearer ")) {
-            jwt = request.getHeader("Authorization").substring(7);
-            //System.out.println("/me JWT: " + jwt);
-        }
+        String authHeader = request.getHeader("Authorization");
 
-        if (jwt != null) {
-            email = jwtUtil.extractUsername(jwt);
-        }
-
-        if (email != null) {
-            user = userProfileService.getUserProfileByEmail(email);
-        }
-        return user;
-    }
-
-    public Integer getCurrentUserId(HttpServletRequest request){
-        UserProfile user = getCurrentUser(request);
-        if(user==null){
-            System.out.println("Ne vrijedi autentifikacija");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return null;
         }
-        return user.getId();
+
+        String jwt = authHeader.substring(7);
+        String email = jwtUtil.extractUsername(jwt);
+
+        if (email == null) {
+            return null;
+        }
+
+        return userProfileRepository.findByEmail(email).orElse(null);
+    }
+
+    public Integer getCurrentUserId(HttpServletRequest request) {
+        UserProfile user = getCurrentUser(request);
+        return user != null ? user.getId() : null;
     }
 }

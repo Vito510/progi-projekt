@@ -19,10 +19,14 @@ import hr.fer.progi.progi_projekt.model.enums.Role;
 public class UserProfileService {
     private final UserProfileRepository userRepo;
     private final UserProfileMapper userMapper;
+    private final AuthService authService;
 
-    public UserProfileService(UserProfileRepository userRepo, UserProfileMapper userMapper) {
+    public UserProfileService(UserProfileRepository userRepo,
+                              UserProfileMapper userMapper,
+                              AuthService authService) {
         this.userRepo = userRepo;
         this.userMapper = userMapper;
+        this.authService = authService;
     }
 
     public List<UserProfile> getAllUserProfiles() {
@@ -137,9 +141,18 @@ public class UserProfileService {
         return userRepo.save(existingUser);
     }*/
 
-    public UserProfile updateUsername(String oldUsername, String newUsername) {
+    public UserProfile updateUsername(String oldUsername, String newUsername, HttpServletRequest request) {
         UserProfile user = userRepo.findByUsername(oldUsername)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        UserProfile currUser = authService.getCurrentUser(request);
+        if(currUser==null){
+            return null;
+        }
+
+        if (!currUser.getUsername().equals(oldUsername) && currUser.getRole() == Role.USER) {
+            return null;
+        }
 
         if (userRepo.existsByUsername(newUsername)) {
             throw new RuntimeException("Username already taken");
@@ -149,9 +162,19 @@ public class UserProfileService {
         return userRepo.save(user);
     }
 
-    public void deleteProfileByUsername(String username) {
+    public void deleteProfileByUsername(String username, HttpServletRequest request) {
         UserProfile user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        UserProfile currUser = authService.getCurrentUser(request);
+        if(currUser==null){
+            return;
+        }
+
+        if (!currUser.getUsername().equals(username) && currUser.getRole() == Role.USER) {
+            return;
+        }
+
         userRepo.delete(user);
     }
 }

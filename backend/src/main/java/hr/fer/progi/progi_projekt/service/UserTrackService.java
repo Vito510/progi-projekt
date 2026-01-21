@@ -45,14 +45,18 @@ public class UserTrackService {
         this.pointMapper = pointMapper;
     }
 
-    public List<TopTrackDto> getTracksForProfile(String profileUsername, String viewerUsername) {
-        boolean isOwner = profileUsername.equals(viewerUsername);
+    public List<TopTrackDto> getTracksForProfile(String profileUsername, HttpServletRequest request) {
+        UserProfile currUser = authService.getCurrentUser(request);
 
-        if (isOwner) {
+        if (currUser == null) {
+            currUser = new UserProfile();
+        }
+
+        if (currUser.getUsername().equals(profileUsername) || currUser.getRole() == Role.ADMIN) {
             return trackRepo.findAllByOwnerUsername(profileUsername);
         }
 
-        return trackRepo.findPublicAndWhitelisted(profileUsername, viewerUsername);
+        return trackRepo.findPublicAndWhitelisted(profileUsername, currUser.getUsername());
     }
 
     @Transactional

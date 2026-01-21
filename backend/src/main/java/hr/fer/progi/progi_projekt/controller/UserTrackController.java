@@ -25,11 +25,9 @@ public class UserTrackController {
     @GetMapping("profile/{username}/tracks")
     public List<TopTrackDto> getProfileTracks(
             @PathVariable String username,
-            Authentication auth,
-            Principal principal
+            HttpServletRequest request
     ) {
-        String viewerUsername = (principal != null) ? principal.getName() : "anonymous";
-        return userTrackService.getTracksForProfile(username, viewerUsername);
+        return userTrackService.getTracksForProfile(username, request);
     }
 
 
