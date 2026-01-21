@@ -18,9 +18,9 @@ public class AuthService {
     public AuthResponse getCurrentUserResponse(HttpServletRequest request) {
         UserProfile user = getCurrentUser(request);
         if (user != null) {
-            return new AuthResponse(true, user.getUsername(), user.getEmail());
+            return new AuthResponse(true, user.getUsername(), user.getEmail(), user.getRole());
         }
-        return new AuthResponse(false, "", "");
+        return new AuthResponse(false, "", "", null);
     }
 
     public UserProfile getCurrentUser(HttpServletRequest request) {
