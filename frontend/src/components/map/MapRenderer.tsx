@@ -1,4 +1,4 @@
-import './Map3D.css';
+import './MapRenderer.css';
 import { useEffect, useRef, useState } from 'react';
 import type TerrainParameter from '../../interfaces/TerrainParameter.js';
 import type TrackPoint from '../../interfaces/TrackPoint.js';
@@ -74,7 +74,7 @@ export default function Map3D({params, points}: Props) {
     }
 
     return (
-        <div className='-map3d'>
+        <div className='-map-renderer'>
             {error ? 
                 <Popup>
                     <Card>

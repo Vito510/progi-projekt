@@ -8,7 +8,7 @@ import TileUtils from "../../utility/tile_utils.js";
 import List from '../general/List.js';
 import Button from '../general/Button.js';
 import Card from '../general/Card.js';
-import Map3D from '../map/Map3D.js';
+import Map3D from '../map/MapRenderer.js';
 import TrackPointEditor from './TrackPointEditor.js';
 import ButtonSaveTrack from './ButtonSaveTrack.js';
 import ButtonDeleteTrack from './ButtonDeleteTrack.js';
