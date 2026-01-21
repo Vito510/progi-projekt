@@ -29,8 +29,14 @@ public class UserProfileController {
     }
 
     @PostMapping("/profile")
-    public void createUser(@RequestParam String username, HttpServletRequest request) {
-        userProfileService.createProfile(username, request);
+    public ResponseEntity<String> createUser(@RequestParam String username, HttpServletRequest request) {
+        String err = userProfileService.createProfile(username, request);
+        if(!err.isEmpty()) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(err);
+        }
+        return ResponseEntity.ok("");
     }
 
     @GetMapping("/profile/{username}")

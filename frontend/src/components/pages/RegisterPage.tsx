@@ -50,10 +50,11 @@ export default function RegisterPage() {
           headers: { Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}` } 
         }); 
         if (!res.ok) {
-          throw new Error("Server error");
+          const text = await res.text();
+          setError(text || "");
+        } else {
+          window.location.href = "/"
         }
-
-        window.location.href = "/"
         
 
       }

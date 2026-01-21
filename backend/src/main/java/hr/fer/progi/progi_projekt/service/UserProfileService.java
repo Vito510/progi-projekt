@@ -52,8 +52,15 @@ public class UserProfileService {
     }
 
 
-    public void createProfile(String username, HttpServletRequest request) {
+    public String createProfile(String username, HttpServletRequest request) {
         System.out.println("Trying to create user: " + username);
+        boolean exists = userExistsByUsername(username);
+
+        if (exists) {
+            return "Korisničko ime već postoji. Odaberite drugo.";
+        } else if (username.length() > 25) {
+            return "Korisničko ime ne može biti dulje od 25 znakova";
+        }
 
         String jwt = null;
         String email = null;
@@ -74,17 +81,18 @@ public class UserProfileService {
             }
         }
 
+
         System.out.println("Email extracted: " + email);
 
         if (email == null) {
             // No valid JWT/email, cannot create profile
             System.out.println("No valid email found, aborting profile creation.");
-            return;
+            return "Internal error";
         }
 
         if (userExistsByEmail(email)) {
             System.out.println("User already exists with email: " + email);
-            return;
+            return "Ovaj email već ima profil";
         }
 
         System.out.println("Creating new user: " + username);
@@ -96,6 +104,8 @@ public class UserProfileService {
         } catch (Exception e) {
             System.out.println("Error saving user profile: " + e.getMessage());
         }
+
+        return "";
     }
 
 
