@@ -6,8 +6,8 @@ import ImageUtils from "../../utility/image_utils";
 
 let normalized_heightmap: ImageData;
 let context: CanvasRenderingContext2D | null;
-const temp_canvas = document.createElement('canvas');
-    const temp_context = temp_canvas.getContext('2d');
+const temp_canvas: OffscreenCanvas = new OffscreenCanvas(0, 0);
+const temp_context: OffscreenCanvasRenderingContext2D = temp_canvas.getContext('2d', { willReadFrequently: true })!;
 
 interface Props {
     heightmap: ImageData,
@@ -17,6 +17,8 @@ interface Props {
 
 export default function MapPointPlacer({heightmap, onInput, points}: Props) {
     const canvas_ref = useRef<HTMLCanvasElement>(null);
+
+    // console.log(heightmap.width, heightmap.height, heightmap.width / heightmap.height);
 
     function click_handler(event: any) {
         const rect = canvas_ref.current!.getBoundingClientRect();
@@ -29,18 +31,18 @@ export default function MapPointPlacer({heightmap, onInput, points}: Props) {
  
     useEffect(() => {
         normalized_heightmap = TileUtils.generateNormalizedHeightmap(heightmap);
-        // ImageUtils.save(normalized_heightmap, "test");
         const pointmap = PathMap.generatePathmap(points, heightmap.width, heightmap.height);
 
-        syncResolution(canvas_ref.current!);
         canvas_ref.current!.addEventListener("resize", () => {
             syncResolution(canvas_ref.current!);
+            drawCanvas(context!, canvas_ref.current!, normalized_heightmap, pointmap);
         })
-
+        
         context = canvas_ref.current!.getContext('2d');    
         if (!context)
             throw new Error("Failed to get rendering context");
-
+        
+        syncResolution(canvas_ref.current!);
         drawCanvas(context, canvas_ref.current!, normalized_heightmap, pointmap);
     }, []);
 
@@ -55,7 +57,6 @@ export default function MapPointPlacer({heightmap, onInput, points}: Props) {
             ref={canvas_ref} 
             className="-map-point-placer" 
             style={{
-                aspectRatio: `${heightmap.width / heightmap.height}`,
                 width: "100%",
                 height: "100%",
             }} 
@@ -69,19 +70,33 @@ function drawCanvas(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement
     temp_canvas.width = background.width;
     temp_canvas.height = background.height;
 
+    const imageRatio = background.width / background.height;
+    const canvasRatio = canvas.width / canvas.height;
+  
+    let draw_width, draw_height, offset_x = 0, offset_y = 0;
+    if (imageRatio > canvasRatio) {
+        draw_width = canvas.width;
+        draw_height = canvas.width / imageRatio;
+        offset_y = (canvas.height - draw_height) / 2;
+    } else {
+        draw_height = canvas.height;
+        draw_width = canvas.height * imageRatio;
+        offset_x = (canvas.width - draw_width) / 2;
+    }
+
     temp_context!.putImageData(background, 0, 0);
-    context.drawImage(temp_canvas, 0, 0, canvas.width, canvas.height);
+    context.drawImage(temp_canvas, offset_x, offset_y, draw_height, draw_width);
 
     temp_context!.putImageData(overlay, 0, 0);
     context.save();
     context.translate(canvas.width, 0);
     context.scale(-1, 1);
-    context.drawImage(temp_canvas, 0, 0, canvas.width, canvas.height);
+    context.drawImage(temp_canvas, offset_x, offset_y, draw_height, draw_width);
     context.restore();
 }
 
 function syncResolution(canvas: HTMLCanvasElement) {
     const rect = canvas.getBoundingClientRect();
-    canvas.width = rect.width;
     canvas.height = rect.height;
+    canvas.width = rect.width;
 }
