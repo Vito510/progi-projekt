@@ -105,13 +105,13 @@ function drawMap(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, b
     }
 
     temp_context!.putImageData(background, 0, 0);
-    context.drawImage(temp_canvas, offset_x, offset_y, draw_height, draw_width);
+    context.drawImage(temp_canvas, offset_x, offset_y, draw_width, draw_height);
 
     temp_context!.putImageData(overlay, 0, 0);
     context.save();
     context.translate(canvas.width, 0);
     context.scale(-1, 1);
-    context.drawImage(temp_canvas, offset_x, offset_y, draw_height, draw_width);
+    context.drawImage(temp_canvas, offset_x, offset_y, draw_width, draw_height);
     context.restore();
 }
 
