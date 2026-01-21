@@ -1,4 +1,4 @@
-import "./NewMapPage.css";
+import "./NewTrackPage.css";
 import { useState, type ReactNode } from "react";
 import { useAuth } from "../../context/AuthContext";
 import ImageUtils from '../../utility/image_utils';
@@ -72,7 +72,7 @@ export default function NewMapPage() {
 		<>
 			<AppHeader>{auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}</AppHeader>
 			<AppBody width="wide">
-				<div className="-new-map-page">
+				<div className="-new-track-page">
 					{element}
 				</div>
 			</AppBody>

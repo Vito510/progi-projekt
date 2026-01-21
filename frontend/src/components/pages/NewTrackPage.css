@@ -1,5 +1,5 @@
 
-.-new-map-page {
+.-new-track-page {
     width: 100%;
     height: 100%;
     min-height: 0;
@@ -11,12 +11,12 @@
     padding: var(--spacing);
 }
 
-.-new-map-page>.-card {
+.-new-track-page>.-card {
     width: 100%;
     height: 100%;
 }
 
-.-new-map-page>.-card>section {
+.-new-track-page>.-card>section {
     padding: 0;
     width: 100%;
     height: 100%;
