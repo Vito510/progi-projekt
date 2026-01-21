@@ -24,7 +24,6 @@
 
 .-track-editor>main>.-popup>* {
     width: 100%;
-    padding: 0rem;
     min-height: 0px;
 }
 

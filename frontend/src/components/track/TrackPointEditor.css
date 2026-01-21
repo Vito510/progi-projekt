@@ -48,11 +48,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+
+    border-right: var(--border-highlight);
 }
 
 .-track-point-editor>aside {
-    min-width: fit-content;
-    height: 50dvh;
+    /* ARBITRARY */
+    min-width: 20rem;
+    /* ARBITRARY */
+    height: calc(100dvh - 6 * var(--spacing)); 
 
     padding: 1rem;
     padding-bottom: 0rem;
@@ -64,7 +68,6 @@
     flex-direction: column;
     gap: var(--packing);
     
-    border-left: var(--border-highlight);
 }
 
 /* ------------------------------------------------------- */
@@ -86,9 +89,14 @@
     }
     .-track-point-editor>aside {
         width: 100%;
+        min-height: 25dvh;
         height: 100%;
-        border: none;
-        border-top: var(--border-highlight);
+    }
+    .-track-point-editor>main {
+        width: 100%;
+        height: 100%;
+        border-right: none;
+        border-bottom: var(--border-highlight);
     }
 }
 

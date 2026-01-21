@@ -50,7 +50,9 @@ export default function MapPointPlacer({heightmap, onInput, points}: Props) {
         const pointmap = PathMap.generatePathmap(points, heightmap.width, heightmap.height);
 
         canvas_ref.current!.addEventListener("resize", () => {
-            syncResolution(canvas_ref.current!);
+            drawCanvas(context!, canvas_ref.current!, normalized_heightmap, pointmap);
+        })
+        window.addEventListener("resize", () => {
             drawCanvas(context!, canvas_ref.current!, normalized_heightmap, pointmap);
         })
         
@@ -58,12 +60,10 @@ export default function MapPointPlacer({heightmap, onInput, points}: Props) {
         if (!context)
             throw new Error("Failed to get rendering context");
         
-        syncResolution(canvas_ref.current!);
         drawCanvas(context, canvas_ref.current!, normalized_heightmap, pointmap);
     }, []);
 
     useEffect(() => {
-        syncResolution(canvas_ref.current!);
         const pointmap = PathMap.generatePathmap(points, heightmap.width, heightmap.height);
         drawCanvas(context!, canvas_ref.current!, normalized_heightmap, pointmap);
     }, [points])
@@ -82,7 +82,8 @@ export default function MapPointPlacer({heightmap, onInput, points}: Props) {
 }
 
 function drawCanvas(context: CanvasRenderingContext2D, canvas: HTMLCanvasElement, background: ImageData, overlay: ImageData): void {
-    
+    syncResolution(canvas);
+
     temp_canvas.width = background.width;
     temp_canvas.height = background.height;
 
