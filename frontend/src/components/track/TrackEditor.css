@@ -50,4 +50,11 @@
     overflow: hidden;
 }
 
+
+@media screen and (max-width: 768px) {
+    .-track-editor>main>.-popup>* {
+        height: 100%;
+    }
+}
+
 /* ------------------------------------------------------- */
