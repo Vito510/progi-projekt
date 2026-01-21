@@ -89,14 +89,14 @@ export default function ButtonSaveTrack({ track }: Props) {
                                 <p>{errorMessage}</p>
                             </Placeholder>
                         </section>
-                        <section>
+                        <footer>
                             <List type='row' gap='medium' align='center'>
                                 <Button type='secondary' onClick={() => setErrorMessage(null)}>
                                     <i className='fa fa-times'></i>
                                     <p>OK</p>
                                 </Button>
                             </List>
-                        </section>
+                        </footer>
                     </Card>
                 </Popup>
             }

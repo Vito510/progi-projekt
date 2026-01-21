@@ -124,6 +124,12 @@ input[type="text"]:focus {
   outline-offset: 2px;
 }
 
+@media screen and (max-width: 768px) {
+    input[type="text"] {
+        min-width: 10rem;
+    }
+}
+
 /* ------------------------------------------------------- */
 
 /* ROOT ELEMENT STYLING */

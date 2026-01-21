@@ -29,7 +29,7 @@ export default function ButtonWhitelistTrack({ track }: Props) {
         <>
             <Button type='secondary' onClick={() => {setEditList(true)}}>
                 <i className='fa fa-list'></i>
-                <p>Whitelist</p>
+                <p>Whitelista</p>
             </Button>
             {editList && 
                 <Popup>

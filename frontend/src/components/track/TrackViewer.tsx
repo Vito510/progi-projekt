@@ -49,48 +49,57 @@ export default function TrackViewer({track}: {track: Track}) {
             {params ?
                 <div className='-track-viewer'>
                     <header>
-                        <List type='row' gap='small' wrap align='center'>
-                            {canEdit ?
-                                <input 
-                                    type="text" 
-                                    placeholder="Unesite naziv staze" 
-                                    defaultValue={track.name} 
-                                    onChange={(e) => {track.name = e.target.value}}
-                                />
-                                :
-                                <h2>{track.name}</h2>
-                            }
+                        <List type='column' gap='small'>
+                            <List type='row' align='center' gap='small' wrap>
+                                {canEdit ?
+                                    <input 
+                                        id='track_name'
+                                        type="text" 
+                                        placeholder="Unesite naziv staze" 
+                                        defaultValue={track.name} 
+                                        onChange={(e) => {track.name = e.target.value}}
+                                    />
+                                    :
+                                    <h2>{track.name}</h2>
+                                }
+                                <List type='row' align='center' gap='small'>
+                                    {canRate &&
+                                        <>
+                                            {/* Ocjenjivanje staze */}
+                                            <ButtonLikeTrack track={track}></ButtonLikeTrack>
+
+                                            {/* Dijeljenje staze */}
+                                            <Button type='secondary'>
+                                                <i className='fa fa-clone'></i>
+                                                <p>Podijeli</p>
+                                            </Button>
+                                        </>
+                                    }
+                                    <ButtonTrackStats track={track}></ButtonTrackStats>
+                                </List>
+                            </List>
+
+                            <hr style={{width : "100%", borderColor : "var(--highlight)"}}/>
 
                             {canEdit &&
-                                <>
+                                <List type='row' align='center' gap='small' wrap>
                                     {/* Spremanje staze */}
                                     <ButtonSaveTrack track={track}></ButtonSaveTrack>
 
                                     {/* Brisanje staze */}
                                     <ButtonDeleteTrack id={track.id} ></ButtonDeleteTrack>
 
+                                    {/* Uređivanje točaka */}
+                                    <Button onClick={() => {setIsEditing(true)}}>
+                                        <i className='fa fa-cogs'></i>
+                                        <p>Staza</p>
+                                    </Button>
+
                                     {/* Vidljivost staze */}
                                     <ButtonVisibleTrack track={track}></ButtonVisibleTrack>
                                     <ButtonWhitelistTrack track={track}></ButtonWhitelistTrack>
-                                </>
+                                </List>
                             }
-                            
-                            {canRate &&
-                                <>
-                                    {/* Ocjenjivanje staze */}
-                                    <ButtonLikeTrack track={track}></ButtonLikeTrack>
-
-                                    {/* Dijeljenje staze */}
-                                    <Button type='secondary'>
-                                        <i className='fa fa-clone'></i>
-                                        <p>Podijeli</p>
-                                    </Button>
-                                </>
-                            }
-                            <ButtonTrackStats track={track}></ButtonTrackStats>
-                            <Button onClick={() => {setIsEditing(true)}}>
-                                [WIP] Edit points
-                            </Button>
                         </List>
                     </header>
                     <main>
@@ -100,14 +109,14 @@ export default function TrackViewer({track}: {track: Track}) {
                             <Popup onClick={() => {setIsEditing(false)}}>
                                 <Card>
                                     <header>
-                                        <List expand align='center' justify='space-between'>
-                                            <List type='column' gap='nogap'>
+                                        <List type='column' gap='small'>
+                                            <List expand align='center' justify='space-between'>
                                                 <h2>Uređivanje točaka</h2>
-                                                <p><em>Kliknite da biste dodali točku</em></p>
+                                                <Button type='tertiary' onClick={() => {setIsEditing(false)}} shape="noshape">
+                                                    <i className='fa fa-times-circle fa-2x'></i>
+                                                </Button>
                                             </List>
-                                            <Button type='tertiary' onClick={() => {setIsEditing(false)}} shape="noshape">
-                                                <i className='fa fa-times-circle fa-2x'></i>
-                                            </Button>
+                                            <p><em>Kliknite da biste dodali točku</em></p>
                                         </List>
                                     </header>
                                     <section>
