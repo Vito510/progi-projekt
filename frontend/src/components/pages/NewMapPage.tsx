@@ -6,7 +6,7 @@ import TileUtils from "../../utility/tile_utils";
 import type MapSelection from "../../interfaces/MapSelection";
 import AppFooter from "../general/AppFooter";
 import AppHeader from "../general/AppHeader";
-import Map2D from "../map/Map2D";
+import MapSelector from "../map/MapSelector";
 import ButtonProfile from "../profile/ButtonProfile";
 import ButtonSignIn from "../profile/ButtonSignIn";
 import Button from "../general/Button";
@@ -38,7 +38,7 @@ export default function MapPage() {
 					</List>
 				</header>
 				<section>
-					<Map2D onInput={handler}/>
+					<MapSelector onInput={handler}/>
 				</section>
 			</Card>
 		</>

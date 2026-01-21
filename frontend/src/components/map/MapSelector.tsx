@@ -1,13 +1,10 @@
-import "./Map2D.css";
+import "./MapSelector.css";
 import "leaflet/dist/leaflet.css";
 import { useEffect } from "react";
 import type MapSelection from "../../interfaces/MapSelection";
 import Leaflet from "leaflet";
 import TileUtils from "../../utility/tile_utils";
 import html2canvas from "html2canvas";
-import Card from "../general/Card";
-import List from "../general/List";
-import Button from "../general/Button";
 
 interface Props {
 	// onInput: (selection: MapSelection) => void | Promise<void>;
@@ -130,7 +127,7 @@ export default function Map2D({ onInput }: Props) {
 	}, [onInput]);
 
 	return (
-		<div className="-map-2d">
+		<div className="-map-selector">
 			<div id="map"></div>
 		</div>
 	);

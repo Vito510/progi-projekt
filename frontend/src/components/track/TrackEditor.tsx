@@ -8,7 +8,7 @@ import TileUtils from "../../utility/tile_utils.js";
 import List from '../general/List.js';
 import Button from '../general/Button.js';
 import Card from '../general/Card.js';
-import Map3D from '../map/MapRenderer.js';
+import MapRenderer from '../map/MapRenderer.js';
 import TrackPointEditor from './TrackPointEditor.js';
 import ButtonSaveTrack from './ButtonSaveTrack.js';
 import ButtonDeleteTrack from './ButtonDeleteTrack.js';
@@ -94,7 +94,7 @@ export default function TrackEditor({track}: {track: Track}) {
                         </List>
                     </header>
                     <main>
-                        <Map3D params={params} points={pointList}></Map3D>
+                        <MapRenderer params={params} points={pointList}></MapRenderer>
 
                         {isEditing &&
                             <Popup onClick={() => {setIsEditing(false)}}>
