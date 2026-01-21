@@ -13,12 +13,11 @@ import List from '../general/List.js';
 interface Props {
     params: TerrainParameter,
     points: TrackPoint[],
-    previewPoint: TrackPoint | null,
 }
 
 let renderer: Renderer | null = null;
 
-export default function Map3D({params, points, previewPoint}: Props) {
+export default function Map3D({params, points}: Props) {
     const canvasRef = useRef<HTMLCanvasElement | null>(null);
     const animationRef = useRef<number | null>(null);
     const [error, setError] = useState<Error | null>(null);
@@ -43,8 +42,6 @@ export default function Map3D({params, points, previewPoint}: Props) {
                 renderer?.setQuality(quality);
 
                 let new_points = [...points];
-                if (previewPoint)
-                    new_points.push(previewPoint);
                 renderer.setPoints(new_points);
                 
                 animationRef.current = requestAnimationFrame(animate);
@@ -67,8 +64,6 @@ export default function Map3D({params, points, previewPoint}: Props) {
             renderer.adjustCanvas();
 
             let new_points = [...points];
-            if (previewPoint)
-                new_points.push(previewPoint);
             renderer.setPoints(new_points);
         }
     });

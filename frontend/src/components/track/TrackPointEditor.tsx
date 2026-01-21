@@ -1,23 +1,15 @@
-import { useRef, useState } from "react";
 import type TrackPoint from "../../interfaces/TrackPoint";
 import Button from "../general/Button";
 import './TrackPointEditor.css';
-import ImageUtils from "../../utility/image_utils";
-import TileUtils from "../../utility/tile_utils";
 import MapPointPlacer from "../map/MapPointPlacer";
 
 interface Props {
     points: TrackPoint[],
     onInput: (points: TrackPoint[]) => void,
-    onPreview: (point: TrackPoint | null) => void,
     heightmap: ImageData,
 }
 
-export default function TrackPointEditor({points, onInput, onPreview, heightmap}: Props) {
-    const [usePreview, setUsePreview] = useState<boolean>(false);
-    const input_x_ref = useRef<HTMLInputElement>(null);
-    const input_y_ref = useRef<HTMLInputElement>(null);
-
+export default function TrackPointEditor({points, onInput, heightmap}: Props) {
     function swap(array: TrackPoint[], index: number, increment: number): void {
         const index_a = index;
         let index_b = (index - increment) % array.length;
@@ -45,32 +37,6 @@ export default function TrackPointEditor({points, onInput, onPreview, heightmap}
         onInput(new_array);
     }
 
-    function updatePreview(): void {
-        if (usePreview)
-            onPreview(getPoint())
-        else
-            onPreview(null)
-    }
-
-    function togglePreview(): void {
-        if (!usePreview)
-            onPreview(getPoint())
-        else
-            onPreview(null)
-        setUsePreview(!usePreview);
-    }
-
-    function getPoint(): TrackPoint {
-        const x = 1.0 - parseInt(input_x_ref.current!.value) / 100.0;
-        const y = 1.0 - parseInt(input_y_ref.current!.value) / 100.0;
-        const z = TileUtils.decodeHeight(ImageUtils.get(heightmap, (1.0 - x) * heightmap.width, y * heightmap.height)) - 32768;
-        return {
-            x: x,
-            y: y,
-            z: z,
-        }
-    }
-
     return (
         <div className="-track-point-editor">
             <main>
@@ -83,7 +49,6 @@ export default function TrackPointEditor({points, onInput, onPreview, heightmap}
                 </Button>
                 {points.map((value, index) => 
                     <li key={index}>
-                        {/* <samp>({value.x.toFixed(2)},{value.y.toFixed(2)},{Math.round(value.z)})</samp> */}
                         <em>{index+1}.</em>
                         <samp>{Math.round(value.z)}m</samp>
                         <Button shape="round" type="primary" onClick={() => swap(points, index, 1)}>

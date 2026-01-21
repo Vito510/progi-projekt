@@ -24,7 +24,6 @@ export default function TrackEditor({track}: {track: Track}) {
     const [canRate, setCanRate] = useState<boolean>(true); // dodati provjeru može li korisnik ocjeniti ovu stazu (!isOwner)
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
-    const [previewPoint, setPreviewPoint] = useState<TrackPoint | null>(null);
     const selection: MapSelection = {
         max_latitude: track.max_lat,
         min_latitude: track.min_lat,
@@ -95,7 +94,7 @@ export default function TrackEditor({track}: {track: Track}) {
                         </List>
                     </header>
                     <main>
-                        <Map3D params={params} points={pointList} previewPoint={previewPoint}></Map3D>
+                        <Map3D params={params} points={pointList}></Map3D>
 
                         {isEditing &&
                             <Popup onClick={() => {setIsEditing(false)}}>
@@ -112,7 +111,7 @@ export default function TrackEditor({track}: {track: Track}) {
                                         </List>
                                     </header>
                                     <section>
-                                        <TrackPointEditor points={pointList} onInput={(points) => {setPointList(points); track.points = [...points];}} onPreview={(point) => {setPreviewPoint(point)}} heightmap={params.heightmap}></TrackPointEditor>
+                                        <TrackPointEditor points={pointList} onInput={(points) => {setPointList(points); track.points = [...points];}} heightmap={params.heightmap}></TrackPointEditor>
                                     </section>
                                 </Card>
                             </Popup>
