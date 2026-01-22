@@ -22,7 +22,8 @@
     align-items: center;
     min-height: 0;
     height: 100%;
-    width: fit-content;
+    /* ARBITRARY */
+    width: 40rem;
 
     gap: 1.5rem;
     padding: calc(var(--thickness));

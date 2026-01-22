@@ -68,7 +68,8 @@
 
 .-track-card>footer {
     background-color: var(--darken);
-    width: 100%;
+    /* ARBITRARY */
+    width: 30rem;
 
     display: flex;
     flex-direction: row;
@@ -77,10 +78,11 @@
 }
 
 .-track-card>footer>* {
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     gap: var(--spacing);
 }
 
@@ -120,6 +122,10 @@
 
 /* ------------------------------------------------------- */
 
+.-track-card>header {
+    width: 100%;
+}
+
 .-track-card>header section {
     display: flex;
     flex-direction: column;
@@ -142,19 +148,15 @@
 
 .-track-card>header h3, .-track-card>header p {
     /* ARBITRARY */
-    width: 15rem;
+    max-width: 16rem;
     overflow-x: hidden;
-}
-
-.-track-card:hover>header h3, .-track-card:hover>header p {
-    width: auto;
-    overflow-x: none;
 }
 
 /* ------------------------------------------------------- */
 
 @media screen and (max-width: 768px) {
     .-track-card>footer {
+        width: 100%;
         flex-direction: column;
     }
 
@@ -179,7 +181,7 @@
     
     .-track-card>header h3, .-track-card>header p {
         /* ARBITRARY */
-        width: 8rem;
+        max-width: 8rem;
     }
 }
 
