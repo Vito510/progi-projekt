@@ -1,42 +1,88 @@
 import type Track from "../../interfaces/Track";
 import Button from "../general/Button";
-import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useState, useEffect } from "react";
+//import { useAuth } from "../../context/AuthContext";
 
 interface Props {
     track: Track;
 }
 
 export default function ButtonLikeTrack({ track }: Props) {
-    // const { user } = useAuth(); //već je u TrackEditoru
-    // const canLike = user?.authenticated && !(track.owner === user.name);
-    const [isLiked, setIsLiked] = useState(false); // trebalo bi se nekako saznat je li ovaj korisnik od prije likeao
+    const [isLiked, setIsLiked] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const handleLike = () => {
-        if (isLiked) {
-            setIsLiked(false);
-            track.stars-- // i/ili preko api poziva
-            console.log("Odlajkao sam");
-        } else {
-            setIsLiked(true);
-            track.stars++
-            console.log("Lajkao sam")
+    useEffect(() => {
+        const fetchIsLiked = async () => {
+            try {
+                const res = await fetch(`/api/track/${track.id}/star`, {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem("authToken") || ""}`
+                    }
+                });
+                if (!res.ok) throw new Error("Failed to fetch like status");
+                const liked: boolean = await res.json();
+                if (liked !== null) {
+                    setIsLiked(liked);
+                }
+            } catch (err) {
+                console.error("Error fetching like status:", err);
+                //setLoading(true); // kao hint da se ne može dohvatiti status
+            }
+        };
+
+        fetchIsLiked();
+    }, [track.id]);
+
+    const handleLike = async () => {
+        if (loading) return;
+        setLoading(true);
+
+        const newState = !isLiked; // samo toggla trenutno stanje
+        setIsLiked(newState);
+        track.stars += newState ? 1 : -1;
+        console.log(newState ? "pokusavam likeat" : "pokusavam odlikeat");
+
+        try {
+            const res = await fetch(`/api/track/${track.id}/star`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${sessionStorage.getItem("authToken") || ""}`
+                },
+                body: JSON.stringify(newState)
+            });
+
+            if (!res.ok) {
+                throw new Error("Failed to update like status");
+            }
+
+            const updated: boolean | null = await res.json();
+            if (updated === null) {
+                console.error("Track not found or user not logged in");
+                // revert local state
+                setIsLiked(!newState);
+                track.stars += newState ? -1 : 1;
+            } else {
+                setIsLiked(updated); // just to sync with backend
+            }
+        } catch (err) {
+            console.error("Error updating like:", err);
+            // revert local state
+            setIsLiked(!newState);
+            track.stars += newState ? -1 : 1;
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <>
-            {isLiked ?
-                <Button type="quaternary" onClick={handleLike}>
-                    <i className="fa fa-star"></i>
-                    <p>Ocjenjeno</p>
-                </Button>
-                :
-                <Button type="secondary" onClick={handleLike}>
-                    <i className="fa fa-star"></i>
-                    <p>Ocjeni</p>
-                </Button>
-            }
-        </>
+        <Button
+            type={isLiked ? "quaternary" : "secondary"}
+            onClick={handleLike}
+            disabled={loading}
+        >
+            <i className="fa fa-star"></i>
+            <p>{loading ? "..." : isLiked ? "Ocjenjeno" : "Ocjeni"}</p>
+        </Button>
     );
 }
