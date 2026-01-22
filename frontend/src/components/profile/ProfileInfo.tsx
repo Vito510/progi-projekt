@@ -6,12 +6,14 @@ import Button from '../general/Button';
 import Popup from '../general/Popup';
 import Card from '../general/Card';
 import type User from '../../interfaces/User';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileInfoProps {
     profile: User;
 }
 
 export default function ProfileInfo({ profile }: ProfileInfoProps) {
+    const navigate = useNavigate();
     const auth = useAuth();
     const isOwnProfile = auth.user?.name === profile.name;
 
@@ -47,6 +49,7 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
                 });
 
                 close_popup();
+                navigate(`/profile/${data.username}`);
 
                 /*const updatedUser = await fetch('/api/profile/me', {
                     headers: di da {
@@ -86,7 +89,7 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
 
                 // log out + redirect
                 sessionStorage.removeItem("authToken");
-                window.location.href = "/";
+                navigate("/");
             } else {
                 console.error('Delete failed');
             }
