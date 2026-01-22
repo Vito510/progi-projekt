@@ -15,7 +15,7 @@ interface ProfileInfoProps {
 export default function ProfileInfo({ profile }: ProfileInfoProps) {
     const navigate = useNavigate();
     const auth = useAuth();
-    const isOwnProfile = auth.user?.name === profile.name;
+    const isOwnProfile = auth.user?.name === profile.name || auth.user?.role === "ADMIN";
 
     
     const [showEditPopup, setShowEditPopup] = useState(false);
@@ -44,6 +44,11 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
             if (response.ok) {
                 const data = await response.json();
 
+                if (!data || !data.username) {
+                    setErrorMessage("It's just simply not possible (ili greška ili ime već postoji).");
+                    return;
+                }
+
                 auth.setUser({
                     ...auth.user!,
                     name: data.username
@@ -63,14 +68,14 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
                 console.log('Profile updated', updatedUser);
 
                 close_popup();*/
-            } else if (response.status === 409) {
-                setErrorMessage("Korisničko ime je zauzeto.");
+            /*} else if (response.status === 409) {
+                setErrorMessage("Korisničko ime je zauzeto.");*/
             } else {
                 setErrorMessage("Nešto je pošlo po zlu. Pokušajte ponovno.");
             }
         } catch (error) {
             console.error("Error editing profile:", error);
-            setErrorMessage("Nešto je pošlo po zlu. Pokušajte ponovno.");
+            // setErrorMessage("Nešto je pošlo po zlu. Pokušajte ponovno.");
         }
     };
 
@@ -87,15 +92,23 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
                 },
             });
 
-            if (response.ok) {
-                console.log('Profile deleted');
-
-                // log out + redirect
-                sessionStorage.removeItem("authToken");
-                navigate("/");
-            } else {
-                console.error('Delete failed');
+            if (response.status === 404) {
+                setErrorMessage("Profil ne postoji.");
+                return;
             }
+
+            if (!response.ok) {
+                setErrorMessage("Greška pri brisanju profila.");
+                return;
+            }
+
+            //pretpostavljamo da je profil deletan
+            console.log('Profile deleted');
+
+            // log out + redirect
+            sessionStorage.removeItem("authToken");
+            navigate("/");
+           
         } catch (error) {
             console.error('Error deleting profile:', error);
         }
@@ -184,6 +197,7 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
                                 Odustani
                             </Button>
                         </List>
+                        {error_message && <p className='error'>{error_message}</p>}
                     </List>
                 </Card>
             </Popup>

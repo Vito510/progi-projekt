@@ -21,12 +21,12 @@ export default function MapSelector({ onInput }: Props) {
 
 		const baseMaps = {
 			OpenStreetMap: Leaflet.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-				maxZoom: 19,
+				maxZoom: 13,
 				attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 			}),
 
 			Satelite: Leaflet.tileLayer("https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png", {
-				maxZoom: 19,
+				maxZoom: 13,
 				attribution: "&copy; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
 			}),
 
@@ -41,7 +41,7 @@ export default function MapSelector({ onInput }: Props) {
 
 		// dodavanje watercolor layera
 		const watercolor = Leaflet.tileLayer("https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg", {
-			maxZoom: 16,
+			maxZoom: 13,
 			attribution:
 				'&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 		});

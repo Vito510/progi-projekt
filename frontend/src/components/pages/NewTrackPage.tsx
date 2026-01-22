@@ -53,9 +53,9 @@ export default function NewMapPage() {
 			name: "Naziv staze",
 			stars: 0,
 			visibility: 'Private',
-			owner: "Naziv vlasnika", // postaviti na naziv korisnika
-			date_created: new Date(2018, 11, 24, 10, 33, 30, 0), // postaviti na trenutni datum
-			id: 0,
+			owner: auth.user?.name ?? "Unknown",
+			date_created: new Date(),
+			id: 0, // kaj s ovim?
 			max_lat: selection.max_latitude,
 			max_lon: selection.max_longitude,
 			min_lat: selection.min_latitude,

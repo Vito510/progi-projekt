@@ -1,5 +1,6 @@
 import './TrackViewer.css';
 import { useEffect, useState } from 'react';
+import { useAuth } from "../../context/AuthContext";
 import type Track from '../../interfaces/Track.js';
 import type MapSelection from '../../interfaces/MapSelection.js';
 import type TerrainParameter from '../../interfaces/TerrainParameter.js';
@@ -20,9 +21,12 @@ import Popup from '../general/Popup.js';
 import ButtonCopyTrack from './ButtonCopyTrack.js';
 
 export default function TrackViewer({track}: {track: Track}) {
+    const auth = useAuth();
+    const isOwner = auth.user?.name === track.owner;
+    const isAdmin = auth.user?.role === "ADMIN";
     let [params, setParams] = useState<TerrainParameter | null>(null);
-    const [canEdit, setCanEdit] = useState<boolean>(true); // dodati provjeru može li korisnik editat ovu stazu (isOwner || isAdmin)
-    const [canRate, setCanRate] = useState<boolean>(true); // dodati provjeru može li korisnik ocjeniti ovu stazu (!isOwner)
+    const [canEdit, setCanEdit] = useState<boolean>(isOwner || isAdmin);
+    const [canRate, setCanRate] = useState<boolean>(!isOwner);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
     const selection: MapSelection = {

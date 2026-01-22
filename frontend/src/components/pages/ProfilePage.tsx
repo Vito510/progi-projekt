@@ -36,8 +36,15 @@ export default function ProfilePage() {
             try {
                 // Fetch profile info by username
                 const profileRes = await fetch(`/api/profile/${name}`);
-                if (!profileRes.ok) throw new Error(`HTTP error (fetching profile data) status: ${profileRes.status}`);
+                if (!profileRes.ok) throw new Error(`${profileRes.status} HTTP error! (fetching profile data) status: ${profileRes.statusText}`);
+                
                 const profileData = await profileRes.json();
+
+                if (profileData === null) {
+                    // 200 OK, ali response je null
+                    throw new Error("Korisnik ne postoji");
+                }
+
                 setProfile({
                     name: profileData.username,
                     email: profileData.email
@@ -50,9 +57,10 @@ export default function ProfilePage() {
                         "Content-Type": "application/json"
                     }
                 });
-                if (!trackRes.ok) throw new Error(`HTTP error! status (fetching profile tracks): ${trackRes.status}`);
+                if (!trackRes.ok) throw new Error(`${profileRes.status} HTTP error! (fetching profile tracks) status: ${profileRes.statusText}`);
                 const data: Track[] = await trackRes.json();
                 setTracks(data);
+
             } catch (err: any) {
                 setError(err.message);
             } finally {
@@ -61,9 +69,37 @@ export default function ProfilePage() {
         };
 
         fetchProfileData();
-    }, [name]);
+    }, [name, auth.user]);
 
-    return (
+    if (loading) {
+        return (
+            <>
+                <AppHeader />
+                <AppBody width="thin">
+                    <Card>
+                        <p>Učitavanje profila...</p>
+                    </Card>
+                </AppBody>
+                <AppFooter />
+            </>
+        );
+    }
+
+    if (error) {
+        return (
+            <>
+                <AppHeader />
+                <AppBody width="thin">
+                    <Card>
+                        <h1>Profil nije pronađen</h1>
+                        <p>{error}</p>
+                    </Card>
+                </AppBody>
+                <AppFooter />
+            </>
+        );
+    }
+    return(
         <>
             <AppHeader>
                 <ButtonNewTrack></ButtonNewTrack>

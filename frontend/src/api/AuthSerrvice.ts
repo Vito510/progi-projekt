@@ -2,6 +2,7 @@ export interface UserResponse {
     authenticated: boolean;
     name?: string;
     email?: string;
+    role?: "USER" | "ADMIN";
   }
   
   export async function fetchCurrentUser(): Promise<UserResponse> {
