@@ -40,22 +40,22 @@ public interface UserTrackRepository extends JpaRepository<UserTrack, Integer>{
     @Query(
             value = """
         SELECT
-            p.id AS id,
-            p.path_name AS name,
+            p.pathid AS id,
+            p.pathname AS name,
             u.username AS owner,
             p.visibility AS visibility,
-            COUNT(s.id) AS stars,
-            p.min_y AS minLat,
-            p.min_x AS minLon,
-            p.max_y AS maxLat,
-            p.max_x AS maxLon
+            COUNT(s.userid) AS stars,
+            p.miny AS minLat,
+            p.minx AS minLon,
+            p.maxy AS maxLat,
+            p.maxx AS maxLon
         FROM paths p
         JOIN users u ON u.userid = p.userid
         LEFT JOIN stars s ON s.pathid = p.pathid
         WHERE u.username = :ownerUsername
         GROUP BY
-            p.id, p.path_name, u.username, p.visibility,
-            p.min_y, p.min_x, p.max_y, p.max_x
+            p.pathid, p.pathname, u.username, p.visibility,
+            p.miny, p.minx, p.maxy, p.maxx
     """,
             nativeQuery = true
     )
@@ -76,14 +76,14 @@ public interface UserTrackRepository extends JpaRepository<UserTrack, Integer>{
                 FROM paths p
                 JOIN users u ON u.userid = p.userid
                 LEFT JOIN stars s ON s.pathid = p.pathid
-                WHERE u.username = ?
+                WHERE u.username = :ownerUsername
                     AND (
                         p.visibility = 0
                         OR EXISTS (
                             SELECT 1 FROM whitelist w
                             WHERE w.pathid = p.pathid
                                 AND w.userid = (
-                                    SELECT userid FROM users WHERE username = ?
+                                    SELECT userid FROM users WHERE username = :viewerUsername
                                 )
                         )
                     )

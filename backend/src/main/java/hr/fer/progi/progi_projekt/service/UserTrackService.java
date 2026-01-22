@@ -49,7 +49,7 @@ public class UserTrackService {
         UserProfile currUser = authService.getCurrentUser(request);
 
         if (currUser == null) {
-            currUser = new UserProfile();
+            return trackRepo.findPublicAndWhitelisted(profileUsername, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
         }
 
         if (currUser.getUsername().equals(profileUsername) || currUser.getRole() == Role.ADMIN) {

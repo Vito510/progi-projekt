@@ -44,7 +44,12 @@ export default function ProfilePage() {
                 });
                 setIsOwnProfile(auth.user?.name === profileData.username);
 
-                const trackRes = await fetch(`/api/profile/${name}/tracks`);
+                const trackRes = await fetch(`/api/profile/${name}/tracks`, {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem("authToken") || ""}`,
+                        "Content-Type": "application/json"
+                    }
+                });
                 if (!trackRes.ok) throw new Error(`HTTP error! status (fetching profile tracks): ${trackRes.status}`);
                 const data: Track[] = await trackRes.json();
                 setTracks(data);
