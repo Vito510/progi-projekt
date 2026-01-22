@@ -57,7 +57,10 @@
     .-track-viewer>header>.-list>.-list>.-list>.-button>button, .-track-viewer>header>.-list>.-list>.-button>button {
         padding: 0.5rem;
     }
-    .-track-viewer>header>.-list>.-list>.-list>.-button>button>p, .-track-viewer>header>.-list>.-list>.-button>button>p {
+    .-track-viewer>header>.-list>.-list>.-list>.-button>button>p, 
+    .-track-viewer>header>.-list>.-list>.-button>button>p, 
+    .-track-viewer>header>.-list>.-list>.-list>.-button>button>span, 
+    .-track-viewer>header>.-list>.-list>.-button>button>span {
         display: none;
     }
 }
