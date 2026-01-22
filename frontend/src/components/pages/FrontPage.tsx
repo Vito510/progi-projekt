@@ -4,7 +4,6 @@ import TrackList from '../track/TrackList';
 import AppFooter from '../general/AppFooter';
 import AppHeader from '../general/AppHeader';
 import ButtonProfile from '../profile/ButtonProfile';
-import { useAuth } from '../../context/AuthContext';
 import ButtonNewTrack from '../track/ButtonNewTrack';
 import ProfileSearch from '../profile/ProfileSearch';
 import AppBody from '../general/AppBody';
@@ -12,7 +11,6 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 export default function FrontPage() {
-    const auth = useAuth();
     const [tracks, setTracks] = useState<Track[]>([]);
     useEffect(() => {
         fetch('/api/track/top')

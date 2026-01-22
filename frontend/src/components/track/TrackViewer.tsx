@@ -64,15 +64,8 @@ export default function TrackViewer({track}: {track: Track}) {
                                     <h2>{track.name}</h2>
                                 }
                                 <List type='row' align='center' gap='small'>
-                                    {canRate &&
-                                        <>
-                                            {/* Ocjenjivanje staze */}
-                                            <ButtonLikeTrack track={track}></ButtonLikeTrack>
-
-                                            {/* Dijeljenje staze */}
-                                           <ButtonCopyTrack track={track}></ButtonCopyTrack>
-                                        </>
-                                    }
+                                    {canRate && <ButtonLikeTrack track={track}></ButtonLikeTrack>}
+                                    <ButtonCopyTrack track={track}></ButtonCopyTrack>
                                     <ButtonTrackStats track={track}></ButtonTrackStats>
                                 </List>
                             </List>
