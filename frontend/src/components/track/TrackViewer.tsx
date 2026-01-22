@@ -17,6 +17,7 @@ import ButtonVisibleTrack from './ButtonVisibleTrack.js';
 import ButtonWhitelistTrack from './ButtonWhitelistTrack.js';
 import ButtonTrackStats from './ButtonTrackStats.js';
 import Popup from '../general/Popup.js';
+import ButtonCopyTrack from './ButtonCopyTrack.js';
 
 export default function TrackViewer({track}: {track: Track}) {
     let [params, setParams] = useState<TerrainParameter | null>(null);
@@ -69,10 +70,7 @@ export default function TrackViewer({track}: {track: Track}) {
                                             <ButtonLikeTrack track={track}></ButtonLikeTrack>
 
                                             {/* Dijeljenje staze */}
-                                            <Button type='secondary'>
-                                                <i className='fa fa-clone'></i>
-                                                <p>Podijeli</p>
-                                            </Button>
+                                           <ButtonCopyTrack track={track}></ButtonCopyTrack>
                                         </>
                                     }
                                     <ButtonTrackStats track={track}></ButtonTrackStats>

@@ -4,6 +4,7 @@ import List from '../general/List';
 import Button from '../general/Button';
 import ButtonLikeTrack from './ButtonLikeTrack.js';
 import type Track from '../../interfaces/Track.js';
+import ButtonCopyTrack from './ButtonCopyTrack.js';
 
 interface Props {
     index?: number,
@@ -56,10 +57,7 @@ export default function TrackCard({index = 0, track} : Props) {
                         Otvori
                     </Button>
                     <ButtonLikeTrack track={track}></ButtonLikeTrack>
-                    <Button type='secondary'>
-                        <i className='fa fa-clone'></i>
-                        Podijeli
-                    </Button>
+                   <ButtonCopyTrack track={track}></ButtonCopyTrack>
                 </section>
             </footer>
         </li>
