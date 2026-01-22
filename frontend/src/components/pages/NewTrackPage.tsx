@@ -8,7 +8,6 @@ import AppFooter from "../general/AppFooter";
 import AppHeader from "../general/AppHeader";
 import MapSelector from "../map/MapSelector";
 import ButtonProfile from "../profile/ButtonProfile";
-import ButtonSignIn from "../profile/ButtonSignIn";
 import Button from "../general/Button";
 import type Track from "../../interfaces/Track";
 import TrackViewer from "../track/TrackViewer";
@@ -70,7 +69,9 @@ export default function NewMapPage() {
 
 	return (
 		<>
-			<AppHeader>{auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}</AppHeader>
+			<AppHeader>
+				<ButtonProfile></ButtonProfile>
+			</AppHeader>
 			<AppBody width="wide">
 				<div className="-new-track-page">
 					{element}

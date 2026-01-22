@@ -4,7 +4,6 @@ import TrackList from '../track/TrackList';
 import AppFooter from '../general/AppFooter';
 import AppHeader from '../general/AppHeader';
 import ButtonProfile from '../profile/ButtonProfile';
-import ButtonSignIn from '../profile/ButtonSignIn';
 import { useAuth } from '../../context/AuthContext';
 import ButtonNewTrack from '../track/ButtonNewTrack';
 import ProfileSearch from '../profile/ProfileSearch';
@@ -15,7 +14,6 @@ import { useEffect } from "react";
 export default function FrontPage() {
     const auth = useAuth();
     const [tracks, setTracks] = useState<Track[]>([]);
-
     useEffect(() => {
         fetch('/api/track/top')
             .then(res => res.json())
@@ -44,7 +42,7 @@ export default function FrontPage() {
             <AppHeader>
                 <ProfileSearch></ProfileSearch>
                 <ButtonNewTrack></ButtonNewTrack>
-                {auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}
+                <ButtonProfile></ButtonProfile>
             </AppHeader>
             <AppBody width='thin'>
                 <div className='-front-page'>
@@ -68,7 +66,7 @@ function getDebugTracks(): Track[] {
             visibility: 'Private',
             owner: "Naziv vlasnika",
             date_created: new Date(2018, 11, 24, 10, 33, 30, 0),
-            id: i,
+            id: i-1,
             max_lat: 0,
             max_lon: 0,
             min_lat: 0,

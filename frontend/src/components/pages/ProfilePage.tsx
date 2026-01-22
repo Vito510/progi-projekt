@@ -12,6 +12,8 @@ import AppBody from '../general/AppBody';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import type User from '../../interfaces/User';
+import ButtonProfile from '../profile/ButtonProfile';
+import { useAuth } from '../../context/AuthContext';
 
 
 export default function ProfilePage() {
@@ -20,6 +22,7 @@ export default function ProfilePage() {
     const [profile, setProfile] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [isOwnProfile, setIsOwnProfile] = useState<boolean>(false);
    
     // const name = paramName ?? "name";
     // provjeri što raditi ako nije navedeno ime
@@ -40,7 +43,7 @@ export default function ProfilePage() {
                     name: profileData.username,
                     email: profileData.email
                 });
-
+                setIsOwnProfile(useAuth().user?.name === profileData.username);
 
                 const trackRes = await fetch(`/api/profile/${name}/tracks`);
                 if (!trackRes.ok) throw new Error(`HTTP error! status (fetching profile tracks): ${trackRes.status}`);
@@ -60,7 +63,7 @@ export default function ProfilePage() {
         <>
             <AppHeader>
                 <ButtonNewTrack></ButtonNewTrack>
-                <ButtonSignOut></ButtonSignOut>
+                {isOwnProfile ? <ButtonSignOut></ButtonSignOut> : <ButtonProfile></ButtonProfile>}
             </AppHeader>
             <AppBody width='thin'>
                 <div className='-profile-page'>
