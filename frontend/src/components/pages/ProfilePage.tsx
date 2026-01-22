@@ -18,14 +18,13 @@ import { useAuth } from '../../context/AuthContext';
 
 export default function ProfilePage() {
     const { name: paramName } = useParams<{ name: string }>();
+    const auth = useAuth(); // ne diraj ovo...MK
     const [tracks, setTracks] = useState<Track[]>([]);
     const [profile, setProfile] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [isOwnProfile, setIsOwnProfile] = useState<boolean>(false);
    
-    // const name = paramName ?? "name";
-    // provjeri što raditi ako nije navedeno ime
     if (!paramName) {
         return <p>Nešto ne valja.</p>;
     }
@@ -43,7 +42,7 @@ export default function ProfilePage() {
                     name: profileData.username,
                     email: profileData.email
                 });
-                setIsOwnProfile(useAuth().user?.name === profileData.username);
+                setIsOwnProfile(auth.user?.name === profileData.username);
 
                 const trackRes = await fetch(`/api/profile/${name}/tracks`);
                 if (!trackRes.ok) throw new Error(`HTTP error! status (fetching profile tracks): ${trackRes.status}`);
