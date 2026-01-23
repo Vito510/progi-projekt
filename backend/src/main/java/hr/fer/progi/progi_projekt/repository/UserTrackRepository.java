@@ -11,10 +11,14 @@ import org.springframework.stereotype.Repository;
 
 import hr.fer.progi.progi_projekt.dto.TopTrackDto;
 import hr.fer.progi.progi_projekt.model.UserTrack;
+import hr.fer.progi.progi_projekt.model.enums.TrackVisibility;
 
 @Repository
 public interface UserTrackRepository extends JpaRepository<UserTrack, Integer>{
     Optional<UserTrack> findByName(String name);
+
+    List<UserTrack> findByOwnerId(Integer ownerId);
+    List<UserTrack> findByOwnerIdAndVisibility(Integer ownerId, TrackVisibility visibility);
 
     @Query(value = """
         SELECT

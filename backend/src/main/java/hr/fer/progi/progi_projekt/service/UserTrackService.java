@@ -53,19 +53,47 @@ public class UserTrackService {
         }
 
         if (currUser.getUsername().equals(profileUsername) || currUser.getRole() == Role.ADMIN) {
+            Optional<UserProfile> p = profileRepo.findByUsername(profileUsername);
+            if(p.isEmpty()){
+                return null;
+            }
+            List<UserTrack> t = trackRepo.findByOwnerId(p.get().getId());
+            // pretvorba u dto
+            List<UserTrackDto> dtos = new ArrayList<>();
+            for (UserTrack entity : t) {
+                Optional<UserProfile> profile = profileRepo.findById(entity.getOwnerId());
+                dtos.add(trackMapper.toDto(entity, profile.get().getUsername()));
+            }
+            if(t.size()>0){
+                System.out.println("-----------------");
+                System.out.println(t.size());
+                System.out.println(t.getFirst());
+                System.out.println("-----------------");
+            }
             return trackRepo.findAllByOwnerUsername(profileUsername);
         }
-
+        Optional<UserProfile> p = profileRepo.findByUsername(profileUsername);
+        if(p.isEmpty()){
+            return null;
+        }
+        List<UserTrack> t = trackRepo.findByOwnerIdAndVisibility(p.get().getId(), TrackVisibility.PUBLIC);
+        // pretvorba u dto
+        System.out.println("-----------------");
+        System.out.println(t.size());
+        if(t.size()>0){
+            System.out.println(t.getFirst().getPoints().getFirst());
+        }
+        System.out.println("-----------------");
         return trackRepo.findPublicAndWhitelisted(profileUsername, currUser.getUsername());
     }
 
     @Transactional
-    public boolean createUserTrack(UserTrackDto userTrackDto, HttpServletRequest request) {
+    public Integer createUserTrack(UserTrackDto userTrackDto, HttpServletRequest request) {
         // trenutni korisnik
         UserProfile currUser = authService.getCurrentUser(request);
         if(currUser==null){
             System.out.println("nije auth");
-            return false;
+            return null;
         }
 
         UserTrack userTrack = trackMapper.toNewEntity(userTrackDto, currUser.getId());
@@ -76,7 +104,7 @@ public class UserTrackService {
         List<String> filteredWhitelist = new ArrayList<>(userTrackDto.getWhitelist());
         filteredWhitelist.remove(currUser.getUsername());
         updateWhitelist(userTrack, filteredWhitelist);
-        return true;
+        return userTrack.getId();
     }
 
     public UserTrackDto getUserTrack(Integer id, HttpServletRequest request) {

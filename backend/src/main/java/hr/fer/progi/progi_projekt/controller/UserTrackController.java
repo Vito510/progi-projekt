@@ -31,11 +31,12 @@ public class UserTrackController {
 
     @GetMapping("/track/{id}")
     public UserTrackDto getUserTrack(@PathVariable Integer id, HttpServletRequest request) {
-        return userTrackService.getUserTrack(id, request);
+        UserTrackDto d = userTrackService.getUserTrack(id, request);
+        return d;
     }
     
     @PostMapping("/track")
-    public boolean createUserTrack(@RequestBody UserTrackDto track, HttpServletRequest request){
+    public Integer createUserTrack(@RequestBody UserTrackDto track, HttpServletRequest request){
         return userTrackService.createUserTrack(track, request);
     }
 
