@@ -25,8 +25,6 @@ export default function TrackViewer({track}: {track: Track}) {
     const isOwner = auth.user?.name === track.owner;
     const isAdmin = auth.user?.role === "ADMIN";
     let [params, setParams] = useState<TerrainParameter | null>(null);
-    const [canEdit, setCanEdit] = useState<boolean>(isOwner || isAdmin);
-    const [canRate, setCanRate] = useState<boolean>(!isOwner);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
     const selection: MapSelection = {
@@ -56,7 +54,7 @@ export default function TrackViewer({track}: {track: Track}) {
                     <header>
                         <List type='column' gap='small'>
                             <List type='row' align='center' gap='small' wrap>
-                                {canEdit ?
+                                {isOwner || isAdmin ?
                                     <input 
                                         id='track_name'
                                         type="text" 
@@ -68,7 +66,7 @@ export default function TrackViewer({track}: {track: Track}) {
                                     <h2>{track.name}</h2>
                                 }
                                 <List type='row' align='center' gap='small'>
-                                    {canRate && <ButtonLikeTrack track={track}></ButtonLikeTrack>}
+                                    {!isOwner && <ButtonLikeTrack track={track}></ButtonLikeTrack>}
                                     <ButtonCopyTrack track={track}></ButtonCopyTrack>
                                     <ButtonTrackStats track={track}></ButtonTrackStats>
                                 </List>
@@ -76,7 +74,7 @@ export default function TrackViewer({track}: {track: Track}) {
 
                             <hr style={{width : "100%", borderColor : "var(--highlight)"}}/>
 
-                            {canEdit &&
+                            {isOwner || isAdmin &&
                                 <List type='row' align='center' gap='small' wrap>
                                     {/* Spremanje staze */}
                                     <ButtonSaveTrack track={track}></ButtonSaveTrack>

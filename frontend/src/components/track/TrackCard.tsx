@@ -5,6 +5,7 @@ import Button from '../general/Button';
 import ButtonLikeTrack from './ButtonLikeTrack.js';
 import type Track from '../../interfaces/Track.js';
 import ButtonCopyTrack from './ButtonCopyTrack.js';
+import { useAuth } from '../../context/AuthContext.js';
 
 interface Props {
     index?: number,
@@ -14,6 +15,8 @@ interface Props {
 
 export default function TrackCard({index = 0, track, updateStars} : Props) {
     const ref = useRef<HTMLLIElement>(null);
+    const auth = useAuth();
+
     useEffect(() => {
         if (ref.current)
             ref.current.style.animationDelay = `${index * 0.1}s`;
@@ -57,7 +60,7 @@ export default function TrackCard({index = 0, track, updateStars} : Props) {
                         <i className='fa fa-external-link'></i>
                         Otvori
                     </Button>
-                    <ButtonLikeTrack track={track} updateStars={updateStars}></ButtonLikeTrack>
+                    {auth.user?.name !== track.owner && <ButtonLikeTrack track={track} updateStars={updateStars}></ButtonLikeTrack>}
                    <ButtonCopyTrack track={track}></ButtonCopyTrack>
                 </section>
             </footer>

@@ -5,10 +5,10 @@ import { useState, useEffect } from "react";
 
 interface Props {
     track: Track;
-    updateStars: (id: number, isLiked: boolean) => void;
+    updateStars?: (id: number, isLiked: boolean) => void;
 }
 
-export default function ButtonLikeTrack({ track, updateStars}: Props) {
+export default function ButtonLikeTrack({ track, updateStars = () => {}}: Props) {
     const [isLiked, setIsLiked] = useState(false);
     const [loading, setLoading] = useState(false);
 
