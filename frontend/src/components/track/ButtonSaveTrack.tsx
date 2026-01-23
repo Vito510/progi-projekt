@@ -40,13 +40,18 @@ export default function ButtonSaveTrack({ track }: Props) {
             });
             if (!response.ok)
                 throw new Error(`${response.status}: ${response.statusText}`);
-            const result = await response.json();
-            if (result === false)
+            const result = await response.text();
+            console.log(result);
+
+            if (result) {
+                track.id = parseInt(result);
+                setSuccess(true);
+                setTimeout(() => {setSuccess(false);}, 2000);
+            } else {
                 throw new Error("Niste prijavljeni.");
+            }
 
             // console.log("Spremio stazu");
-            setSuccess(true);
-            setTimeout(() => {setSuccess(false);}, 2000);
         } catch (error) {
             // console.error("Error:", error);
             setErrorMessage(error instanceof Error ? error.message : 'Nepoznata greška');
