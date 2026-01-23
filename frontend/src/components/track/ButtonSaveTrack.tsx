@@ -29,26 +29,47 @@ export default function ButtonSaveTrack({ track }: Props) {
         setLoading(true);
 
         try {
-            const response = await fetch(`/api/track`, {
-                method: 'POST',
-                credentials: "include", 
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}`
-                },
-                body: JSON.stringify(payload)
-            });
-            if (!response.ok)
-                throw new Error(`${response.status}: ${response.statusText}`);
-            const result = await response.text();
-            console.log(result);
+            if (track.id === -1) {
+                const response = await fetch(`/api/track`, {
+                    method: 'POST',
+                    credentials: "include", 
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok)
+                    throw new Error(`${response.status}: ${response.statusText}`);
+                const result = await response.text();
 
-            if (result) {
-                track.id = parseInt(result);
-                setSuccess(true);
-                setTimeout(() => {setSuccess(false);}, 2000);
+                if (result) {
+                    track.id = parseInt(result);
+                    setSuccess(true);
+                    setTimeout(() => {setSuccess(false);}, 2000);
+                } else {
+                    throw new Error("Niste prijavljeni.");
+                }
             } else {
-                throw new Error("Niste prijavljeni.");
+                const response = await fetch(`/api/track`, {
+                    method: 'PUT',
+                    credentials: "include", 
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok)
+                    throw new Error(`${response.status}: ${response.statusText}`);
+                const result = await response.text();
+
+                if (result) {
+                    setSuccess(true);
+                    setTimeout(() => {setSuccess(false);}, 2000);
+                } else {
+                    throw new Error("Niste prijavljeni.");
+                }
             }
 
             // console.log("Spremio stazu");
