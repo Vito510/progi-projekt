@@ -57,7 +57,7 @@ export default function TrackViewer({track}: {track: Track}) {
                     <header>
                         {isUnregistered ?
                             <List type='column' gap='small'>
-                                <em>Ulogirajte se za više mogučnosti</em>
+                                <em>Ulogirajte se za više mogućnosti</em>
 
                                 <hr style={{width : "100%", borderColor : "var(--highlight)"}}/>
 

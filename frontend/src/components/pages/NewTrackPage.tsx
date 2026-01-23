@@ -62,7 +62,7 @@ export default function NewMapPage() {
 			min_lon: selection.min_longitude,
 			points: [],
 			override: null,
-        	whitelist: ["", ""],
+        	whitelist: [],
 		}
 		setElement(<TrackViewer track={track}></TrackViewer>);
 	}
