@@ -18,12 +18,12 @@ export default function ButtonDeleteTrack({ id }: Props) {
 
     const handleConfirmDelete = async () => {
         // console.log("Brisem stazu " + id)
-        setLoading(true);
         if (id === -1) {
             setErrorMessage("Ne može se obrisati staza koja još nije spremljena!");
             return;
         }
-
+        
+        setLoading(true);
         try {
             const response = await fetch(`/api/track/${id}`, {
                 method: 'DELETE',
