@@ -1,0 +1,22 @@
+# Exported from Render on 2026-01-23T18:27:33Z
+version: "1"
+projects:
+- name: planinarko
+  environments:
+  - name: Production
+    services:
+    - type: web
+      name: planinarko
+      runtime: node
+      repo: https://github.com/Vito510/progi-projekt
+      plan: free
+      envVars:
+      - key: __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS
+        sync: false
+      - key: PORT
+        sync: false
+      region: frankfurt
+      buildCommand: npm install
+      startCommand: npm run prod
+      autoDeployTrigger: commit
+      rootDir: frontend
