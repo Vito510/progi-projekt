@@ -55,14 +55,14 @@ export default function NewMapPage() {
 			visibility: 'Private',
 			owner: auth.user?.name ?? "Unknown",
 			date_created: new Date(),
-			id: 0, // kaj s ovim?
+			id: -1,
 			max_lat: selection.max_latitude,
 			max_lon: selection.max_longitude,
 			min_lat: selection.min_latitude,
 			min_lon: selection.min_longitude,
 			points: [],
 			override: null,
-        	whitelist: ["petar", "grašo"], // trebalo bi biti prazno
+        	whitelist: ["", ""],
 		}
 		setElement(<TrackViewer track={track}></TrackViewer>);
 	}
