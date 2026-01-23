@@ -6,6 +6,7 @@ import Popup from '../general/Popup.js';
 import Placeholder from "../general/Placeholder.js";
 import { useState } from 'react';
 import { useAuth } from "../../context/AuthContext.js";
+import { WriteTrack } from "../../utility/TranslateTrack.js";
 
 interface Props {
     track: Track;
@@ -23,20 +24,7 @@ export default function ButtonSaveTrack({ track }: Props) {
             return;
         }
 
-        const payload = {
-            id: track.id,
-            name: track.name,
-            ownerName: track.owner,
-            dateCreated: track.date_created,
-            visibility: track.visibility=="Private" ? "PRIVATE" : "PUBLIC",
-            //visibility: track.visibility=="Private" ? 1 : 0, // moze ili brojevi ili slova sve veliko
-            minLat: track.min_lat,
-            minLon: track.min_lon,
-            maxLat: track.max_lat,
-            maxLon: track.max_lon,
-            whitelist: track.whitelist,
-            points: track.points,
-        }
+        const payload = WriteTrack(track);
         // console.log("stvaram stazu ", payload)
         setLoading(true);
 
@@ -50,18 +38,13 @@ export default function ButtonSaveTrack({ track }: Props) {
                 },
                 body: JSON.stringify(payload)
             });
-
-            if (!response.ok) {
+            if (!response.ok)
                 throw new Error(`${response.status}: ${response.statusText}`);
-            }
-
             const result = await response.json();
-
-            if (result === false) {
+            if (result === false)
                 throw new Error("Niste prijavljeni.");
-            }
 
-            console.log("Spremio stazu");
+            // console.log("Spremio stazu");
             setSuccess(true);
             setTimeout(() => {setSuccess(false);}, 2000);
         } catch (error) {

@@ -14,6 +14,7 @@ import { useEffect, useState } from 'react';
 import type User from '../../interfaces/User';
 import ButtonProfile from '../profile/ButtonProfile';
 import { useAuth } from '../../context/AuthContext';
+import { ParseTrack } from '../../utility/TranslateTrack';
 
 
 export default function ProfilePage() {
@@ -62,21 +63,8 @@ export default function ProfilePage() {
                 });
                 if (!trackRes.ok) throw new Error(`${profileRes.status} HTTP error! (fetching profile tracks) status: ${profileRes.statusText}`);
                 const data: Track[] = await trackRes.json();
-                const mapped: Track[] = data.map((t: any) => ({
-                    id: t.id,
-                    name: t.name,
-                    owner: t.owner,
-                    date_created: new Date(),
-                    visibility: t.visibility === 'PUBLIC' ? 'Public' : 'Private',
-                    stars: Number(t.stars),
-                    min_lat: t.minLat ?? t.min_lat,
-                    min_lon: t.minLon ?? t.min_lon,
-                    max_lat: t.maxLat ?? t.max_lat,
-                    max_lon: t.maxLon ?? t.max_lon,
-                    points: [],
-                    whitelist: [],
-                }));
-                setTracks(mapped);
+                const parsed: Track[] = data.map((d: any) => ParseTrack(d));
+                setTracks(parsed);
 
             } catch (err: any) {
                 setError(err.message);

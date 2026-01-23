@@ -53,7 +53,7 @@ export default function NewMapPage() {
 			name: "Naziv staze",
 			stars: 0,
 			visibility: 'Private',
-			owner: auth.user?.name ?? "Unknown",
+			owner: (auth.user && auth.user!.authenticated) ? auth.user?.name! : "",
 			date_created: new Date(),
 			id: -1,
 			max_lat: selection.max_latitude,

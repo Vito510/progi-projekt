@@ -9,6 +9,7 @@ import ProfileSearch from '../profile/ProfileSearch';
 import AppBody from '../general/AppBody';
 import { useState } from "react";
 import { useEffect } from "react";
+import { ParseTrack } from '../../utility/TranslateTrack';
 
 export default function FrontPage() {
     const [tracks, setTracks] = useState<Track[]>([]);
@@ -16,21 +17,8 @@ export default function FrontPage() {
         fetch('/api/track/top')
             .then(res => res.json())
             .then(data => {
-                const mapped: Track[] = data.map((t: any) => ({
-                    id: t.id,
-                    name: t.name,
-                    owner: t.owner,
-                    date_created: new Date(),
-                    visibility: t.visibility === 'PUBLIC' ? 'Public' : 'Private',
-                    stars: Number(t.stars),
-                    min_lat: t.minLat ?? t.min_lat,
-                    min_lon: t.minLon ?? t.min_lon,
-                    max_lat: t.maxLat ?? t.max_lat,
-                    max_lon: t.maxLon ?? t.max_lon,
-                    points: [],
-                    whitelist: [],
-                }));
-                setTracks(mapped);
+                const parsed: Track[] = data.map((d: any) => ParseTrack(d));
+                setTracks(parsed);
             })
             .catch(console.error);
     }, []);

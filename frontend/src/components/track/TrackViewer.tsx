@@ -54,7 +54,7 @@ export default function TrackViewer({track}: {track: Track}) {
                     <header>
                         <List type='column' gap='small'>
                             <List type='row' align='center' gap='small' wrap>
-                                {isOwner || isAdmin ?
+                                {(isOwner || isAdmin) ?
                                     <input 
                                         id='track_name'
                                         type="text" 
@@ -74,7 +74,7 @@ export default function TrackViewer({track}: {track: Track}) {
 
                             <hr style={{width : "100%", borderColor : "var(--highlight)"}}/>
 
-                            {isOwner || isAdmin &&
+                            {(isOwner || isAdmin) &&
                                 <List type='row' align='center' gap='small' wrap>
                                     {/* Spremanje staze */}
                                     <ButtonSaveTrack track={track}></ButtonSaveTrack>
