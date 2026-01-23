@@ -79,7 +79,7 @@ export default function ButtonTrackStats({ track }: Props) {
                                 <canvas ref={canvasRef} ></canvas>
                             </div>
                             {statistics && (
-                                <List gap="small" type="column" wrap>
+                                <List gap="small" type="column">
                                     <List align="center" justify='space-between' expand>
                                         <p><i className="fa fa-list-ol"></i> Broj točaka</p>
                                         <samp>{statistics.numPoints}</samp>
