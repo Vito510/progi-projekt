@@ -6,6 +6,7 @@ import ButtonLikeTrack from './ButtonLikeTrack.js';
 import type Track from '../../interfaces/Track.js';
 import ButtonCopyTrack from './ButtonCopyTrack.js';
 import { useAuth } from '../../context/AuthContext.js';
+import { generateChartData, calculateSlopeDistance } from './TrackUtils.js';
 
 interface Props {
     index?: number,
@@ -41,7 +42,7 @@ export default function TrackCard({index = 0, track, updateStars} : Props) {
                     <span>
                         <i className="fa fa-arrows-h"></i>
                         <p className='collapsed'>Duljina</p>
-                        <samp>{length}km</samp>
+                        <samp>{(calculateSlopeDistance(generateChartData(track)) / 1000).toFixed(2)}km</samp>
                     </span>
                     <span>
                         <i className="fa fa-star"></i>
