@@ -5,9 +5,10 @@ import { useState, useEffect } from "react";
 
 interface Props {
     track: Track;
+    updateStars: (id: number, isLiked: boolean) => void;
 }
 
-export default function ButtonLikeTrack({ track }: Props) {
+export default function ButtonLikeTrack({ track, updateStars}: Props) {
     const [isLiked, setIsLiked] = useState(false);
     const [loading, setLoading] = useState(false);
 
@@ -39,7 +40,7 @@ export default function ButtonLikeTrack({ track }: Props) {
 
         const newState = !isLiked; // samo toggla trenutno stanje
         setIsLiked(newState);
-        track.stars += newState ? 1 : -1;
+        updateStars(track.id, newState); //track.stars += newState ? 1 : -1;
         console.log(newState ? "pokusavam likeat" : "pokusavam odlikeat");
 
         try {
@@ -61,7 +62,7 @@ export default function ButtonLikeTrack({ track }: Props) {
                 console.error("Track not found or user not logged in");
                 // revert local state
                 setIsLiked(!newState);
-                track.stars += newState ? -1 : 1;
+                updateStars(track.id, !newState); //track.stars += newState ? -1 : 1;
             } else {
                 setIsLiked(updated); // just to sync with backend
             }
@@ -69,7 +70,7 @@ export default function ButtonLikeTrack({ track }: Props) {
             console.error("Error updating like:", err);
             // revert local state
             setIsLiked(!newState);
-            track.stars += newState ? -1 : 1;
+            updateStars(track.id, !newState); //track.stars += newState ? -1 : 1;
         } finally {
             setLoading(false);
         }

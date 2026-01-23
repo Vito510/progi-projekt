@@ -9,9 +9,10 @@ import ButtonCopyTrack from './ButtonCopyTrack.js';
 interface Props {
     index?: number,
     track: Track,
+    updateStars: (id: number, isLiked: boolean) => void,
 }
 
-export default function TrackCard({index = 0, track} : Props) {
+export default function TrackCard({index = 0, track, updateStars} : Props) {
     const ref = useRef<HTMLLIElement>(null);
     useEffect(() => {
         if (ref.current)
@@ -56,7 +57,7 @@ export default function TrackCard({index = 0, track} : Props) {
                         <i className='fa fa-external-link'></i>
                         Otvori
                     </Button>
-                    <ButtonLikeTrack track={track}></ButtonLikeTrack>
+                    <ButtonLikeTrack track={track} updateStars={updateStars}></ButtonLikeTrack>
                    <ButtonCopyTrack track={track}></ButtonCopyTrack>
                 </section>
             </footer>

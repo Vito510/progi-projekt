@@ -18,9 +18,20 @@ type SortType =
 
 export default function TrackList({tracks}: Props) {
     const [currentSort, setCurrentSort] = useState<SortType>("Unsorted");
+    const [trackList, setTrackList] = useState<Track[]>(tracks);
+
+    const updateTrackStars = (id: number, isLiked: boolean) => {
+        setTrackList(prev =>
+            prev.map(track =>
+                track.id === id
+                    ? { ...track, stars: track.stars + (isLiked ? 1 : -1) }
+                    : track
+            )
+        );
+    };
 
     const sortedTracks = (() => {
-        const copy = tracks.slice();
+        const copy = trackList.slice();
 
         switch (currentSort) {
             case "NameAsc":
@@ -98,7 +109,7 @@ export default function TrackList({tracks}: Props) {
                     </header>
                     <menu>
                         {sortedTracks.map((track, index) => (
-                            <TrackCard key={index} track={track}/>
+                            <TrackCard key={index} track={track} updateStars={updateTrackStars}/>
                         ))}
                     </menu>
                 </>
