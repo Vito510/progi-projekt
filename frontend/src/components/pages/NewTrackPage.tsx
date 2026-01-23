@@ -30,10 +30,10 @@ export default function NewMapPage() {
 							</Button>
 						</List>
 						<em>Odabirete površinu navigacijom karte i klikom na gumb. Prozor karte označava cijelu odabranu površinu.</em>
-						<Button onClick={async () => {setElement(<TrackViewer track={await getDevTrack()}></TrackViewer>);}}>
+						{/* <Button onClick={async () => {setElement(<TrackViewer track={await getDevTrack()}></TrackViewer>);}}>
 							<samp><i className="fa fa-code"></i> [DEBUG]</samp>
 							<p>Skip map</p>
-						</Button>
+						</Button> */}
 					</List>
 				</header>
 				<section>
