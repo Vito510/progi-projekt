@@ -22,8 +22,11 @@ import ButtonCopyTrack from './ButtonCopyTrack.js';
 
 export default function TrackViewer({track}: {track: Track}) {
     const auth = useAuth();
-    const isOwner = auth.user?.name === track.owner;
-    const isAdmin = auth.user?.role === "ADMIN";
+    const isUnregistered: boolean = auth.user?.authenticated === false;
+    const isOwner: boolean = auth.user?.name === track.owner;
+    const isAdmin: boolean = auth.user?.role === "ADMIN";
+    const canEdit: boolean = isOwner || isAdmin || isUnregistered;
+    const canLike: boolean = !isOwner && !isUnregistered;
     let [params, setParams] = useState<TerrainParameter | null>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
@@ -52,48 +55,65 @@ export default function TrackViewer({track}: {track: Track}) {
             {params ?
                 <div className='-track-viewer'>
                     <header>
-                        <List type='column' gap='small'>
-                            <List type='row' align='center' gap='small' wrap>
-                                {(isOwner || isAdmin) ?
-                                    <input 
-                                        id='track_name'
-                                        type="text" 
-                                        placeholder="Unesite naziv staze" 
-                                        defaultValue={track.name} 
-                                        onChange={(e) => {track.name = e.target.value}}
-                                    />
-                                    :
-                                    <h2>{track.name}</h2>
-                                }
+                        {isUnregistered ?
+                            <List type='column' gap='small'>
+                                <em>Ulogirajte se za više mogučnosti</em>
+
+                                <hr style={{width : "100%", borderColor : "var(--highlight)"}}/>
+
                                 <List type='row' align='center' gap='small'>
-                                    {!isOwner && <ButtonLikeTrack track={track}></ButtonLikeTrack>}
-                                    <ButtonCopyTrack track={track}></ButtonCopyTrack>
+                                    {canEdit &&
+                                        <Button onClick={() => {setIsEditing(true)}}>
+                                            <i className='fa fa-cogs'></i>
+                                            <p>Staza</p>
+                                        </Button>
+                                    }
+
                                     <ButtonTrackStats track={track}></ButtonTrackStats>
                                 </List>
                             </List>
-
-                            <hr style={{width : "100%", borderColor : "var(--highlight)"}}/>
-
-                            {(isOwner || isAdmin) &&
+                            :
+                            <List type='column' gap='small'>
                                 <List type='row' align='center' gap='small' wrap>
-                                    {/* Spremanje staze */}
-                                    <ButtonSaveTrack track={track}></ButtonSaveTrack>
+                                    {(canEdit) ?
+                                        <input 
+                                            id='track_name'
+                                            type="text" 
+                                            placeholder="Unesite naziv staze" 
+                                            defaultValue={track.name} 
+                                            onChange={(e) => {track.name = e.target.value}}
+                                        />
+                                        :
+                                        <h2>{track.name}</h2>
+                                    }
+                                    <List type='row' align='center' gap='small'>
+                                        {canLike && <ButtonLikeTrack track={track}></ButtonLikeTrack>}
 
-                                    {/* Brisanje staze */}
-                                    <ButtonDeleteTrack id={track.id} ></ButtonDeleteTrack>
+                                        <ButtonCopyTrack track={track}></ButtonCopyTrack>
 
-                                    {/* Uređivanje točaka */}
-                                    <Button onClick={() => {setIsEditing(true)}}>
-                                        <i className='fa fa-cogs'></i>
-                                        <p>Staza</p>
-                                    </Button>
-
-                                    {/* Vidljivost staze */}
-                                    <ButtonVisibleTrack track={track}></ButtonVisibleTrack>
-                                    <ButtonWhitelistTrack track={track}></ButtonWhitelistTrack>
+                                        <ButtonTrackStats track={track}></ButtonTrackStats>
+                                    </List>
                                 </List>
-                            }
-                        </List>
+
+                                <hr style={{width : "100%", borderColor : "var(--highlight)"}}/>
+
+                                {canEdit &&
+                                    <List type='row' align='center' gap='small' wrap>
+                                        <ButtonSaveTrack track={track}></ButtonSaveTrack>
+
+                                        <ButtonDeleteTrack id={track.id} ></ButtonDeleteTrack>
+
+                                        <Button onClick={() => {setIsEditing(true)}}>
+                                            <i className='fa fa-cogs'></i>
+                                            <p>Staza</p>
+                                        </Button>
+
+                                        <ButtonVisibleTrack track={track}></ButtonVisibleTrack>
+                                        <ButtonWhitelistTrack track={track}></ButtonWhitelistTrack>
+                                    </List>
+                                }
+                            </List>
+                        }
                     </header>
                     <main>
                         <MapRenderer params={params} points={pointList}></MapRenderer>
