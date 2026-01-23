@@ -5,17 +5,24 @@ import Card from '../general/Card.js';
 import Popup from '../general/Popup.js';
 import Placeholder from "../general/Placeholder.js";
 import { useState } from 'react';
+import { useAuth } from "../../context/AuthContext.js";
 
 interface Props {
     track: Track;
 }
 
 export default function ButtonSaveTrack({ track }: Props) {
+    const auth = useAuth();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
     const handleSave = async () => {
+        if (!auth.user?.authenticated) {
+            setErrorMessage("Ne možete spremiti stazu ako niste ulogirani!");
+            return;
+        }
+
         const payload = {
             id: track.id,
             name: track.name,
@@ -30,7 +37,7 @@ export default function ButtonSaveTrack({ track }: Props) {
             whitelist: track.whitelist,
             points: track.points,
         }
-        console.log("stvaram stazu ", payload)
+        // console.log("stvaram stazu ", payload)
         setLoading(true);
 
         try {
@@ -56,14 +63,9 @@ export default function ButtonSaveTrack({ track }: Props) {
 
             console.log("Spremio stazu");
             setSuccess(true);
-            
-            // Vrati normalnu ikonu nakon 2 sekunde
-            setTimeout(() => {
-                setSuccess(false);
-            }, 2000);
-            
+            setTimeout(() => {setSuccess(false);}, 2000);
         } catch (error) {
-            console.error("Error:", error);
+            // console.error("Error:", error);
             setErrorMessage(error instanceof Error ? error.message : 'Nepoznata greška');
         } finally {
             setLoading(false);
@@ -88,7 +90,7 @@ export default function ButtonSaveTrack({ track }: Props) {
                 <Popup>
                     <Card>
                         <header>
-                            <h2>Ne mogu spremiti stazu :(</h2>
+                            <h2>Nije uspjelo spremanje staze</h2>
                         </header>
                         <section>
                             <Placeholder>
