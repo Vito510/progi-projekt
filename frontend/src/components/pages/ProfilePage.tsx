@@ -62,7 +62,21 @@ export default function ProfilePage() {
                 });
                 if (!trackRes.ok) throw new Error(`${profileRes.status} HTTP error! (fetching profile tracks) status: ${profileRes.statusText}`);
                 const data: Track[] = await trackRes.json();
-                setTracks(data);
+                const mapped: Track[] = data.map((t: any) => ({
+                    id: t.id,
+                    name: t.name,
+                    owner: t.owner,
+                    date_created: new Date(),
+                    visibility: t.visibility === 'PUBLIC' ? 'Public' : 'Private',
+                    stars: Number(t.stars),
+                    min_lat: t.minLat ?? t.min_lat,
+                    min_lon: t.minLon ?? t.min_lon,
+                    max_lat: t.maxLat ?? t.max_lat,
+                    max_lon: t.maxLon ?? t.max_lon,
+                    points: [],
+                    whitelist: [],
+                }));
+                setTracks(mapped);
 
             } catch (err: any) {
                 setError(err.message);
