@@ -38,12 +38,15 @@ export default function ProfilePage() {
                 const profileRes = await fetch(`/api/profile/${name}`);
                 if (!profileRes.ok) throw new Error(`${profileRes.status} HTTP error! (fetching profile data) status: ${profileRes.statusText}`);
                 
-                const profileData = await profileRes.json();
+                // const profileData = await profileRes.json();
+                const text = await profileRes.text();
 
-                if (profileData === null) {
+                if (!text /*profileData === null*/) {
                     // 200 OK, ali response je null
-                    throw new Error("Korisnik ne postoji");
+                    throw new Error("Korisnik ne postoji ili nije dopušten pristup");
                 }
+
+                const profileData = JSON.parse(text);
 
                 setProfile({
                     name: profileData.username,

@@ -48,6 +48,12 @@ export default function ButtonSaveTrack({ track }: Props) {
                 throw new Error(`${response.status}: ${response.statusText}`);
             }
 
+            const result = await response.json();
+
+            if (result === false) {
+                throw new Error("Niste prijavljeni.");
+            }
+
             console.log("Spremio stazu");
             setSuccess(true);
             

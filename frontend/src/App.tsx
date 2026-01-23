@@ -6,6 +6,7 @@ import NewMapPage from './components/pages/NewTrackPage';
 import LoginPage from './components/pages/LoginPage';
 import LoginSuccessPage from './components/pages/LoginSuccessPage';
 import RegisterPage from './components/pages/RegisterPage';
+import TrackPage from './components/pages/TrackPage';
 
 import ProfilePageTEMP from './components/pages/ProfilePageTEMP';
 
@@ -16,11 +17,12 @@ export default function App() {
             <Route path="/" element={<FrontPage/>}/>
             <Route path="/profile/:name" element={<ProfilePage/>}/>
             <Route path="/map" element={<NewMapPage/>}/>
+            <Route path="/track/:id" element={<TrackPage/>}/>
             <Route path="/login" element={<LoginPage/>}/>
-            <Route path="/login-success" element={<LoginSuccessPage />} />
+            <Route path="/login-success" element={<LoginSuccessPage />}/>
             <Route path="/register" element={<RegisterPage/>}/>
 
-            <Route path="/profile/name" element={<ProfilePageTEMP/>}/>
+            <Route path="/track/name" element={<ProfilePageTEMP/>}/>
         </Routes>
     </BrowserRouter>
   );

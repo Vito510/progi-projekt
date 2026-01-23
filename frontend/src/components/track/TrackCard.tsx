@@ -52,7 +52,7 @@ export default function TrackCard({index = 0, track} : Props) {
                     </span>
                 </section>
                 <section>
-                    <Button type='primary'>
+                    <Button type='primary' link={`/track/${track.id}`}>
                         <i className='fa fa-external-link'></i>
                         Otvori
                     </Button>
