@@ -14,14 +14,11 @@ state "Uređivanje staze" as s3 {
 
   state "Ažuriranje krivulje" as s3.1
   state uvjUnos <<choice>>
-  state "Čekanje radnje" as s3.2
+  state "\nČekanje radnje\n" as s3.2
   state "Spremanje" as s3.3
   s3.3 : entry / pročitaj polje za unos naziva
   state "Prikaz statistike" as s3.4
   s3.4 : entry / prikaži prozor sa statistikom
-  state "Prozor za dijeljenje" as s3.5
-  s3.5 : entry / prikaži prozor za dijeljenje\nodabran gumb "Kopiraj" / \
-  kopiraj poveznicu u međuspremnik
 
 
   [*] --> s3.1
@@ -40,8 +37,7 @@ state "Uređivanje staze" as s3 {
   s3.2 --> s3.4 : odabran gumb\n"Statistika"
   s3.4 --> s3.2 : zatvoren prozor\nsa statistkom
 
-  s3.2 --> s3.5 : odabran gumb "Podijeli"
-  s3.5 --> s3.2 : zatvoren prozor za dijeljenje
+  s3.2 --> s3.2 : odabran gumb "Podijeli" / kopiraj poveznicu u međuspremnik
 }
 
 [*] --> s1
