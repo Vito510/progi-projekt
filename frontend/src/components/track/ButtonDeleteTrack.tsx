@@ -17,8 +17,12 @@ export default function ButtonDeleteTrack({ id }: Props) {
     const [loading, setLoading] = useState(false);
 
     const handleConfirmDelete = async () => {
-        console.log("Brisem stazu " + id)
+        // console.log("Brisem stazu " + id)
         setLoading(true);
+        if (id === -1) {
+            setErrorMessage("Ne može se obrisati staza koja još nije spremljena!");
+            return;
+        }
 
         try {
             const response = await fetch(`/api/track/${id}`, {
@@ -33,11 +37,11 @@ export default function ButtonDeleteTrack({ id }: Props) {
                 throw new Error(`${response.status}: ${response.statusText}`);
             }
 
-            console.log("Obrisao", id);
+            // console.log("Obrisao", id);
             navigate("/");
             
         } catch (error) {
-            console.error("Error:", error);
+            // console.error("Error:", error);
             setErrorMessage(error instanceof Error ? error.message : 'Nepoznata greška');
             
         } finally {
@@ -87,7 +91,7 @@ export default function ButtonDeleteTrack({ id }: Props) {
                 <Popup>
                     <Card>
                         <header>
-                            <h2>Ne mogu obrisati stazu :(</h2>
+                            <h2>Nije uspjelo brisanje staze</h2>
                         </header>
                         <section>
                             <Placeholder>
