@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type Track from "../../interfaces/Track";
 import Button from "../general/Button";
 import List from "../general/List";
@@ -19,6 +19,10 @@ type SortType =
 export default function TrackList({tracks}: Props) {
     const [currentSort, setCurrentSort] = useState<SortType>("Unsorted");
     const [trackList, setTrackList] = useState<Track[]>(tracks);
+
+    useEffect(() => {
+        setTrackList(tracks);
+    }, [tracks]);
 
     const updateTrackStars = (id: number, isLiked: boolean) => {
         setTrackList(prev =>
