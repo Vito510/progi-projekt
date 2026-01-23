@@ -70,6 +70,8 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
                 close_popup();*/
             /*} else if (response.status === 409) {
                 setErrorMessage("Korisničko ime je zauzeto.");*/
+            } else if(response.status>=400 && response.status<500){
+                setErrorMessage(await response.text());
             } else {
                 setErrorMessage("Nešto je pošlo po zlu. Pokušajte ponovno.");
             }

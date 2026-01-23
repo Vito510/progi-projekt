@@ -7,6 +7,8 @@ import hr.fer.progi.progi_projekt.repository.UserProfileRepository;
 import hr.fer.progi.progi_projekt.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import hr.fer.progi.progi_projekt.dto.UserProfileDto;
@@ -127,26 +129,28 @@ public class UserProfileService {
         return dto;
     }
 
-    public UserProfileDto updateUsername(String oldUsername, String newUsername, HttpServletRequest request) {
-        UserProfile user = userRepo.findByUsername(oldUsername)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+    public ResponseEntity<?> updateUsername(String oldUsername, String newUsername, HttpServletRequest request) {
+        Optional<UserProfile> user = userRepo.findByUsername(oldUsername);
+        if(user.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ne postoji traženi korisnik");
+        }
 
         UserProfile currUser = authService.getCurrentUser(request);
         if(currUser==null){
-            return null;
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Korisnik nije autoriziran");
         }
 
         if (!currUser.getUsername().equals(oldUsername) && currUser.getRole() == Role.USER) {
-            return null;
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Korisnik nije vlasnik profila");
         }
 
         if (userRepo.existsByUsername(newUsername)) {
-            throw new RuntimeException("Username already taken");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Korisničko ime je već zauzeto");
         }
 
-        user.setUsername(newUsername);
-        userRepo.save(user);
-        return userMapper.toDto(user);
+        user.get().setUsername(newUsername);
+        userRepo.save(user.get());
+        return ResponseEntity.ok(userMapper.toDto(user.get()));
     }
 
     public void deleteProfileByUsername(String username, HttpServletRequest request) {

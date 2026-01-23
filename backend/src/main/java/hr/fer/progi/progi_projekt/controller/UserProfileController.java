@@ -50,8 +50,7 @@ public class UserProfileController {
             HttpServletRequest request
     ) {
         String newUsername = body.get("username");
-        UserProfileDto updated = userProfileService.updateUsername(username, newUsername, request);
-        return ResponseEntity.ok(updated);
+        return userProfileService.updateUsername(username, newUsername, request);
     }
 
     @DeleteMapping("/profile/{username}")
