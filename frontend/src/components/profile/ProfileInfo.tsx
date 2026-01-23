@@ -57,7 +57,8 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
                 setShowEditPopup(false);
                 setNewUsername("");
                 setErrorMessage(null);
-                navigate(`/profile/${data.username}`);
+                setTimeout(() => {navigate(`/profile/${data.username}`);}, 1000);
+                
 
                 /*const updatedUser = await fetch('/api/profile/me', {
                     headers: di da {
@@ -109,7 +110,7 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
 
             // log out + redirect
             sessionStorage.removeItem("authToken");
-            navigate("/");
+            setTimeout(() => {navigate("/");}, 1000);
            
         } catch (error) {
             console.error('Error deleting profile:', error);
