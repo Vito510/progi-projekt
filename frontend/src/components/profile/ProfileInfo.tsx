@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import './ProfileInfo.css';
 import List from '../general/List';

@@ -83,7 +83,7 @@ export default function TrackPage() {
                 <AppHeader>
                     <ButtonProfile />
                 </AppHeader>
-                <AppBody width="wide">
+                <AppBody width="wide" padded>
                     <p>Učitavanje staze…</p>
                 </AppBody>
                 <AppFooter />
@@ -97,7 +97,7 @@ export default function TrackPage() {
                 <AppHeader>
                     <ButtonProfile />
                 </AppHeader>
-                <AppBody width="wide">
+                <AppBody width="wide" padded>
                     <Card>
                         <h2>Staza nije dostupna</h2>
                         <p>{error}</p>
@@ -113,7 +113,7 @@ export default function TrackPage() {
             <AppHeader>
                 <ButtonProfile></ButtonProfile>
             </AppHeader>
-            <AppBody width="wide">
+            <AppBody width="wide" padded>
                 {track ? <TrackViewer track={track}></TrackViewer> : "Backend ne radi"}
             </AppBody>
             <AppFooter />

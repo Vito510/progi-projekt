@@ -46,9 +46,9 @@ export default function MapRenderer({params, points}: Props) {
                 
                 animationRef.current = requestAnimationFrame(animate);
             })
-            .catch((error) => {
-                setError(error);
-            });
+            // .catch((error) => {
+            //     setError(error);
+            // });
 
         return () => {
             cancelAnimationFrame(animationRef.current!);

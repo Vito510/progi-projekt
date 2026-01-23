@@ -7,7 +7,7 @@ import Texture from "../../utility/webgl/webgl_texture.js";
 
 export default class WebGLManager {
     static async initialize(canvas, params = {heightmap: undefined, range: 256, offset: -32768, multiplier: 0.03}) {
-        const fragment_shader_code = await (await fetch('./src/renderer/map/fragment.glsl')).text();
+        const fragment_shader_code = await (await fetch('/shaders/fragment.glsl')).text();
         return new WebGLManager(canvas, fragment_shader_code, params);
     }
 
