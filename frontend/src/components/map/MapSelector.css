@@ -23,6 +23,10 @@
 
 /* ------------------------------------------------------- */
 
+.-map-selector .leaflet-control, .-map-selector .leaflet-bottom {
+  z-index: 400;
+}
+
 .-map-selector .leaflet-control-zoom a span{
   color: #333;
   line-height: 26px; 
