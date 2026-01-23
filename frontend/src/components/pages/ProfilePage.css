@@ -51,6 +51,7 @@
         grid-template-areas: 'a' 'm';
         grid-template-columns: 1fr;
         grid-template-rows: 0fr 1fr;
+        gap: var(--spacing);
     }
     .-profile-page>aside {
         width: auto;

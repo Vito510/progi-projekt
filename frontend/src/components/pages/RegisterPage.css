@@ -1,34 +1,4 @@
 
-
-/* ------------------------------------------------------- */
-
-.-register-page input {
-  background-color: var(--theme-highlight);
-  border-radius: var(--roundness);
-  border: none;
-
-  color: var(--text-default);
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  font-size: inherit;
-}
-  
-.-register-page input:hover {
-  background-color: var(--darken);
-}
-
-.-register-page input:active {
-  background-color: var(--highlight); 
-}
-
-.-register-page input:focus {
-  outline: 2px solid var(--highlight);
-  outline-offset: 2px;
-}
-
-/* ------------------------------------------------------- */
-
 .-register-page .error-text {
   height: 100%;
   width: 100%;

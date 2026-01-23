@@ -5,14 +5,16 @@ import { Link } from "react-router-dom";
 interface Props {
     onClick?: () => void,
     children: ReactNode,
-    type?: 'primary' | 'secondary' | 'tertiary' | 'quaternary'
-    shape?: 'rectangular' |'square' | 'round' | 'noshape'
-    link?: string
-    disabled?: boolean
+    type?: 'primary' | 'secondary' | 'tertiary' | 'quaternary',
+    shape?: 'rectangular' |'square' | 'round' | 'noshape',
+    link?: string,
+    disabled?: boolean,
+    wide?: boolean,
 }
 
-export default function Button({children, onClick = () => {}, shape = 'rectangular', type = 'secondary', link = '', disabled = false}: Props) {
+export default function Button({children, onClick = () => {}, shape = 'rectangular', type = 'secondary', link = '', disabled = false, wide = false}: Props) {
     let className = type + ' ' + shape;
+    if (wide) className += ' wide';
 
     if (disabled) {
         return (

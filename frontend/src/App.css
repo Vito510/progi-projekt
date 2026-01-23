@@ -24,6 +24,7 @@
     --text-muted: #979797;
 
     --highlight: #ffffff40;
+    --lighten: #ffffff10;
     --darken: #00000040;
 
     --shadow-highlight: inset 0px 1px 0px var(--highlight);
@@ -40,14 +41,12 @@
     --thickness: 0.5rem;
     --spacing: 2rem;
     --packing: 0.5rem;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 @media screen and (max-width: 768px) {
     :root {
         --spacing: 1rem;
-        --thickness: 0.25rem;
-        font-size: 14px;
     }
 }
 
@@ -90,6 +89,45 @@ samp {
     border-radius: var(--roundness);
     padding: 0.25rem 0.5rem;
     font-family: monospace;
+}
+
+code {
+    font-family: monospace;
+    color: var(--text-muted);
+}
+
+input[type="text"] {
+  /* background-color: var(--theme-highlight); */
+  background-color: var(--lighten);
+  border-radius: var(--roundness);
+  border: none;
+  
+  color: var(--text-default);
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: inherit;
+
+  min-width: 15rem;
+}
+  
+input[type="text"]:hover {
+  background-color: var(--darken);
+
+}
+
+input[type="text"]:active {
+  background-color: var(--lighten);
+}
+
+input[type="text"]:focus {
+  outline: 2px solid var(--highlight);
+  outline-offset: 2px;
+}
+
+@media screen and (max-width: 768px) {
+    input[type="text"] {
+        min-width: 10rem;
+    }
 }
 
 /* ------------------------------------------------------- */

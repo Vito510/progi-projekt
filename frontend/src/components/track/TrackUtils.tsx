@@ -17,6 +17,10 @@ export interface TrackStatistics {
 // vraća niz točaka (delta_x, visina) koji služe za sljedeće funkcije (i za graf u ButtonStatistika)
 // razlog je što mora skalirati udaljenosti x i y da budu u metrima, a ne 0 do 1
 export function generateChartData(track: Track): ChartDataPoint[] {
+
+    if (!track.points || track.points.length === 0) {
+        return [];
+    }
     // računa okomitu (sjever-jug) i horizontalnu (istog-zapad) razliku u metrima karte
     const avgLat = (track.min_lat + track.max_lat) / 2; //treba za korekciju longitude
     const latLen = (track.max_lat - track.min_lat) * Math.PI * 6371 * 1000 / 180

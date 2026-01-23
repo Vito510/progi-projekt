@@ -1,0 +1,68 @@
+
+/* ------------------------------------------------------- */
+
+.-track-viewer>header {
+    grid-area: h;
+    padding: 1rem;
+    border-bottom: var(--border-highlight);
+    box-shadow: var(--shadow-smooth);
+}
+
+.-track-viewer>main {
+    grid-area: c;
+    width: 100%;
+    height: 100%;
+    min-height: 0px;
+    background-color: var(--darken);
+}
+
+/* ------------------------------------------------------- */
+
+.-track-viewer>main>.-popup {
+    min-height: 0px;
+}
+
+.-track-viewer>main>.-popup>* {
+    width: 100%;
+    min-height: 0px;
+}
+
+.-track-viewer>main>.-popup>.-card>section {
+    padding: 0rem;
+    min-height: 0px;
+}
+
+/* ------------------------------------------------------- */
+
+.-track-viewer {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: var(--darken);
+    border-radius: var(--roundness);
+    box-shadow: var(--shadow-sharp), var(--shadow-highlight);
+
+    overflow: hidden;
+}
+
+
+@media screen and (max-width: 768px) {
+    .-track-viewer>main>.-popup>* {
+        height: 100%;
+    }
+    .-track-viewer>header>.-list>.-list>.-list>.-button>button, .-track-viewer>header>.-list>.-list>.-button>button {
+        padding: 0.5rem;
+    }
+    .-track-viewer>header>.-list>.-list>.-list>.-button>button>p, 
+    .-track-viewer>header>.-list>.-list>.-button>button>p, 
+    .-track-viewer>header>.-list>.-list>.-list>.-button>button>span, 
+    .-track-viewer>header>.-list>.-list>.-button>button>span {
+        display: none;
+    }
+}
+
+/* ------------------------------------------------------- */

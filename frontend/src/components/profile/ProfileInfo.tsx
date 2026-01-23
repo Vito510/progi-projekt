@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 import './ProfileInfo.css';
 import List from '../general/List';
@@ -6,17 +6,20 @@ import Button from '../general/Button';
 import Popup from '../general/Popup';
 import Card from '../general/Card';
 import type User from '../../interfaces/User';
+import { useNavigate } from 'react-router-dom';
 
 interface ProfileInfoProps {
     profile: User;
 }
 
 export default function ProfileInfo({ profile }: ProfileInfoProps) {
+    const navigate = useNavigate();
     const auth = useAuth();
-    const isOwnProfile = auth.user?.name === profile.name;
+    const isOwnProfile = auth.user?.name === profile.name || auth.user?.role === "ADMIN";
 
     
-    const [popup, setPopup] = useState<ReactNode | null>(null);
+    const [showEditPopup, setShowEditPopup] = useState(false);
+    const [showDeletePopup, setShowDeletePopup] = useState(false);
     const [error_message, setErrorMessage] = useState<string | null>(null);
     const [newUsername, setNewUsername] = useState("");
 
@@ -41,12 +44,22 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
             if (response.ok) {
                 const data = await response.json();
 
+                if (!data || !data.username) {
+                    setErrorMessage("It's just simply not possible (ili greška ili ime već postoji).");
+                    return;
+                }
+
                 auth.setUser({
                     ...auth.user!,
                     name: data.username
                 });
 
-                close_popup();
+                setShowEditPopup(false);
+                setNewUsername("");
+                setErrorMessage(null);
+                navigate(`/profile/${data.username}`);
+                window.location.reload();
+                
 
                 /*const updatedUser = await fetch('/api/profile/me', {
                     headers: di da {
@@ -57,14 +70,16 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
                 console.log('Profile updated', updatedUser);
 
                 close_popup();*/
-            } else if (response.status === 409) {
-                setErrorMessage("Korisničko ime je zauzeto.");
+            /*} else if (response.status === 409) {
+                setErrorMessage("Korisničko ime je zauzeto.");*/
+            } else if(response.status>=400 && response.status<500){
+                setErrorMessage(await response.text());
             } else {
                 setErrorMessage("Nešto je pošlo po zlu. Pokušajte ponovno.");
             }
         } catch (error) {
             console.error("Error editing profile:", error);
-            setErrorMessage("Nešto je pošlo po zlu. Pokušajte ponovno.");
+            // setErrorMessage("Nešto je pošlo po zlu. Pokušajte ponovno.");
         }
     };
 
@@ -81,28 +96,63 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
                 },
             });
 
-            if (response.ok) {
-                console.log('Profile deleted');
-
-                // log out + redirect
-                sessionStorage.removeItem("authToken");
-                window.location.href = "/";
-            } else {
-                console.error('Delete failed');
+            if (response.status === 404) {
+                setErrorMessage("Profil ne postoji.");
+                return;
             }
+
+            if (!response.ok) {
+                setErrorMessage("Greška pri brisanju profila.");
+                return;
+            }
+
+            //pretpostavljamo da je profil deletan
+            console.log('Profile deleted');
+
+            // log out + redirect
+            sessionStorage.removeItem("authToken");
+            navigate("/");
+            window.location.reload();
+           
         } catch (error) {
             console.error('Error deleting profile:', error);
         }
     };
 
 
-    const close_popup = () => {
-        setPopup(null)
+    const close_edit_popup = () => {
+        setShowEditPopup(false);
+        setNewUsername("");
+        setErrorMessage(null);
     }
 
-    const popup_edit_profile = () => {
-        setPopup(
-            <Popup>
+    const close_delete_popup = () => {
+        setShowDeletePopup(false);
+    };
+
+
+    return (
+        <div className="-profile-info">
+            {/* <h2>{auth.user?.name ? auth.user.name : "Naziv profila"}</h2>
+            <p>{auth.user?.email ? auth.user.email : "email.adresa@email.com"}</p> */}
+            <h2>{profile.name}</h2>
+            <p>{profile.email}</p>
+            {isOwnProfile && 
+                <>
+                    <List type='row' gap='small' wrap>
+                        <Button onClick={() => setShowEditPopup(true)}>
+                            <i className='fa fa-cog'></i>
+                            Uredi profil
+                        </Button>
+                        <Button onClick={() => setShowDeletePopup(true)}>
+                            <i className='fa fa-trash'></i>
+                            Izbriši profil
+                        </Button>
+                    </List>
+                </>
+            }
+            {showEditPopup && (
+                <Popup>
                 <Card>
                     <header>
                         <h2>Uređivanje profila</h2>
@@ -121,7 +171,7 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
                                     <i className='fa fa-check'></i>
                                     Spremi
                                 </Button>
-                                <Button type='tertiary' onClick={close_popup}>
+                                <Button type='tertiary' onClick={close_edit_popup}>
                                     <i className='fa fa-times'></i>
                                     Odustani
                                 </Button>
@@ -131,12 +181,10 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
                     </List>
                 </Card>
             </Popup>
-        );
-    }
+            )}
 
-    const popup_delete_profile = () => {
-        setPopup(
-            <Popup>
+            {showDeletePopup && (
+                <Popup>
                 <Card>
                     <header>
                         <h2>Brisanje profila</h2>
@@ -149,38 +197,16 @@ export default function ProfileInfo({ profile }: ProfileInfoProps) {
                                 <i className='fa fa-trash'></i>
                                 Obriši
                             </Button>
-                            <Button type='secondary' onClick={close_popup}>
+                            <Button type='secondary' onClick={close_delete_popup}>
                                 <i className='fa fa-times'></i>
                                 Odustani
                             </Button>
                         </List>
+                        {error_message && <p className='error'>{error_message}</p>}
                     </List>
                 </Card>
             </Popup>
-        );
-    }
-
-    return (
-        <div className="-profile-info">
-            {/* <h2>{auth.user?.name ? auth.user.name : "Naziv profila"}</h2>
-            <p>{auth.user?.email ? auth.user.email : "email.adresa@email.com"}</p> */}
-            <h2>{profile.name}</h2>
-            <p>{profile.email}</p>
-            {isOwnProfile && 
-                <>
-                    <List type='row' gap='small' wrap>
-                        <Button onClick={popup_edit_profile}>
-                            <i className='fa fa-cog'></i>
-                            Uredi profil
-                        </Button>
-                        <Button onClick={popup_delete_profile}>
-                            <i className='fa fa-trash'></i>
-                            Izbriši profil
-                        </Button>
-                    </List>
-                </>
-            }
-            {popup}
+            )}
         </div>
     );
 }

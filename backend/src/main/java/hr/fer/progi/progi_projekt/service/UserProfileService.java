@@ -1,6 +1,5 @@
 package hr.fer.progi.progi_projekt.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +7,8 @@ import hr.fer.progi.progi_projekt.repository.UserProfileRepository;
 import hr.fer.progi.progi_projekt.security.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import hr.fer.progi.progi_projekt.dto.UserProfileDto;
@@ -19,10 +20,14 @@ import hr.fer.progi.progi_projekt.model.enums.Role;
 public class UserProfileService {
     private final UserProfileRepository userRepo;
     private final UserProfileMapper userMapper;
+    private final AuthService authService;
 
-    public UserProfileService(UserProfileRepository userRepo, UserProfileMapper userMapper) {
+    public UserProfileService(UserProfileRepository userRepo,
+                              UserProfileMapper userMapper,
+                              AuthService authService) {
         this.userRepo = userRepo;
         this.userMapper = userMapper;
+        this.authService = authService;
     }
 
     public List<UserProfile> getAllUserProfiles() {
@@ -45,15 +50,22 @@ public class UserProfileService {
         return userRepo.findByEmail(email).orElse(null);
     }
 
-    public Long getUserIdByEmail(String email) {
+    public Integer getUserIdByEmail(String email) {
         return userRepo.findByEmail(email)
                 .map(UserProfile::getId)
                 .orElse(null);
     }
 
 
-    public void createProfile(String username, HttpServletRequest request) {
+    public String createProfile(String username, HttpServletRequest request) {
         System.out.println("Trying to create user: " + username);
+        boolean exists = userExistsByUsername(username);
+
+        if (exists) {
+            return "Korisničko ime već postoji. Odaberite drugo.";
+        } else if (username.length() > 25) {
+            return "Korisničko ime ne može biti dulje od 25 znakova";
+        }
 
         String jwt = null;
         String email = null;
@@ -74,17 +86,18 @@ public class UserProfileService {
             }
         }
 
+
         System.out.println("Email extracted: " + email);
 
         if (email == null) {
             // No valid JWT/email, cannot create profile
             System.out.println("No valid email found, aborting profile creation.");
-            return;
+            return "Internal error";
         }
 
         if (userExistsByEmail(email)) {
             System.out.println("User already exists with email: " + email);
-            return;
+            return "Ovaj email već ima profil";
         }
 
         System.out.println("Creating new user: " + username);
@@ -96,52 +109,63 @@ public class UserProfileService {
         } catch (Exception e) {
             System.out.println("Error saving user profile: " + e.getMessage());
         }
+
+        return "";
     }
 
 
     public UserProfileDto getProfile(String username, HttpServletRequest request) {
+        UserProfile currUser = authService.getCurrentUser(request);
+
         Optional<UserProfile> profile = userRepo.findByUsername(username);
         if(profile.isEmpty()){
             return null;
         }
-        return userMapper.toDto(profile.get(), new ArrayList<>());
+        UserProfileDto dto = userMapper.toDto(profile.get());
+        if(currUser == null || (!profile.get().getId().equals(currUser.getId()) && currUser.getRole()!=Role.ADMIN)){
+            dto.setEmail(null);
+            dto.setRole(null);
+        }
+        return dto;
     }
 
-    /*public UserProfile editProfile(UserProfile profile) {
-        UserProfile existingUser = userRepo.findById(profile.getId()).orElse(null);
-
-        if (existingUser == null) {
-            System.out.println("User with ID " + profile.getId() + " not found");
-            return null;
+    public ResponseEntity<?> updateUsername(String oldUsername, String newUsername, HttpServletRequest request) {
+        Optional<UserProfile> user = userRepo.findByUsername(oldUsername);
+        if(user.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Ne postoji traženi korisnik");
         }
 
-        if (userExistsByUsername(profile.getUsername())) {
-            System.out.println("Username " + profile.getUsername() + " is already taken");
-            return null;
+        UserProfile currUser = authService.getCurrentUser(request);
+        if(currUser==null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Korisnik nije autoriziran");
         }
 
-        existingUser.setUsername(profile.getUsername());
-        //existingUser.setEmail(profile.getEmail());
-        //existingUser.setRole(profile.getRole());
-
-        return userRepo.save(existingUser);
-    }*/
-
-    public UserProfile updateUsername(String oldUsername, String newUsername) {
-        UserProfile user = userRepo.findByUsername(oldUsername)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        if (!currUser.getUsername().equals(oldUsername) && currUser.getRole() == Role.USER) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Korisnik nije vlasnik profila");
+        }
 
         if (userRepo.existsByUsername(newUsername)) {
-            throw new RuntimeException("Username already taken");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Korisničko ime je već zauzeto");
         }
 
-        user.setUsername(newUsername);
-        return userRepo.save(user);
+        user.get().setUsername(newUsername);
+        userRepo.save(user.get());
+        return ResponseEntity.ok(userMapper.toDto(user.get()));
     }
 
-    public void deleteProfileByUsername(String username) {
+    public void deleteProfileByUsername(String username, HttpServletRequest request) {
         UserProfile user = userRepo.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+
+        UserProfile currUser = authService.getCurrentUser(request);
+        if(currUser==null){
+            return;
+        }
+
+        if (!currUser.getUsername().equals(username) && currUser.getRole() == Role.USER) {
+            return;
+        }
+
         userRepo.delete(user);
     }
 }

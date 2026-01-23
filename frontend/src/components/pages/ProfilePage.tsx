@@ -12,20 +12,22 @@ import AppBody from '../general/AppBody';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import type User from '../../interfaces/User';
+import ButtonProfile from '../profile/ButtonProfile';
+import { useAuth } from '../../context/AuthContext';
+import { ParseTrack } from '../../utility/TranslateTrack';
 
 
 export default function ProfilePage() {
     const { name: paramName } = useParams<{ name: string }>();
+    const auth = useAuth(); // ne diraj ovo...MK
     const [tracks, setTracks] = useState<Track[]>([]);
     const [profile, setProfile] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [sortType, setSortType] = useState<"name" | "stars" | null>(null);
+    const [isOwnProfile, setIsOwnProfile] = useState<boolean>(false);
    
-    // const name = paramName ?? "name";
-    // provjeri što raditi ako nije navedeno ime
     if (!paramName) {
-    return <p>Nešto ne valja.</p>;
+        return <p>Nešto ne valja.</p>;
     }
 
     const name = paramName;
@@ -35,18 +37,35 @@ export default function ProfilePage() {
             try {
                 // Fetch profile info by username
                 const profileRes = await fetch(`/api/profile/${name}`);
-                if (!profileRes.ok) throw new Error(`HTTP error (fetching profile data) status: ${profileRes.status}`);
-                const profileData = await profileRes.json();
+                if (!profileRes.ok) throw new Error(`${profileRes.status} HTTP error! (fetching profile data) status: ${profileRes.statusText}`);
+                
+                // const profileData = await profileRes.json();
+                const text = await profileRes.text();
+
+                if (!text /*profileData === null*/) {
+                    // 200 OK, ali response je null
+                    throw new Error("Korisnik ne postoji ili nije dopušten pristup");
+                }
+
+                const profileData = JSON.parse(text);
+
                 setProfile({
                     name: profileData.username,
                     email: profileData.email
                 });
+                setIsOwnProfile(auth.user?.name === profileData.username);
 
-
-                const trackRes = await fetch(`/api/profile/${name}/tracks`);
-                if (!trackRes.ok) throw new Error(`HTTP error! status (fetching profile tracks): ${trackRes.status}`);
+                const trackRes = await fetch(`/api/profile/${name}/tracks`, {
+                    headers: {
+                        'Authorization': `Bearer ${sessionStorage.getItem("authToken") || ""}`,
+                        "Content-Type": "application/json"
+                    }
+                });
+                if (!trackRes.ok) throw new Error(`${profileRes.status} HTTP error! (fetching profile tracks) status: ${profileRes.statusText}`);
                 const data: Track[] = await trackRes.json();
-                setTracks(data);
+                const parsed: Track[] = data.map((d: any) => ParseTrack(d));
+                setTracks(parsed);
+
             } catch (err: any) {
                 setError(err.message);
             } finally {
@@ -55,49 +74,41 @@ export default function ProfilePage() {
         };
 
         fetchProfileData();
-    }, [name]);
+    }, [name, auth.user]);
 
-    const sortByName = (tracks: Track[]) => {
-        return tracks.slice().sort((a, b) => a.name.localeCompare(b.name));
-    };
-
-    const sortByStars = (tracks: Track[]) => {
-        return tracks.slice().sort((a, b) => b.stars - a.stars);
-    };
-
-const sortedTracks =
-    sortType === "name"
-        ? sortByName(tracks)
-        : sortType === "stars"
-        ? sortByStars(tracks)
-        : tracks;
-
-
-    // TEMP stvaranje rute za debug
-    /*let route: Track = {
-        name: "Naziv staze",
-        stars: 101,
-        visibility: 'Private',
-        owner: "Naziv vlasnika",
-        date_created: new Date(2018, 11, 24, 10, 33, 30, 0),
-        id: 0,
-        max_lat: 0,
-        max_lon: 0,
-        min_lat: 0,
-        min_lon: 0,
-        points: [],
-        whitelist: [],
+    if (loading) {
+        return (
+            <>
+                <AppHeader />
+                <AppBody width="thin">
+                    <Card>
+                        <p>Učitavanje profila...</p>
+                    </Card>
+                </AppBody>
+                <AppFooter />
+            </>
+        );
     }
-    let tracks: Track[] = [];
-    for (let i=0; i<10; i++)
-        tracks.push(route);*/
 
-
-    return (
+    if (error) {
+        return (
+            <>
+                <AppHeader />
+                <AppBody width="thin">
+                    <Card>
+                        <h1>Profil nije pronađen</h1>
+                        <p>{error}</p>
+                    </Card>
+                </AppBody>
+                <AppFooter />
+            </>
+        );
+    }
+    return(
         <>
             <AppHeader>
                 <ButtonNewTrack></ButtonNewTrack>
-                <ButtonSignOut></ButtonSignOut>
+                {isOwnProfile ? <ButtonSignOut></ButtonSignOut> : <ButtonProfile></ButtonProfile>}
             </AppHeader>
             <AppBody width='thin'>
                 <div className='-profile-page'>
@@ -112,23 +123,36 @@ const sortedTracks =
                             </section>
                         </Card>
                     </aside>
-                    <menu className="profile-sort-menu">
-                        <button onClick={() => setSortType("name")}>
-                            Sortiraj po imenu
-                        </button>
-
-                        <button onClick={() => setSortType("stars")}>
-                            Sortiraj po zvjezdicama
-                        </button>
-                    </menu>
-
                     <menu>
                         <h1>Korisničke staze</h1>
-                        <TrackList tracks={sortedTracks}/>
+                        <TrackList tracks={tracks}/>
                     </menu>
                 </div>
             </AppBody>
             <AppFooter/>
         </>
     );
+}
+
+// DEBUG
+function getDebugTracks(): Track[] {
+    let tracks: Track[] = [];
+    for (let i=0; i<10; i++) {
+        let track: Track = {
+            name: (Math.random()).toFixed(Math.random() * 10),
+            stars: Math.floor(Math.random() * 100),
+            visibility: 'Private',
+            owner: "Naziv vlasnika",
+            date_created: new Date(2018, 11, 24, 10, 33, 30, 0),
+            id: i,
+            max_lat: 0,
+            max_lon: 0,
+            min_lat: 0,
+            min_lon: 0,
+            points: [],
+            whitelist: [],
+        }
+        tracks.push(track);
+    }
+    return tracks;
 }

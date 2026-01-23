@@ -5,59 +5,76 @@ import Card from '../general/Card.js';
 import Popup from '../general/Popup.js';
 import Placeholder from "../general/Placeholder.js";
 import { useState } from 'react';
+import { useAuth } from "../../context/AuthContext.js";
+import { WriteTrack } from "../../utility/TranslateTrack.js";
 
 interface Props {
     track: Track;
 }
 
 export default function ButtonSaveTrack({ track }: Props) {
+    const auth = useAuth();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
 
     const handleSave = async () => {
-        const payload = {
-            id: track.id,
-            name: track.name,
-            ownerName: track.owner,
-            dateCreated: track.date_created,
-            visibility: track.visibility=="Private" ? "PRIVATE" : "PUBLIC",
-            //visibility: track.visibility=="Private" ? 1 : 0, // moze ili brojevi ili slova sve veliko
-            minLat: track.min_lat,
-            minLon: track.min_lon,
-            maxLat: track.max_lat,
-            maxLon: track.max_lon,
-            whitelist: track.whitelist,
-            points: track.points,
+        if (!auth.user?.authenticated) {
+            setErrorMessage("Ne možete spremiti stazu ako niste ulogirani!");
+            return;
         }
-        console.log("stvaram stazu ", payload)
+
+        const payload = WriteTrack(track);
+        // console.log("stvaram stazu ", payload)
         setLoading(true);
 
         try {
-            const response = await fetch(`/api/track`, {
-                method: 'POST',
-                credentials: "include", 
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}`
-                },
-                body: JSON.stringify(payload)
-            });
+            if (track.id === -1) {
+                const response = await fetch(`/api/track`, {
+                    method: 'POST',
+                    credentials: "include", 
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok)
+                    throw new Error(`${response.status}: ${response.statusText}`);
+                const result = await response.text();
 
-            if (!response.ok) {
-                throw new Error(`${response.status}: ${response.statusText}`);
+                if (result) {
+                    track.id = parseInt(result);
+                    setSuccess(true);
+                    setTimeout(() => {setSuccess(false);}, 2000);
+                } else {
+                    throw new Error("Niste prijavljeni.");
+                }
+            } else {
+                const response = await fetch(`/api/track`, {
+                    method: 'PUT',
+                    credentials: "include", 
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${sessionStorage.getItem("authToken") || ""}`
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok)
+                    throw new Error(`${response.status}: ${response.statusText}`);
+                const result = await response.text();
+
+                if (result) {
+                    setSuccess(true);
+                    setTimeout(() => {setSuccess(false);}, 2000);
+                } else {
+                    throw new Error("Niste prijavljeni.");
+                }
             }
 
-            console.log("Spremio stazu");
-            setSuccess(true);
-            
-            // Vrati normalnu ikonu nakon 2 sekunde
-            setTimeout(() => {
-                setSuccess(false);
-            }, 2000);
-            
+            // console.log("Spremio stazu");
         } catch (error) {
-            console.error("Error:", error);
+            // console.error("Error:", error);
             setErrorMessage(error instanceof Error ? error.message : 'Nepoznata greška');
         } finally {
             setLoading(false);
@@ -82,21 +99,21 @@ export default function ButtonSaveTrack({ track }: Props) {
                 <Popup>
                     <Card>
                         <header>
-                            <h2>Ne mogu spremiti stazu :(</h2>
+                            <h2>Nije uspjelo spremanje staze</h2>
                         </header>
                         <section>
                             <Placeholder>
                                 <p>{errorMessage}</p>
                             </Placeholder>
                         </section>
-                        <section>
+                        <footer>
                             <List type='row' gap='medium' align='center'>
                                 <Button type='secondary' onClick={() => setErrorMessage(null)}>
                                     <i className='fa fa-times'></i>
                                     <p>OK</p>
                                 </Button>
                             </List>
-                        </section>
+                        </footer>
                     </Card>
                 </Popup>
             }

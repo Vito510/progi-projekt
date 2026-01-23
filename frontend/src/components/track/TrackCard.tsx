@@ -4,14 +4,20 @@ import List from '../general/List';
 import Button from '../general/Button';
 import ButtonLikeTrack from './ButtonLikeTrack.js';
 import type Track from '../../interfaces/Track.js';
+import ButtonCopyTrack from './ButtonCopyTrack.js';
+import { useAuth } from '../../context/AuthContext.js';
+import { generateChartData, calculateSlopeDistance } from './TrackUtils.js';
 
 interface Props {
     index?: number,
     track: Track,
+    updateStars: (id: number, isLiked: boolean) => void,
 }
 
-export default function TrackCard({index = 0, track} : Props) {
+export default function TrackCard({index = 0, track, updateStars} : Props) {
     const ref = useRef<HTMLLIElement>(null);
+    const auth = useAuth();
+
     useEffect(() => {
         if (ref.current)
             ref.current.style.animationDelay = `${index * 0.1}s`;
@@ -36,7 +42,7 @@ export default function TrackCard({index = 0, track} : Props) {
                     <span>
                         <i className="fa fa-arrows-h"></i>
                         <p className='collapsed'>Duljina</p>
-                        <samp>{length}km</samp>
+                        <samp>{(calculateSlopeDistance(generateChartData(track)) / 1000).toFixed(2)}km</samp>
                     </span>
                     <span>
                         <i className="fa fa-star"></i>
@@ -51,15 +57,12 @@ export default function TrackCard({index = 0, track} : Props) {
                     </span>
                 </section>
                 <section>
-                    <Button type='primary'>
+                    <Button type='primary' link={`/track/${track.id}`}>
                         <i className='fa fa-external-link'></i>
                         Otvori
                     </Button>
-                    <ButtonLikeTrack track={track}></ButtonLikeTrack>
-                    <Button type='secondary'>
-                        <i className='fa fa-clone'></i>
-                        Podijeli
-                    </Button>
+                    {auth.user?.name !== track.owner && <ButtonLikeTrack track={track} updateStars={updateStars}></ButtonLikeTrack>}
+                   <ButtonCopyTrack track={track}></ButtonCopyTrack>
                 </section>
             </footer>
         </li>

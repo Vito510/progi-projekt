@@ -5,23 +5,28 @@ import Popup from '../general/Popup.js';
 import Placeholder from "../general/Placeholder.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import type Track from "../../interfaces/Track.js";
 
 interface Props {
-    id: number;
+    track: Track;
 }
 
-export default function ButtonDeleteTrack({ id }: Props) {
+export default function ButtonDeleteTrack({ track }: Props) {
     const navigate = useNavigate();
     const [deleteConfirm, setDeleteConfirm] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
 
     const handleConfirmDelete = async () => {
-        console.log("Brisem stazu " + id)
+        // console.log("Brisem stazu " + id)
+        if (track.id === -1) {
+            setErrorMessage("Ne može se obrisati staza koja još nije spremljena!");
+            return;
+        }
+        
         setLoading(true);
-
         try {
-            const response = await fetch(`/api/track/${id}`, {
+            const response = await fetch(`/api/track/${track.id}`, {
                 method: 'DELETE',
                 credentials: "include", 
                 headers: {
@@ -33,11 +38,11 @@ export default function ButtonDeleteTrack({ id }: Props) {
                 throw new Error(`${response.status}: ${response.statusText}`);
             }
 
-            console.log("Obrisao", id);
+            // console.log("Obrisao", id);
             navigate("/");
             
         } catch (error) {
-            console.error("Error:", error);
+            // console.error("Error:", error);
             setErrorMessage(error instanceof Error ? error.message : 'Nepoznata greška');
             
         } finally {
@@ -87,21 +92,21 @@ export default function ButtonDeleteTrack({ id }: Props) {
                 <Popup>
                     <Card>
                         <header>
-                            <h2>Ne mogu obrisati stazu :(</h2>
+                            <h2>Nije uspjelo brisanje staze</h2>
                         </header>
                         <section>
                             <Placeholder>
                                 <p>{errorMessage}</p>
                             </Placeholder>
                         </section>
-                        <section>
+                        <footer>
                             <List type='row' gap='medium' align='center'>
                                 <Button type='secondary' onClick={() => setErrorMessage(null)}>
                                     <i className='fa fa-times'></i>
                                     <p>OK</p>
                                 </Button>
                             </List>
-                        </section>
+                        </footer>
                     </Card>
                 </Popup>
             }

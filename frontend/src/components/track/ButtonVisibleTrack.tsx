@@ -22,12 +22,12 @@ export default function ButtonVisibleTrack({ track }: Props) {
     return (
         <>
             {isVisible ?
-                <Button type="secondary" onClick={handleVisible}>
+                <Button type="quaternary" onClick={handleVisible}>
                     <i className={`fa fa-eye`}></i>
                     <p>Vidljivost</p>
                 </Button>
                 :
-                <Button type="quaternary" onClick={handleVisible}>
+                <Button type="secondary" onClick={handleVisible}>
                     <i className={`fa fa-eye-slash`}></i>
                     <p>Vidljivost</p>
                 </Button>

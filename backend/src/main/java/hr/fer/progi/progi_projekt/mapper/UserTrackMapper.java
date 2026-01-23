@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 import hr.fer.progi.progi_projekt.dto.TrackPointDto;
 import hr.fer.progi.progi_projekt.dto.UserTrackDto;
-import hr.fer.progi.progi_projekt.model.TrackPoint;
+import hr.fer.progi.progi_projekt.model.UserProfile;
 import hr.fer.progi.progi_projekt.model.UserTrack;
 
 @Component
@@ -18,7 +18,7 @@ public class UserTrackMapper {
         this.pointMapper = pointMapper;
     }
 
-    public UserTrackDto toDto(UserTrack entity, int numOfStars, String ownerName, List<TrackPoint> points, List<String> whitelist) {
+    public UserTrackDto toDto(UserTrack entity, String ownerName) {
         if (entity == null) {
             return null;
         }
@@ -33,21 +33,26 @@ public class UserTrackMapper {
         dto.setMaxLat(entity.getMaxLat());
         dto.setMaxLon(entity.getMaxLon());
         dto.setVisibility(entity.getVisibility());
+        dto.setNumOfStars(entity.getGivenStars().size());
 
-        dto.setNumOfStars(numOfStars);
         dto.setOwnerName(ownerName);
-        dto.setWhitelist(whitelist);
 
         List<TrackPointDto> pointsDto = new ArrayList<>();
-        for (int i = 0; i<points.size(); i++) {
-            pointsDto.add(pointMapper.toDto(points.get(i)));
+        for (int i = 0; i<entity.getPoints().size(); i++) {
+            pointsDto.add(pointMapper.toDto(entity.getPoints().get(i)));
         }
         dto.setPoints(pointsDto);
+
+        List<String> whitelist = new ArrayList<>();
+        for (UserProfile profile : entity.getWhitelistedProfiles()) {
+            whitelist.add(profile.getUsername());
+        }
+        dto.setWhitelist(whitelist);
 
         return dto;
     }
 
-    public UserTrack toNewEntity(UserTrackDto dto, Long ownerId) {
+    public UserTrack toNewEntity(UserTrackDto dto, Integer ownerId) {
         if (dto == null) {
             return null;
         }
@@ -76,10 +81,7 @@ public class UserTrackMapper {
         // id staze se nakon prvotnog stvaranja ne dira
         entity.setName(dto.getName());
         // datum se nakon prvotnog stvaranja ne dira
-        entity.setMinLat(dto.getMinLat());
-        entity.setMinLon(dto.getMinLon());
-        entity.setMaxLat(dto.getMaxLat());
-        entity.setMaxLon(dto.getMaxLon());
+        // min i max staze se nakon prvotnog stvaranja ne mijenjaju
         entity.setVisibility(dto.getVisibility());
 
         // ownerId se nakon prvotnog stvaranja ne dira

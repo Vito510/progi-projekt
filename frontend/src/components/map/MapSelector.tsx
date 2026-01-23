@@ -1,18 +1,17 @@
-import "./Map2D.css";
+import "./MapSelector.css";
 import "leaflet/dist/leaflet.css";
 import { useEffect } from "react";
 import type MapSelection from "../../interfaces/MapSelection";
 import Leaflet from "leaflet";
 import TileUtils from "../../utility/tile_utils";
 import html2canvas from "html2canvas";
-import Card from "../general/Card";
 
 interface Props {
 	// onInput: (selection: MapSelection) => void | Promise<void>;
 	onInput: (selection: MapSelection, mapImage?: ImageData) => void | Promise<void>;
 }
 
-export default function Map2D({ onInput }: Props) {
+export default function MapSelector({ onInput }: Props) {
 	useEffect(() => {
 		// Initialize map
 		const map = Leaflet.map("map", {
@@ -22,12 +21,12 @@ export default function Map2D({ onInput }: Props) {
 
 		const baseMaps = {
 			OpenStreetMap: Leaflet.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-				maxZoom: 19,
+				maxZoom: 13,
 				attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 			}),
 
 			Satelite: Leaflet.tileLayer("https://server.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png", {
-				maxZoom: 19,
+				maxZoom: 13,
 				attribution: "&copy; Source: Esri, Maxar, Earthstar Geographics, and the GIS User Community",
 			}),
 
@@ -42,7 +41,7 @@ export default function Map2D({ onInput }: Props) {
 
 		// dodavanje watercolor layera
 		const watercolor = Leaflet.tileLayer("https://tiles.stadiamaps.com/tiles/stamen_watercolor/{z}/{x}/{y}.jpg", {
-			maxZoom: 16,
+			maxZoom: 13,
 			attribution:
 				'&copy; <a href="https://stadiamaps.com/" target="_blank">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/" target="_blank">OpenMapTiles</a> &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a>',
 		});
@@ -128,15 +127,8 @@ export default function Map2D({ onInput }: Props) {
 	}, [onInput]);
 
 	return (
-		<div className="-map-2d">
-			<Card>
-				<header>
-					<em>
-						Odabirete površinu navigacijom karte i klikom na gumb. Prozor karte označava cijelu odabranu površinu.
-					</em>
-				</header>
-				<div id="map"></div>
-			</Card>
+		<div className="-map-selector">
+			<div id="map"></div>
 		</div>
 	);
 }

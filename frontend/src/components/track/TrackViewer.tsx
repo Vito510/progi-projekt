@@ -1,0 +1,161 @@
+import './TrackViewer.css';
+import { useEffect, useState } from 'react';
+import { useAuth } from "../../context/AuthContext";
+import type Track from '../../interfaces/Track.js';
+import type MapSelection from '../../interfaces/MapSelection.js';
+import type TerrainParameter from '../../interfaces/TerrainParameter.js';
+import type TrackPoint from '../../interfaces/TrackPoint.js';
+import TileUtils from "../../utility/tile_utils.js";
+import List from '../general/List.js';
+import Button from '../general/Button.js';
+import Card from '../general/Card.js';
+import MapRenderer from '../map/MapRenderer.js';
+import TrackEditor from './TrackEditor.js';
+import ButtonSaveTrack from './ButtonSaveTrack.js';
+import ButtonDeleteTrack from './ButtonDeleteTrack.js';
+import ButtonLikeTrack from './ButtonLikeTrack.js';
+import ButtonVisibleTrack from './ButtonVisibleTrack.js';
+import ButtonWhitelistTrack from './ButtonWhitelistTrack.js';
+import ButtonTrackStats from './ButtonTrackStats.js';
+import Popup from '../general/Popup.js';
+import ButtonCopyTrack from './ButtonCopyTrack.js';
+
+export default function TrackViewer({track}: {track: Track}) {
+    const auth = useAuth();
+    const isUnregistered: boolean = auth.user?.authenticated === false;
+    const isOwner: boolean = auth.user?.name === track.owner;
+    const isAdmin: boolean = auth.user?.role === "ADMIN";
+    const canEdit: boolean = isOwner || isAdmin || isUnregistered;
+    const canLike: boolean = !isOwner && !isUnregistered;
+    let [params, setParams] = useState<TerrainParameter | null>(null);
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [pointList, setPointList] = useState<TrackPoint[]>(track.points);
+    const selection: MapSelection = {
+        max_latitude: track.max_lat,
+        min_latitude: track.min_lat,
+        max_longitude: track.max_lon,
+        min_longitude: track.min_lon,
+    };
+
+    useEffect(() => {
+        if (!track.override) {
+            TileUtils.getData(selection)
+                .then((params) => {
+                    setParams(params);
+                });
+            
+        } else {
+            params = track.override;
+            setParams(params);
+        }
+    }, []);
+
+    return (
+        <>
+            {params ?
+                <div className='-track-viewer'>
+                    <header>
+                        {isUnregistered ?
+                            <List type='column' gap='small'>
+                                <em>Ulogirajte se za više mogućnosti</em>
+
+                                <hr style={{width : "100%", borderColor : "var(--highlight)"}}/>
+
+                                <List type='row' align='center' gap='small'>
+                                    {canEdit &&
+                                        <Button onClick={() => {setIsEditing(true)}}>
+                                            <i className='fa fa-cogs'></i>
+                                            <p>Staza</p>
+                                        </Button>
+                                    }
+
+                                    <ButtonTrackStats track={track}></ButtonTrackStats>
+                                </List>
+                            </List>
+                            :
+                            <List type='column' gap='small'>
+                                <List type='row' align='center' gap='small' wrap>
+                                    {(canEdit) ?
+                                        <input 
+                                            id='track_name'
+                                            type="text" 
+                                            placeholder="Unesite naziv staze" 
+                                            defaultValue={track.name} 
+                                            onChange={(e) => {track.name = e.target.value}}
+                                        />
+                                        :
+                                        <h2>{track.name}</h2>
+                                    }
+                                    <List type='row' align='center' gap='small'>
+                                        {canLike && <ButtonLikeTrack track={track}></ButtonLikeTrack>}
+
+                                        <ButtonCopyTrack track={track}></ButtonCopyTrack>
+
+                                        <ButtonTrackStats track={track}></ButtonTrackStats>
+                                    </List>
+                                </List>
+
+                                <hr style={{width : "100%", borderColor : "var(--highlight)"}}/>
+
+                                {canEdit &&
+                                    <List type='row' align='center' gap='small' wrap>
+                                        <ButtonSaveTrack track={track}></ButtonSaveTrack>
+
+                                        <ButtonDeleteTrack track={track} ></ButtonDeleteTrack>
+
+                                        <Button onClick={() => {setIsEditing(true)}}>
+                                            <i className='fa fa-cogs'></i>
+                                            <p>Staza</p>
+                                        </Button>
+
+                                        <ButtonVisibleTrack track={track}></ButtonVisibleTrack>
+                                        <ButtonWhitelistTrack track={track}></ButtonWhitelistTrack>
+                                    </List>
+                                }
+                            </List>
+                        }
+                    </header>
+                    <main>
+                        <MapRenderer params={params} points={pointList}></MapRenderer>
+
+                        {isEditing &&
+                            <Popup onClick={() => {setIsEditing(false)}}>
+                                <Card>
+                                    <header>
+                                        <List type='column' gap='small'>
+                                            <List expand align='center' justify='space-between'>
+                                                <h2>Uređivanje točaka</h2>
+                                                <Button type='tertiary' onClick={() => {setIsEditing(false)}} shape="noshape">
+                                                    <i className='fa fa-times-circle fa-2x'></i>
+                                                </Button>
+                                            </List>
+                                            <p><em>Kliknite da biste dodali točku</em></p>
+                                        </List>
+                                    </header>
+                                    <section>
+                                        <TrackEditor points={pointList} onInput={(points) => {setPointList(points); track.points = [...points];}} heightmap={params.heightmap}></TrackEditor>
+                                    </section>
+                                </Card>
+                            </Popup>
+                        }
+                    </main>
+                </div>
+                :
+                <List expand align='center' justify='center'>
+                    <Card>
+                        <header style={{ fontSize: "1.5rem" }}>
+                            <i className="fa fa-spinner fa-pulse fa-lg fa-fw"></i>
+                            <span>Učitavanje reljefa</span>
+                        </header>
+                        <section>
+                            <code>{`Dohvaćanje ${TileUtils.getTileCount(selection)} regija/e`}</code>
+                            <br></br>
+                            <code>Moglo bi potrajati...</code>
+                        </section>
+                    </Card>
+                </List>
+            }
+        </>
+    );
+}
+

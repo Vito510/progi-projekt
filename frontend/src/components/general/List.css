@@ -67,8 +67,11 @@
 
 /* ------------------------------------------------------- */
 
-.-list.expand {
+.-list.expand.row {
     width: 100%;
+}
+
+.-list.expand.column {
     height: 100%;
 }
 

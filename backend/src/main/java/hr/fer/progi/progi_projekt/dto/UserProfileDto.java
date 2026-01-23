@@ -1,19 +1,15 @@
 package hr.fer.progi.progi_projekt.dto;
 
-import java.util.List;
-
 import hr.fer.progi.progi_projekt.model.enums.Role;
 
 public class UserProfileDto {
     private String username;
     private String email;
     private Role role;
-    private List<UserTrackDto> userTracks;
 
     @Override
     public String toString() {
-        return "UserProfileDto [username=" + username + ", email=" + email + ", role=" + role + ", userTracks="
-                + userTracks + "]";
+        return "UserProfileDto [username=" + username + ", email=" + email + ", role=" + role + "]";
     }
     
     public String getUsername() {
@@ -33,11 +29,5 @@ public class UserProfileDto {
     }
     public void setRole(Role role) {
         this.role = role;
-    }
-    public List<UserTrackDto> getUserTracks() {
-        return userTracks;
-    }
-    public void setUserTracks(List<UserTrackDto> userTracks) {
-        this.userTracks = userTracks;
     }
 }

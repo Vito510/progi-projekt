@@ -1,4 +1,4 @@
-import "./MapPage.css";
+import "./NewTrackPage.css";
 import { useState, type ReactNode } from "react";
 import { useAuth } from "../../context/AuthContext";
 import ImageUtils from '../../utility/image_utils';
@@ -6,21 +6,40 @@ import TileUtils from "../../utility/tile_utils";
 import type MapSelection from "../../interfaces/MapSelection";
 import AppFooter from "../general/AppFooter";
 import AppHeader from "../general/AppHeader";
-import Map2D from "../map/Map2D";
+import MapSelector from "../map/MapSelector";
 import ButtonProfile from "../profile/ButtonProfile";
-import ButtonSignIn from "../profile/ButtonSignIn";
 import Button from "../general/Button";
 import type Track from "../../interfaces/Track";
-import TrackEditor from "../track/TrackEditor";
+import TrackViewer from "../track/TrackViewer";
 import type TrackPoint from "../../interfaces/TrackPoint";
 import AppBody from "../general/AppBody";
+import Card from "../general/Card";
+import List from "../general/List";
 
-export default function MapPage() {
+export default function NewMapPage() {
 	const auth = useAuth();
 	let [element, setElement] = useState<ReactNode>(
 		<>
-			<Map2D onInput={handler}/>
-			<Button onClick={async () => {setElement(<TrackEditor track={await getDevTrack()}></TrackEditor>);}}>[DEBUG] Skip map</Button>
+			<Card>
+				<header>
+					<List type="column" gap="small">
+						<List align="center" justify="space-between" expand>
+							<h2>Stvaranje nove rute</h2>
+							<Button type="tertiary" shape="noshape" link="/">
+								<i className="fa fa-times-circle fa-2x"></i>
+							</Button>
+						</List>
+						<em>Odabirete površinu navigacijom karte i klikom na gumb. Prozor karte označava cijelu odabranu površinu.</em>
+						{/* <Button onClick={async () => {setElement(<TrackViewer track={await getDevTrack()}></TrackViewer>);}}>
+							<samp><i className="fa fa-code"></i> [DEBUG]</samp>
+							<p>Skip map</p>
+						</Button> */}
+					</List>
+				</header>
+				<section>
+					<MapSelector onInput={handler}/>
+				</section>
+			</Card>
 		</>
 	);
 
@@ -34,25 +53,27 @@ export default function MapPage() {
 			name: "Naziv staze",
 			stars: 0,
 			visibility: 'Private',
-			owner: "Naziv vlasnika", // postaviti na naziv korisnika
-			date_created: new Date(2018, 11, 24, 10, 33, 30, 0), // postaviti na trenutni datum
-			id: 0,
+			owner: (auth.user && auth.user!.authenticated) ? auth.user?.name! : "",
+			date_created: new Date(),
+			id: -1,
 			max_lat: selection.max_latitude,
 			max_lon: selection.max_longitude,
 			min_lat: selection.min_latitude,
 			min_lon: selection.min_longitude,
 			points: [],
 			override: null,
-        	whitelist: ["petar", "grašo"], // trebalo bi biti prazno
+        	whitelist: [],
 		}
-		setElement(<TrackEditor track={track}></TrackEditor>);
+		setElement(<TrackViewer track={track}></TrackViewer>);
 	}
 
 	return (
 		<>
-			<AppHeader>{auth.user?.authenticated ? <ButtonProfile></ButtonProfile> : <ButtonSignIn></ButtonSignIn>}</AppHeader>
+			<AppHeader>
+				<ButtonProfile></ButtonProfile>
+			</AppHeader>
 			<AppBody width="wide">
-				<div className="-map-page">
+				<div className="-new-track-page">
 					{element}
 				</div>
 			</AppBody>

@@ -15,13 +15,13 @@ public class UserTrack {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment
     @Column(name = "pathid")
-    private Long id;
+    private Integer id;
 
     @Column(name = "pathname", nullable = false)
     private String name;
     
     @Column(name = "userid", nullable = false)
-    private Long ownerId;
+    private Integer ownerId;
 
     @Column(name = "datecreated", nullable = true)
     private LocalDate dateCreated;
@@ -70,7 +70,7 @@ public class UserTrack {
     public UserTrack() {
     }
 
-    public UserTrack(Long id, String name, Long ownerId, LocalDate dateCreated, TrackVisibility visibility, Float minLat,
+    public UserTrack(Integer id, String name, Integer ownerId, LocalDate dateCreated, TrackVisibility visibility, Float minLat,
             Float minLon, Float maxLat, Float maxLon) {
         this.id = id;
         this.name = name;
@@ -90,11 +90,11 @@ public class UserTrack {
                 + ", maxLon=" + maxLon + "]";
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -106,11 +106,11 @@ public class UserTrack {
         this.name = name;
     }
 
-    public Long getOwnerId() {
+    public Integer getOwnerId() {
         return ownerId;
     }
 
-    public void setOwnerId(Long ownerId) {
+    public void setOwnerId(Integer ownerId) {
         this.ownerId = ownerId;
     }
     

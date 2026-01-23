@@ -35,7 +35,7 @@ public class TrackPoint {
     @Embeddable
     public static class PointId implements Serializable {
         @Column(name = "pathid")
-        private Long trackId;
+        private Integer trackId;
 
         @Column(name = "orderpoint")
         private int orderPoint;
@@ -43,10 +43,10 @@ public class TrackPoint {
         public PointId() {
         }
 
-        public Long getTrackId() {
+        public Integer getTrackId() {
             return trackId;
         }
-        public void setTrackId(Long trackId) {
+        public void setTrackId(Integer trackId) {
             this.trackId = trackId;
         }
         public int getOrderPoint() {
@@ -99,11 +99,11 @@ public class TrackPoint {
         return "TrackPoint [x=" + x + ", y=" + y + ", z=" + z + "]";
     }
 
-    public Long getTrackId() {
+    public Integer getTrackId() {
         return id != null ? id.getTrackId() : null;
     }
 
-    public void setTrackId(Long trackId) {
+    public void setTrackId(Integer trackId) {
         if (id == null) id = new PointId();
         id.setTrackId(trackId);
     }
