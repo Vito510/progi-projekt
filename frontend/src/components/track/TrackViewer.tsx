@@ -101,7 +101,7 @@ export default function TrackViewer({track}: {track: Track}) {
                                     <List type='row' align='center' gap='small' wrap>
                                         <ButtonSaveTrack track={track}></ButtonSaveTrack>
 
-                                        <ButtonDeleteTrack id={track.id} ></ButtonDeleteTrack>
+                                        <ButtonDeleteTrack track={track} ></ButtonDeleteTrack>
 
                                         <Button onClick={() => {setIsEditing(true)}}>
                                             <i className='fa fa-cogs'></i>

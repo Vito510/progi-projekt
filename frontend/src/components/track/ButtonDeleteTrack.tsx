@@ -5,12 +5,13 @@ import Popup from '../general/Popup.js';
 import Placeholder from "../general/Placeholder.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import type Track from "../../interfaces/Track.js";
 
 interface Props {
-    id: number;
+    track: Track;
 }
 
-export default function ButtonDeleteTrack({ id }: Props) {
+export default function ButtonDeleteTrack({ track }: Props) {
     const navigate = useNavigate();
     const [deleteConfirm, setDeleteConfirm] = useState(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -18,14 +19,14 @@ export default function ButtonDeleteTrack({ id }: Props) {
 
     const handleConfirmDelete = async () => {
         // console.log("Brisem stazu " + id)
-        if (id === -1) {
+        if (track.id === -1) {
             setErrorMessage("Ne može se obrisati staza koja još nije spremljena!");
             return;
         }
         
         setLoading(true);
         try {
-            const response = await fetch(`/api/track/${id}`, {
+            const response = await fetch(`/api/track/${track.id}`, {
                 method: 'DELETE',
                 credentials: "include", 
                 headers: {
