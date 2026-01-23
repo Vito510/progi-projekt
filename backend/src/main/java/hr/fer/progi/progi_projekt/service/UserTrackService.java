@@ -6,10 +6,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import hr.fer.progi.progi_projekt.dto.TopTrackDto;
 import hr.fer.progi.progi_projekt.dto.TrackPointDto;
 import hr.fer.progi.progi_projekt.dto.UserTrackDto;
 import hr.fer.progi.progi_projekt.mapper.TrackPointMapper;
@@ -45,46 +45,67 @@ public class UserTrackService {
         this.pointMapper = pointMapper;
     }
 
-    public List<TopTrackDto> getTracksForProfile(String profileUsername, HttpServletRequest request) {
+    public List<UserTrackDto> getTracksForProfile(String profileUsername, HttpServletRequest request) {
         UserProfile currUser = authService.getCurrentUser(request);
 
-        if (currUser == null) {
-            return trackRepo.findPublicAndWhitelisted(profileUsername, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+        if (currUser == null) { // korisnik nije auth
+            Optional<UserProfile> p = profileRepo.findByUsername(profileUsername);
+            if(p.isEmpty()){
+                return null;
+            }
+            List<UserTrack> t = trackRepo.findByOwnerIdAndVisibility(p.get().getId(), TrackVisibility.PUBLIC);
+
+            // pretvorba u dto
+            List<UserTrackDto> dtos = new ArrayList<>();
+            for (UserTrack entity : t) {
+                Optional<UserProfile> profile = profileRepo.findById(entity.getOwnerId());
+                dtos.add(trackMapper.toDto(entity, profile.get().getUsername()));
+                dtos.getLast().setWhitelist(null);
+            }
+            return dtos;
         }
 
+        // korisnik trazi svoju stazu ili je admin
         if (currUser.getUsername().equals(profileUsername) || currUser.getRole() == Role.ADMIN) {
             Optional<UserProfile> p = profileRepo.findByUsername(profileUsername);
             if(p.isEmpty()){
                 return null;
             }
             List<UserTrack> t = trackRepo.findByOwnerId(p.get().getId());
+
             // pretvorba u dto
             List<UserTrackDto> dtos = new ArrayList<>();
             for (UserTrack entity : t) {
                 Optional<UserProfile> profile = profileRepo.findById(entity.getOwnerId());
                 dtos.add(trackMapper.toDto(entity, profile.get().getUsername()));
             }
-            if(t.size()>0){
-                System.out.println("-----------------");
-                System.out.println(t.size());
-                System.out.println(t.getFirst());
-                System.out.println("-----------------");
-            }
-            return trackRepo.findAllByOwnerUsername(profileUsername);
+            
+            return dtos;
         }
+
+        // obicni korisnik trazi tudu stazu
         Optional<UserProfile> p = profileRepo.findByUsername(profileUsername);
         if(p.isEmpty()){
             return null;
         }
-        List<UserTrack> t = trackRepo.findByOwnerIdAndVisibility(p.get().getId(), TrackVisibility.PUBLIC);
+        List<UserTrack> t = trackRepo.findByOwnerId(p.get().getId());
+
         // pretvorba u dto
-        System.out.println("-----------------");
-        System.out.println(t.size());
-        if(t.size()>0){
-            System.out.println(t.getFirst().getPoints().getFirst());
+        List<UserTrackDto> dtos = new ArrayList<>();
+        for (UserTrack entity : t) {
+            if(entity.getVisibility()==TrackVisibility.PUBLIC){
+                Optional<UserProfile> profile = profileRepo.findById(entity.getOwnerId());
+                dtos.add(trackMapper.toDto(entity, profile.get().getUsername()));
+                dtos.getLast().setWhitelist(null);
+            }
+            else if(entity.getWhitelistedProfiles().contains(currUser)){ // privatene staze, ako su u whitelisti
+                Optional<UserProfile> profile = profileRepo.findById(entity.getOwnerId());
+                dtos.add(trackMapper.toDto(entity, profile.get().getUsername()));
+                dtos.getLast().setWhitelist(null);
+            }
         }
-        System.out.println("-----------------");
-        return trackRepo.findPublicAndWhitelisted(profileUsername, currUser.getUsername());
+
+        return dtos;
     }
 
     @Transactional
@@ -223,8 +244,19 @@ public class UserTrackService {
         return track.get().getGivenStars().contains(currUser);
     }
 
-    public List<TopTrackDto> getTopTracks() {
-        return trackRepo.findTop10Tracks();
+    public List<UserTrackDto> getTopTracks() {
+        var tracks = trackRepo.findTop10ByStars(PageRequest.of(0, 10));
+
+        List<UserTrackDto> dtos = new ArrayList<>();
+        for (UserTrack t : tracks) {
+            if (t.getVisibility() == TrackVisibility.PRIVATE) {
+                continue;
+            }
+            Optional<UserProfile> profile = profileRepo.findById(t.getOwnerId());
+            dtos.add(trackMapper.toDto(t, profile.get().getUsername()));
+        }
+
+        return dtos;
     }
 
     public void updateWhitelist(UserTrack entity, List<String> whitelist){

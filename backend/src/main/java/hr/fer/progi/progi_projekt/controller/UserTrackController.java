@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
-import hr.fer.progi.progi_projekt.dto.TopTrackDto;
 import hr.fer.progi.progi_projekt.dto.UserTrackDto;
 import hr.fer.progi.progi_projekt.service.UserTrackService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ public class UserTrackController {
     }
 
     @GetMapping("profile/{username}/tracks")
-    public List<TopTrackDto> getProfileTracks(
+    public List<UserTrackDto> getProfileTracks(
             @PathVariable String username,
             HttpServletRequest request
     ) {
@@ -51,7 +50,7 @@ public class UserTrackController {
     }
 
     @GetMapping("/track/top")
-    public List<TopTrackDto> getTopTracks() {
+    public List<UserTrackDto> getTopTracks() {
         return userTrackService.getTopTracks();
     }
 
