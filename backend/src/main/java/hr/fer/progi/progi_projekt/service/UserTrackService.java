@@ -271,14 +271,26 @@ public class UserTrackService {
     }
 
     public void updatePoints(UserTrack entity, List<TrackPointDto> pointsDto){
-        List<TrackPoint> points = entity.getPoints();
-        entity.getPoints().clear();
+        List<TrackPoint> existingPoints = entity.getPoints();
 
-        for (int i = 0; i<pointsDto.size(); i++) {
-            TrackPoint p = pointMapper.toEntity(pointsDto.get(i));
-            p.setOrderPoint(i);
-            p.setTrack(entity);
-            points.add(p);
+        while (existingPoints.size() > pointsDto.size()) {
+            existingPoints.remove(existingPoints.size() - 1);
+        }
+    
+        for (int i = 0; i < pointsDto.size(); i++) {
+            TrackPointDto dto = pointsDto.get(i);
+            TrackPoint point;
+            if (i < existingPoints.size()) {
+                point = existingPoints.get(i);
+            } else {
+                point = new TrackPoint();
+                point.setTrack(entity);
+                existingPoints.add(point);
+            }
+            point.setOrderPoint(i);
+            point.setX(dto.getX());
+            point.setY(dto.getY());
+            point.setZ(dto.getZ());
         }
     }
 }

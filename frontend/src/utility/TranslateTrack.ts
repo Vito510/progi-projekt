@@ -22,7 +22,7 @@ export function WriteTrack(track: Track): any {
         id: track.id,
         name: track.name,
         ownerName: track.name,
-        date_created: track.date_created,
+        dateCreated: track.date_created,
         visibility: track.visibility === "Private" ? "PRIVATE" : "PUBLIC",
         numOfStars: track.stars,
         maxLat: track.max_lat,
